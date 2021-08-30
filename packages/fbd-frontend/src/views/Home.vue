@@ -4,7 +4,7 @@
       <div class="child">
         <img
           alt="Vue logo"
-          src="../assets/logo.png"
+          :src="$requireSafe('logo.png')"
         >
       </div>
       <div class="child">
@@ -15,13 +15,10 @@
 </template>
 
 <script>
-import { getCurrentInstance } from 'vue';
+import * as R from 'ramda';
 
 export default {
   setup() {
-    const internalInstance = getCurrentInstance();
-    const { $R } = internalInstance.appContext.config.globalProperties;
-
     const Ramda = () => {
       // 將多個函數合並成一個函數，並從左到右執行
 
@@ -32,7 +29,7 @@ export default {
       const increaseOne = (x) => x + 1;
 
       /* eslint-disable-next-line */
-      const f = $R.pipe(Math.pow, negative, increaseOne);
+      const f = R.pipe(Math.pow, negative, increaseOne);
 
       // 第一個求3的4次方，返回值給後邊方法，以此類推
 
