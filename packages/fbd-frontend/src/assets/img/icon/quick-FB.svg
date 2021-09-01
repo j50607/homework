@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.593" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_61655" data-name="Rectangle 61655" width="14" height="14" transform="translate(0.2 0.2)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-登入_facebook">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="登入_facebook" clip-path="url(#clip-登入_facebook)">
+    <g id="Group_38627" data-name="Group 38627" transform="translate(-117 -718)">
+      <circle id="Ellipse_1158" data-name="Ellipse 1158" cx="12" cy="12" r="12" transform="translate(117 718)" fill="url(#linear-gradient)"/>
+      <g id="Mask_Group_494" data-name="Mask Group 494" transform="translate(121.8 722.8)" clip-path="url(#clip-path)">
+        <path id="Exclusion_1" data-name="Exclusion 1" d="M-223.327,478.294a6.5,6.5,0,0,1-4.621-1.914,6.5,6.5,0,0,1-1.914-4.621,6.5,6.5,0,0,1,1.914-4.622,6.492,6.492,0,0,1,4.621-1.914,6.492,6.492,0,0,1,4.622,1.914,6.491,6.491,0,0,1,1.914,4.622,6.493,6.493,0,0,1-1.914,4.621A6.492,6.492,0,0,1-223.327,478.294Zm-1.106-6.56v4.553h1.883V471.7h1.243l.112-1.556h-1.386c0-.009,0-.705,0-.891a.465.465,0,0,1,.463-.467.35.35,0,0,1,.055,0h.863V467.23h-1.449a1.6,1.6,0,0,0-1.815,1.6v1.317h-.994v1.582Z" transform="translate(230.411 -464.674)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

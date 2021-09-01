@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-我的_修改密码">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="我的_修改密码" clip-path="url(#clip-我的_修改密码)">
+    <g id="Group_4656" data-name="Group 4656" transform="translate(-5330.093 -1766.814)">
+      <path id="Path_7807" data-name="Path 7807" d="M5348.471,1775.806h-.238v-2.048a6.143,6.143,0,0,0-12.28,0v2.048h-.239a2.621,2.621,0,0,0-2.621,2.615v8.777a2.621,2.621,0,0,0,2.621,2.615h12.757a2.621,2.621,0,0,0,2.622-2.615v-8.777A2.621,2.621,0,0,0,5348.471,1775.806Zm-11.052-2.048a4.679,4.679,0,0,1,9.349,0v2.048h-9.349Zm12.208,13.441a1.156,1.156,0,0,1-1.156,1.152h-12.757a1.155,1.155,0,0,1-1.155-1.152v-8.777a1.155,1.155,0,0,1,1.155-1.152h12.757a1.155,1.155,0,0,1,1.156,1.152Z" fill="#afafaf"/>
+      <path id="Path_7808" data-name="Path 7808" d="M5344.52,1783.815a2.122,2.122,0,0,0-.733,4.117v1.574a.733.733,0,0,0,1.466,0v-1.574a2.122,2.122,0,0,0-.733-4.117Z" transform="translate(-2.428 -4.295)" fill="#afafaf"/>
+    </g>
+    <rect id="Rectangle_56493" data-name="Rectangle 56493" width="24" height="24" fill="none"/>
+  </g>
+</svg>

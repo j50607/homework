@@ -5,7 +5,7 @@
   >
     <d-dialog
       v-model:visible="isModalShow"
-      :title="$t('components_dSelectDateModal_title')"
+      :title="'日期筛选'"
       :footer="null"
       :get-container="() => selectDateRef"
       @cancel="hideModal"
@@ -47,7 +47,7 @@
           type="primary"
           @click="confirmDate"
         >
-          {{ $t('views_bankcard_nextStep2') }}
+          {{ '确认' }}
         </d-button>
       </template>
     </d-dialog>

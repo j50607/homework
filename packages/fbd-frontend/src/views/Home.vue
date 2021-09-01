@@ -108,7 +108,7 @@
 
 <script>
 import {
-  onMounted, reactive, toRefs, computed,
+  onMounted, reactive, toRefs, computed, onBeforeMount,
 } from 'vue';
 import { useStore } from 'vuex';
 import * as R from 'ramda';
@@ -119,6 +119,7 @@ import Marquee from '@/components/_pages/home/Marquee';
 import SystemApi from '@/assets/js/api/systemApi';
 import InboundModal from '@/components/_pages/home/InboundModal';
 import { isValidUrl } from '@/assets/js/utils/utils';
+import ExchangeApi from '@/assets/js/api/exchangeApi';
 
 export default {
   components: {
@@ -150,45 +151,65 @@ export default {
     const serviceUrl = computed(() => store.state.info.serviceUrl);
     const s3Base = computed(() => process.env.VUE_APP_IMG_URL_PREFIX);
 
-    const getCarousel = async () => {
-      const { code, data } = await SystemApi.getCarousel();
-      if (code === 200) {
-        return data;
-      }
-      return [];
+    const Ramda = () => {
+      // 將多個函數合並成一個函數，並從左到右執行
+
+      const getCarousel = async () => {
+        const { code, data } = await SystemApi.getCarousel();
+        if (code === 200) {
+          return data;
+        }
+        return [];
+      };
+
+      const mappingCarousel = (arr) => arr.map((item) => ({
+        img: `${s3Base.value}/${item.mobile || item.pc}`,
+        link: isValidUrl(item.link) ? item.link : '',
+      }));
+
+      const initCarousel = R.pipeP(
+        getCarousel,
+        mappingCarousel,
+      );
+
+      const getMarquee = async () => {
+        const { code, data } = await SystemApi.getMarquee();
+        if (code === 200) {
+          return data;
+        }
+        return [];
+      };
+
+      const getMarqueeContent = (arr) => arr.map((item) => item.content);
+
+      // 取得前台交易所信息列表
+      const getExchangeInfoList = async () => {
+        const { code, data } = await ExchangeApi.getExchangeInfoList();
+        if (code === 200) {
+          store.commit('SET_EXCHANGE_INFO_LIST', data);
+        }
+      };
+
+      // hooks
+      onBeforeMount(() => {
+        getExchangeInfoList();
+      });
+
+      onMounted(async () => {
+        state.marqueeList = await getMarquee();
+        state.marqueeContent = getMarqueeContent(state.marqueeList);
+        state.carouselList = await initCarousel();
+        console.log('state.carouseList :>> ', state.carouselList);
+      });
     };
-
-    const mappingCarousel = (arr) => arr.map((item) => ({
-      img: `${s3Base.value}/${item.mobile || item.pc}`,
-      link: isValidUrl(item.link) ? item.link : '',
-    }));
-
-    const initCarousel = R.pipeP(
-      getCarousel,
-      mappingCarousel,
-    );
-
-    const getMarquee = async () => {
-      const { code, data } = await SystemApi.getMarquee();
-      if (code === 200) {
-        return data;
-      }
-      return [];
-    };
-
-    const getMarqueeContent = (arr) => arr.map((item) => item.content);
 
     const goService = () => {
       window.location = serviceUrl.value;
     };
 
-    onMounted(async () => {
-      state.marqueeList = await getMarquee();
-      state.marqueeContent = getMarqueeContent(state.marqueeList);
-      state.carouselList = await initCarousel();
-      console.log('state.carouseList :>> ', state.carouselList);
-    });
     return {
+      Ramda,
+      // getExchangeInfoList,
       goService,
       ...toRefs(state),
     };

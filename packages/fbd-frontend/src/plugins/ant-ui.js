@@ -1,5 +1,5 @@
 import {
-  Button, message, Modal, Collapse,
+  Button, message, Modal, Collapse, Input, Form,
 } from 'ant-design-vue';
 
 const useAntUI = (app) => {
@@ -7,6 +7,8 @@ const useAntUI = (app) => {
   curApp.use(Button);
   curApp.use(Modal);
   curApp.use(Collapse);
+  curApp.use(Input);
+  curApp.use(Form);
 
   message.config({
     maxCount: 1,

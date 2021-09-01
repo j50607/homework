@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <g id="Group_37888" data-name="Group 37888" transform="translate(-1451 -10264)">
+    <g id="Group_37859" data-name="Group 37859" transform="translate(1460.293 10267.333)">
+      <g id="Group_14242" data-name="Group 14242" transform="translate(0 0)">
+        <g id="Group_14241" data-name="Group 14241" transform="translate(0 0)">
+          <g id="Group_14240" data-name="Group 14240">
+            <path id="Path_8243" data-name="Path 8243" d="M992.5,598.1v28.5a24.437,24.437,0,0,1-11.546,20.84L961.8,659.422h-.018l-13.172-8.242-5.15-3.222-.828-.518A24.564,24.564,0,0,1,931.891,632.9a24.721,24.721,0,0,1-.809-6.3V598.1c14-1.395,23.912-6.508,30.707-12.008a52.674,52.674,0,0,0,14.447,8.268A62.873,62.873,0,0,0,992.5,598.1Z" transform="translate(-931.082 -586.089)" fill="#eef2f9"/>
+            <path id="Path_8244" data-name="Path 8244" d="M1058.377,604.99a56.883,56.883,0,0,0,13.156,7.089,65.41,65.41,0,0,0,13.932,3.564v25.3a20.835,20.835,0,0,1-9.845,17.771L1058.375,669.5Z" transform="translate(-1027.669 -600.431)" fill="#dce8f2"/>
+          </g>
+        </g>
+      </g>
+      <path id="Icon_awesome-info" data-name="Icon awesome-info" d="M1.27,26.941H2.54V17.767H1.27A1.27,1.27,0,0,1,0,16.5V13.463a1.27,1.27,0,0,1,1.27-1.27H8.383a1.27,1.27,0,0,1,1.27,1.27V26.941h1.27a1.27,1.27,0,0,1,1.27,1.27v3.034a1.27,1.27,0,0,1-1.27,1.27H1.27A1.27,1.27,0,0,1,0,31.245V28.212A1.27,1.27,0,0,1,1.27,26.941ZM6.1,0a4.572,4.572,0,1,0,4.572,4.572A4.572,4.572,0,0,0,6.1,0Z" transform="translate(24.61 20.409)" fill="#fff"/>
+    </g>
+    <rect id="Rectangle_61811" data-name="Rectangle 61811" width="80" height="80" transform="translate(1451 10264)" fill="none"/>
+  </g>
+</svg>

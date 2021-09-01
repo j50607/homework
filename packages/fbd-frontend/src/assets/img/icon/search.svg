@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-通用_搜寻">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="通用_搜寻" clip-path="url(#clip-通用_搜寻)">
+    <path id="Icon_metro-search" data-name="Icon metro-search" d="M23.889,20.649l-5.211-4.432a2.325,2.325,0,0,0-1.58-.686,8.251,8.251,0,1,0-.923.923,2.325,2.325,0,0,0,.686,1.58l4.432,5.211a1.848,1.848,0,1,0,2.6-2.6ZM10.821,15.678a5.5,5.5,0,1,1,5.5-5.5A5.5,5.5,0,0,1,10.821,15.678Z" transform="translate(-1.571 -0.928)" fill="#afafaf"/>
+    <rect id="Rectangle_57047" data-name="Rectangle 57047" width="24" height="24" fill="none"/>
+  </g>
+</svg>

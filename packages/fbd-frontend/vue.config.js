@@ -109,8 +109,7 @@ const vueConfig = {
         lessOptions: {
           javascriptEnabled: true,
           modifyVars: {
-            'primary-color': '#096fc9',
-            'error-color': '#096fc9',
+
           },
         },
       },

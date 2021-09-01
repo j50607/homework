@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-点选打工">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="点选打工" clip-path="url(#clip-点选打工)">
+    <rect id="Rectangle_57072" data-name="Rectangle 57072" width="24" height="24" fill="none"/>
+    <g id="Path_8211" data-name="Path 8211" transform="translate(-1532.749 -1070.424)">
+      <path id="Path_8212" data-name="Path 8212" d="M1542.864,1089.607a1.394,1.394,0,0,1-.868-.3l-7.726-6.179a1.39,1.39,0,0,1,1.737-2.172l6.716,5.374,10.62-11.456a1.389,1.389,0,1,1,2.037,1.888l-11.5,12.4A1.385,1.385,0,0,1,1542.864,1089.607Z" transform="translate(0)" fill="#04bfad"/>
+    </g>
+  </g>
+</svg>

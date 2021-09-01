@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_61881" data-name="Rectangle 61881" width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="认证_增加照片" clip-path="url(#clip-path)">
+    <rect id="Rectangle_57047" data-name="Rectangle 57047" width="24" height="24" fill="none"/>
+    <g id="Icon_ionic-ios-home" data-name="Icon ionic-ios-home">
+      <rect id="Rectangle_57172" data-name="Rectangle 57172" width="24" height="24" fill="none"/>
+    </g>
+    <path id="Path_8238" data-name="Path 8238" d="M2851.091,1324.35a11,11,0,1,0,11,11A11,11,0,0,0,2851.091,1324.35Z" transform="translate(-2839.09 -1323.35)" fill="#afafaf"/>
+    <path id="Union_6" data-name="Union 6" d="M22140.1,19972v-5.078h-5.1v-1.848h5.07V19960h1.848v5.074H22147v1.848h-5.082V19972Z" transform="translate(-22129.008 -19954)" fill="#fff"/>
+  </g>
+</svg>

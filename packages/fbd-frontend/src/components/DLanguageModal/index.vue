@@ -5,7 +5,7 @@
   >
     <d-dialog
       v-model:visible="isModalShow"
-      :title="$t('components_dLanguageModal_title')"
+      :title="'语言'"
       :footer="null"
       :get-container="() => langRef"
       @cancel="hideModal"
@@ -29,7 +29,7 @@
           type="primary"
           @click="setLocale"
         >
-          {{ $t('views_bankcard_nextStep2') }}
+          {{ '确认' }}
         </d-button>
       </template>
     </d-dialog>

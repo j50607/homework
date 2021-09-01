@@ -33,6 +33,16 @@ const routes = [
     },
   },
   {
+    path: '/loginAndRegister',
+    name: 'loginAndRegister',
+    component: () => import('@/views/loginAndRegister' /* webpackChunkName: "loginAndRegister" */),
+    meta: {
+      title: 'loginAndRegister',
+      layout: Layout,
+      isLoginPage: true,
+    },
+  },
+  {
     path: '/:pathMatch(.*)',
     redirect: '/notFound',
   },

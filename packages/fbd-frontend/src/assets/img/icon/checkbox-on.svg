@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-icon_checkbox_on">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="icon_checkbox_on" clip-path="url(#clip-icon_checkbox_on)">
+    <g id="Group_36334" data-name="Group 36334" transform="translate(-252.979 -360.484)">
+      <g id="打勾" transform="translate(252.979 360.484)" opacity="0.9">
+        <rect id="Rectangle_30" data-name="Rectangle 30" width="24" height="24" rx="3" fill="#fff"/>
+      </g>
+      <g id="Path_46319" data-name="Path 46319" transform="translate(257.982 366.769)">
+        <path id="Path_46321" data-name="Path 46321" d="M262.275,377.35l-5.96-4.945,1.916-2.309,3.552,2.947,6.372-8.369,2.388,1.818Z" transform="translate(-256.314 -364.674)" fill="#5d5fc3"/>
+      </g>
+    </g>
+    <g id="Group_36334-2" data-name="Group 36334" transform="translate(-252.979 -360.484)">
+      <g id="打勾-2" data-name="打勾" transform="translate(252.979 360.484)" opacity="0.9">
+        <rect id="Rectangle_30-2" data-name="Rectangle 30" width="24" height="24" rx="3" fill="#fff"/>
+      </g>
+      <g id="Path_46319-2" data-name="Path 46319" transform="translate(257.982 366.769)">
+        <path id="Path_46321-2" data-name="Path 46321" d="M262.275,377.35l-5.96-4.945,1.916-2.309,3.552,2.947,6.372-8.369,2.388,1.818Z" transform="translate(-256.314 -364.674)" fill="#38c522"/>
+      </g>
+    </g>
+  </g>
+</svg>

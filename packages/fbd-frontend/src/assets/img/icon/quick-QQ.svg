@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.683" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_61535" data-name="Rectangle 61535" width="14" height="14" transform="translate(0.199 0.199)" fill="#fff"/>
+    </clipPath>
+    <clipPath id="clip-登入_QQ">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="登入_QQ" clip-path="url(#clip-登入_QQ)">
+    <g id="Group_38629" data-name="Group 38629" transform="translate(-226 -718)">
+      <circle id="Ellipse_1160" data-name="Ellipse 1160" cx="12" cy="12" r="12" transform="translate(226 718)" fill="url(#linear-gradient)"/>
+      <g id="Group_38626" data-name="Group 38626" transform="translate(230.801 722.801)">
+        <g id="Group_36408" data-name="Group 36408" transform="translate(0 0)" clip-path="url(#clip-path)">
+          <g id="登入注册_QQ" data-name="登入注册 QQ">
+            <g id="Group_36407" data-name="Group 36407">
+              <g id="Group_36406" data-name="Group 36406" clip-path="url(#clip-path)">
+                <g id="QQ">
+                  <g id="Group_12123" data-name="Group 12123">
+                    <g id="Group_36405" data-name="Group 36405">
+                      <g id="Group_36404" data-name="Group 36404" clip-path="url(#clip-path)">
+                        <g id="QQ-2" transform="translate(1.124 0.606)">
+                          <g id="Group_3961" data-name="Group 3961">
+                            <path id="Path_24682" data-name="Path 24682" d="M-192.389,448.956a3.818,3.818,0,0,1-2.066-.6,2.06,2.06,0,0,1-.331-.276.989.989,0,0,1-.148-1.265,2.321,2.321,0,0,1,.618-.66,3.057,3.057,0,0,1-.193-.36,3.458,3.458,0,0,1-.54.289.719.719,0,0,1-.667-.02.737.737,0,0,1-.378-.579,2.083,2.083,0,0,1,.041-1.053,9.01,9.01,0,0,1,1.119-2.728,13.14,13.14,0,0,1,.14-1.867,4.537,4.537,0,0,1,.371-1.432,4.418,4.418,0,0,1,2.893-2.42,4.839,4.839,0,0,1,4.408.791,4.24,4.24,0,0,1,1.479,2.026,8.835,8.835,0,0,1,.48,2.925,7.562,7.562,0,0,1,.99,2.35,9.049,9.049,0,0,1,.154.905l.023.163a1.321,1.321,0,0,1-.029.442.72.72,0,0,1-.317.466.744.744,0,0,1-.572.106,1.987,1.987,0,0,1-.748-.3l-.15.306c.06.039.12.08.18.124a1.265,1.265,0,0,1,.248,1.771,1.269,1.269,0,0,1-.339.311,2.655,2.655,0,0,1-1.068.4,5.992,5.992,0,0,1-2.221.01,2.6,2.6,0,0,1-.66-.227.889.889,0,0,0-.738-.027,7.313,7.313,0,0,1-1.184.338A3.732,3.732,0,0,1-192.389,448.956Z" transform="translate(196.144 -435.758)" fill="#fff"/>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

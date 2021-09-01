@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_61465" data-name="Rectangle 61465" width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="认证手机" clip-path="url(#clip-path)">
+    <g id="footer_钱包_灰" clip-path="url(#clip-path)">
+      <rect id="Rectangle_57564" data-name="Rectangle 57564" width="24" height="24" fill="none"/>
+      <path id="Icon_metro-mobile" data-name="Icon metro-mobile" d="M20.177,1.928H7.8A1.379,1.379,0,0,0,6.427,3.3v19.25A1.379,1.379,0,0,0,7.8,23.928H20.177a1.379,1.379,0,0,0,1.375-1.375V3.3A1.379,1.379,0,0,0,20.177,1.928ZM13.989,22.935a1.07,1.07,0,1,1,1.07-1.07A1.07,1.07,0,0,1,13.989,22.935ZM20.177,19.8H7.8V4.678H20.177Z" transform="translate(-1.989 -0.928)" fill="#afafaf"/>
+    </g>
+  </g>
+</svg>
