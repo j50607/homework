@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/earlyaccess/cwtexyen.css');
+$base-font-size: 1rem;
+$base-line-height: 1.5;
+
+//font
+$font-title: helvetica neue, regular;
+$font-Neue: helvetica neue, regular;
+$font-times: times, regular;
+
+// 沒RWD電腦版所以暫時限制只能看手機寬度
+@media screen and (min-width: 560px) {
+  html,
+  body {
+    width: 27rem;
+    max-width: 27rem;
+    margin: 0 auto;
+    transform: translateZ(0);
+  }
+}
+
+html {
+  // 手機板才需要
+  font-size: 4.26666666667vw !important;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+
+  // 手機板才需要
+  @media screen and (min-width: 560px) {
+    font-size: 16px !important;
+  }
+}
+
+body {
+  color: #080d20;
+  font-size: $base-font-size !important;
+  font-family: 'Noto Sans SC', sans-serif;
+  line-height: $base-line-height;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+em, i {
+  font-style: normal;
+}
+
+input[type=text], select, textarea {
+  border: none;
+  -webkit-appearance: none;
+}
+
+.h1,
+h1 {
+  font-size: 26px;
+}
+
+.h2,
+h2 {
+  font-size: 24px;
+}
+
+.h3,
+h3 {
+  font-size: 22px;
+}
+
+.h4,
+h4 {
+  font-size: 20px;
+}
+
+.h5,
+h5 {
+  font-size: 12px;
+}
+
+.font-l {
+  font-size: 1.25rem;
+}
+
+.font-m {
+  font-size: 1rem;
+}
+
+.font-sm {
+  font-size: 0.75rem;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}

@@ -2,12 +2,6 @@
   <div class="home">
     <div class="father">
       <div class="child">
-        <img
-          alt="Vue logo"
-          :src="$requireSafe('logo.png')"
-        >
-      </div>
-      <div class="child">
         {{ Ramda() }}
       </div>
     </div>
@@ -50,6 +44,8 @@ export default {
 
   .child {
     @apply my-5 text-center;
+
+    color: var(--primary-color);
   }
 }
 </style>

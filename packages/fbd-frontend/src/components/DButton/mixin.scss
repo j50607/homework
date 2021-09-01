@@ -1,0 +1,48 @@
+@mixin button-color($color, $bg, $border: transparent) {
+  border: 1px solid $border;
+  color: var(--custom-color, $color);
+  background: var(--custom-bg, $bg);
+
+  $custom: var(--custom-bg, $bg);
+
+  &:not(.disabled):hover {
+    @if type_of($bg) == color {
+      filter: brightness(0.9);
+    }
+  }
+
+  &:not(.disabled):active {
+    @if type_of($bg) == color {
+      filter: brightness(0.8);
+    }
+  }
+}
+
+@mixin button-disabled($color: $disabled-color, $bg: $disabled-bg) {
+  &-disabled,
+  &.disabled,
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-bg {
+  &-primary {
+    @include button-color($btn-primary-color, $btn-primary-bg);
+  }
+
+  &-cancel {
+    @include button-color($btn-cancel-color, $btn-cancel-bg);
+  }
+
+  &-inactive {
+    @include button-color($btn-inactive-color, $btn-inactive-bg);
+  }
+
+  &-default {
+    @include button-color($btn-primary-bg, #fff, $btn-primary-bg);
+  }
+
+  @include button-disabled;
+}

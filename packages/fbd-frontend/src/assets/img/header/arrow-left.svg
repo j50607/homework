@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_56353" data-name="Rectangle 56353" width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="ICON_leftarrow" clip-path="url(#clip-path)">
+    <g id="弹窗箭头" transform="translate(24) rotate(90)" clip-path="url(#clip-path)">
+      <g id="Icon_ionic-ios-arrow-forward" data-name="Icon ionic-ios-arrow-forward" transform="translate(2.595 17.381) rotate(-90)">
+        <path id="Icon_ionic-ios-arrow-forward-2" data-name="Icon ionic-ios-arrow-forward" d="M3.229,9.372l7.1-7.09a1.334,1.334,0,0,0,0-1.892,1.351,1.351,0,0,0-1.9,0L.39,8.422a1.337,1.337,0,0,0-.039,1.847l8.073,8.089a1.34,1.34,0,1,0,1.893-1.891Z" fill="#afafaf"/>
+      </g>
+    </g>
+  </g>
+</svg>

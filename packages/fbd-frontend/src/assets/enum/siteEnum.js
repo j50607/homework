@@ -27,6 +27,7 @@ class SiteEnum {
   }
 }
 
+SiteEnum.FBD = new SiteEnum([801], 'fbd', 'fbd', 'zh_cn');
 SiteEnum.DEFAULT = new SiteEnum([0], 'default', 'default', 'default');
 
 export default SiteEnum;

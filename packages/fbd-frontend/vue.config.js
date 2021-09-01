@@ -101,6 +101,7 @@ const vueConfig = {
       sass: {
         additionalData: `
         @import "@/assets/scss/util/_variable.scss";
+        @import "@/assets/scss/util/_helper.scss";
         @import "@/assets/scss/layout/_media.scss";
         `,
       },
