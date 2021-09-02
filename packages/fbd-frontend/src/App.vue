@@ -1,7 +1,7 @@
 <template>
   <component
     :is="$route.meta.layout || 'div'"
-    style="height: 100%;"
+    class="h-full"
   >
     <router-view />
   </component>
@@ -343,9 +343,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="postcss">
 #app {
-  height: 100%;
-  background-attachment: fixed;
+  @apply h-full bg-fixed text-normal bg-layout;
 }
 </style>

@@ -77,6 +77,14 @@ const lang = {
   // Views
   views_notFound_desc: '404 page not found',
   views_notFound_backToHome: '回到首页',
+  views_betRecord_item_pending: '未结算',
+  views_betRecord_item_label1: '下单金额',
+  views_betRecord_item_label2: '下单选项',
+  views_betRecord_item_label3: '手续费',
+  views_betRecord_item_label4: '预估获利',
+  views_betRecord_item_label5: '状态',
+  views_betRecord_item_action1: '展开详情',
+  views_betRecord_item_action2: '收回详情',
   // Components
   components_common_dialog_confirm: '确认',
   components_common_dialog_cancel: '取消',

@@ -10,6 +10,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "Home" */ '@/views/Home.vue'),
   },
   {
+    path: '/betRecord',
+    name: 'bet-record',
+    component: () => import(/* webpackChunkName: "'," */ '@/views/betRecord'),
+    meta: {
+      title: 'BetRecord',
+      // layout: Layout,
+      // requiresAuth: true,
+    },
+  },
+  {
     path: '/notFound',
     name: 'not-found',
     component: () => import('@/views/notFound' /* webpackChunkName: "notFound" */),
