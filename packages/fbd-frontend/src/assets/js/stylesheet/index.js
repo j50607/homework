@@ -6,7 +6,10 @@ class stylesheet {
         1: '#7a5605',
       },
       // 主漸層色
-      primaryGradientColor: {
+      btnPrimaryBg: {
+        1: 'linear-gradient(180deg, #f3ac0a 0%, #7a5605 100%)',
+      },
+      headerPrimaryBg: {
         1: 'linear-gradient(180deg, #f3ac0a 0%, #7a5605 100%)',
       },
       // 文字預設顏色

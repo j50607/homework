@@ -1,5 +1,8 @@
 <template>
-  <div class="header">
+  <div
+    class="header"
+    :style="{background: bgColor}"
+  >
     <div
       v-if="hasLeftSlot"
       class="left"
@@ -104,6 +107,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    bgColor: {
+      type: String,
+      default: 'var(--header-primary-bg)',
+    },
+    avatar: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { slots }) {
     // ref
@@ -149,9 +160,7 @@ export default {
   width: 100%;
   height: $header-height;
   padding: 12px 15px;
-  border-bottom: 1px solid #f0f0f0;
   line-height: 1.2rem;
-  background: #fff;
 
   .left {
     flex: 1 0 0;

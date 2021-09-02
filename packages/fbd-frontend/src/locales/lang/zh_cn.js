@@ -85,6 +85,8 @@ const lang = {
   views_betRecord_item_label5: '状态',
   views_betRecord_item_action1: '展开详情',
   views_betRecord_item_action2: '收回详情',
+  views_bankcard_nextStep2: '確認',
+
   // Components
   components_common_dialog_confirm: '确认',
   components_common_dialog_cancel: '取消',

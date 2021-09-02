@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.484" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_57400" data-name="Rectangle 57400" width="24" height="24" transform="translate(0 -0.253)" fill="url(#linear-gradient)"/>
+    </clipPath>
+    <clipPath id="clip-footer_我的_click">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="footer_我的_click" clip-path="url(#clip-footer_我的_click)">
+    <g id="我的" transform="translate(0 0.253)" clip-path="url(#clip-path)">
+      <rect id="Rectangle_56259" width="24" height="24" transform="translate(0 -0.253)" fill="none"/>
+      <g id="Group_13464" transform="translate(2.026 1.024)">
+        <path id="Union_5" data-name="Union 5" d="M18.071,21.734H1.3a1.542,1.542,0,0,1-1.29-1.687,9.9,9.9,0,0,1,9.825-7.84,9.821,9.821,0,0,1,9.826,7.741v.3a1.546,1.546,0,0,1-1.544,1.489ZM4.178,5.657a5.656,5.656,0,1,1,5.656,5.657A5.656,5.656,0,0,1,4.178,5.657Z" fill="url(#linear-gradient)"/>
+      </g>
+    </g>
+  </g>
+</svg>

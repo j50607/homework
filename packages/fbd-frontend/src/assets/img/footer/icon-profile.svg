@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_57400" data-name="Rectangle 57400" width="24" height="24" transform="translate(0 -0.253)" fill="#bcc0cb"/>
+    </clipPath>
+    <clipPath id="clip-footer_我的">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="footer_我的" clip-path="url(#clip-footer_我的)">
+    <g id="我的" transform="translate(0 0.253)" clip-path="url(#clip-path)">
+      <rect id="Rectangle_56259" width="24" height="24" transform="translate(0 -0.253)" fill="none"/>
+      <g id="Group_13464" transform="translate(2.026 1.024)">
+        <circle id="Ellipse_409" cx="5.657" cy="5.657" r="5.657" transform="translate(4.177)" fill="#bcc0cb"/>
+        <path id="Path_9226" d="M1948.125,1568a9.906,9.906,0,0,0-9.825,7.84,1.541,1.541,0,0,0,1.29,1.687h16.772a1.546,1.546,0,0,0,1.588-1.489v-.3A9.819,9.819,0,0,0,1948.125,1568Z" transform="translate(-1938.291 -1555.793)" fill="#bcc0cb"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_57407" data-name="Rectangle 57407" width="24" height="24" transform="translate(0 -0.199)" fill="#1f2022"/>
+    </clipPath>
+    <clipPath id="clip-footer_首頁">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="footer_首頁" clip-path="url(#clip-footer_首頁)">
+    <g id="首页" transform="translate(0 0.199)" clip-path="url(#clip-path)">
+      <rect id="Rectangle_56259" width="24" height="24" transform="translate(0 -0.199)" fill="rgba(0,0,0,0)"/>
+      <path id="Path_9225" d="M21.89,8.587,16.963,4.448,13.712,1.689a3.267,3.267,0,0,0-4.139,0L6.321,4.448,1.394,8.587A.9.9,0,0,0,1,9.375V21.692a.985.985,0,0,0,.985.985h7v-5.42a1.3,1.3,0,0,1,1.281-1.281h2.661A1.3,1.3,0,0,1,14.2,17.258v5.42h7a.985.985,0,0,0,.985-.985h0V9.375A1.119,1.119,0,0,0,21.89,8.587Z" transform="translate(0.233 0.137)" fill="#bcc0cb"/>
+    </g>
+  </g>
+</svg>

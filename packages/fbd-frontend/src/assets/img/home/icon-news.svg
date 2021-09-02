@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.428" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-首頁_賽事快訊">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="首頁_賽事快訊" clip-path="url(#clip-首頁_賽事快訊)">
+    <g id="Group_38960" data-name="Group 38960" transform="translate(-602 -1210.21)">
+      <g id="noun_news_2044168" transform="translate(602.981 1211.901)">
+        <g id="Group_38416" data-name="Group 38416" transform="translate(0 0)">
+          <g id="Group_38415" data-name="Group 38415">
+            <path id="Path_50836" data-name="Path 50836" d="M21.086,5H9.6A3.024,3.024,0,0,0,6.572,8.026V18.058H4.047A1.549,1.549,0,0,0,2.5,19.605v2.844a3.039,3.039,0,0,0,3.026,3.026H21.063a3.024,3.024,0,0,0,3.026-3.026V8.026A3,3,0,0,0,21.086,5ZM6.572,22.676A1.019,1.019,0,0,1,5.548,23.7,1.262,1.262,0,0,1,4.3,22.449V19.833h2.3v2.844ZM10.212,9.6a.66.66,0,0,1,.66-.66h2.639a.66.66,0,0,1,.66.66v3.776a.66.66,0,0,1-.66.66H10.872a.66.66,0,0,1-.66-.66V9.6Zm9.6,11.966h-8.94a.66.66,0,1,1,0-1.319h8.94a.66.66,0,0,1,0,1.319Zm0-3.776h-8.94a.66.66,0,1,1,0-1.319h8.94a.66.66,0,0,1,0,1.319Zm0-3.776h-2.98a.66.66,0,1,1,0-1.319h2.98a.66.66,0,0,1,0,1.319Zm0-3.754h-2.98a.66.66,0,1,1,0-1.319h2.98a.66.66,0,0,1,0,1.319Z" transform="translate(-2.5 -5)" fill="url(#linear-gradient)"/>
+          </g>
+        </g>
+      </g>
+      <rect id="Rectangle_61572" data-name="Rectangle 61572" width="24" height="24" transform="translate(602 1210.21)" fill="none"/>
+    </g>
+  </g>
+</svg>

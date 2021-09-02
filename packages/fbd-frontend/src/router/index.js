@@ -8,6 +8,10 @@ const routes = [
     path: '/',
     name: 'Home',
     component: () => import(/* webpackChunkName: "Home" */ '@/views/Home.vue'),
+    meta: {
+      title: 'home',
+      layout: Layout,
+    },
   },
   {
     path: '/betRecord',

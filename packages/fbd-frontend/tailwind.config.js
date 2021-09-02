@@ -2,22 +2,6 @@ module.exports = {
   purge: { content: ['./public/**/*.html', './src/**/*.vue'] },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    colors: {
-      primary: 'var(--primary-color)',
-      normal: 'var(--font-color)',
-      active: 'var(--font-active-color)',
-      link: 'var(--link-color)',
-      positive: 'var(--positive-color)',
-      negative: 'var(--negative-color)',
-      transparency: 'var(--transparency-color)',
-      layout: 'var(--layout-bg)',
-      'primary-content': 'var(--primary-content-bg)',
-      'secondary-content': 'var(--secondary-content-bg)',
-      border: 'var(--border-color)',
-    },
-    backgroundImage: {
-      'primary-gradient': 'var(--primary-gradient-color)',
-    },
     screens: {
       sm: '640px',
       md: '768px',
@@ -26,6 +10,19 @@ module.exports = {
       '2xl': '1536px',
     },
     extend: {
+      colors: {
+        primary: 'var(--primary-color)',
+        normal: 'var(--font-color)',
+        active: 'var(--font-active-color)',
+        link: 'var(--link-color)',
+        positive: 'var(--positive-color)',
+        negative: 'var(--negative-color)',
+        transparency: 'var(--transparency-color)',
+        layout: 'var(--layout-bg)',
+        'primary-content': 'var(--primary-content-bg)',
+        'secondary-content': 'var(--secondary-content-bg)',
+        border: 'var(--border-color)',
+      },
       spacing: {
         0: '0px',
         1: '5px',
@@ -38,6 +35,7 @@ module.exports = {
         8: '40px',
         9: '45px',
         10: '50px',
+        11: '60px',
         'h-h': 'var(--header-height)', // header 高度
         'f-h': 'var(--footer-height)', // footer 高度
       },
@@ -49,6 +47,7 @@ module.exports = {
         50: '50px',
       },
     },
+
   },
   variants: {
     extend: {},

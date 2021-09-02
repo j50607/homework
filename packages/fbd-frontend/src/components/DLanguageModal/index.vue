@@ -70,6 +70,9 @@ export default {
         { text: 'ไทย', value: 'th_th', index: 3 },
         { text: 'English', value: 'en_us', index: 4 },
         { text: '日本語', value: 'ja_jp', index: 5 },
+        { text: '德國', value: 'de_de', index: 6 },
+        { text: '菲律兵', value: 'en_ph', index: 7 },
+        { text: '法國', value: 'fr_fr', index: 8 },
       ],
     });
 

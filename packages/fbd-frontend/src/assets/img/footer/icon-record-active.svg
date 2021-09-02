@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.513" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_57541" data-name="Rectangle 57541" width="24" height="24" transform="translate(104 39.25)" stroke="#707070" stroke-width="1" fill="url(#linear-gradient)"/>
+    </clipPath>
+    <clipPath id="clip-footer_紀錄_click">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="footer_紀錄_click" clip-path="url(#clip-footer_紀錄_click)">
+    <g id="Mask_Group_417" data-name="Mask Group 417" transform="translate(-104 -39.25)" clip-path="url(#clip-path)">
+      <g id="Group_36417" data-name="Group 36417" transform="translate(107.653 40.114)">
+        <path id="Union_6" data-name="Union 6" d="M.962,21.917A1.435,1.435,0,0,1,0,20.345C.018,14.1.01,7.857.01,1.613c0-.134,0-.27,0-.4A1.184,1.184,0,0,1,.839.079C.9.056.96.026,1.019,0H7.826A1.193,1.193,0,0,0,7.81.141q0,3.286,0,6.571a2.284,2.284,0,0,0,.041.458A2.432,2.432,0,0,0,10.318,9.1q3.675.007,7.35,0h.395v1.212q0,5.16,0,10.318a1.18,1.18,0,0,1-.855,1.227.617.617,0,0,0-.094.057Zm8.076-2.992h1.73c1.086,0,2.171,0,3.257,0a.982.982,0,0,0,1.019-1.071,1.006,1.006,0,0,0-1.124-.909H4.176c-.086,0-.173,0-.259.008a.989.989,0,0,0,.134,1.972c1.067,0,2.137,0,3.206,0H9.038Zm1.671-4.975c1.095,0,2.191,0,3.287,0A.988.988,0,0,0,15.045,12.9a1.013,1.013,0,0,0-1.122-.949q-4.584,0-9.169,0c-.25,0-.5-.009-.75,0a.991.991,0,0,0-.978,1.061,1,1,0,0,0,1.08.932c1.634,0,3.267,0,4.9,0ZM3.017,5.987a.989.989,0,1,0,.011,1.978q.994.014,1.987,0a.989.989,0,1,0,.017-1.978c-.337-.009-.672,0-1.008,0l-.613,0C3.28,5.981,3.148,5.983,3.017,5.987ZM10.344,7.91A1.2,1.2,0,0,1,9.037,6.6q0-3.3,0-6.6h.058c.249.234.491.477.747.7q3.973,3.487,7.949,6.971c.065.057.126.116.227.208a2.169,2.169,0,0,1-.24.03l-4.517,0Z" transform="translate(0)" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" fill="url(#linear-gradient)"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -11,14 +11,17 @@
     <swiper-slide
       v-for="item in imgList"
       :key="item.img"
+      @click="goLink(item.link)"
     >
       <img
+        v-if="localImg"
         class="swipe-img"
         :src="$requireSafe(`slide/${item.img}`)"
       >
       <img
-        class="swipe-img blur"
-        :src="$requireSafe(`slide/${item.img}`)"
+        v-else
+        :src="item.img"
+        alt=""
       >
     </swiper-slide>
     <div
@@ -68,6 +71,10 @@ export default {
       type: Number,
       default: 8000,
     },
+    localImg: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props) {
     let vSwiper = null;
@@ -99,6 +106,12 @@ export default {
       }, 50);
     };
 
+    const goLink = (link) => {
+      if (!link) return;
+
+      window.location = link;
+    };
+
     // hooks
     onMounted(() => {
       swiperLoop();
@@ -114,6 +127,7 @@ export default {
       vSwiper,
       onSwiper,
       swiperLoop,
+      goLink,
       clientMode,
     };
   },
@@ -125,7 +139,6 @@ export default {
   position: relative;
   width: 100%;
   height: 240px;
-  border-radius: 5px;
 
   @include mediaquery_phone {
     height: 150px !important;
@@ -153,23 +166,6 @@ export default {
 
   ::v-deep(.swiper-pagination-bullets) {
     bottom: 0;
-
-    // 底部全長跑條
-    // &::after {
-    //   position: absolute;
-    //   bottom: 0;
-    //   left: 0;
-    //   display: var(--change);
-    //   width: 100%;
-    //   height: 4px;
-    //   background: $primary-color;
-    //   animation-name: swiper;
-    //   animation-duration: var(--delay);
-    //   animation-timing-function: linear;
-    //   animation-iteration-count: infinite;
-    //   content: '';
-    //   transform: translateX(-100%);
-    // }
   }
 
   ::v-deep(.swiper-pagination-bullet) {
@@ -186,43 +182,8 @@ export default {
     position: relative;
     background: #fff;
     opacity: 0.9;
-
-    // &::after {
-    //   position: absolute;
-    //   left: 0;
-    //   width: 100%;
-    //   height: 100%;
-    //   animation-name: run;
-    //   animation-duration: var(--delay);
-    //   animation-timing-function: linear;
-    //   content: '';
-    //   transform-origin: 0;
-    // }
   }
 }
-
-// @keyframes swiper {
-//   from {
-//     transform: translateX(-100%);
-//   }
-
-//   to {
-//     background: $primary-color;
-//     transform: translateX(0);
-//   }
-// }
-
-// @keyframes run {
-//   from {
-//     background: #fcda42;
-//     transform: scaleX(0);
-//   }
-
-//   to {
-//     background: #fcda42;
-//     transform: scaleX(1);
-//   }
-// }
 
 .swipe-img {
   position: absolute;

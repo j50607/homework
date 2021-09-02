@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-國旗_德國">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="國旗_德國" clip-path="url(#clip-國旗_德國)">
+    <g id="Group_38941" data-name="Group 38941" transform="translate(-686.003 89.716)">
+      <path id="Path_51175" data-name="Path 51175" d="M698-89.716a12,12,0,0,0-11.284,7.95h22.568A11.994,11.994,0,0,0,698-89.716Z"/>
+      <path id="Path_51176" data-name="Path 51176" d="M686.719-73.665h22.568A11.953,11.953,0,0,0,710-77.716a11.947,11.947,0,0,0-.716-4.05H686.719a11.947,11.947,0,0,0-.716,4.05A11.953,11.953,0,0,0,686.719-73.665Z" fill="#d00"/>
+      <path id="Path_51177" data-name="Path 51177" d="M698-65.716a11.993,11.993,0,0,0,11.284-7.949H686.719A11.994,11.994,0,0,0,698-65.716Z" fill="#ffce00"/>
+    </g>
+  </g>
+</svg>

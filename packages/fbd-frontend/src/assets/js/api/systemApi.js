@@ -68,6 +68,37 @@ class SystemApi extends API {
     const result = await this.callAxios('POST', '/announcement/marquee/list', params, undefined, false);
     return result;
   }
+
+  /**
+   * 取得入站弹窗
+   */
+  static async getAnnouncement() {
+    const params = {};
+
+    const result = await this.callAxios('POST', '/announcement/popup/page', params, undefined, false);
+
+    return result;
+  }
+
+  /**
+   * 取得優惠活動
+   * @param {NUmber} activityId - 活動ID
+   * @param {Boolean} simplify - 簡化輸出(default = true)
+   * @param {String} start - 活動開始時間
+   */
+  static async getActivityList({ activityId, simplify, dateTimeStart } = {}) {
+    const params = {
+      activityId,
+      simplify,
+      displaySwitch: true,
+      status: true,
+      dateTimeStart,
+    };
+
+    const result = await this.callAxios('POST', '/api/activity/detail/get', params, undefined, false);
+
+    return result;
+  }
 }
 
 export default SystemApi;

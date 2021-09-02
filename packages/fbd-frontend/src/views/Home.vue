@@ -1,51 +1,196 @@
 <template>
-  <div class="home">
-    <div class="father">
-      <div class="child">
-        {{ Ramda() }}
+  <div class="h-full">
+    <d-header-row bg-color="#fff">
+      <template #left>
+        <!-- 登入 -->
+        <img
+          v-if="!isLogin"
+          class="icon-size"
+          :src="require('@/assets/img/header/icon-login.svg')"
+          alt=""
+        >
+        <!-- 頭像 -->
+        <img
+          v-else
+          src=""
+          alt=""
+        >
+      </template>
+      <template #middle>
+        <!-- LOGO -->
+        <img
+          src=""
+          alt=""
+        >
+        LOGO
+      </template>
+      <template #right>
+        <div class="flex items-center justify-end">
+          <!-- 語言選擇 -->
+          <d-locale-image
+            class="icon-size"
+            :locale-image-mapping="langMap"
+            @click="showLangModal = true"
+          />
+          <!-- 客服 -->
+          <img
+            class="icon-size ml-3"
+            :src="require('@/assets/img/header/icon-service.svg')"
+            alt=""
+            @click="goService"
+          >
+        </div>
+      </template>
+    </d-header-row>
+    <div class="flex flex-col h-full pt-12 pb-10">
+      <div class="h-full overflow-y-auto">
+        <marquee
+          :marquee-message="marqueeContent"
+          @click="showModal = true"
+        />
+        <d-swiper :img-list="imgList" />
+        <div class="match-wrapper">
+          <div class="title">
+            <img
+              :src="require('@/assets/img/home/icon-news.svg')"
+              alt=""
+            >
+            <div>赛事快讯</div>
+          </div>
+          <match-news />
+          <div class="title">
+            <img
+              :src="require('@/assets/img/home/icon-hot.svg')"
+              alt=""
+            >
+            <div>热门赛事</div>
+          </div>
+          <match
+            v-for="(item, index) in 10"
+            :key="index"
+            class="mb-3"
+          />
+          <div class="title">
+            <img
+              :src="require('@/assets/img/home/icon-promotion.svg')"
+              alt=""
+            >
+            <div>优惠活动</div>
+          </div>
+          <promotion />
+        </div>
       </div>
+      <d-footer-row />
     </div>
   </div>
+  <inbound-modal
+    v-model:value="showModal"
+    :data="marqueeList"
+    :modal-title="$t('最新信息')"
+    id-key="annId"
+    title-key="title"
+    content-key="content"
+    time-key="startTime"
+    img-key="imgUrl"
+  />
+  <d-language-modal
+    v-model:isShow="showLangModal"
+    @cancel="showLangModal = false"
+  />
 </template>
 
 <script>
-import * as R from 'ramda';
+import {
+  onMounted, reactive, toRefs, computed,
+} from 'vue';
+import { useStore } from 'vuex';
+import Match from '@/components/_pages/home/Match';
+import MatchNews from '@/components/_pages/home/MatchNews';
+import Promotion from '@/components/_pages/home/Promotion';
+import Marquee from '@/components/_pages/home/Marquee';
+import SystemApi from '@/assets/js/api/systemApi';
+import InboundModal from '@/components/_pages/home/InboundModal';
 
 export default {
+  components: {
+    Match,
+    MatchNews,
+    Promotion,
+    Marquee,
+    InboundModal,
+  },
   setup() {
-    const Ramda = () => {
-      // 將多個函數合並成一個函數，並從左到右執行
+    const store = useStore();
 
-      // 流水線：第一個的函數的返回值交給第二個，第二個的交給第三個，依次類推
+    const state = reactive({
+      imgList: [
+        { img: 'banner1.png' },
+      ],
+      langMap: {
+        zh_cn: 'locale/zh_cn.svg',
+        zh_tw: 'locale/zh_tw.svg',
+        th_th: 'locale/th_th.svg',
+        vi_vn: 'locale/vi_vn.svg',
+        ja_jp: 'locale/ja_jp.svg',
+        en_us: 'locale/en_us.svg',
+      },
+      marqueeList: [],
+      marqueeContent: [],
+      showModal: false,
+      showLangModal: false,
+    });
 
-      const negative = (x) => -1 * x;
+    const serviceUrl = computed(() => store.state.info.serviceUrl);
 
-      const increaseOne = (x) => x + 1;
-
-      /* eslint-disable-next-line */
-      const f = R.pipe(Math.pow, negative, increaseOne);
-
-      // 第一個求3的4次方，返回值給後邊方法，以此類推
-
-      console.log('R.pipe:', f(3, 4));
-      return (f(3, 4));
+    const getMarquee = async () => {
+      const { code, data } = await SystemApi.getMarquee();
+      if (code === 200) {
+        return data;
+      }
+      return [];
     };
 
+    const getMarqueeContent = (arr) => arr.map((item) => item.content);
+
+    const goService = () => {
+      window.location = serviceUrl.value;
+    };
+
+    onMounted(async () => {
+      state.marqueeList = await getMarquee();
+      state.marqueeContent = getMarqueeContent(state.marqueeList);
+    });
     return {
-      Ramda,
+      goService,
+      ...toRefs(state),
     };
   },
 };
 </script>
 
 <style lang="postcss" scoped>
-.father {
-  @apply py-5 px-2 text-center w-auto flex flex-col items-center;
+.match-wrapper {
+  padding: 0 17px 30px;
+}
 
-  .child {
-    @apply my-5 text-center;
+.swiper {
+  flex-shrink: 0;
+  height: 180px !important;
+}
 
-    color: var(--primary-color);
+.title {
+  @apply flex items-center font-bold;
+
+  margin: 12px 0;
+
+  img {
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
   }
+}
+
+.icon-size {
+  @apply w-4 h-4;
 }
 </style>
