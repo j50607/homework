@@ -3,6 +3,7 @@
     <d-swiper
       class="rounded-5"
       :img-list="list"
+      :delay="5000"
       :local-img="false"
     />
   </div>
@@ -15,9 +16,9 @@ import {
 import dayjs from 'dayjs';
 import * as R from 'ramda';
 import SystemApi from '@/assets/js/api/systemApi';
+import { isValidUrl } from '@/assets/js/utils/utils';
 
 export default {
-
   setup() {
     // reactive
     const state = reactive({
@@ -36,7 +37,6 @@ export default {
       return [];
     };
 
-    const isValidUrl = (url) => url.trim() && url.trim() !== 'https://';
     // 檢查是否過期
     const isExpired = (time) => dayjs(time).valueOf() > dayjs().valueOf();
     // 取得正在進行的活動

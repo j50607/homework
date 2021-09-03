@@ -50,7 +50,7 @@
 </template>
 <script>
 import moment from 'moment';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import DDialog from '@/components/DDialog';
 
 export default {
@@ -90,6 +90,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    selectedKey: {
+      type: Number,
+      default: 1,
+    },
   },
   emits: ['update:value'],
   setup(props, context) {
@@ -99,6 +103,10 @@ export default {
     const showDialog = computed({
       get: () => props.value,
       set: (val) => context.emit('update:value', val),
+    });
+
+    watch(() => props.selectedKey, (val) => {
+      activeKey.value = val?.toString();
     });
 
     const s3Base = computed(() => process.env.VUE_APP_IMG_URL_PREFIX);

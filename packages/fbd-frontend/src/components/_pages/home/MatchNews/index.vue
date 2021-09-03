@@ -23,11 +23,12 @@
   <inbound-modal
     v-model:value="show"
     :data="list"
+    :selected-key="selectedKey"
     modal-title="赛事快讯"
-    id-key="annId"
+    id-key="msgId"
     title-key="title"
     content-key="content"
-    time-key="startTime"
+    time-key="createdTime"
     img-key="imgUrl"
   />
 </template>
@@ -45,24 +46,25 @@ export default {
     const state = reactive({
       list: [],
       show: false,
+      selectedKey: 1,
     });
 
-    const getAnnouncement = async () => {
-      const { code, data } = await SystemApi.getAnnouncement();
+    const getMessage = async () => {
+      const { code, data } = await SystemApi.getMessage({});
       if (code === 200) {
-        state.list = data.content;
         return data.content;
       }
-      return {};
+      return [];
     };
 
     const showAnnouncement = (item) => {
       state.show = true;
+      state.selectedKey = item.msgId;
       console.log('item :>> ', item);
     };
 
-    onMounted(() => {
-      getAnnouncement();
+    onMounted(async () => {
+      state.list = await getMessage();
     });
     return {
       ...toRefs(state),

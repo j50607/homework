@@ -72,6 +72,7 @@ export default {
   color: #4d5772;
   background: url('~@/assets/img/home/bg-hot-match.png') no-repeat;
   background-size: cover;
+  box-shadow: -1px 2px 4px #4d57721a;
 }
 
 .team-info {
@@ -87,6 +88,7 @@ export default {
 
   width: 86px;
   height: 86px;
+  background: #e8e8e8;
   box-shadow: inset 0 3px 6px #00000029;
 
   &::before,

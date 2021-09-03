@@ -50,7 +50,12 @@
           :marquee-message="marqueeContent"
           @click="showModal = true"
         />
-        <d-swiper :img-list="imgList" />
+        <d-swiper
+          :img-list="carouselList"
+          :delay="5000"
+          :pagination="false"
+          :local-img="false"
+        />
         <div class="match-wrapper">
           <div class="title">
             <img
@@ -106,12 +111,14 @@ import {
   onMounted, reactive, toRefs, computed,
 } from 'vue';
 import { useStore } from 'vuex';
+import * as R from 'ramda';
 import Match from '@/components/_pages/home/Match';
 import MatchNews from '@/components/_pages/home/MatchNews';
 import Promotion from '@/components/_pages/home/Promotion';
 import Marquee from '@/components/_pages/home/Marquee';
 import SystemApi from '@/assets/js/api/systemApi';
 import InboundModal from '@/components/_pages/home/InboundModal';
+import { isValidUrl } from '@/assets/js/utils/utils';
 
 export default {
   components: {
@@ -125,9 +132,6 @@ export default {
     const store = useStore();
 
     const state = reactive({
-      imgList: [
-        { img: 'banner1.png' },
-      ],
       langMap: {
         zh_cn: 'locale/zh_cn.svg',
         zh_tw: 'locale/zh_tw.svg',
@@ -138,11 +142,31 @@ export default {
       },
       marqueeList: [],
       marqueeContent: [],
+      carouselList: [],
       showModal: false,
       showLangModal: false,
     });
 
     const serviceUrl = computed(() => store.state.info.serviceUrl);
+    const s3Base = computed(() => process.env.VUE_APP_IMG_URL_PREFIX);
+
+    const getCarousel = async () => {
+      const { code, data } = await SystemApi.getCarousel();
+      if (code === 200) {
+        return data;
+      }
+      return [];
+    };
+
+    const mappingCarousel = (arr) => arr.map((item) => ({
+      img: `${s3Base.value}/${item.mobile || item.pc}`,
+      link: isValidUrl(item.link) ? item.link : '',
+    }));
+
+    const initCarousel = R.pipeP(
+      getCarousel,
+      mappingCarousel,
+    );
 
     const getMarquee = async () => {
       const { code, data } = await SystemApi.getMarquee();
@@ -161,6 +185,8 @@ export default {
     onMounted(async () => {
       state.marqueeList = await getMarquee();
       state.marqueeContent = getMarqueeContent(state.marqueeList);
+      state.carouselList = await initCarousel();
+      console.log('state.carouseList :>> ', state.carouselList);
     });
     return {
       goService,

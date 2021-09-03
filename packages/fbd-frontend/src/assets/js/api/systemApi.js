@@ -99,6 +99,32 @@ class SystemApi extends API {
 
     return result;
   }
+
+  /**
+   * 公告(最新消息/讯息推送)分页
+   * @param {Number} read - 已讀狀態。內容值：。內容值：0(所有)、1(已讀)、2(未讀)
+   */
+  static async getMessage({ pageIndex, read = 0, pageSize }) {
+    const params = {
+      pageIndex,
+      pageSize,
+      read,
+    };
+
+    const result = await this.callAxios('POST', '/announcement/news-message/page', params, undefined, true);
+    return result;
+  }
+
+  /**
+   * 取得首頁輪播圖
+   * @param {String} carouselIdOrAll - 輪播圖id。若為all可同時取得所有資料
+   */
+  static async getCarousel() {
+    const params = {};
+
+    const result = await this.callAxios('POST', '/system/carousel/get/all', params, undefined, false);
+    return result;
+  }
 }
 
 export default SystemApi;

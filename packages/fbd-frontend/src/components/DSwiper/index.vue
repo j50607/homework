@@ -4,7 +4,7 @@
     class="swiper"
     :loop="true"
     :style="{'--change': animationReset, '--delay': `${delay}ms`}"
-    :pagination="{ clickable: true }"
+    :pagination="pagination"
     @swiper="onSwiper"
     @slideChange="slideChange"
   >
@@ -74,6 +74,14 @@ export default {
     localImg: {
       type: Boolean,
       default: true,
+    },
+    pagination: {
+      type: [Boolean, Object],
+      default() {
+        return {
+          clickable: true,
+        };
+      },
     },
   },
   setup(props) {
