@@ -13,9 +13,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { pipe, andThen } from '@/assets/js/utils/utils';
 import SystemApi from '@/assets/js/api/systemApi';
-import MemberApi from '@/assets/js/api/memberApi';
 import Stylesheet from '@/assets/js/stylesheet';
 import clientModeEnum from '@/assets/enum/clientModeEnum';
 
@@ -41,7 +39,6 @@ export default {
     // computed
     const site = computed(() => store.state.info.siteInfo);
     const siteName = computed(() => store.state.info.siteInfo.name);
-    const userToken = computed(() => store.state.user.token);
     const siteStyle = computed(() => store.state.info.siteStyle);
 
     document.title = `Welcome to ${siteName.value}`;
@@ -100,31 +97,6 @@ export default {
       const V = validator.default;
       $validator.value = new V();
     };
-
-    const getInitUserInfo = async (token) => {
-      let userInfo = {};
-      if (token) {
-        const { code, data, message } = await MemberApi.getUserInfoInit();
-
-        if (code === 200) {
-          userInfo = data;
-        } else {
-          window.$vue.$message.info(message);
-        }
-      }
-      return userInfo;
-    };
-
-    const setInitUserInfo = (userInfo) => {
-      if (userInfo) {
-        store.commit('SET_LOGIN_INFO', userInfo);
-      }
-    };
-
-    const initUserInfo = pipe(
-      getInitUserInfo,
-      andThen(setInitUserInfo),
-    );
 
     const getSystemConfig = async () => {
       const { code, data } = await SystemApi.getSystemConfig();
@@ -330,7 +302,6 @@ export default {
       // 不加 nextTick 的話，在此時 vue instance 尚未掛到 window.$vue 上
       await nextTick();
       getSystemConfig();
-      initUserInfo(userToken.value);
     });
 
     onMounted(() => {

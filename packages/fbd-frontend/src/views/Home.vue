@@ -10,12 +10,15 @@
           class="icon-size is-btn"
           :src="require('@/assets/img/header/icon-login.svg')"
           alt=""
+          @click="goPage('/loginAndRegister')"
         >
         <!-- 頭像 -->
         <img
           v-else
-          src=""
+          class="avatar w-4 h-4 rounded-full"
+          :src="$requireSafe(`avatar/${avatar && avatar.system ? avatar.system : 0 }.png`)"
           alt=""
+          @click="goPage('/profile/userInfo')"
         >
       </template>
       <template #middle>
@@ -62,7 +65,7 @@
               :src="require('@/assets/img/home/icon-news.svg')"
               alt=""
             >
-            <div>赛事快讯</div>
+            <div>{{ $t('views_home_matchNews') }}</div>
           </div>
           <match-news />
           <div class="title">
@@ -70,7 +73,7 @@
               :src="require('@/assets/img/home/icon-hot.svg')"
               alt=""
             >
-            <div>热门赛事</div>
+            <div>{{ $t('views_home_matchHot') }}</div>
           </div>
           <match
             v-for="(item, index) in 10"
@@ -82,7 +85,7 @@
               :src="require('@/assets/img/home/icon-promotion.svg')"
               alt=""
             >
-            <div>优惠活动</div>
+            <div>{{ $t('views_profile_promotion') }}</div>
           </div>
           <promotion />
         </div>
@@ -108,10 +111,11 @@
 
 <script>
 import {
-  onMounted, reactive, toRefs, computed, onBeforeMount,
+  onMounted, reactive, toRefs, computed,
 } from 'vue';
 import { useStore } from 'vuex';
 import * as R from 'ramda';
+import { useRouter } from 'vue-router';
 import Match from '@/components/_pages/home/Match';
 import MatchNews from '@/components/_pages/home/MatchNews';
 import Promotion from '@/components/_pages/home/Promotion';
@@ -119,7 +123,6 @@ import Marquee from '@/components/_pages/home/Marquee';
 import SystemApi from '@/assets/js/api/systemApi';
 import InboundModal from '@/components/_pages/home/InboundModal';
 import { isValidUrl } from '@/assets/js/utils/utils';
-import ExchangeApi from '@/assets/js/api/exchangeApi';
 
 export default {
   components: {
@@ -131,6 +134,7 @@ export default {
   },
   setup() {
     const store = useStore();
+    const router = useRouter();
 
     const state = reactive({
       langMap: {
@@ -150,67 +154,56 @@ export default {
 
     const serviceUrl = computed(() => store.state.info.serviceUrl);
     const s3Base = computed(() => process.env.VUE_APP_IMG_URL_PREFIX);
+    const avatar = computed(() => store.state.user.avatar);
+    const isLogin = computed(() => store.state.user.isLogin);
 
-    const Ramda = () => {
-      // 將多個函數合並成一個函數，並從左到右執行
-
-      const getCarousel = async () => {
-        const { code, data } = await SystemApi.getCarousel();
-        if (code === 200) {
-          return data;
-        }
-        return [];
-      };
-
-      const mappingCarousel = (arr) => arr.map((item) => ({
-        img: `${s3Base.value}/${item.mobile || item.pc}`,
-        link: isValidUrl(item.link) ? item.link : '',
-      }));
-
-      const initCarousel = R.pipeP(
-        getCarousel,
-        mappingCarousel,
-      );
-
-      const getMarquee = async () => {
-        const { code, data } = await SystemApi.getMarquee();
-        if (code === 200) {
-          return data;
-        }
-        return [];
-      };
-
-      const getMarqueeContent = (arr) => arr.map((item) => item.content);
-
-      // 取得前台交易所信息列表
-      const getExchangeInfoList = async () => {
-        const { code, data } = await ExchangeApi.getExchangeInfoList();
-        if (code === 200) {
-          store.commit('SET_EXCHANGE_INFO_LIST', data);
-        }
-      };
-
-      // hooks
-      onBeforeMount(() => {
-        getExchangeInfoList();
-      });
-
-      onMounted(async () => {
-        state.marqueeList = await getMarquee();
-        state.marqueeContent = getMarqueeContent(state.marqueeList);
-        state.carouselList = await initCarousel();
-        console.log('state.carouseList :>> ', state.carouselList);
-      });
+    const getCarousel = async () => {
+      const { code, data } = await SystemApi.getCarousel();
+      if (code === 200) {
+        return data;
+      }
+      return [];
     };
+
+    const mappingCarousel = (arr) => arr.map((item) => ({
+      img: `${s3Base.value}/${item.mobile || item.pc}`,
+      link: isValidUrl(item.link) ? item.link : '',
+    }));
+
+    const initCarousel = R.pipeP(
+      getCarousel,
+      mappingCarousel,
+    );
+
+    const getMarquee = async () => {
+      const { code, data } = await SystemApi.getMarquee();
+      if (code === 200) {
+        return data;
+      }
+      return [];
+    };
+
+    const getMarqueeContent = (arr) => arr.map((item) => item.content);
+
+    const goPage = (url) => {
+      router.push(url);
+    };
+
+    onMounted(async () => {
+      state.marqueeList = await getMarquee();
+      state.marqueeContent = getMarqueeContent(state.marqueeList);
+      state.carouselList = await initCarousel();
+    });
 
     const goService = () => {
       window.location = serviceUrl.value;
     };
 
     return {
-      Ramda,
-      // getExchangeInfoList,
       goService,
+      avatar,
+      goPage,
+      isLogin,
       ...toRefs(state),
     };
   },
@@ -241,5 +234,9 @@ export default {
 
 .icon-size {
   @apply w-4 h-4;
+}
+
+.avatar {
+  border: 1px solid #f3ac0a;
 }
 </style>

@@ -22,6 +22,12 @@
 }
 
 .ant-modal {
+  .ant-modal-close-x {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .ant-modal-content,
   .ant-modal-header {
     border: none;
@@ -93,9 +99,8 @@
 
 .ant-input {
   border: 1px solid $border-color !important;
-  border-radius: 19px !important;
+  border-radius: 3px !important;
   color: #000 !important;
-  font-size: 16px !important;
   background-color: $input-bg-color !important;
 
   &:focus {

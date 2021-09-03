@@ -92,8 +92,26 @@ class FinanceApi extends Api {
 
   /**
    * 前台申請取款
+   * @param {String} bankName - 取款銀行名稱
+   * @param {Number} amount - 取款金額
+   * @param {String} accountName - 帳戶名稱
+   * @param {String} accountId - 銀行帳號/卡號
+   * @param {String} accountBank - 分行名稱
+   * @param {String} withdrawalCode - 資金密碼
+   * @param {Boolean} force - 是否強制取款
    */
-  static async applyWithdrawal(params) {
+  static async applyWithdrawal({
+    bankName, amount, accountName, accountId, accountBank, withdrawalCode, force,
+  }) {
+    const params = {
+      bankName,
+      amount,
+      accountName,
+      accountId,
+      accountBank,
+      withdrawalCode,
+      force,
+    };
     const result = await this.callAxios('POST', '/frontend/withdrawal/apply', params, null, true);
     return result;
   }
@@ -104,6 +122,14 @@ class FinanceApi extends Api {
   static async transfer(params) {
     const result = await this.callAxios('POST', '/frontend/transfer-money', params, null, true);
     return result;
+  }
+
+  /**
+   * 個人當前流水計算
+   */
+  static async getWaterCaculate() {
+    const reuslt = await this.callAxios('POST', '/finance/withdraw-water/caculate', null, null, true, false, undefined, 30000);
+    return reuslt;
   }
 }
 export default FinanceApi;

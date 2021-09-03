@@ -39,7 +39,7 @@ export default {
 .title {
   color: #fff;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
 }
 </style>

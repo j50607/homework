@@ -28,7 +28,7 @@
       </div>
       <div class="flex-1 justify-center">
         <div class="circle ml-auto">
-          <div class="circle-inner flex flex-col justify-center rounded-full h-11 w-11 bg-white z-10 text-center text-sm">
+          <div class="circle-inner flex flex-col justify-center rounded-full bg-white z-10 text-center text-sm">
             总销量
             <div class="font-bold italic">
               16M
@@ -70,8 +70,7 @@ export default {
   padding: 0 15px;
   border-radius: 0 10px 10px;
   color: #4d5772;
-  background: url('~@/assets/img/home/bg-hot-match.png') no-repeat;
-  background-size: cover;
+  background: url('~@/assets/img/home/bg-hot-match.png') no-repeat center / cover;
   box-shadow: -1px 2px 4px #4d57721a;
 }
 
@@ -86,39 +85,15 @@ export default {
 .circle {
   @apply relative flex items-center justify-center rounded-full;
 
-  width: 86px;
-  height: 86px;
-  background: #e8e8e8;
-  box-shadow: inset 0 3px 6px #00000029;
-
-  &::before,
-  &::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    box-sizing: border-box;
-    width: 86px;
-    height: 43px;
-    border-radius: 50px 50px 0 0;
-    background: #f3ac0a;
-    content: '';
-    transform-origin: 43px 43px;
-    box-shadow: inset 0 3px 6px #00000029;
-  }
-
-  &::before {
-    z-index: 1;
-    transform: rotate(90deg);
-  }
-
-  &::after {
-    z-index: 2;
-    transform: rotate(135deg);
-  }
+  width: 72px;
+  height: 72px;
+  background: conic-gradient(from 90deg at 50% 50%, #f3ac0a, #b58007);
 }
 
 .circle-inner {
-  box-shadow: 0 3px 6px #00000029;
+  width: 64px;
+  height: 64px;
+  box-shadow: inset 0 3px 6px #00000029;
 }
 
 </style>

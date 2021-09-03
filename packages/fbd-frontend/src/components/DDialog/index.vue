@@ -12,6 +12,13 @@
       @cancel="$emit('cancel')"
       v-bind="$attrs"
     >
+      <template #closeIcon>
+        <img
+          class="close"
+          :src="require('@/assets/img/icon/icon-close.svg')"
+          alt=""
+        >
+      </template>
       <div class="d-dialog-header">
         <!-- <span v-text="title" /> -->
       </div>
@@ -58,4 +65,8 @@ export default {
   color: #080d20;
 }
 
+.close {
+  width: 16px;
+  height: 16px;
+}
 </style>

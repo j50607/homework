@@ -267,7 +267,7 @@ export default {
           logout();
           break;
         default:
-          router.push(`/${page}`);
+          router.push(`/profile/${page}`);
           break;
       }
     };

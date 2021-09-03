@@ -6,7 +6,7 @@ import Layout from '@/layout';
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: () => import(/* webpackChunkName: "Home" */ '@/views/Home.vue'),
     meta: {
       title: 'home',
@@ -15,7 +15,7 @@ const routes = [
   },
   {
     path: '/profile',
-    name: 'Profile',
+    name: 'profile',
     component: () => import(/* webpackChunkName: "Profile" */ '@/views/profile'),
     meta: {
       title: 'Profile',
@@ -48,6 +48,46 @@ const routes = [
     meta: {
       title: 'match',
       layout: Layout,
+    },
+  },
+  {
+    path: '/profile/withdraw',
+    name: 'profile-withdraw',
+    component: () => import('@/views/profile/withdraw' /* webpackChunkName: 'Withdraw' */),
+    meta: {
+      title: 'Withdraw',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/confirmWithdraw',
+    name: 'profile-confirm-withdraw',
+    component: () => import('@/views/profile/confirmWithdraw' /* webpackChunkName: 'ConfirmWithdraw' */),
+    meta: {
+      title: 'Withdraw',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/wallet',
+    name: 'profile-wallet',
+    component: () => import('@/views/profile/wallet' /* webpackChunkName: 'Wallet' */),
+    meta: {
+      title: 'Wallet',
+      layout: Layout,
+      // requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/orderDetail',
+    name: 'profile-order-detail',
+    component: () => import('@/views/profile/orderDetail' /* webpackChunkName: 'OrderDetail' */),
+    meta: {
+      title: 'OrderDetail',
+      layout: Layout,
+      // requiresAuth: true,
     },
   },
   {

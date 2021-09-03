@@ -5,7 +5,8 @@
       `d-btn-${type}`,
       {'disabled': disabled},
       {'loading': loading},
-      {'block': block}
+      {'block': block},
+      {'border-none': !border}
     ]"
     :style="{'--custom-bg': color, '--custom-color': textColor}"
     @click="click"
@@ -72,6 +73,10 @@ export default {
       type: String,
       default: '',
     },
+    border: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const click = () => {
@@ -96,9 +101,9 @@ export default {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 36px;
   padding: 0 15px;
-  border-radius: 5px;
+  border-radius: 3px;
   color: #333;
   font-size: 14px;
   background: #fff;
@@ -116,6 +121,10 @@ export default {
 
   &.block {
     width: 100%;
+  }
+
+  &.border-none {
+    border: none;
   }
 }
 </style>

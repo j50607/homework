@@ -16,6 +16,7 @@ import DSelectDateModal from '@/components/DSelectDateModal';
 import DSwiper from '@/components/DSwiper';
 import DTabs from '@/components/DTabs';
 import DFooterRow from '@/components/DFooterRow';
+import DSelect from '@/components/DSelect';
 
 const useDyUI = (app) => {
   const curApp = app;
@@ -38,6 +39,7 @@ const useDyUI = (app) => {
     Vue.component('DSwiper', DSwiper);
     Vue.component('DTabs', DTabs);
     Vue.component('DFooterRow', DFooterRow);
+    Vue.component('DSelect', DSelect);
   };
   curApp.use(plugins);
   return curApp;

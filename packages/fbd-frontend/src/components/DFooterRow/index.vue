@@ -7,7 +7,7 @@
       @click="changePath(item.src)"
     >
       <img
-        :src="$requireSafe(`footer/icon-${isActive(item.src) ? `${item.img}-active` : item.img }.svg`)"
+        :src="$requireSafe(`footer/icon-${isActive(item.tag) ? `${item.img}-active` : item.img }.svg`)"
         alt=""
       >
       <div>{{ item.name }}</div>
@@ -27,24 +27,25 @@ export default {
     const state = reactive({
       list: [
         {
-          name: '首页', src: '/', img: 'home',
+          name: window.$vue.$t('components_footer_home'), src: '/', img: 'home', tag: 'home',
         },
         {
-          name: '市场', src: '/match', img: 'market',
+          name: window.$vue.$t('components_footer_match'), src: '/match', img: 'match', tag: 'match',
         },
         {
-          name: '记录', src: '/betRecord', img: 'record',
+          name: window.$vue.$t('components_footer_record'), src: '/betRecord', img: 'record', tag: 'bet-record',
         },
         {
-          name: '账务', src: '/finance', img: 'finance',
+          name: window.$vue.$t('components_footer_finance'), src: '/finance', img: 'finance', tag: 'finance',
         },
         {
-          name: '我的', src: '/profile', img: 'profile',
+          name: window.$vue.$t('components_footer_profile'), src: '/profile', img: 'profile', tag: 'profile',
         },
       ],
     });
 
-    const isActive = (src) => route.path.includes(src);
+    const isActive = (tag) => route.name.includes(tag);
+
     const changePath = (src) => {
       router.push(src);
     };

@@ -29,7 +29,7 @@
 
 @mixin button-bg {
   &-primary {
-    @include button-color($btn-primary-color, $btn-primary-bg);
+    @include button-color($btn-primary-color, var(--btn-primary-bg));
   }
 
   &-cancel {
@@ -41,7 +41,7 @@
   }
 
   &-default {
-    @include button-color($btn-primary-bg, #fff, $btn-primary-bg);
+    @include button-color(var(--primary-color), #fff, var(--primary-color));
   }
 
   @include button-disabled;

@@ -11,7 +11,7 @@
       <d-button
         type="primary"
         :block="true"
-        @click="goPage({ name: 'Home' })"
+        @click="goPage({ name: 'home' })"
       >
         {{ $t('views_notFound_backToHome') }}
       </d-button>
