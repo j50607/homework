@@ -339,6 +339,29 @@ class MemberApi extends API {
     const result = await this.callAxios('POST', '/frontend/verify/residence/apply', formData, undefined, true);
     return result;
   }
+
+  /**
+  * 更新大頭貼
+  */
+  static async updateAvatar({ account, system, upload }) {
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+    const formData = new FormData();
+    const params = {
+      system,
+      upload,
+    };
+
+    Object.keys(params).map((key) => {
+      if (params[key] !== undefined) {
+        formData.append(`${key}`, params[key]);
+      }
+      return key;
+    });
+    const result = await this.callAxios('POST', `/member/avatar/update/${account}`, formData, headers, true);
+    return result;
+  }
 }
 
 export default MemberApi;

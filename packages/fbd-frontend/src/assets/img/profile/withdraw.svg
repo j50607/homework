@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.285" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_57402" data-name="Rectangle 57402" width="19" height="19" transform="translate(-0.257 -0.257)" fill="#f3ac0a"/>
+    </clipPath>
+    <clipPath id="clip-我的_馬上提現">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="我的_馬上提現" clip-path="url(#clip-我的_馬上提現)">
+    <g id="Group_38976" data-name="Group 38976" transform="translate(1864 -489)">
+      <rect id="Rectangle_57543" data-name="Rectangle 57543" width="24" height="24" rx="5" transform="translate(-1864 489)" fill="url(#linear-gradient)"/>
+      <g id="提現" transform="translate(-1861.743 491.257)" clip-path="url(#clip-path)">
+        <rect id="Rectangle_56259" width="19" height="19" transform="translate(-0.257 -0.257)" fill="none"/>
+        <path id="Path_8027" d="M17.026,4H2.428A1.423,1.423,0,0,0,1,5.428v9.679a1.423,1.423,0,0,0,1.428,1.428H16.947a1.423,1.423,0,0,0,1.428-1.428h0V5.428A1.311,1.311,0,0,0,17.026,4ZM14.091,14.393H5.364a.555.555,0,1,1,0-1.111h8.727a.555.555,0,1,1,0,1.111Zm0-2.936H5.364a.555.555,0,1,1,0-1.111h8.727a.555.555,0,1,1,0,1.111ZM16.63,7.332a.543.543,0,0,1-.555.555H15.2a.543.543,0,0,1-.555-.555h0V6.459A.543.543,0,0,1,15.2,5.9h.873a.543.543,0,0,1,.555.555h0Z" transform="translate(-0.097 -0.674)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

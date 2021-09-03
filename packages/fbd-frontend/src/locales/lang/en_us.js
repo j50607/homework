@@ -76,6 +76,7 @@ const lang = {
   // Views
   views_notFound_desc: '404 page not found',
   views_notFound_backToHome: 'Back to the homepage',
+  views_bankcard_nextStep2: 'Confirm',
   // Components
   components_common_dialog_confirm: 'Confirm',
   components_common_dialog_cancel: 'Cancel',

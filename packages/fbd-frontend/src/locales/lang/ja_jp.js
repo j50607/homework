@@ -76,6 +76,7 @@ const lang = {
   // Views
   views_notFound_desc: '404ページが見つかりません',
   views_notFound_backToHome: 'ホームへ戻る',
+  views_bankcard_nextStep2: '確認',
   // Components
   components_common_dialog_confirm: '確認',
   components_common_dialog_cancel: '取り消し',

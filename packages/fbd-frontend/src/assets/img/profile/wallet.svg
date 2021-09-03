@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.324" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_57014" data-name="Rectangle 57014" width="24" height="24" fill="#f3ac0a"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_61822" data-name="Rectangle 61822" width="19" height="19" transform="translate(-0.37 -0.37)" fill="#f3ac0a" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-我的_錢包管理">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="我的_錢包管理" clip-path="url(#clip-我的_錢包管理)">
+    <g id="Group_38978" data-name="Group 38978" transform="translate(1691 -489)">
+      <rect id="Rectangle_57544" data-name="Rectangle 57544" width="24" height="24" rx="5" transform="translate(-1691 489)" fill="url(#linear-gradient)"/>
+      <g id="我的优惠" transform="translate(-1691 489)" clip-path="url(#clip-path)">
+        <g id="余额" transform="translate(2.37 2.37)" clip-path="url(#clip-path-2)">
+          <g id="noun_Purse_1614242" transform="translate(0.79 2.311)">
+            <g id="Group_37979" data-name="Group 37979" transform="translate(0)">
+              <path id="Path_49632" data-name="Path 49632" d="M11.3,969.362a.869.869,0,0,0,0,1.738H24.771v-1.738ZM10,971.378v11.234a1.084,1.084,0,0,0,1.086,1.086H26.291a1.084,1.084,0,0,0,1.086-1.086v-1.955H20.644a1.093,1.093,0,0,1-1.086-1.086V976.1a1.093,1.093,0,0,1,1.086-1.086h6.734v-1.955a1.084,1.084,0,0,0-1.086-1.086L11.1,971.955a1.738,1.738,0,0,1-1.1-.577Zm10.644,4.5a.208.208,0,0,0-.217.217v3.476a.208.208,0,0,0,.217.217h6.734v-3.91Zm2.172,1.3a.649.649,0,1,1-.461.19.652.652,0,0,1,.461-.19Z" transform="translate(-10 -969.362)" fill="#fff"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

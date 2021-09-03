@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.414" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_57404" data-name="Rectangle 57404" width="24" height="24" transform="translate(0 0.114)" fill="url(#linear-gradient)"/>
+    </clipPath>
+    <clipPath id="clip-首頁_我的_優惠活動">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="首頁_我的_優惠活動" clip-path="url(#clip-首頁_我的_優惠活動)">
+    <g id="活动" transform="translate(0 -0.114)" clip-path="url(#clip-path)">
+      <rect id="Rectangle_56259" width="24" height="24" transform="translate(0 0.114)" fill="none"/>
+      <g id="Group_5340" transform="translate(1.007 1.007)">
+        <path id="Union_21" data-name="Union 21" d="M1.715,21.817a.683.683,0,0,1-.2-.5l.1-9.478h8.973V22.02H2.2A.683.683,0,0,1,1.715,21.817Zm18.147.1H11.9V11.736h8.671v9.476a.69.69,0,0,1-.688.707Zm1.41-11.393H11.8V5.889h9.779a.477.477,0,0,1,.5.5l.1,3.629a.475.475,0,0,1-.5.5.77.77,0,0,0-.4.1Zm-20.767,0a.477.477,0,0,1-.5-.5V6.393a.477.477,0,0,1,.5-.5H10.687v4.638H.908v.1C.808,10.627.706,10.527.505,10.527ZM12.1,4.579h-.2c.707-1.109,1.714-2.623,2.421-3.53A3.244,3.244,0,0,1,16.434.041h.2a1.893,1.893,0,0,1,1.612.4h0a2.29,2.29,0,0,1,.6,1.612,3.37,3.37,0,0,1-1.412,2.319,4,4,0,0,1-2.237.482A24.36,24.36,0,0,1,12.1,4.579Zm-7.157-.2A3,3,0,0,1,3.529,2.058a1.673,1.673,0,0,1,.6-1.614,2.309,2.309,0,0,1,1.612-.4h.2A2.84,2.84,0,0,1,8.065,1.049c.707.907,1.714,2.421,2.421,3.528h-.2a24.12,24.12,0,0,1-3.105.281A4,4,0,0,1,4.941,4.377Z" fill="url(#linear-gradient)"/>
+      </g>
+    </g>
+  </g>
+</svg>

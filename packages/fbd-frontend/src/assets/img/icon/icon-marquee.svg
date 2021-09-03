@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
   <defs>
-<<<<<<< HEAD
     <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="2.232" gradientUnits="objectBoundingBox">
       <stop offset="0" stop-color="#f3ac0a"/>
       <stop offset="1" stop-color="#7a5605"/>
@@ -21,18 +20,6 @@
         <path id="Path_51232" data-name="Path 51232" d="M20.549,11.009A.5.5,0,0,0,19.833,11l-.7.685a.48.48,0,0,0-.013.668,6.177,6.177,0,0,1,0,8.218.48.48,0,0,0,.013.668l.7.685a.5.5,0,0,0,.716-.011,8.081,8.081,0,0,0,0-10.9Z" transform="translate(-4.838 -7.745)" fill="url(#linear-gradient-2)"/>
         <path id="Path_51233" data-name="Path 51233" d="M23.121,8.49a.506.506,0,0,0-.715-.007l-.7.686a.472.472,0,0,0-.008.667,9.984,9.984,0,0,1,0,13.7.472.472,0,0,0,.008.667l.7.686a.507.507,0,0,0,.715-.007,11.887,11.887,0,0,0,0-16.39Z" transform="translate(-4.608 -7.97)" fill="url(#linear-gradient-2)"/>
       </g>
-=======
-    <clipPath id="clip-path">
-      <rect id="Rectangle_61856" data-name="Rectangle 61856" width="24" height="24" transform="translate(972 4251)" fill="#fff" stroke="#707070" stroke-width="1"/>
-    </clipPath>
-  </defs>
-  <g id="Mask_Group_169" data-name="Mask Group 169" transform="translate(-972 -4251)" clip-path="url(#clip-path)">
-    <g id="megaphone" transform="translate(973 4251.292)">
-      <path id="Path_50759" data-name="Path 50759" d="M16.474,3.049,5.139,7.583H2.062A2.066,2.066,0,0,0,0,9.646v2.521A1.872,1.872,0,0,0,2.062,14h.779l.832,5.826a.687.687,0,0,0,.68.59H7.1a.687.687,0,0,0,.684-.764l-.541-4.809,9.226,3.69a.687.687,0,0,0,.943-.638V3.687a.687.687,0,0,0-.942-.638Z" fill="#fff"/>
-      <path id="Path_50760" data-name="Path 50760" d="M21.117,9.058l2.292-1.833a.688.688,0,0,0-.86-1.074L20.258,7.984a.688.688,0,0,0,.86,1.074Z" transform="translate(-1.667 -0.25)" fill="#fff"/>
-      <path id="Path_50761" data-name="Path 50761" d="M21.117,14.65a.688.688,0,0,0-.86,1.074l2.292,1.833a.688.688,0,0,0,.86-1.074Z" transform="translate(-1.667 -0.959)" fill="#fff"/>
-      <path id="Path_50762" data-name="Path 50762" d="M22.979,11.25H20.687a.687.687,0,0,0,0,1.375h2.292a.687.687,0,0,0,0-1.375Z" transform="translate(-1.667 -0.688)" fill="#fff"/>
->>>>>>> feat(issue13816) 【反波膽 - 前台】【前端】完成「登陸註冊」頁 (#13816)
     </g>
   </g>
 </svg>

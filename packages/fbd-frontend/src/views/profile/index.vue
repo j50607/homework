@@ -1,0 +1,442 @@
+<template>
+  <div class="profile">
+    <!-- Header -->
+    <div class="profile-header">
+      <div />
+      <div class="profile-header-title">
+        {{ $t('views_profile_title') }}
+      </div>
+      <div
+        class="locale is-btn"
+        @click="toggleLanguageModal(true)"
+      >
+        <d-locale-image :locale-image-mapping="state.langMap" />
+      </div>
+    </div>
+    <!-- 個人資料區 -->
+    <div class="profile-content">
+      <!-- 大頭貼及名稱 -->
+      <div class="user">
+        <avatar
+          :avatar-info="avatar"
+          :vip-level="vipLevel"
+        />
+        <div class="user-name">
+          {{ account }}
+        </div>
+      </div>
+      <!-- 餘額及錢包 -->
+      <div class="balance">
+        <div class="balance-info">
+          <div class="balance-info-desc">
+            <div class="balance-info-desc-title">
+              {{ $t('views_profile_balance') }}
+            </div>
+            <div class="balance-info-desc-number">
+              {{ showBalance ? balance : '*****' }}
+            </div>
+          </div>
+          <div class="balance-info-desc">
+            <div class="balance-info-desc-title">
+              {{ $t('views_profile_lockWallet') }}
+            </div>
+            <div class="balance-info-desc-number">
+              {{ showBalance ? '100.00' : '*****' }}
+            </div>
+          </div>
+        </div>
+        <!-- 開關眼睛 -->
+        <div
+          class="eye is-btn"
+          @click="toggleEye"
+        >
+          <img
+            v-if="showBalance"
+            class="eye-img"
+            :src="$requireSafe('profile/eye-open.svg')"
+          >
+          <img
+            v-else
+            class="eye-img"
+            :src="$requireSafe('profile/eye-close.svg')"
+          >
+        </div>
+      </div>
+      <!-- VIP -->
+      <div
+        class="rank is-btn"
+        @click="goPage('vip')"
+      >
+        <div>
+          VIP Coming Soon...
+        </div>
+        <img
+          class="arrow-brown"
+          :src="$requireSafe('profile/arrow-brown.svg')"
+        >
+      </div>
+      <!-- 充提及錢包 -->
+      <div class="btn-area">
+        <div
+          class="btn is-btn"
+          v-for="(item, index) in btnList"
+          :key="index"
+          @click="goPage(item.redirect)"
+        >
+          <img
+            class="btn-icon"
+            :src="$requireSafe(`profile/${item.img}.svg`)"
+          >
+          <div class="btn-title">
+            {{ item.label }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="line" />
+    <!-- 轉導頁面列表 -->
+    <div class="redirect">
+      <div
+        class="redirect-item is-btn"
+        v-for="(item, index) in redirectListTop"
+        :key="index"
+        @click="goPage(item.redirect)"
+      >
+        <img
+          class="redirect-item-icon"
+          :src="$requireSafe(`profile/${item.img}.svg`)"
+        >
+        <div class="redirect-item-title">
+          {{ item.label }}
+        </div>
+        <img
+          class="arrow-grey"
+          :src="$requireSafe('profile/arrow-grey.svg')"
+        >
+      </div>
+    </div>
+    <div class="redirect">
+      <div
+        class="redirect-item is-btn"
+        v-for="(item, index) in redirectListBottom"
+        :key="index"
+        @click="goPage(item.redirect)"
+      >
+        <img
+          class="redirect-item-icon"
+          :src="$requireSafe(`profile/${item.img}.svg`)"
+        >
+        <div class="redirect-item-title">
+          {{ item.label }}
+        </div>
+        <img
+          class="arrow-grey"
+          :src="$requireSafe('profile/arrow-grey.svg')"
+        >
+      </div>
+    </div>
+    <!-- 更換語言彈窗 -->
+    <d-language-modal
+      v-model:isShow="state.isLanguageModalShow"
+      @cancel="toggleLanguageModal"
+    />
+    <d-footer-row />
+  </div>
+</template>
+
+<script>
+import {
+  onBeforeMount, ref, reactive, computed,
+} from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import DLocaleImage from '@/components/DLocaleImage';
+import DLanguageModal from '@/components/DLanguageModal';
+import Avatar from '@/components/Avatar';
+import MemberApi from '@/assets/js/api/memberApi';
+
+export default {
+  components: {
+    DLocaleImage,
+    DLanguageModal,
+    Avatar,
+  },
+  setup() {
+    // use
+    const { t } = useI18n();
+    const router = useRouter();
+    const store = useStore();
+
+    // ref
+    const showBalance = ref(false);
+
+    // reactive
+    const state = reactive({
+      isLanguageModalShow: false,
+      langMap: {
+        zh_cn: 'locale/zh_cn.svg',
+        zh_tw: 'locale/zh_tw.svg',
+        th_th: 'locale/th_th.svg',
+        vi_vn: 'locale/vi_vn.svg',
+        ja_jp: 'locale/ja_jp.svg',
+        en_us: 'locale/en_us.svg',
+      },
+    });
+
+    // computed
+    const btnList = computed(() => [
+      { label: t('views_profile_goDeposit'), img: 'deposit', redirect: 'deposit' },
+      { label: t('views_profile_goWithdraw'), img: 'withdraw', redirect: 'withdraw' },
+      { label: t('views_profile_transactionRecord'), img: 'transaction', redirect: 'transaction' },
+      { label: t('views_profile_walletManagement'), img: 'wallet', redirect: 'wallet' },
+    ]);
+
+    const redirectListTop = computed(() => [
+      { label: t('views_profile_personalityProfile'), img: 'profile', redirect: 'userinfo' },
+      { label: t('views_profile_myReport'), img: 'report', redirect: 'report' },
+      { label: t('views_profile_myVip'), img: 'vip', redirect: 'vip' },
+    ]);
+
+    const redirectListBottom = computed(() => [
+      { label: t('views_profile_share'), img: 'share', redirect: 'share' },
+      { label: t('views_profile_promotion'), img: 'promotion', redirect: 'promotion' },
+      { label: t('views_profile_verify'), img: 'verify', redirect: 'verify' },
+      { label: t('views_profile_service'), img: 'service', redirect: 'service' },
+      { label: t('views_profile_logout'), img: 'logout', redirect: 'logout' },
+    ]);
+
+    const serviceUrl = computed(() => store.state.info.serviceUrl);
+    const account = computed(() => store.state.user.account);
+    const avatar = computed(() => store.state.user.avatar);
+    const vipLevel = computed(() => store.state.user.vipLevel);
+    const balance = computed(() => store.state.user.balance);
+
+    // methods
+    const toggleLanguageModal = (val) => {
+      state.isLanguageModalShow = val;
+    };
+
+    const getUserPartialInfo = async () => {
+      const params = {
+        requestInfo: [
+          'account',
+          'avatar',
+          'vipLevel',
+          'balance',
+        ],
+      };
+      const { code, data } = await MemberApi.getUserPartialInfo(params);
+
+      if (code === 200) {
+        store.commit('SET_USER_INFO', {
+          account: data.account,
+          avatar: data.avatar,
+          vipLevel: data.vipLevel,
+          balance: data.balance,
+        });
+      }
+    };
+
+    const toggleEye = () => {
+      showBalance.value = !showBalance.value;
+    };
+
+    const logout = async () => {
+      const { code, message } = await MemberApi.logout();
+      if (code === 200) {
+        window.$vue.$message.success(message);
+        store.commit('CLEAR');
+        router.push('/loginAndRegister');
+      }
+    };
+
+    const goPage = (page) => {
+      switch (page) {
+        case 'report':
+        case 'vip':
+        case 'share':
+        case 'promotion':
+        case 'verify':
+          window.$vue.$message.info(t('common_comingSoon'));
+          break;
+        case 'service':
+          window.location = serviceUrl.value;
+          break;
+        case 'logout':
+          logout();
+          break;
+        default:
+          router.push(`/${page}`);
+          break;
+      }
+    };
+
+    // hooks
+    onBeforeMount(async () => {
+      getUserPartialInfo();
+    });
+
+    return {
+      showBalance,
+      state,
+      toggleLanguageModal,
+      btnList,
+      redirectListTop,
+      redirectListBottom,
+      toggleEye,
+      goPage,
+      account,
+      avatar,
+      vipLevel,
+      balance,
+    };
+  },
+};
+</script>
+
+<style lang="postcss" scoped>
+.profile {
+  background-image: url('~@/assets/img/profile/bg.png');
+
+  @apply bg-layout bg-top bg-no-repeat bg-contain h-full;
+
+  &-header {
+    @apply h-h-h p-3 flex items-center justify-between mb-7;
+  }
+
+  &-title {
+    @apply font-bold;
+  }
+
+  .locale {
+    @apply w-4 h-4;
+  }
+
+  &-content {
+    @apply px-6;
+
+    .user {
+      @apply flex items-end mb-3;
+
+      &-name {
+        font-size: 14px;
+      }
+    }
+
+    .balance {
+      border-radius: 5px;
+      font-size: 12px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px #4d57721a;
+
+      @apply px-3 py-2 mb-2 flex justify-between;
+
+      &-info {
+        &-desc {
+          @apply flex;
+
+          &:not(:last-child) {
+            @apply mb-1;
+          }
+
+          &-title {
+            color: #4d5772;
+
+            @apply w-10 mr-3;
+          }
+
+          &-number {
+            color: #7a5605;
+
+            @apply text-left;
+          }
+        }
+      }
+
+      .eye {
+        @apply flex items-center;
+
+        &-img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
+    .rank {
+      border-radius: 5px;
+      color: #4d5772;
+      font-size: 12px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px #4d57721a;
+
+      @apply flex justify-between items-center py-1 px-3 mb-3;
+
+      .arrow-brown {
+        @apply w-2 h-2;
+      }
+    }
+
+    .btn-area {
+      @apply flex;
+
+      .btn {
+        flex: 0 0 25%;
+
+        @apply flex flex-col justify-center items-center;
+
+        &-icon {
+          @apply w-6 h-6 mb-1;
+        }
+
+        &-title {
+          color: #4d5772;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .line {
+    height: 2px;
+    background-color: #f2f2f2;
+
+    @apply w-full mt-3 mb-4;
+  }
+
+  .redirect {
+    border-radius: 5px;
+    background: #fff 0% 0% no-repeat padding-box;
+    box-shadow: 0 2px 4px #4d57721a;
+
+    @apply mx-3 mb-3;
+
+    &-item {
+      @apply flex items-center px-3 py-2;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid #f2f2f2;
+      }
+
+      &-icon {
+        width: 16px;
+        height: 16px;
+
+        @apply flex items-center mr-2;
+      }
+
+      &-title {
+        color: #4d5772;
+        font-size: 12px;
+
+        @apply flex items-center;
+      }
+
+      .arrow-grey {
+        @apply w-2 h-2 ml-auto mr-0;
+      }
+    }
+  }
+}
+</style>

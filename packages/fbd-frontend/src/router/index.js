@@ -14,6 +14,16 @@ const routes = [
     },
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import(/* webpackChunkName: "Profile" */ '@/views/profile'),
+    meta: {
+      title: 'Profile',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/betRecord',
     name: 'bet-record',
     component: () => import(/* webpackChunkName: "'," */ '@/views/betRecord'),

@@ -19,7 +19,13 @@
             :class="{'lang-item-active': currentLang === item.value}"
             @click="chooseLang(item.value)"
           >
-            {{ item.text }}
+            <img
+              class="flag"
+              :src="$requireSafe(`locale/${item.value}.svg`)"
+            >
+            <div>
+              {{ item.text }}
+            </div>
           </li>
         </ul>
       </template>
@@ -126,14 +132,36 @@ $item-space: 7.5px;
   }
 
   &-item {
-    padding: 7.5px 0;
+    display: flex;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid #bcc0cb;
+    color: #bcc0cb;
     font-size: 12px;
     text-align: center;
+
+    .flag {
+      width: 20px;
+      height: 20px;
+      margin-right: 20px;
+    }
   }
 
   &-item-active {
-    color: #096fc9;
+    color: #4d5772;
     font-weight: 600;
+  }
+
+  ::v-deep(.ant-modal) {
+    width: 345px !important;
+  }
+
+  ::v-deep(.ant-modal-title) {
+    color: #4d5772;
+  }
+
+  ::v-deep(.ant-modal) .ant-modal-content, ::v-deep(.ant-modal) .ant-modal-header {
+    border-radius: 15px;
   }
 }
 
@@ -142,7 +170,22 @@ $item-space: 7.5px;
 }
 
 ::v-deep(.d-dialog-body) {
+  max-height: 400px;
   margin: 0 auto 30px - $item-space;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #00000010;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #bcc0cb;
+  }
 }
 
 ::v-deep(.ant-modal-header) {

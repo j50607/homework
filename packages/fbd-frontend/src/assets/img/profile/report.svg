@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_61557" data-name="Rectangle 61557" width="24" height="24" fill="#f3ac0a" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.439" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-我的_我的報表">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="我的_我的報表" clip-path="url(#clip-我的_我的報表)">
+    <g id="我的-自助洗码" transform="translate(-5697 -542)">
+      <rect id="Rectangle_57558" data-name="Rectangle 57558" width="24" height="24" transform="translate(5697 542)" fill="none"/>
+      <g id="资金明细" transform="translate(5697 542)" clip-path="url(#clip-path)">
+        <g id="Group_36425" data-name="Group 36425" transform="translate(1 1.802)">
+          <path id="Union_16" data-name="Union 16" d="M6.341,20.531a1.4,1.4,0,0,1-1.4-1.4V1.4A1.4,1.4,0,0,1,6.341,0H20.6A1.4,1.4,0,0,1,22,1.4V19.132a1.4,1.4,0,0,1-1.4,1.4ZM8.527,10.168a.7.7,0,0,0,.7.7h8.491a.7.7,0,0,0,0-1.4H9.226A.7.7,0,0,0,8.527,10.168Zm0-4.472a.7.7,0,0,0,.7.7h8.491a.7.7,0,0,0,0-1.4H9.226A.7.7,0,0,0,8.527,5.7ZM1.4,20.531A1.47,1.47,0,0,1,0,19V5.73A1.47,1.47,0,0,1,1.4,4.2H3.939V19.132a1.4,1.4,0,0,0,1.4,1.4Z" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

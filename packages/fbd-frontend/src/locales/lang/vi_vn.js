@@ -76,6 +76,7 @@ const lang = {
   // Views
   views_notFound_desc: 'không tìm thấy trang',
   views_notFound_backToHome: 'Quay về trang chủ ',
+  views_bankcard_nextStep2: 'Xác nhận ',
   // Components
   components_common_dialog_confirm: 'Xác nhận',
   components_common_dialog_cancel: 'Hủy',

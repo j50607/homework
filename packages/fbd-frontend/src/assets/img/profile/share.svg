@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_57559" data-name="Rectangle 57559" width="24" height="24" transform="translate(5752 619)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_61571" data-name="Rectangle 61571" width="24" height="24" fill="#f3ac0a" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.461" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-我的_全民推廣">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="我的_全民推廣" clip-path="url(#clip-我的_全民推廣)">
+    <g id="我的-投注记录" transform="translate(-5752 -619)" clip-path="url(#clip-path)">
+      <g id="资金明细" transform="translate(5752 619)" clip-path="url(#clip-path-2)">
+        <g id="Group_36449" data-name="Group 36449" transform="translate(1 2.828)">
+          <path id="Union_18" data-name="Union 18" d="M1.713,18.342c-.075,0-.152,0-.225-.007C.773,18.291.183,18.074,0,17.28v-1.29c.066-.357.111-.719.2-1.068A8.472,8.472,0,0,1,5.924,8.638a4.427,4.427,0,0,1-2.192-4.3A4.355,4.355,0,0,1,5.258,1.194a4.677,4.677,0,0,1,6.567.322,4.414,4.414,0,0,1,1.16,2.445A4.767,4.767,0,0,1,12.6,6.644a4.388,4.388,0,0,1-1.823,1.973,16.52,16.52,0,0,1,1.611.747,8.418,8.418,0,0,1,4.366,7.053c0,.066,0,.13,0,.2a1.5,1.5,0,0,1-1.691,1.726q-2.862,0-5.725,0ZM19.354,16.5a.662.662,0,0,1-.684-.513c-.066-.224-.124-.45-.178-.678a11.5,11.5,0,0,0-2.07-4.1A18.677,18.677,0,0,0,15.041,9.51a10.185,10.185,0,0,0-1.07-.895c-.174-.141-.315-.3-.106-.508A4.036,4.036,0,0,0,14.781,4.6a5.5,5.5,0,0,0-.548-1.932.786.786,0,0,1-.043-.1c-.193-.492-.055-.7.473-.722A3.679,3.679,0,0,1,18.2,4.177a3.5,3.5,0,0,1-1.164,4c-.044.035-.085.072-.151.125a.806.806,0,0,0,.129.059,5.857,5.857,0,0,1,3.527,2.459,7.426,7.426,0,0,1,1.417,3.527c0,.043.045.231.045.231v.682a1.388,1.388,0,0,0-.061.153,1.444,1.444,0,0,1-1.351,1.079c-.179.009-.358.012-.538.012C19.819,16.5,19.587,16.5,19.354,16.5Z" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -76,6 +76,7 @@ const lang = {
   // Views
   views_notFound_desc: 'ไม่พบหน้า 404',
   views_notFound_backToHome: 'กลับหน้าหลัก',
+  views_bankcard_nextStep2: 'ยืนยัน',
   // Components
   components_common_dialog_confirm: 'ยืนยัน',
   components_common_dialog_cancel: 'ยกเลิก',

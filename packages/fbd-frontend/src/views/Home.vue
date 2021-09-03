@@ -7,7 +7,7 @@
         <!-- 登入 -->
         <img
           v-if="!isLogin"
-          class="icon-size"
+          class="icon-size is-btn"
           :src="require('@/assets/img/header/icon-login.svg')"
           alt=""
         >
@@ -30,13 +30,13 @@
         <div class="flex items-center justify-end">
           <!-- 語言選擇 -->
           <d-locale-image
-            class="icon-size"
+            class="icon-size is-btn"
             :locale-image-mapping="langMap"
             @click="showLangModal = true"
           />
           <!-- 客服 -->
           <img
-            class="icon-size ml-3"
+            class="icon-size ml-3 is-btn"
             :src="require('@/assets/img/header/icon-service.svg')"
             alt=""
             @click="goService"
@@ -93,7 +93,7 @@
   <inbound-modal
     v-model:value="showModal"
     :data="marqueeList"
-    :modal-title="$t('最新信息')"
+    :modal-title="$t('views_profile_newestMessage')"
     id-key="annId"
     title-key="title"
     content-key="content"

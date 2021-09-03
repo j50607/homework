@@ -76,12 +76,13 @@ const lang = {
   // Views
   views_notFound_desc: '404 page not found',
   views_notFound_backToHome: '回到首頁',
+  views_bankcard_nextStep2: '確認',
   // Components
   components_common_dialog_confirm: '確認',
   components_common_dialog_cancel: '取消',
   components_dSearchList_search: '搜尋',
   components_dHeaderRow_register: '注冊',
-  components_dLanguageModal_title: '語言',
+  components_dLanguageModal_title: '請選擇語言',
   components_dSelectDateModal_title: '日期篩選',
   components_dSelectDateModal_today: '今日',
   components_dSelectDateModal_yesterday: '昨日',
