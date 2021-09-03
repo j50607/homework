@@ -26,6 +26,7 @@
 
         <CloseOutlined
           v-if="closeable"
+          :style="{ color: closeIconColor }"
           @click="close"
         />
       </div>
@@ -91,6 +92,13 @@ export default {
       default: true,
     },
     /**
+     * 關閉按鈕顏色
+     */
+    closeIconColor: {
+      type: String,
+      default: 'var(--font-color)',
+    },
+    /**
      * 是否顯示遮罩
      */
     overlay: {
@@ -148,7 +156,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$border-radius: 5px;
+$border-radius: 8px;
 
 .d-popup {
   position: fixed;

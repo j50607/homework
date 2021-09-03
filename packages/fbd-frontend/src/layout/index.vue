@@ -60,16 +60,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .main {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-  color: #000;
-  background: #fff;
-  transition: 0.5s;
+  @apply flex flex-col w-full h-full min-h-full relative bg-layout duration-500;
 }
 </style>

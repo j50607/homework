@@ -331,7 +331,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .scroll-wrapper {
   position: relative;
   flex: 1 0 0%;
@@ -340,9 +340,7 @@ export default {
 }
 
 .pull-up-wrap {
-  color: #000;
-  font-size: 0.75rem;
-  line-height: 2.5rem;
+  @apply text-normal text-xs leading-10;
 }
 
 .pull-down-wrap {
