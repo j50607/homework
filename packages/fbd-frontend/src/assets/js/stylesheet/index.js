@@ -39,7 +39,7 @@ class stylesheet {
       },
       // 內容物、方塊預設底色
       primaryContentBg: {
-        1: 'linear-gradient(180deg, #ffffff00, #fcfcfc)',
+        1: '#fff',
       },
       // 內容物、方塊預設底色
       secondaryContentBg: {
@@ -56,6 +56,14 @@ class stylesheet {
       // footer 高度
       footerHeight: {
         1: '50px',
+      },
+      // 主按鈕文字顏色
+      primaryBtnColor: {
+        1: '#fff',
+      },
+      // 次按鈕文字顏色
+      secondaryBtnColor: {
+        1: '#7a5605',
       },
     };
 

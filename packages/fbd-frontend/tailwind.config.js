@@ -11,12 +11,12 @@ module.exports = {
       negative: 'var(--negative-color)',
       transparency: 'var(--transparency-color)',
       layout: 'var(--layout-bg)',
+      'primary-content': 'var(--primary-content-bg)',
       'secondary-content': 'var(--secondary-content-bg)',
       border: 'var(--border-color)',
     },
     backgroundImage: {
       'primary-gradient': 'var(--primary-gradient-color)',
-      'primary-content': 'var(--primary-content-bg)',
     },
     screens: {
       sm: '640px',
