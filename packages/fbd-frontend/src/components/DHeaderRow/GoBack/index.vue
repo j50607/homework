@@ -4,7 +4,7 @@
     :style="`justify-content:${leftPos || middlePos || rightPos}`"
   >
     <img
-      :src="$requireSafe('header/arrow-left.svg')"
+      :src="$requireSafe(`header/icon-left-${iconColor}.svg`)"
       class="is-btn"
       @click="goBack"
     >
@@ -33,6 +33,10 @@ export default {
     toFirstStep: {
       type: Boolean,
       default: false,
+    },
+    iconColor: {
+      type: String,
+      default: 'white',
     },
   },
   setup(props) {

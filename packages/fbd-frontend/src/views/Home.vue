@@ -1,6 +1,8 @@
 <template>
   <div class="h-full">
-    <d-header-row bg-color="#fff">
+    <d-header-row
+      bg-color="#fff"
+    >
       <template #left>
         <!-- 登入 -->
         <img

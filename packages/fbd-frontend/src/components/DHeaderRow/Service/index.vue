@@ -5,7 +5,7 @@
     @click="goService"
   >
     <img
-      :src="$requireSafe('header/service-white.svg')"
+      :src="$requireSafe('header/icon-service-white.svg')"
     >
   </div>
 </template>

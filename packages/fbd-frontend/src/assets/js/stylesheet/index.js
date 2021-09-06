@@ -7,10 +7,10 @@ class stylesheet {
       },
       // 主漸層色
       btnPrimaryBg: {
-        1: 'linear-gradient(180deg, #f3ac0a 0%, #7a5605 100%)',
+        1: 'linear-gradient(180deg, #f3ac0a 0%, #B58007 100%)',
       },
       headerPrimaryBg: {
-        1: 'linear-gradient(180deg, #f3ac0a 0%, #7a5605 100%)',
+        1: 'linear-gradient(180deg, #f3ac0a 0%, #B58007 100%)',
       },
       // 文字預設顏色
       fontColor: {

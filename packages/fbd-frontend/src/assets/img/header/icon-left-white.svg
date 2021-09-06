@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62116" data-name="Rectangle 62116" width="24" height="24" transform="translate(56.808 11.808)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-返回鍵_白">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="返回鍵_白" clip-path="url(#clip-返回鍵_白)">
+    <g id="Mask_Group_635" data-name="Mask Group 635" transform="translate(-56.808 -11.808)" clip-path="url(#clip-path)">
+      <g id="Group_38965" data-name="Group 38965" transform="translate(61.549 13.16)">
+        <rect id="Rectangle_62114" data-name="Rectangle 62114" width="16.228" height="3.246" rx="1.623" transform="translate(2.086 8.379) rotate(40)" fill="#fff"/>
+        <rect id="Rectangle_62115" data-name="Rectangle 62115" width="16.228" height="3.246" rx="1.623" transform="translate(14.518 2.486) rotate(140)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

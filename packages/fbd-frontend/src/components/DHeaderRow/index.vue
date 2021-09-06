@@ -1,7 +1,7 @@
 <template>
   <div
     class="header"
-    :style="{background: bgColor}"
+    :style="{background: bgColor, color: textColor}"
   >
     <div
       v-if="hasLeftSlot"
@@ -16,6 +16,7 @@
       :title="title"
       :left-pos="leftPos"
       :to-first-step="toFirstStep"
+      :icon-color="iconColor"
     />
     <div
       v-if="hasMiddleSlot"
@@ -110,6 +111,17 @@ export default {
     bgColor: {
       type: String,
       default: 'var(--header-primary-bg)',
+    },
+    textColor: {
+      type: String,
+      default: '#fff',
+    },
+    /**
+     * icon顏色，預設為white
+     */
+    iconColor: {
+      type: String,
+      default: 'white',
     },
     avatar: {
       type: Boolean,
