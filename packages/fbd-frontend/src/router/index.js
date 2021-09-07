@@ -183,6 +183,15 @@ const routes = [
     path: '/:pathMatch(.*)',
     redirect: '/notFound',
   },
+  {
+    path: '/finance',
+    name: 'finance',
+    component: () => import('@/views/finance' /* webpackChunkName: "finance" */),
+    meta: {
+      title: 'finance',
+      layout: Layout,
+    },
+  },
 ];
 
 const router = createRouter({

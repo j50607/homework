@@ -224,6 +224,15 @@ const lang = {
   views_profile_userinfo_setNickName_pleaseEnterRealName: '请输入真实姓名',
   views_profile_userinfo_setRealName_warning: '输入后无法变更',
 
+  views_finance_sum_label1: '充值总额',
+  views_finance_sum_label2: '提现总额',
+  views_finance_popup_label1: '交易类型',
+  views_finance_popup_all: '全部',
+  views_finance_popup_user_deposit: '会员充值',
+  views_finance_popup_user_withdraw: '会员提现',
+  views_finance_popup_artificial_deposit: '人工充值',
+  views_finance_popup_artificial_withdraw: '人工提现',
+
   // Components
   components_common_dialog_confirm: '确认',
   components_common_dialog_cancel: '取消',

@@ -87,6 +87,15 @@ const lang = {
   views_market_switchLeague_list_openCount: '已开启{num}场次',
   views_market_switchLeague_noSelected: '请至少选择一个联盟',
   views_market_allLeague_deadLine: '下單截止',
+
+  views_finance_sum_label1: '充值总额',
+  views_finance_sum_label2: '提现总额',
+  views_finance_popup_label1: '交易类型',
+  views_finance_popup_all: '全部',
+  views_finance_popup_user_deposit: '会员充值',
+  views_finance_popup_user_withdraw: '会员提现',
+  views_finance_popup_artificial_deposit: '人工充值',
+  views_finance_popup_artificial_withdraw: '人工提现',
   // Components
   components_common_dialog_confirm: '確認',
   components_common_dialog_cancel: '取り消し',
