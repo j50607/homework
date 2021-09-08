@@ -29,6 +29,7 @@
       class="middle"
       :is="middleComponents"
       :title="title"
+      :text-color="textColor"
       :middle-pos="middlePos"
     />
     <div

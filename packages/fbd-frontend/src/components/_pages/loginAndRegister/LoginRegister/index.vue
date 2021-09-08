@@ -289,7 +289,7 @@ export default {
 
         if (code === 200) {
           window.$vue.$message.info(t('components_pages_loginAndRegister_loginRegister_index_registerSuccess'));
-          store.commit('SET_TOKEN', data);
+          store.commit('SET_TOKEN', data.access_token);
           store.commit('SET_IS_LOGIN', true);
           router.push('/');
           initUserInfo(data);

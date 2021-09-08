@@ -1,3 +1,8 @@
+import dayjs from 'dayjs';
+
+export const pipe = (...fns) => (x) => fns.reduce((acc, cur) => cur(acc), x);
+
+export const andThen = (func) => (promise) => promise.then(func);
 /**
  * 空值型別判斷
  * @param {null} val - null || undefined
@@ -394,8 +399,119 @@ export const delay = (interval) => new Promise((resolve) => {
   }, interval);
 });
 
-export const pipe = (...fns) => (x) => fns.reduce((acc, cur) => cur(acc), x);
+/**
+ * 時區單位 by 站點語系
+ */
+export const timeZoneUnit = () => {
+  const { siteLocale } = window._jsvar;
+  const timeZoneList = {
+    zh_cn: 'CST', // GMT+8
+    vi_vn: 'ICT', // GMT+7
+    th_th: 'ICT', // GMT+7
+    ja_jp: 'JST', // GMT+9
+    en_US: 'EST', // 美國站統一用美東時間 GMT-5
+    hi_IN: 'IST', // GMT+5.5
+    ko_KR: 'KST', // GMT+9
+    es_MX: 'WET', // GMT+0
+    pt_PT: 'CDT', // GMT-6
+  };
+  return timeZoneList[siteLocale];
+};
 
-export const andThen = (func) => (promise) => promise.then(func);
+/**
+ * 數字隔幾位加上逗號
+ * @param {number} num
+ * @param {number} digit - 位數
+ */
+export const numWithCommas = (num, digit = 3) => {
+  if (!isNumber(num)) return 0;
+  return num.toString().split('').map((item, idx) => (idx && !(idx % digit) ? `,${item}` : item)).join('');
+};
+
+/**
+ * 轉換主客比分
+ * @param {number} num
+ * @param {string} type - 選擇回傳資料的型式(rowData 回傳陣列 [主, 客]，renderData 回傳比分 '主 : 客')
+ */
+export const getSportScore = (num, type = 'rowData') => {
+  if (!isNumber(num)) return [];
+  const base = 100000;
+  const scoreH = Math.floor(num / base);
+  const scoreA = num % base;
+  if (type === 'renderData') return `${scoreH} : ${scoreA}`;
+  return [scoreH, scoreA];
+};
+
+/**
+ * 根據時區校正時間
+ * @param {String | Number} time - YYYY-MM-DD HH:mm:ss || YYYY/MM/DD HH:mm:ss || 1612799941152
+ */
+export const correctionTime = (time, formatString = 'YYYY-MM-DD HH:mm:ss') => {
+  const transformAreaTime = (timeSource) => {
+    const { siteLocale } = window._jsvar;
+    let result = time;
+    switch (siteLocale) {
+      case 'ja_jp':
+      case 'ko_kr':
+        result = dayjs(timeSource).add(1, 'hour');
+        break;
+      case 'vi_vn':
+      case 'th_th':
+        result = dayjs(timeSource).subtract(1, 'hour');
+        break;
+      case 'hi_in':
+        result = dayjs(timeSource).subtract(2.5, 'hour');
+        break;
+      case 'es_mx':
+        result = dayjs(timeSource).subtract(8, 'hour');
+        break;
+      case 'en_us':
+        result = dayjs(timeSource).subtract(13, 'hour');
+        break;
+      case 'pt_pt':
+        result = dayjs(timeSource).subtract(14, 'hour');
+        break;
+      default:
+        result = dayjs(timeSource);
+        break;
+    }
+    return result;
+  };
+
+  const offsetTime = (dayjsFn) => {
+    const systemOffset = -480;
+    const localOffset = new Date().getTimezoneOffset();
+    const betweenOffset = localOffset - systemOffset;
+    const betweenHours = betweenOffset ? betweenOffset / 60 : 0;
+    let result = '';
+    if (betweenHours >= 0) {
+      result = dayjsFn.add(betweenHours, 'hour');
+    } else {
+      result = dayjsFn.subtract(betweenHours, 'hour');
+    }
+    return result;
+  };
+
+  const formatTime = (fmtString) => (dayjsFn) => dayjsFn.format(fmtString);
+
+  // const isNumber = (timeSource) => typeof timeSource === 'number';
+
+  let handleCorrectionTime = '';
+
+  if (isNumber(time)) {
+    handleCorrectionTime = pipe(
+      transformAreaTime,
+      offsetTime,
+      formatTime(formatString),
+    )(time);
+  } else {
+    handleCorrectionTime = pipe(
+      transformAreaTime,
+      formatTime(formatString),
+    )(time);
+  }
+
+  return handleCorrectionTime;
+};
 
 export const isValidUrl = (url) => url.trim() && url.trim() !== 'https://';

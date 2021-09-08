@@ -29,7 +29,15 @@ const routes = [
     component: () => import(/* webpackChunkName: "'," */ '@/views/betRecord'),
     meta: {
       title: 'BetRecord',
-      // layout: Layout,
+      // requiresAuth: true,
+    },
+  },
+  {
+    path: '/betting',
+    name: 'betting',
+    component: () => import(/* webpackChunkName: "'," */ '@/views/betting'),
+    meta: {
+      title: 'Betting',
       // requiresAuth: true,
     },
   },

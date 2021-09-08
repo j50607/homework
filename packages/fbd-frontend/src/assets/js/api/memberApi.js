@@ -49,7 +49,7 @@ class MemberApi extends API {
     * 註冊
     */
   static async register(data) {
-    const result = await this.callAxios('POST', '/frontend/member/register', data, null, false);
+    const result = await this.callAxios('POST', '/member/register', data, null, false);
     return result;
   }
 

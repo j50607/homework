@@ -1,7 +1,7 @@
 <template>
-  <header class="fixed top-0 h-h-h w-full bg-white">
-    header
-  </header>
+  <d-header-row
+    :title="$t('views_betRecord_item_title')"
+  />
 
   <div class="betrecord">
     <div class="range">
@@ -203,9 +203,7 @@
     </ul>
   </d-popup>
 
-  <footer class="fixed bottom-0 h-f-h w-full  bg-white">
-    footer
-  </footer>
+  <d-footer-row />
 </template>
 
 <script>
@@ -422,14 +420,16 @@ export default {
 
 <style lang="postcss" scoped>
 .betrecord {
+  --range-list-height: 40px;
+
   @apply relative h-full text-xs;
 
-  /* height: calc(100% - var(--header-height) - var(--footer-height)); */
-  height: calc(100% - 40px);
   padding: var(--header-height) 0 var(--footer-height);
 
   &-container {
     @apply h-full px-3 pt-4;
+
+    height: calc(100% - var(--range-list-height) - 88px);
   }
 
   &-item {
@@ -493,7 +493,9 @@ export default {
   }
 
   &-sum {
-    @apply absolute bottom-0 left-0 w-full mb-0 p-3 bg-secondary-content;
+    @apply absolute left-0 w-full mb-0 p-3 bg-secondary-content;
+
+    bottom: var(--footer-height);
   }
 }
 
@@ -501,7 +503,9 @@ export default {
   @apply px-3;
 
   &-list {
-    @apply flex items-center h-8 text-sm;
+    @apply flex items-center text-sm;
+
+    height: var(--range-list-height);
   }
 
   &-item {

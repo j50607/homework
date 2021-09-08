@@ -1,7 +1,7 @@
 <template>
   <div
     class="title"
-    :style="`justify-content:${leftPos || middlePos || rightPos}`"
+    :style="`justify-content:${leftPos || middlePos || rightPos}; color: ${textColor};`"
   >
     {{ title }}
   </div>
@@ -27,13 +27,17 @@ export default {
       type: String,
       default: '',
     },
+    textColor: {
+      type: String,
+      default: '#fff',
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .title {
-  color: #333;
+  color: #fff;
   font-weight: 700;
   font-size: 16px;
   text-align: center;

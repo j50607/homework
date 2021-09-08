@@ -39,7 +39,6 @@ export default {
     });
 
     // computed
-    const defaultLocale = computed(() => store.state.info.language);
     const site = computed(() => store.state.info.siteInfo);
     const siteName = computed(() => store.state.info.siteInfo.name);
     const userToken = computed(() => store.state.user.token);
@@ -69,9 +68,34 @@ export default {
      */
     const getValidator = async () => {
       let validator;
-      switch (defaultLocale.value) {
+      const { siteLocale } = window._jsvar;
+      switch (siteLocale) {
+        case 'vi_vn':
+          validator = await import('@/assets/js/validator/vi_vn');
+          break;
+        case 'th_th':
+          validator = await import('@/assets/js/validator/th_th');
+          break;
+        case 'ja_jp':
+          validator = await import('@/assets/js/validator/ja_jp');
+          break;
+        case 'en_us':
+          validator = await import('@/assets/js/validator/en_us');
+          break;
+        case 'hi_in':
+          validator = await import('@/assets/js/validator/hi_in');
+          break;
+        case 'ko_kr':
+          validator = await import('@/assets/js/validator/ko_kr');
+          break;
+        case 'es_mx':
+          validator = await import('@/assets/js/validator/es_mx');
+          break;
+        case 'pt_pt':
+          validator = await import('@/assets/js/validator/pt_pt');
+          break;
         default:
-          validator = await import('@/assets/js/validator/zh-CN');
+          validator = await import('@/assets/js/validator/zh_cn');
       }
       const V = validator.default;
       $validator.value = new V();

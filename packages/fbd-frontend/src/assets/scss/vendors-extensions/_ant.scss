@@ -1,4 +1,9 @@
 .ant-message {
+  &-custom-content {
+    display: flex;
+    align-items: center;
+  }
+
   @include mediaquery_pad {
     top: 50%;
     transform: translateY(-50%);
@@ -233,9 +238,4 @@
 
 .ant-collapse-item {
   border-bottom: 1px solid #f2f2f2 !important;
-}
-
-.ant-message-custom-content {
-  display: flex;
-  align-items: center;
 }

@@ -101,3 +101,11 @@ $bottom-next-step-btn-container-space:
     opacity: 0.6;
   }
 }
+
+.text-win {
+  color: var(--positive-color);
+}
+
+.text-lose {
+  color: var(--negative-color);
+}
