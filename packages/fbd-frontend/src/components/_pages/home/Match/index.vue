@@ -1,21 +1,21 @@
 <template>
   <div class="match">
     <div class="mt-0.5">
-      {{ '2021-08-21 18:30(CST)' }}
+      {{ dayjs(data.matchTime * 1000).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnit})` }}
     </div>
     <div class="flex items-center pt-2 pb-2">
       <div class="flex flex-col flex-1">
         <div class="mb-2 text-primary text-sm">
-          俄罗斯乙级联赛
+          {{ data.leagueName }}
         </div>
         <div class="team-info">
           <img
             :src="require('@/assets/img/locale/zh_cn.svg')"
             alt=""
           >
-          <div>FC奥伦堡II</div>
+          <div>{{ data.homTeamName }}</div>
         </div>
-        <div class="ml-8">
+        <div class="ml-5">
           vs
         </div>
         <div class="team-info">
@@ -23,15 +23,15 @@
             :src="require('@/assets/img/locale/zh_cn.svg')"
             alt=""
           >
-          <div>图伊马济斯巴达</div>
+          <div>{{ data.awayTeamName }}</div>
         </div>
       </div>
       <div class="flex-1 justify-center">
         <div class="circle ml-auto">
           <div class="circle-inner flex flex-col justify-center rounded-full bg-white z-10 text-center text-sm">
-            总销量
+            {{ $t('components_match_betAmount') }}
             <div class="font-bold italic">
-              16M
+              {{ amoutnFormat(data.totalBetAmount) }}
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
     <div class="h-px w-full bg-border" />
     <div class="flex items-center justify-between h-full">
       <div>
-        下单截止
+        {{ $t('views_betting_info_deadline') }}
         <span>06:05:31</span>
       </div>
       <img
@@ -53,10 +53,31 @@
 </template>
 
 <script>
-export default {
-  setup() {
-    return {
+import dayjs from 'dayjs';
+import { inject, computed } from 'vue';
 
+export default {
+  props: {
+    data: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  setup() {
+    const validator = inject('$validator');
+    const timeZoneUnit = computed(() => validator.value?.timeZoneUnit);
+
+    const amoutnFormat = (num) => {
+      let result = (num || 0).toString();
+      result = result.length > 6 ? `${result.substring(0, result.length - 6)}M` : result;
+      return result;
+    };
+
+    return {
+      dayjs,
+      validator,
+      amoutnFormat,
+      timeZoneUnit,
     };
   },
 };

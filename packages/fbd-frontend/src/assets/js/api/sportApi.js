@@ -29,6 +29,15 @@ class SportApi extends API {
     const result = await this.callAxios('POST', '/frontend/sport-game/sport-caculate-log/get', params, null, true);
     return result;
   }
+
+  /*
+   * 取得首頁賽事相關資料
+   * @returns
+   */
+  static async getHomePageData() {
+    const result = await this.callAxios('POST', '/frontend/sport-game/home-page/get', {}, null, true);
+    return result;
+  }
 }
 
 export default SportApi;

@@ -24,7 +24,7 @@
       v-if="show"
       class="d-select-dropdown"
     >
-      <tempalte v-if="data.length">
+      <template v-if="data.length">
         <div
           class="d-select-item"
           v-for="(item, index) in data"
@@ -41,7 +41,7 @@
             {{ item.label }}
           </div>
         </div>
-      </tempalte>
+      </template>
       <div
         v-else
         class="d-select-item"
@@ -75,8 +75,7 @@
 
 <script>
 import {
-  computed,
-  onMounted, reactive, ref, toRefs, watch,
+  computed, reactive, ref, toRefs, watch,
 } from 'vue';
 
 export default {
@@ -124,11 +123,6 @@ export default {
       state.show = false;
       selectedItem.value = item;
     };
-
-    onMounted(() => {
-      console.log('select :>> ', select);
-      console.log('emit, slot :>> ', emit, slots);
-    });
 
     return {
       showDropdown,

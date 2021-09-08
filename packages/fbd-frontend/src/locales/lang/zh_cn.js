@@ -76,6 +76,9 @@ const lang = {
   common_errorDisconnectedAndRefresh: '连线中断，请检查网路并刷新页面',
   common_contactService: '联系客服',
   common_noData: '暂无资料',
+  common_day: '天',
+  common_week: '周',
+  common_month: '月',
 
   // Views
   views_notFound_desc: '404 page not found',
@@ -228,6 +231,7 @@ const lang = {
   components_footer_record: '记录',
   components_footer_finance: '账务',
   components_footer_profile: '我的',
+  components_match_betAmount: '总销量',
 
   // Error
   error1: '6~12位英数字混合',

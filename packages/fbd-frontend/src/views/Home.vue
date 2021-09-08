@@ -2,9 +2,9 @@
   <div class="h-full">
     <d-header-row
       bg-color="#fff"
+      left-components="UserAvatar"
     >
       <template #left>
-        <!-- 登入 -->
         <img
           v-if="!isLogin"
           class="icon-size is-btn"
@@ -12,7 +12,6 @@
           alt=""
           @click="goPage('/loginAndRegister')"
         >
-        <!-- 頭像 -->
         <img
           v-else
           class="avatar w-4 h-4 rounded-full"
@@ -23,21 +22,17 @@
       </template>
       <template #middle>
         <!-- LOGO -->
-        <img
-          src=""
+        <!-- <img
+          :src="$requireSafe(`site/${siteInfo.sitePrefix}/logo.svg`)"
           alt=""
-        >
-        LOGO
+        >         -->
       </template>
       <template #right>
         <div class="flex items-center justify-end">
-          <!-- 語言選擇 -->
           <d-locale-image
             class="icon-size is-btn"
-            :locale-image-mapping="langMap"
             @click="showLangModal = true"
           />
-          <!-- 客服 -->
           <img
             class="icon-size ml-3 is-btn"
             :src="require('@/assets/img/header/icon-service.svg')"
@@ -76,9 +71,10 @@
             <div>{{ $t('views_home_matchHot') }}</div>
           </div>
           <match
-            v-for="(item, index) in 10"
+            v-for="(item, index) in matchList"
             :key="index"
             class="mb-3"
+            :data="item"
           />
           <div class="title">
             <img
@@ -123,6 +119,7 @@ import Marquee from '@/components/_pages/home/Marquee';
 import SystemApi from '@/assets/js/api/systemApi';
 import InboundModal from '@/components/_pages/home/InboundModal';
 import { isValidUrl } from '@/assets/js/utils/utils';
+import SportApi from '@/assets/js/api/sportApi';
 
 export default {
   components: {
@@ -137,19 +134,12 @@ export default {
     const router = useRouter();
 
     const state = reactive({
-      langMap: {
-        zh_cn: 'locale/zh_cn.svg',
-        zh_tw: 'locale/zh_tw.svg',
-        th_th: 'locale/th_th.svg',
-        vi_vn: 'locale/vi_vn.svg',
-        ja_jp: 'locale/ja_jp.svg',
-        en_us: 'locale/en_us.svg',
-      },
       marqueeList: [],
       marqueeContent: [],
       carouselList: [],
       showModal: false,
       showLangModal: false,
+      matchList: [],
     });
 
     const serviceUrl = computed(() => store.state.info.serviceUrl);
@@ -189,15 +179,23 @@ export default {
       router.push(url);
     };
 
-    onMounted(async () => {
-      state.marqueeList = await getMarquee();
-      state.marqueeContent = getMarqueeContent(state.marqueeList);
-      state.carouselList = await initCarousel();
-    });
+    const getHomePageData = async () => {
+      const { code, data } = await SportApi.getHomePageData();
+      if (code === 200) {
+        state.matchList = data;
+      }
+    };
 
     const goService = () => {
       window.location = serviceUrl.value;
     };
+
+    onMounted(async () => {
+      getHomePageData();
+      state.marqueeList = await getMarquee();
+      state.marqueeContent = getMarqueeContent(state.marqueeList);
+      state.carouselList = await initCarousel();
+    });
 
     return {
       goService,

@@ -14,7 +14,18 @@ export default {
   props: {
     localeImageMapping: {
       type: Object,
-      default: () => {},
+      default: () => ({
+        zh_cn: 'locale/zh_cn.svg',
+        zh_tw: 'locale/zh_tw.svg',
+        th_th: 'locale/th_th.svg',
+        vi_vn: 'locale/vi_vn.svg',
+        ja_jp: 'locale/ja_jp.svg',
+        en_us: 'locale/en_us.svg',
+        es_mx: 'locale/es_mx.svg',
+        hi_in: 'locale/hi_in.svg',
+        ko_kr: 'locale/ko_kr.svg',
+        pt_pt: 'locale/pt_pt.svg',
+      }),
     },
   },
   setup(props) {

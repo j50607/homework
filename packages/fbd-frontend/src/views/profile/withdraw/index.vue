@@ -132,9 +132,9 @@ export default {
     const { t } = useI18n();
 
     const intervalMap = {
-      DAY: t('day'),
-      WEEK: t('week'),
-      MONTH: t('month'),
+      DAY: t('common_day'),
+      WEEK: t('common_week'),
+      MONTH: t('common_month'),
     };
 
     const state = reactive({
@@ -182,7 +182,7 @@ export default {
       return NP.minus(state.amount, charge.value);
     });
 
-    const btnDisabled = () => !state.amount || realAmount.value < 0 || !state.selectedItem.accountId;
+    const btnDisabled = computed(() => !state.amount || realAmount.value < 0 || !state.selectedItem.accountId);
 
     // methods
     const getBankcard = async () => {

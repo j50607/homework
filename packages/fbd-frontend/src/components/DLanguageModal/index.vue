@@ -79,6 +79,8 @@ export default {
         { text: '德國', value: 'de_de', index: 6 },
         { text: '菲律兵', value: 'en_ph', index: 7 },
         { text: '法國', value: 'fr_fr', index: 8 },
+        { text: '印尼', value: 'hi_in', index: 9 },
+        { text: '韩国', value: 'ko_kr', index: 10 },
       ],
     });
 

@@ -60,6 +60,7 @@ export default {
     Service: defineAsyncComponent(() => import('@/components/DHeaderRow/Service' /* webpackChunkName: "Service" */)),
     Profile: defineAsyncComponent(() => import('@/components/DHeaderRow/Profile' /* webpackChunkName: "Profile" */)),
     Register: defineAsyncComponent(() => import('@/components/DHeaderRow/Register' /* webpackChunkName: "Register" */)),
+    UserAvatar: defineAsyncComponent(() => import('@/components/DHeaderRow/UserAvatar' /* webpackChunkName: "UserAvatar" */)),
   },
   props: {
     leftComponents: {
@@ -123,10 +124,6 @@ export default {
     iconColor: {
       type: String,
       default: 'white',
-    },
-    avatar: {
-      type: Boolean,
-      default: false,
     },
   },
   setup(props, { slots }) {
