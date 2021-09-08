@@ -42,6 +42,15 @@ const routes = [
     },
   },
   {
+    path: '/match',
+    name: 'match',
+    component: () => import(/* webpackChunkName: "match" */ '@/views/match'),
+    meta: {
+      title: 'match',
+      layout: Layout,
+    },
+  },
+  {
     path: '/notFound',
     name: 'not-found',
     component: () => import('@/views/notFound' /* webpackChunkName: "notFound" */),

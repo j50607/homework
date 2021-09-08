@@ -133,6 +133,16 @@ const lang = {
   views_profile_logout: '登出',
   views_profile_selectAvatar: '选择头像',
   views_profile_newestMessage: '最新信息',
+  views_market_title: '市场列表',
+  views_market_switchLeague: '联盟选择',
+  views_market_switchLeague_select_all: '全选',
+  views_market_switchLeague_select_not: '反选',
+  views_market_switchLeague_list_openCount: '已开启{num}场次',
+  views_match_tablist_all: '全部賽事',
+  views_match_tablist_today: '今日賽事',
+  views_match_tablist_tomorrow: '明日賽事',
+  views_match_tablist_record: '歷史場次',
+
   // Components
   components_common_dialog_confirm: '确认',
   components_common_dialog_cancel: '取消',

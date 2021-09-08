@@ -30,7 +30,7 @@ export default {
           name: '首页', src: '/', img: 'home',
         },
         {
-          name: '市场', src: '/market', img: 'market',
+          name: '市场', src: '/match', img: 'market',
         },
         {
           name: '记录', src: '/betRecord', img: 'record',
