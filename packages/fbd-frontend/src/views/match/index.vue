@@ -1,5 +1,5 @@
 <template>
-  <div class="market pt-h-h relative h-full">
+  <div class="market pt-h-h pb-f-h relative h-full">
     <d-header-row
       :right-components="'Service'"
       :title="state.switchLeague ?$t('views_market_switchLeague') : $t('views_market_title')"
@@ -18,32 +18,28 @@
     </d-header-row>
     <d-tabs
       v-model:activeKey="state.currentKey"
-      :default-key="0"
+      :default-key="state.tabIndex"
       :tab-list="state.tabList"
       @change="changeTab"
       class="text-white"
       v-if="!state.switchLeague"
     >
       <template #content>
-        <template
-          v-for="(item, index) in state.tabList"
-          :key="index"
-        >
-          <component
-            v-if="state.tabIndex === index"
-            :is="item.compName"
-          />
-        </template>
+        <league-list
+          :search-league-list="state.seachLeagueList"
+          :league-list-params="LeagueListParams"
+          :time-filter="state.timeFilter"
+        />
       </template>
     </d-tabs>
 
     <!-- 選擇聯盟 -->
     <div
-      class="all-league-list flex flex-col h-full flex-nowrap"
+      class="all-league-list flex flex-col h-full flex-nowrap pt-2"
       v-else
     >
       <div
-        class="league-list m-2 p-3 rounded flex justify-start items-center cursor-pointer"
+        class="league-list mx-3  my-1 p-3 rounded flex justify-start items-center cursor-pointer"
         v-for="(item,index) in state.leagueList"
         :key="index"
         @click="selectLeague(item,index)"
@@ -58,63 +54,68 @@
           v-else
           class="checkbox mr-4 bg-white cursor-pointer"
         />
-        <div class="league-info flex">
+        <div class="league-info flex items-center">
           <img
-            src="https://placeimg.com/36/36"
+            :src="$requireSafe('icon/icon-vn.svg')"
             alt=""
-            class="mr-2"
+            class="mr-2 w-8 h-8"
           >
-          <div class="league-text-content flex-1">
+          <div class="league-text-content flex-1 text-sm">
             <div class="league-title mb-2 text-primary">
               {{ item.leagueName }}
             </div>
-            <div class="league-info text-xs text-normal">
+            <div class="league-bet-time text-xs text-normal">
               <span>{{ $t('views_market_switchLeague_list_openCount',{num:item.openCount}) }}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="buttons mt-auto flex">
+      <div class="buttons flex fixed px-3 w-full">
         <d-button
           class="select-all flex-1 mr-2"
           type="primary"
+          @click="selectAll"
         >
           {{ $t('views_market_switchLeague_select_all') }}
         </d-button>
-        <d-button class="not-slelect-all flex-1">
+        <d-button
+          class="not-slelect-all flex-1 border border-solid border-primary"
+          @click="unSelectAll"
+          type="default"
+          :border="true"
+        >
           {{ $t('views_market_switchLeague_select_not') }}
         </d-button>
       </div>
     </div>
     <!-- 選擇聯盟按鈕 -->
     <div
-      class="switch-league fixed right-0 bottom-20 cursor-pointer py-2 px-1 text-white text-sm font-light"
+      class="switch-league fixed right-0 bottom-20 cursor-pointer py-2 px-1.5 text-white text-sm font-light"
       @click="state.switchLeague = true"
       v-if="!state.switchLeague"
     >
       {{ $t('views_market_switchLeague') }}
     </div>
   </div>
+  <d-footer-row />
 </template>
 
 <script>
-import { reactive, onBeforeMount, ref } from 'vue';
+import {
+  reactive, onBeforeMount, ref,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import DHeaderRow from '@/components/DHeaderRow';
-import DTabs from '@/components/DTabs';
-import DButton from '@/components/DButton';
-import all from '@/components/_pages/match/all';
+import dayjs from 'dayjs';
+
+import LeagueList from '@/components/_pages/match/leagueList';
 import SportApi from '@/assets/js/api/sportApi.js';
 import { isArray } from '@/assets/js/utils/utils';
 
 export default {
   components: {
-    DTabs,
-    all,
-    DHeaderRow,
-    DButton,
+    LeagueList,
   },
   setup() {
     // use
@@ -124,24 +125,27 @@ export default {
     // ref
     const LeagueListParams = ref({
       timeType: 'matchTime',
-      startTime: '2021/09/08 00:00:00',
-      endTime: '2021/09/14 23:59:59',
+      startTime: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
+      endTime: dayjs().add(6, 'day').endOf('day').tz('Asia/Shanghai')
+        .format('YYYY/MM/DD HH:mm:ss'),
     });
 
     // reactive
     const state = reactive({
       tabList:
       [
-        { label: t('views_match_tablist_all'), type: 'all', compName: 'all' },
-        { label: t('views_match_tablist_today'), type: 'today', compName: 'today' },
-        { label: t('views_match_tablist_tomorrow'), type: 'tomorrow', compName: 'tomorrow' },
-        { label: t('views_match_tablist_record'), type: 'record', compName: 'record' },
+        { label: t('views_match_tablist_all'), type: 'all' },
+        { label: t('views_match_tablist_today'), type: 'today' },
+        { label: t('views_match_tablist_tomorrow'), type: 'tomorrow' },
+        { label: t('views_match_tablist_record'), type: 'history' },
       ],
       currentKey: 0,
       tabIndex: 0,
       switchLeague: false,
       leagueList: [],
       seachLeagueList: [],
+      gameSummaryList: [],
+      timeFilter: 'all',
     });
 
     // methods
@@ -149,7 +153,12 @@ export default {
       const res = await SportApi.getLeagueSummary(params);
       if (res.code === 200) {
         if (isArray(res.data.leaguesInfo)) {
-          state.leagueList = res.data.leaguesInfo;
+          const leagueList = res.data.leaguesInfo.map((item) => {
+            state.seachLeagueList.push(item.leagueId);
+            item.selected = true;
+            return item;
+          });
+          state.leagueList = leagueList;
         }
       }
     };
@@ -157,18 +166,84 @@ export default {
     const selectLeague = (item) => {
       if (item.selected) {
         item.selected = false;
+        const unSelectedIndex = state.seachLeagueList.findIndex((e) => e === item.leagueId);
+        state.seachLeagueList.splice(unSelectedIndex, 1);
       } else {
         item.selected = true;
         state.seachLeagueList.push(item.leagueId);
       }
     };
-    const changeTab = (index) => {
+
+    const selectAll = () => {
+      state.seachLeagueList = [];
+      state.leagueList.forEach((item) => {
+        state.seachLeagueList.push(item.leagueId);
+        item.selected = true;
+      });
+    };
+
+    const unSelectAll = () => {
+      state.seachLeagueList = [];
+      state.leagueList.forEach((item) => {
+        item.selected = false;
+      });
+    };
+    const changeTab = async (index) => {
       state.tabIndex = index;
+      state.seachLeagueList = [];
+      state.leagueList = [];
+      // 全部賽事
+      if (index === 0) {
+        state.timeFilter = 'all';
+        LeagueListParams.value = {
+          timeType: 'matchTime',
+          startTime: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
+          endTime: dayjs().add(6, 'day').endOf('day').tz('Asia/Shanghai')
+            .format('YYYY/MM/DD HH:mm:ss'),
+        };
+      // 今日賽事
+      } else if (index === 1) {
+        state.timeFilter = 'today';
+        LeagueListParams.value = {
+
+          timeType: 'matchTime',
+          startTime: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
+          endTime: dayjs().endOf('day').tz('Asia/Shanghai')
+            .format('YYYY/MM/DD HH:mm:ss'),
+        };
+
+      // 明日賽事
+      } else if (index === 2) {
+        state.timeFilter = 'tomorrow';
+        LeagueListParams.value = {
+          timeType: 'matchTime',
+          startTime: dayjs().add(1, 'day').startOf('day').tz('Asia/Shanghai')
+            .format('YYYY/MM/DD HH:mm:ss'),
+          endTime: dayjs().add(1, 'day').endOf('day').tz('Asia/Shanghai')
+            .format('YYYY/MM/DD HH:mm:ss'),
+        };
+        // 歷史賽事
+      } else if (index === 3) {
+        state.timeFilter = 'history';
+        LeagueListParams.value = {
+          timeType: 'matchTime',
+          startTime: dayjs().subtract(6, 'day').startOf('day').tz('Asia/Shanghai')
+            .format('YYYY/MM/DD HH:mm:ss'),
+          endTime: dayjs().endOf('day').tz('Asia/Shanghai')
+            .format('YYYY/MM/DD HH:mm:ss'),
+        };
+      }
+
+      await getLeagueSummary(LeagueListParams.value);
     };
 
     const goBack = () => {
       if (state.switchLeague) {
-        state.switchLeague = false;
+        if (!state.seachLeagueList.length) {
+          window.$vue.$message.info(t('views_market_switchLeague_noSelected'));
+        } else {
+          state.switchLeague = false;
+        }
       } else {
         router.back();
       }
@@ -184,6 +259,9 @@ export default {
       changeTab,
       goBack,
       selectLeague,
+      selectAll,
+      unSelectAll,
+      LeagueListParams,
     };
   },
 };
@@ -216,6 +294,10 @@ export default {
   height: 14px;
   border: 0.5px solid #7a5605;
   border-radius: 50%;
+}
+
+.buttons {
+  bottom: calc(var(--footer-height) + 20px);
 }
 
 </style>

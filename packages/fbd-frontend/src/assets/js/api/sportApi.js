@@ -38,6 +38,30 @@ class SportApi extends API {
     const result = await this.callAxios('POST', '/frontend/sport-game/home-page/get', {}, null, true);
     return result;
   }
+
+  /**
+  * 取得聯賽清單
+  */
+  static async getLeagueSummary(params) {
+    const result = await this.callAxios('POST', '/frontend/sport-game/league-summary/get', params, null, true);
+    return result;
+  }
+
+  /**
+  * 取得取得比賽大綱清單
+  */
+  static async getGameSummary(params) {
+    const result = await this.callAxios('POST', '/frontend/sport-game/game-summary/get', params, null, true);
+    return result;
+  }
+
+  /**
+  * 取得體育歷史賽事清單
+  */
+  static async getGameSummaryRecord(params) {
+    const result = await this.callAxios('POST', '/frontend/sport-game/history-summary/get', params, null, true);
+    return result;
+  }
 }
 
 export default SportApi;
