@@ -11,6 +11,7 @@ const initialState = () => ({
   agentCode: undefined,
   avatar: undefined,
   balance: undefined,
+  usersLockBalance: undefined,
   birthday: undefined,
   gender: undefined,
   lotteryBetAgentRate: undefined,
@@ -20,30 +21,14 @@ const initialState = () => ({
   withdrawalCode: undefined,
   nickName: undefined,
   name: undefined,
+  email: undefined,
+  line: undefined,
+  qqAccount: undefined,
+  wechat: undefined,
   // 是否有提現密碼
   withdrawalCodeSetting: false,
   // 餘額
   amount: undefined,
-  // 磚池狀態 NONE | PENDING | ACTIVE | SETTLE | FINISH, - 無計畫 | 未開始 | 執行中 | 結算 | 已結束
-  poolStatus: undefined,
-  // ??:??:?? - PENDING 時距離開始的時間
-  poolTime: undefined,
-  // 磚池人數
-  poolPeople: undefined,
-  // 磚池金額
-  poolAmount: undefined,
-  // 磚池手續費
-  poolCharge: undefined,
-  // 磚池執行狀態 NONE | DENY | ENOUGH | INSUFFICIENT | KICKOUT, - 尚無狀態 | 沒有檔次授權 |  本金足夠 | 本金不夠 | 已被剔除
-  personStatus: undefined,
-  // 用戶本金
-  personAmount: undefined,
-  // 用戶毛利
-  personProfit: undefined,
-  // 用戶手續費
-  personCharge: undefined,
-  // user擁有的檔次id
-  levelId: 0,
 });
 
 const state = () => (initialState());

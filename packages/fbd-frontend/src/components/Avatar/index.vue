@@ -5,7 +5,7 @@
   >
     <img
       class="avatar-img"
-      :src="$requireSafe(`avatar/${avatarInfo.system ? avatarInfo.system : 0 }.png`)"
+      :src="$requireSafe(`avatar/${avatarInfo && avatarInfo.system ? avatarInfo.system : 0 }.png`)"
     >
     <div class="vip">
       <img
@@ -74,7 +74,7 @@ export default {
 
     // watch
     watch(showPopup, (val) => {
-      if (val) selectedImg.value = props.avatarInfo.system ? props.avatarInfo.system : 0;
+      if (val) selectedImg.value = props?.avatarInfo?.system ? props?.avatarInfo?.system : 0;
     });
 
     // methods
@@ -159,7 +159,7 @@ export default {
 .avatar-container {
   max-height: 200px;
 
-  @apply flex flex-wrap items-center overflow-auto mb-6;
+  @apply flex flex-wrap items-center overflow-auto mb-2;
 
   &::-webkit-scrollbar {
     width: 4px;

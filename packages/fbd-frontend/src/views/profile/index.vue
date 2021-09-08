@@ -7,11 +7,13 @@
         {{ $t('views_profile_title') }}
       </div>
       <div
+        v-if="displayLanguageSwitch"
         class="locale is-btn"
         @click="toggleLanguageModal(true)"
       >
         <d-locale-image :locale-image-mapping="state.langMap" />
       </div>
+      <div v-else />
     </div>
     <!-- 個人資料區 -->
     <div class="profile-content">
@@ -41,7 +43,7 @@
               {{ $t('views_profile_lockWallet') }}
             </div>
             <div class="balance-info-desc-number">
-              {{ showBalance ? '100.00' : '*****' }}
+              {{ showBalance ? usersLockBalance : '*****' }}
             </div>
           </div>
         </div>
@@ -65,7 +67,7 @@
       <!-- VIP -->
       <div
         class="rank is-btn"
-        @click="goPage('vip')"
+        @click="goPage('/profile/vip')"
       >
         <div>
           VIP Coming Soon...
@@ -186,22 +188,22 @@ export default {
 
     // computed
     const btnList = computed(() => [
-      { label: t('views_profile_goDeposit'), img: 'deposit', redirect: 'deposit' },
-      { label: t('views_profile_goWithdraw'), img: 'withdraw', redirect: 'withdraw' },
-      { label: t('views_profile_transactionRecord'), img: 'transaction', redirect: 'transaction' },
-      { label: t('views_profile_walletManagement'), img: 'wallet', redirect: 'wallet' },
+      { label: t('views_profile_goDeposit'), img: 'deposit', redirect: '/profile/deposit' },
+      { label: t('views_profile_goWithdraw'), img: 'withdraw', redirect: '/profile/withdraw' },
+      { label: t('views_profile_transactionRecord'), img: 'transaction', redirect: '/profile/transaction' },
+      { label: t('views_profile_walletManagement'), img: 'wallet', redirect: '/profile/wallet' },
     ]);
 
     const redirectListTop = computed(() => [
-      { label: t('views_profile_personalityProfile'), img: 'profile', redirect: 'userinfo' },
-      { label: t('views_profile_myReport'), img: 'report', redirect: 'report' },
-      { label: t('views_profile_myVip'), img: 'vip', redirect: 'vip' },
+      { label: t('views_profile_personalityProfile'), img: 'profile', redirect: '/profile/userinfo' },
+      { label: t('views_profile_myReport'), img: 'report', redirect: '/profile/report' },
+      { label: t('views_profile_myVip'), img: 'vip', redirect: '/profile/vip' },
     ]);
 
     const redirectListBottom = computed(() => [
-      { label: t('views_profile_share'), img: 'share', redirect: 'share' },
-      { label: t('views_profile_promotion'), img: 'promotion', redirect: 'promotion' },
-      { label: t('views_profile_verify'), img: 'verify', redirect: 'verify' },
+      { label: t('views_profile_share'), img: 'share', redirect: '/profile/share' },
+      { label: t('views_profile_promotion'), img: 'promotion', redirect: '/profile/promotion' },
+      { label: t('views_profile_verify'), img: 'verify', redirect: '/profile/verify' },
       { label: t('views_profile_service'), img: 'service', redirect: 'service' },
       { label: t('views_profile_logout'), img: 'logout', redirect: 'logout' },
     ]);
@@ -211,6 +213,8 @@ export default {
     const avatar = computed(() => store.state.user.avatar);
     const vipLevel = computed(() => store.state.user.vipLevel);
     const balance = computed(() => store.state.user.balance);
+    const usersLockBalance = computed(() => store.state.user.usersLockBalance);
+    const displayLanguageSwitch = computed(() => store.state.info.switchSetting.displayLanguageSwitch);
 
     // methods
     const toggleLanguageModal = (val) => {
@@ -224,6 +228,7 @@ export default {
           'avatar',
           'vipLevel',
           'balance',
+          'usersLockBalance',
         ],
       };
       const { code, data } = await MemberApi.getUserPartialInfo(params);
@@ -234,6 +239,7 @@ export default {
           avatar: data.avatar,
           vipLevel: data.vipLevel,
           balance: data.balance,
+          usersLockBalance: data.usersLockBalance,
         });
       }
     };
@@ -243,9 +249,9 @@ export default {
     };
 
     const logout = async () => {
-      const { code, message } = await MemberApi.logout();
+      const { code } = await MemberApi.logout();
       if (code === 200) {
-        window.$vue.$message.success(message);
+        window.$vue.$message.success(t('views_profile_logoutSuccess'));
         store.commit('CLEAR');
         router.push('/loginAndRegister');
       }
@@ -253,11 +259,11 @@ export default {
 
     const goPage = (page) => {
       switch (page) {
-        case 'report':
-        case 'vip':
-        case 'share':
-        case 'promotion':
-        case 'verify':
+        case '/profile/report':
+        case '/profile/vip':
+        case '/profile/share':
+        case '/profile/promotion':
+        case '/profile/verify':
           window.$vue.$message.info(t('common_comingSoon'));
           break;
         case 'service':
@@ -267,7 +273,7 @@ export default {
           logout();
           break;
         default:
-          router.push(`/profile/${page}`);
+          router.push(page);
           break;
       }
     };
@@ -290,6 +296,8 @@ export default {
       avatar,
       vipLevel,
       balance,
+      usersLockBalance,
+      displayLanguageSwitch,
     };
   },
 };
