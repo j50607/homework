@@ -1,6 +1,6 @@
 <template>
   <d-header-row
-    :title="state.gameName"
+    :title="state.currentGameData?.leagueName || ''"
     right-components="service"
   />
 
@@ -14,36 +14,35 @@
       <div class="betting-info-container">
         <div class="betting-team">
           <div class="betting-team-name betting-info-text betting-info-text-em">
-            {{ state.gameInfo.team1 }}
+            {{ state.currentGameData?.homeTeamName || '' }}({{ $t('views_betting_host') }})
           </div>
           <div class="betting-team-logo betting-info-text">
             <img :src="$requireSafe('icon/desc.svg')">
           </div>
           <div class="betting-team-score betting-info-text betting-info-text-em">
-            {{ state.gameInfo.score1 }}
+            {{ 0 }}
           </div>
         </div>
         <div class="betting-time">
           <div class="betting-time-item betting-info-text">
-            {{ correctionTime(state.betOptionData[0]?.matchTIme) }}
-            <!-- {{ correctionTime(1630857540000) }} -->
+            {{ renderDate(state.betOptionData[0]?.matchTIme) }}
           </div>
           <div class="betting-time-item betting-time-item-em betting-info-text">
-            {{ state.gameInfo.time2 }}
+            {{ renderTime(state.betOptionData[0]?.matchTIme) }}
           </div>
           <div class="betting-time-item betting-info-text">
-            ({{ timeZoneUnitTxt }})
+            ({{ timeZone }})
           </div>
         </div>
         <div class="betting-team">
           <div class="betting-team-name betting-info-text betting-info-text-em">
-            {{ state.gameInfo.team2 }}
+            {{ state.currentGameData?.awayTeamName || '' }}
           </div>
           <div class="betting-team-logo betting-info-text">
             <img :src="$requireSafe('icon/desc.svg')">
           </div>
           <div class="betting-team-score betting-info-text betting-info-text-em">
-            {{ state.gameInfo.score2 }}
+            {{ 0 }}
           </div>
         </div>
 
@@ -52,23 +51,16 @@
     </div>
 
     <div class="betting-main">
-      <div class="betting-tab">
+      <div class="betting-tab is-btn">
         <div
           v-for="(item, idx) in state.betOptionData"
           :key="`playTypeS[${idx}]`"
           class="betting-tab-item"
-          :class="{ 'betting-tab-item-active': state.currentPlayTypeS === 'full' }"
-          @click="changeType('full')"
+          :class="{ 'betting-tab-item-active': state.currentPlayTypeS === item.playTypeS }"
+          @click="changePlayTypeS(item)"
         >
           <span class="betting-tab-text">{{ item?.playTypeSName }}</span>
         </div>
-        <!-- <div
-          class="betting-tab-item"
-          :class="{ 'betting-tab-item-active': state.currentPlayTypeS === 'half' }"
-          @click="changeType('half')"
-        >
-          <span class="betting-tab-text">{{ $t('views_betting_main_type2') }}</span>
-        </div> -->
       </div>
 
       <div class="betting-main-container">
@@ -103,7 +95,8 @@
           <li
             v-for="(item, idx) in state.betOptionData[0]?.betOptionList"
             :key="`availableAmount[${idx}]`"
-            class="betting-item is-btn"
+            class="betting-item"
+            :class="{ 'is-btn': !item?.isFulled && item?.payRate }"
           >
             <div class="betting-digit">
               <div class="betting-text-sm betting-score">
@@ -121,22 +114,49 @@
                 {{ item?.limitAmount }}
               </div>
             </div>
+            <div
+              v-show="item?.isFulled || !item?.payRate"
+              class="betting-overlay"
+            >
+              <div
+                v-show="item?.isFulled"
+                class="betting-text-sm betting-score betting-overlay-text"
+              >
+                {{ getSportScore(item?.option, 'renderData') }}
+              </div>
+              <div class="betting-text-sm betting-overlay-text">
+                {{ renderMaintainText(item) }}
+              </div>
+            </div>
           </li>
         </ul>
       </div>
     </div>
   </div>
+
+  <d-popup
+    v-model:value="state.isBettingPopupShow"
+    position="bottom"
+    :round="true"
+    :title="$t('views_betting_statistic_popup_title')"
+    class="popup"
+  >
+    popup
+  </d-popup>
+
   <d-footer-row />
 </template>
 
 <script>
 import {
-  inject, reactive, computed, onBeforeMount,
+  // inject, reactive, computed, onBeforeMount,
+  reactive, computed, onBeforeMount,
 } from 'vue';
 import { useStore } from 'vuex';
-// import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n';
+import dayjs from 'dayjs';
 import {
-  timeZoneUnit, numWithCommas, getSportScore, correctionTime,
+  timeZoneUnit, numWithCommas, getSportScore, convertToCst,
 } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
 
@@ -144,27 +164,16 @@ export default {
   setup() {
     // use
     const store = useStore();
-    // const { t } = useI18n();
+    const { t } = useI18n();
 
     // inject
-    const validator = inject('$validator');
+    // const validator = inject('$validator');
 
     // reactive
     const state = reactive({
       currentPlayTypeS: 1, // 當前次玩法(全場/半場)
       currentPlayTypeSName: '', // 當前次玩法名稱(全場/半場)
-      gameName: '俄罗斯乙级联赛',
-      gameInfo: {
-        team1: 'DV奥兹宝',
-        team2: '图伊马济斯巴达',
-        score1: 1,
-        score2: 0,
-        logo1: '',
-        logo2: '',
-        time1: '08/30',
-        time2: '18:30',
-        time3: 'CST',
-      },
+      currentGameData: {},
       gameSum: {
         sum: 1321231132,
       },
@@ -177,20 +186,35 @@ export default {
         },
       ],
       isSumPopupShow: false,
+      isBettingPopupShow: false,
     });
 
     // computed
     const siteStyle = computed(() => store.state.info.siteStyle);
     const timeZone = computed(() => timeZoneUnit());
-    const timeZoneUnitTxt = computed(() => validator.value?.timeZoneUnit);
 
     // methods
     const toggleSumPopup = (isShow = true) => {
       state.isSumPopupShow = isShow;
     };
 
-    const changeType = (type) => {
-      state.currentPlayTypeS = type;
+    const toggleBettingPopup = (isShow = true) => {
+      state.isBettingPopupShow = isShow;
+    };
+
+    const changePlayTypeS = (item) => {
+      state.currentPlayTypeS = item.playTypeS;
+      state.currentPlayTypeSName = item.playTypeSName;
+      state.currentGameData = { ...item };
+    };
+
+    const renderDate = (date) => dayjs(date).format('MM-DD');
+
+    const renderTime = (date) => dayjs(date).format('HH:mm');
+
+    const renderMaintainText = (item) => {
+      if (!item?.payRate) return t('views_betting_main_closed');
+      return t('views_betting_main_fulled');
     };
 
     const getBetOption = async () => {
@@ -203,49 +227,50 @@ export default {
       return data;
     };
 
-    // const getBetOption2 = async () => {
-    //   const params = {
-    //     issueNo: '255673972',
-    //   };
+    const getCaculateLog = async () => {
+      const params = {
+        gameCode: state.currentGameData.gameCode,
+        issueNo: state.currentGameData.issueNo,
+        playTypeM: state.currentGameData.playTypeM,
+        playTypeS: state.currentGameData.playTypeS,
+      };
 
-    //   const { code, data } = await SportApi.getBetOption2(params) || {};
-    //   // if (code !== 200) return {};
-    //   // return data;
-    //   console.log(code, data);
+      const { code, data } = await SportApi.getCaculateLog(params) || {};
+      if (code !== 200) return {};
+      return data;
+    };
+
+    // const getData = async () => {
+    //   state.betOptionData = await getBetOption();
+    //   state.caculateLogData = await getCaculateLog();
     // };
 
-    const getData = async () => {
-      state.betOptionData = await getBetOption();
-      // getBetOption2();
-    };
-
-    const handleBetOption = () => {
-      state.currentPlayTypeS = state.betOptionData[0]?.playTypeS;
-      state.currentPlayTypeSName = state.betOptionData[0]?.playTypeSName;
-    };
-
     const init = async () => {
-      await getData();
-      handleBetOption();
+      // await getData();
+      state.betOptionData = await getBetOption();
+      changePlayTypeS(state.betOptionData[0]);
+      state.caculateLogData = await getCaculateLog();
     };
 
     // hooks
     onBeforeMount(async () => {
       await init();
+      console.log(dayjs(), convertToCst(dayjs()));
     });
-
-    // window.$vue.$message.success(t('common_comingSoon'));
 
     return {
       state,
       siteStyle,
       timeZone,
-      timeZoneUnitTxt,
       numWithCommas,
       getSportScore,
-      correctionTime,
+      convertToCst,
       toggleSumPopup,
-      changeType,
+      toggleBettingPopup,
+      changePlayTypeS,
+      renderDate,
+      renderTime,
+      renderMaintainText,
     };
   },
 };
@@ -305,7 +330,7 @@ export default {
     }
 
     &-em {
-      @apply rounded-20;
+      @apply py-px rounded-20;
 
       color: var(--primary-btn-color);
       background: var(--btn-primary-bg);
@@ -375,6 +400,18 @@ export default {
     @apply bg-secondary-content;
 
     padding: 4px 0;
+  }
+
+  &-overlay {
+    @apply absolute top-0 left-0 flex flex-col justify-end w-full h-full py-5 rounded-3 bg-maintain;
+
+    .betting-score {
+      @apply pt-0 pb-1;
+    }
+  }
+
+  &-overlay-text {
+    @apply text-white;
   }
 
   &-tab {

@@ -1,4 +1,9 @@
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const pipe = (...fns) => (x) => fns.reduce((acc, cur) => cur(acc), x);
 
@@ -409,11 +414,11 @@ export const timeZoneUnit = () => {
     vi_vn: 'ICT', // GMT+7
     th_th: 'ICT', // GMT+7
     ja_jp: 'JST', // GMT+9
-    en_US: 'EST', // 美國站統一用美東時間 GMT-5
-    hi_IN: 'IST', // GMT+5.5
-    ko_KR: 'KST', // GMT+9
-    es_MX: 'WET', // GMT+0
-    pt_PT: 'CDT', // GMT-6
+    en_us: 'EST', // 美國站統一用美東時間 GMT-5
+    hi_in: 'IST', // GMT+5.5
+    ko_kr: 'KST', // GMT+9
+    es_mx: 'WET', // GMT+0
+    pt_pt: 'CDT', // GMT-6
   };
   return timeZoneList[siteLocale];
 };
@@ -433,85 +438,22 @@ export const numWithCommas = (num, digit = 3) => {
  * @param {number} num
  * @param {string} type - 選擇回傳資料的型式(rowData 回傳陣列 [主, 客]，renderData 回傳比分 '主 : 客')
  */
-export const getSportScore = (num, type = 'rowData') => {
+export const getSportScore = (num, type = 'renderData') => {
   if (!isNumber(num)) return [];
   const base = 100000;
   const scoreH = Math.floor(num / base);
   const scoreA = num % base;
-  if (type === 'renderData') return `${scoreH} : ${scoreA}`;
-  return [scoreH, scoreA];
+  if (type === 'rowData') return [scoreH, scoreA];
+  if (scoreH === 10000 && scoreH > scoreA) return `${window.$vue.$t('views_betting_statistic_popup_others')}(H)`;
+  if (scoreA === 10000 && scoreA > scoreH) return `${window.$vue.$t('views_betting_statistic_popup_others')}(A)`;
+  if (scoreA === 10000 && scoreA === scoreH) return `${window.$vue.$t('views_betting_statistic_popup_others')}(D)`;
+  return `${scoreH} : ${scoreA}`;
 };
 
 /**
- * 根據時區校正時間
+ * 将使用者系统时间转成中国时间
  * @param {String | Number} time - YYYY-MM-DD HH:mm:ss || YYYY/MM/DD HH:mm:ss || 1612799941152
  */
-export const correctionTime = (time, formatString = 'YYYY-MM-DD HH:mm:ss') => {
-  const transformAreaTime = (timeSource) => {
-    const { siteLocale } = window._jsvar;
-    let result = time;
-    switch (siteLocale) {
-      case 'ja_jp':
-      case 'ko_kr':
-        result = dayjs(timeSource).add(1, 'hour');
-        break;
-      case 'vi_vn':
-      case 'th_th':
-        result = dayjs(timeSource).subtract(1, 'hour');
-        break;
-      case 'hi_in':
-        result = dayjs(timeSource).subtract(2.5, 'hour');
-        break;
-      case 'es_mx':
-        result = dayjs(timeSource).subtract(8, 'hour');
-        break;
-      case 'en_us':
-        result = dayjs(timeSource).subtract(13, 'hour');
-        break;
-      case 'pt_pt':
-        result = dayjs(timeSource).subtract(14, 'hour');
-        break;
-      default:
-        result = dayjs(timeSource);
-        break;
-    }
-    return result;
-  };
-
-  const offsetTime = (dayjsFn) => {
-    const systemOffset = -480;
-    const localOffset = new Date().getTimezoneOffset();
-    const betweenOffset = localOffset - systemOffset;
-    const betweenHours = betweenOffset ? betweenOffset / 60 : 0;
-    let result = '';
-    if (betweenHours >= 0) {
-      result = dayjsFn.add(betweenHours, 'hour');
-    } else {
-      result = dayjsFn.subtract(betweenHours, 'hour');
-    }
-    return result;
-  };
-
-  const formatTime = (fmtString) => (dayjsFn) => dayjsFn.format(fmtString);
-
-  // const isNumber = (timeSource) => typeof timeSource === 'number';
-
-  let handleCorrectionTime = '';
-
-  if (isNumber(time)) {
-    handleCorrectionTime = pipe(
-      transformAreaTime,
-      offsetTime,
-      formatTime(formatString),
-    )(time);
-  } else {
-    handleCorrectionTime = pipe(
-      transformAreaTime,
-      formatTime(formatString),
-    )(time);
-  }
-
-  return handleCorrectionTime;
-};
+export const convertToCst = (time, formatString = 'YYYY/MM/DD HH:mm:ss') => dayjs(time).tz('Asia/Shanghai').format(formatString);
 
 export const isValidUrl = (url) => url.trim() && url.trim() !== 'https://';

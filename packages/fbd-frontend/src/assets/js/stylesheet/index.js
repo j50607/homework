@@ -68,6 +68,10 @@ class stylesheet {
       secondaryBtnColor: {
         1: '#7a5605',
       },
+      // 维护、未开放遮罩背景色
+      maintainBg: {
+        1: 'rgba(77, 87, 114, 0.88)',
+      },
     };
 
     return result;

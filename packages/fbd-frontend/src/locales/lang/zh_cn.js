@@ -80,6 +80,7 @@ const lang = {
   // Views
   views_notFound_desc: '404 page not found',
   views_notFound_backToHome: '回到首页',
+  views_betting_host: '主',
   views_betting_info_deadline: '下单截止',
   views_betting_main_type1: '全场',
   views_betting_main_type2: '半场',
