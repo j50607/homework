@@ -12,7 +12,7 @@
       v-if="state.gameSummaryList.length > 0"
     >
       <div
-        class="league-list mx-3  my-2 p-3  rounded flex justify-between content-center"
+        class="league-list mx-3  my-2 p-3  rounded flex justify-between content-center is-btn"
         v-for="(item, index) in state.gameSummaryList"
         :key="index"
         @click="clickHandler(item)"
