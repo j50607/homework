@@ -37,9 +37,11 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import dayjs from 'dayjs';
 import FinanceApi from '@/assets/js/api/financeApi';
 
 export default {
@@ -47,6 +49,7 @@ export default {
     const { t } = useI18n();
     const route = useRoute();
     const router = useRouter();
+    const store = useStore();
 
     const list = [
       {
@@ -59,18 +62,19 @@ export default {
         name: t('views_profile_withdrawAmount'), value: 'amount',
       },
       {
-        name: t('views_profile_totalAmount'), value: 'realAmount',
+        name: t('views_profile_totalAmount'), value: 'totalAmount',
       },
       {
-        name: t('views_profile_realAmount'), value: 'balance',
+        name: t('views_profile_realAmount'), value: 'withdrawBalance',
       },
       {
-        name: t('views_profile_mainNetwork'), value: 'accountName',
+        name: t('views_profile_chainType'), value: 'accountName',
       },
       {
         name: t('views_profile_walletAddress'), value: 'accountId',
       },
     ];
+
     const state = reactive({
       // 一般提现手续费
       charge: '',
@@ -79,23 +83,44 @@ export default {
       // 提现金额
       amount: '',
       // 总金额
-      realAmount: '',
+      totalAmount: '',
       // 提现后用户余额
-      balance: '',
+      withdrawBalance: '',
       // 主网类型
       accountName: '',
       // 钱包地址
       accountId: '',
+      // 錢包ID
+      bankcardId: '',
+      withdrawCode: '',
     });
+
+    const account = computed(() => store.state.user.account);
 
     const applyWithdrawal = async () => {
       const { code, data } = await FinanceApi.applyWithdrawal({
         bankName: state.accountName,
         amount: +state.amount,
-        // accountName
+        accountName: account.value,
+        bankcardId: state.bankcardId,
+        accountId: state.accountId,
+        force: true,
+        withdrawalCode: state.withdrawCode,
       });
       if (code === 200) {
-        console.log('data :>> ', data);
+        const params = {
+          type: 'withdraw',
+          accountId: data.accountId,
+          accountName: data.accountName,
+          orderNumber: data.orderNumber,
+          processAt: dayjs(data.processAt).format('YYYY-MM-DD HH:mm:ss'),
+        };
+        router.push({
+          path: '/profile/orderDetail',
+          query: {
+            withdraw: JSON.stringify(params),
+          },
+        });
       }
     };
 
@@ -110,7 +135,7 @@ export default {
     };
 
     initData();
-    console.log('router :>> ', router);
+
     return {
       list,
       submit,

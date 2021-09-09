@@ -5,7 +5,7 @@
     @click="showDropdown"
   >
     <div
-      v-if="!selectedItem.value"
+      v-if="JSON.stringify(selectedItem) === '{}'"
       class="text-gray-400"
     >
       {{ placeholder }}
@@ -90,7 +90,9 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '123',
+      default() {
+        return window.$.vue.$t('common_select_placeholder');
+      },
     },
   },
   emits: ['update:value'],

@@ -79,6 +79,12 @@ const lang = {
   common_day: '天',
   common_week: '周',
   common_month: '月',
+  common_delete: '删除',
+  common_select_placeholder: '请选择内容',
+  common_delete_success: '删除成功',
+  common_edit_success: '编辑成功',
+  common_count: '次',
+  common_limit: '限制',
 
   // Views
   views_notFound_desc: '404 page not found',
@@ -167,7 +173,7 @@ const lang = {
   views_profile_withdrawCode_notice2: '设定6位数提现密码，请牢记密码',
   views_profile_confirmOrder: '确认订单',
   views_profile_orderNotice: '交易前请确认订单资讯',
-  views_profile_mainNetwork: '主网类型',
+  views_profile_chainType: '主网类型',
   views_profile_walletAddress: '钱包地址',
   views_home_matchNews: '赛事快讯',
   views_home_matchHot: '热门赛事',
@@ -175,7 +181,7 @@ const lang = {
   views_profile_orderNumber: '订单编号',
   views_profile_time: '时间',
   views_profile_chooseWallet: '请选择钱包',
-  views_profile_noWallet: '无任何钱包',
+  views_profile_noWallet: '无绑定钱包',
   views_profile_goBind: '前往绑定钱包',
   views_profile_deposit: '充值',
   views_profile_depositHandling: '入款进行中',
@@ -200,6 +206,11 @@ const lang = {
   views_profile_userinfo_modifyWithdrawPassword: '修改提现密码',
   views_profile_userinfo_woman: '女',
   views_profile_userinfo_man: '男',
+  views_profile_wallet_addWallet: '新增钱包',
+  views_profile_wallet_placeholder1: '请输入主网类型',
+  views_profile_wallet_placeholder2: '请输入USDT提现地址',
+  views_profile_wallet_walletAddress: '錢包地址',
+  views_profile_wallet_deleteNotice: '确认要将此钱包删除吗',
 
   // Components
   components_common_dialog_confirm: '确认',

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62156" data-name="Rectangle 62156" width="20" height="20" transform="translate(3515 5229)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-錢包管理_編輯">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="錢包管理_編輯" clip-path="url(#clip-錢包管理_編輯)">
+    <g id="Group_39008" data-name="Group 39008" transform="translate(1805 -565)">
+      <rect id="Rectangle_62155" data-name="Rectangle 62155" width="24" height="24" rx="5" transform="translate(-1805 565)" fill="#0e88f5"/>
+      <g id="Mask_Group_650" data-name="Mask Group 650" transform="translate(-5318 -4662)" clip-path="url(#clip-path)">
+        <path id="Icon_feather-edit-2" data-name="Icon feather-edit-2" d="M15.608,3.954A2.377,2.377,0,0,1,18.97,7.316L7.623,18.663,3,19.924,4.261,15.3Z" transform="translate(3513.667 5227.409)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

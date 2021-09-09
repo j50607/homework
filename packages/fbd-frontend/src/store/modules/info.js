@@ -212,21 +212,7 @@ const mutations = {
     }
     // withdrawSettings data
     if (withdrawSettings) {
-      let withdrawSettingsObj = {};
-      const {
-        cancelOrderSwitch, cancelOrderReviewSwitc, withdarwHandlingFee, withdarwAdministrativeFeeRateSwitch,
-        withdarwAdministrativeFeeRate, withdarwAdministrativeFee,
-      } = withdrawSettings;
-
-      withdrawSettingsObj = {
-        cancelOrderSwitch,
-        cancelOrderReviewSwitc,
-        withdarwHandlingFee,
-        withdarwAdministrativeFeeRateSwitch,
-        withdarwAdministrativeFeeRate,
-        withdarwAdministrativeFee,
-      };
-      state.withdrawSettings = withdrawSettingsObj;
+      state.withdrawSettings = withdrawSettings;
     }
     // frontDeskInfoSetting data
     if (frontDeskInfoSetting) {

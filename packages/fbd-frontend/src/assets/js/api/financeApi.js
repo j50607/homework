@@ -112,7 +112,7 @@ class FinanceApi extends Api {
       withdrawalCode,
       force,
     };
-    const result = await this.callAxios('POST', '/frontend/withdrawal/apply', params, null, true);
+    const result = await this.callAxios('POST', '/finance/withdrawal/apply', params, null, true);
     return result;
   }
 

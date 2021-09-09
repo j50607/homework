@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62154" data-name="Rectangle 62154" width="24" height="24" fill="#bdbdbd"/>
+    </clipPath>
+    <clipPath id="clip-錢包管理_無綁定錢包">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="錢包管理_無綁定錢包" clip-path="url(#clip-錢包管理_無綁定錢包)">
+    <g id="footer_钱包_灰" clip-path="url(#clip-path)">
+      <rect id="Rectangle_57564" data-name="Rectangle 57564" width="24" height="24" fill="none"/>
+      <g id="Group_39006" data-name="Group 39006" transform="translate(1.02 2.664)">
+        <path id="Path_51260" data-name="Path 51260" d="M441.321,1004.3a1.134,1.134,0,0,1-1.134,1.133H424.445a1.134,1.134,0,0,1-1.133-1.133V990.445a1.076,1.076,0,0,1,1-1.134H436.54a1.055,1.055,0,0,1,.992,1.008h-10.5a.756.756,0,0,0,0,1.511h13.154a1.134,1.134,0,0,1,1.134,1.134v2.812h1.511v-2.812a2.648,2.648,0,0,0-2.645-2.645h-1.145a2.572,2.572,0,0,0-2.5-2.519H424.315a2.585,2.585,0,0,0-2.514,2.645V1004.3a2.648,2.648,0,0,0,2.645,2.645h15.743a2.648,2.648,0,0,0,2.645-2.645v-2.6h-1.511Z" transform="translate(-421.8 -987.8)" fill="#bdbdbd"/>
+        <path id="Path_51261" data-name="Path 51261" d="M450.334,1000.466h-5.667a2.648,2.648,0,0,0-2.645,2.645v.63a2.648,2.648,0,0,0,2.645,2.645h5.667A1.387,1.387,0,0,0,451.72,1005v-3.149A1.387,1.387,0,0,0,450.334,1000.466Zm-.126,4.408h-5.542a1.135,1.135,0,0,1-1.134-1.133v-.63a1.135,1.135,0,0,1,1.134-1.134h5.542Z" transform="translate(-429.288 -992.49)" fill="#bdbdbd"/>
+      </g>
+    </g>
+  </g>
+</svg>

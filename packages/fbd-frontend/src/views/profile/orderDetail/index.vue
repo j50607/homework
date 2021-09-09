@@ -18,14 +18,14 @@
         </div>
         <div class="pl-4 pr-4">
           <div
-            class="row pt-1 pb-1"
+            class="row flex pt-1 pb-1"
             v-for="(item, index) in withdrawList"
             :key="index"
           >
             <div class="flex-1 break-all">
               {{ item.name }}
             </div>
-            <div class="flex-1 break-all">
+            <div class="flex-1 break-all text-right">
               {{ state.withdraw[item.value] }}
             </div>
           </div>
@@ -68,8 +68,8 @@ export default {
       { name: t('views_profile_orderNumber'), value: 'orderNumber' },
       { name: t('views_profile_time'), value: 'createAt' },
       { name: t('views_profile_withdrawAmount'), value: 'amount' },
-      { name: t('views_profile_mainNetwork'), value: 'mainNetwork' },
-      { name: t('views_profile_walletAddress'), value: 'address' },
+      { name: t('views_profile_chainType'), value: 'accountName' },
+      { name: t('views_profile_walletAddress'), value: 'accountId' },
     ];
 
     const state = reactive({
@@ -77,8 +77,9 @@ export default {
         orderNumber: '',
         createAt: '',
         amount: '',
-        mainNetwork: '',
-        address: '',
+        accountId: '',
+        accountName: '',
+        processAt: '',
       },
       deposit: {
 
@@ -87,6 +88,13 @@ export default {
     });
 
     const serviceUrl = computed(() => store.state.info.serviceUrl);
+
+    const initData = () => {
+      Object.entries(JSON.parse(route.query.withdraw)).forEach(([key, value]) => {
+        state.withdraw[key] = value;
+      });
+    };
+
     const goService = () => {
       window.location = serviceUrl;
     };
@@ -94,6 +102,8 @@ export default {
     const goHome = () => {
       router.push('/');
     };
+
+    initData();
     return {
       goService,
       goHome,

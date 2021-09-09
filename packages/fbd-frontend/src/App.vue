@@ -100,7 +100,6 @@ export default {
 
     const getSystemConfig = async () => {
       const { code, data } = await SystemApi.getSystemConfig();
-
       if (code === 200 && data) {
         store.commit('SET_SYSTEM_CONFIG', data);
         getValidator();

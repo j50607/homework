@@ -60,7 +60,6 @@ export default {
     const showAnnouncement = (item) => {
       state.show = true;
       state.selectedKey = item.msgId;
-      console.log('item :>> ', item);
     };
 
     onMounted(async () => {

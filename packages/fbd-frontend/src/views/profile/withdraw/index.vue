@@ -28,7 +28,7 @@
           >
             <img
               class="h-10 w-10"
-              :src="require('@/assets/img/icon/bank-no-data-dark.svg')"
+              :src="require('@/assets/img/icon/icon-no-wallet.svg')"
               alt=""
             >
             <div class="mt-1 text-gray-400">
@@ -45,17 +45,28 @@
           {{ $t('views_profile_withdrawAmountTitle') }}
         </span>
         <span>
-          {{ $t('views_profile_balance') }}：{{ }}
+          {{ $t('views_profile_balance') }}：{{ balance }}
         </span>
       </div>
-      <a-input
-        v-six-decimal-places
-        v-model:value.number="amount"
-        :placeholder="$t('views_profile_withdrawAmountPlaceholder')"
-        class="text-xs"
-      />
+      <a-form
+        ref="ruleForm"
+        :model="form"
+        :rules="rules"
+      >
+        <a-form-item
+          class="mb-2"
+          name="amount"
+        >
+          <a-input
+            v-six-decimal-places
+            v-model:value.number="form.amount"
+            :placeholder="$t('views_profile_withdrawAmountPlaceholder')"
+            class="text-xs"
+          />
+        </a-form-item>
+      </a-form>
       <div class="mb-2">
-        {{ $t('views_profile_withdrawFreeCount') }}：{{ freeWithdrawCount }} 次 / {{ intervalMap[info.caculateInterval] }}
+        {{ $t('views_profile_withdrawFreeCount') }}：{{ freeWithdrawCount }} {{ $t('common_count') }} / {{ intervalMap[withdrawSettings?.withdrawCaculateInterval] }}
       </div>
       <div class="mb-2">
         {{ $t('views_profile_charge') }}：{{ charge }}
@@ -81,7 +92,7 @@
     v-model:visible="showNotice"
     :footer="null"
     :title="$t('views_profile_balanceNotEnough')"
-    width="95%"
+    width="90%"
     @cancel="showNotice = false;"
   >
     <template #body>
@@ -100,19 +111,21 @@
       <div class="row">
         <div>{{ $t('views_profile_amount') }}</div>
         <div class="font-bold">
-          {{ amount }}
+          {{ form.amount }}
         </div>
       </div>
       <div class="row">
         <div>{{ $t('views_profile_realAmount') }}</div>
-        <div>{{ realAmount }}</div>
+        <div>{{ withdrawBalance }}</div>
       </div>
     </template>
   </d-dialog>
 </template>
 
 <script>
-import { computed, reactive, toRefs } from 'vue';
+import {
+  computed, reactive, ref, toRefs,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import NP from 'number-precision';
 import { useStore } from 'vuex';
@@ -137,17 +150,28 @@ export default {
       MONTH: t('common_month'),
     };
 
+    const ruleForm = ref(null);
+
     const state = reactive({
-      amount: '',
+      form: {
+        amount: '',
+      },
       walletList: [],
       selectedItem: {},
       info: {},
       showWithdraw: false,
       withdrawCode: '',
+      // 显示余额不足弹窗
       showNotice: false,
       balance: 0,
       isWaterEnough: false,
     });
+
+    const withdrawSettings = computed(() => store.state.info.withdrawSettings);
+
+    const rules = computed(() => ({
+      // amount: [{ message: `${t('common_limit')} ${withdrawSettings.value.minWithdrawalThreshold} - ${withdrawSettings.value.maxWithdrawalThreshold}`, trigger: 'change' }],
+    }));
 
     // 免费提现次数
     const freeWithdrawCount = computed(() => {
@@ -156,33 +180,47 @@ export default {
       return NP.minus(state.info?.freeWithdrawals, state.info?.withdrawalCount);
     });
 
-    // 手续费
+    // 手续费 withdarwAdministrativeFeeRateSwitch 为true时收取百分比
     const charge = computed(() => {
       if (freeWithdrawCount.value) return 0;
-      switch (state.info?.chargeType) {
-        case 'FIXED_AMOUNT':
-          return state.info?.charge;
-        case 'RATIO_BILLING':
-          return NP.times(NP.divide(state.info?.charge, 100), state.amount);
-        default:
-          return 0;
+
+      if (withdrawSettings.value.withdarwAdministrativeFeeRateSwitch) {
+        return NP.times(NP.divide(withdrawSettings.value.withdarwAdministrativeFeeRate, 100), state.form.amount);
       }
+      return withdrawSettings.value.withdarwAdministrativeFee;
     });
 
     const withdarwHandlingFee = computed(() => store.state.info.withdrawSettings.withdarwHandlingFee);
     // 强制提现手续费
-    const forceCharge = computed(() => NP.minus(state.amount, NP.divide(withdarwHandlingFee.value, 100)));
+    const forceCharge = computed(() => {
+      if (freeWithdrawCount.value || state.isWaterEnough) return 0;
 
-    // 实际到账
-    const realAmount = computed(() => {
-      if (!isNumber(state.amount)) return 0;
-      if (!state.isWaterEnough) {
-        return NP.minus(NP.minus(state.amount, charge.value), forceCharge.value);
-      }
-      return NP.minus(state.amount, charge.value);
+      return NP.divide(withdarwHandlingFee.value, 100);
     });
 
-    const btnDisabled = computed(() => !state.amount || realAmount.value < 0 || !state.selectedItem.accountId);
+    // 实际到账 提现金额 - 一般手续费 - 强制手续费
+    const realAmount = computed(() => {
+      if (!isNumber(state.form.amount)) return 0;
+
+      if (!state.isWaterEnough) {
+        return NP.minus(NP.minus(state.form.amount, charge.value), forceCharge.value);
+      }
+      return NP.minus(state.form.amount, charge.value);
+    });
+
+    // 总金额 提现金额 + 一般手续费 + 强制手续费
+    const totalAmount = computed(() => {
+      if (!isNumber(state.form.amount)) return 0;
+      if (!state.isWaterEnough) {
+        return NP.plus(NP.plus(state.form.amount, charge.value), forceCharge.value);
+      }
+      return NP.plus(state.form.amount, charge.value);
+    });
+
+    // 提现后余额
+    const withdrawBalance = computed(() => NP.minus(state.balance, totalAmount.value));
+
+    const btnDisabled = computed(() => !state.form.amount || realAmount.value < 0 || !state.selectedItem.accountId);
 
     // methods
     const getBankcard = async () => {
@@ -216,11 +254,28 @@ export default {
           query: {
             charge: charge.value,
             forceCharge: forceCharge.value,
-            amount: state.amount,
-            balance: 0,
+            amount: state.form.amount,
+            withdrawBalance: withdrawBalance.value,
             accountName: state.selectedItem.accountName,
             accountId: state.selectedItem.accountId,
+            bankcardId: state.selectedItem.bankId,
+            totalAmount: totalAmount.value,
+            withdrawCode: state.withdrawCode,
           },
+        });
+      }
+    };
+
+    const getUserPartialInfo = async () => {
+      const { code, data } = await MemberApi.getUserPartialInfo({
+        requestInfo: [
+          'balance',
+        ],
+      });
+      if (code === 200) {
+        state.balance = data.balance;
+        store.commit('SET_USER_INFO', {
+          balance: state.balance,
         });
       }
     };
@@ -235,7 +290,7 @@ export default {
     };
 
     const submit = () => {
-      if (realAmount.value < 0) {
+      if (realAmount.value < 0 || withdrawBalance.value < 0) {
         state.showNotice = true;
         return;
       }
@@ -249,7 +304,7 @@ export default {
 
     getBankcard();
     getWaterCaculate();
-
+    getUserPartialInfo();
     return {
       confirm,
       close,
@@ -260,7 +315,11 @@ export default {
       realAmount,
       freeWithdrawCount,
       goBind,
+      withdrawSettings,
+      withdrawBalance,
       btnDisabled,
+      ruleForm,
+      rules,
       ...toRefs(state),
     };
   },
@@ -274,7 +333,6 @@ export default {
 
 .ant-input {
   height: 32px;
-  margin-bottom: 10px;
   border-color: #f2f2f2 !important;
   background-color: #fff !important;
 }
@@ -286,5 +344,11 @@ export default {
     padding: 10px 0 0;
     border-top: 1px solid #f2f2f2;
   }
+}
+
+::v-deep(.ant-form-item-explain) {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
 }
 </style>
