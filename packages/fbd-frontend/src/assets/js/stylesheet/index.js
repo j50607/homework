@@ -72,6 +72,12 @@ class stylesheet {
       maintainBg: {
         1: 'rgba(77, 87, 114, 0.88)',
       },
+      inputBorderColor: {
+        1: '#f2f2f2',
+      },
+      inputBg: {
+        1: '#fff',
+      },
     };
 
     return result;

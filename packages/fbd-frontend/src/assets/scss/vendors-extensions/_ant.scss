@@ -120,12 +120,15 @@
 
 .ant-input-number {
   width: 100%;
-  border-radius: 19px !important;
+  border-color: var(--input-border-color);
+  border-radius: 3px;
+  font-size: 12px;
+  background-color: var(--input-bg);
 }
 
 .ant-input-number-input {
   &::placeholder {
-    color: #999 !important;
+    color: var(--border-color);
   }
 }
 
@@ -243,4 +246,12 @@
 
 .ant-collapse-item {
   border-bottom: 1px solid #f2f2f2 !important;
+}
+
+.ant-statistic {
+  color: var(--font-color);
+
+  &-content {
+    color: inherit;
+  }
 }

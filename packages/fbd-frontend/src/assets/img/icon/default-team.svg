@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-预设球队图标">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="预设球队图标" clip-path="url(#clip-预设球队图标)">
+    <g id="Group_39071" data-name="Group 39071" transform="translate(-8067 -1362)">
+      <rect id="Rectangle_57325" data-name="Rectangle 57325" width="24" height="24" transform="translate(8067 1362)" fill="none"/>
+      <path id="Icon_feather-shield" data-name="Icon feather-shield" d="M14.8,25s8.8-4.4,8.8-11V6.3L14.8,3,6,6.3V14C6,20.6,14.8,25,14.8,25Z" transform="translate(8064.2 1360)" fill="#afb7cb"/>
+    </g>
+  </g>
+</svg>

@@ -1,5 +1,5 @@
 import {
-  Button, message, Modal, Collapse, Input, Form, Statistic, Checkbox, Radio,
+  Button, message, Modal, Collapse, Input, InputNumber, Form, Statistic, Checkbox, Radio,
 } from 'ant-design-vue';
 
 const useAntUI = (app) => {
@@ -8,6 +8,7 @@ const useAntUI = (app) => {
   curApp.use(Modal);
   curApp.use(Collapse);
   curApp.use(Input);
+  curApp.use(InputNumber);
   curApp.use(Form);
   curApp.use(Statistic);
   curApp.use(Checkbox);

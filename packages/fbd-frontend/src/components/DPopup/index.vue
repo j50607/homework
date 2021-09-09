@@ -30,7 +30,10 @@
           @click="close"
         />
       </div>
-      <div class="d-popup-content">
+      <div
+        class="d-popup-content"
+        :style="{ padding: customContentPadding }"
+      >
         <slot />
       </div>
     </div>
@@ -111,6 +114,13 @@ export default {
     duration: {
       type: [String, Number],
       default: 0.5,
+    },
+    /**
+     * 自定义 d-popup-content 的 padding
+     */
+    customContentPadding: {
+      type: String,
+      default: '5px 15px;',
     },
   },
   components: {
@@ -224,7 +234,7 @@ $border-radius: 8px;
 
   .title {
     font-weight: 700;
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 

@@ -1,3 +1,4 @@
+import NP from 'number-precision';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -455,5 +456,15 @@ export const getSportScore = (num, type = 'renderData') => {
  * @param {String | Number} time - YYYY-MM-DD HH:mm:ss || YYYY/MM/DD HH:mm:ss || 1612799941152
  */
 export const convertToCst = (time, formatString = 'YYYY/MM/DD HH:mm:ss') => dayjs(time).tz('Asia/Shanghai').format(formatString);
+
+/**
+ * 無條件捨去到第 N 位
+ * @param {number} num
+ * @param {number} digit - 捨去到第几位
+ */
+export const floorToDigit = (num, digit = 2) => {
+  const base = 10 ** digit;
+  return NP.divide(Math.floor(NP.times(num, base)), base);
+};
 
 export const isValidUrl = (url) => url.trim() && url.trim() !== 'https://';
