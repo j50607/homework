@@ -264,6 +264,7 @@ export default {
         case '/profile/share':
         case '/profile/promotion':
         case '/profile/verify':
+        case '/profile/transaction':
           window.$vue.$message.info(t('common_comingSoon'));
           break;
         case 'service':

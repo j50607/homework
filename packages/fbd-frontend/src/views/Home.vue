@@ -14,7 +14,7 @@
         >
         <img
           v-else
-          class="avatar w-4 h-4 rounded-full"
+          class="avatar w-4 h-4 rounded-full is-btn"
           :src="$requireSafe(`avatar/${avatar && avatar.system ? avatar.system : 0 }.png`)"
           alt=""
           @click="goPage('/profile/userInfo')"

@@ -10,15 +10,20 @@
     />
     <a-form
       :model="state.form"
+      ref="formRef"
       :label-col="{ span: 0 }"
       :wrapper-col="{ span: 24 }"
+      :rules="rules"
     >
       <div class="set-area">
         <!-- 真實姓名 -->
         <div class="set-area-title">
           {{ $t('views_profile_userinfo_realName') }}:
         </div>
-        <a-form-item class="mb-2">
+        <a-form-item
+          class="mb-2"
+          name="realName"
+        >
           <a-input
             v-model:value="state.form.realName"
             :placeholder="$t('views_profile_userinfo_setNickName_pleaseEnterRealName')"
@@ -66,7 +71,7 @@ export default {
     const validator = inject('$validator');
 
     // ref
-    const showBalance = ref(false);
+    const formRef = ref(null);
     const loading = ref(false);
 
     // reactive
@@ -75,6 +80,10 @@ export default {
         realName: '',
       },
     });
+
+    const rules = {
+      realName: [{ required: true, message: t('common_errorNoEmpty'), trigger: ['change', 'blur'] }],
+    };
 
     // computed
     const serviceUrl = computed(() => store.state.info.serviceUrl);
@@ -89,6 +98,7 @@ export default {
         validateResult = validator.value.validateName(state.form.realName);
         if (!validateResult.result) {
           window.$vue.$message.error(validateResult.errorMsg);
+          loading.value = false;
           return;
         }
       }
@@ -108,11 +118,12 @@ export default {
     };
 
     return {
-      showBalance,
+      formRef,
       loading,
       state,
       serviceUrl,
       submit,
+      rules,
     };
   },
 };

@@ -56,39 +56,43 @@
     </div>
     <!-- 個人資料區 -->
     <div class="card">
-      <div
-        class="card-row is-btn"
+      <template
         v-for="(item, index) in userList"
-        :key="`user${index}`"
-        @click="goPage(item)"
+        :key="`contact${index}`"
       >
-        <div class="card-row-title">
-          <div>
-            {{ item.label }}
-          </div>
-          <div
-            v-if="item.value === 'nickName'"
-            class="nick-name-warning"
-          >
-            {{ $t('views_profile_userinfo_nickNameHint') }}
-          </div>
-        </div>
-        <div class="card-row-value">
-          <div v-if="getUserValue(item.value)">
-            {{ getUserValue(item.value) !== 'wallet' ? getUserValue(item.value) : '' }}
-          </div>
-          <div
-            v-else
-            class="not-setting"
-          >
-            {{ $t('views_profile_userinfo_notSetting') }}
-          </div>
-        </div>
-        <img
-          class="arrow-grey"
-          :src="$requireSafe('profile/arrow-grey.svg')"
+        <div
+          v-if="showInfo(item.value)"
+          class="card-row is-btn"
+          @click="goPage(item)"
         >
-      </div>
+          <div class="card-row-title">
+            <div>
+              {{ item.label }}
+            </div>
+            <div
+              v-if="item.value === 'nickName'"
+              class="nick-name-warning"
+            >
+              {{ $t('views_profile_userinfo_nickNameHint') }}
+            </div>
+          </div>
+          <div class="card-row-value">
+            <div v-if="getUserValue(item.value)">
+              {{ getUserValue(item.value) !== 'wallet' ? getUserValue(item.value) : '' }}
+            </div>
+            <div
+              v-else
+              class="not-setting"
+            >
+              {{ $t('views_profile_userinfo_notSetting') }}
+            </div>
+          </div>
+          <img
+            class="arrow-grey"
+            :src="$requireSafe('profile/arrow-grey.svg')"
+          >
+        </div>
+      </template>
       <div class="card-row">
         <div class="card-row-warning">
           {{ $t('views_profile_userinfo_warning') }}
@@ -97,31 +101,35 @@
     </div>
     <!-- 社交軟體及郵箱 -->
     <div class="card">
-      <div
-        class="card-row is-btn"
+      <template
         v-for="(item, index) in contactList"
         :key="`contact${index}`"
-        @click="goPage(item)"
       >
-        <div class="card-row-title">
-          {{ item.label }}
-        </div>
-        <div class="card-row-value">
-          <div v-if="getUserValue(item.value)">
-            {{ getUserValue(item.value) !== 'wallet' ? getUserValue(item.value) : '' }}
-          </div>
-          <div
-            v-else
-            class="not-setting"
-          >
-            {{ $t('views_profile_userinfo_notSetting') }}
-          </div>
-        </div>
-        <img
-          class="arrow-grey"
-          :src="$requireSafe('profile/arrow-grey.svg')"
+        <div
+          v-if="showInfo(item.value)"
+          class="card-row is-btn"
+          @click="goPage(item)"
         >
-      </div>
+          <div class="card-row-title">
+            {{ item.label }}
+          </div>
+          <div class="card-row-value">
+            <div v-if="getUserValue(item.value)">
+              {{ getUserValue(item.value) !== 'wallet' ? getUserValue(item.value) : '' }}
+            </div>
+            <div
+              v-else
+              class="not-setting"
+            >
+              {{ $t('views_profile_userinfo_notSetting') }}
+            </div>
+          </div>
+          <img
+            class="arrow-grey"
+            :src="$requireSafe('profile/arrow-grey.svg')"
+          >
+        </div>
+      </template>
     </div>
     <!-- 設置 -->
     <div class="setting">
@@ -150,15 +158,47 @@
     position="bottom"
     :round="true"
     :title="$t('views_profile_userinfo_gender')"
-    class="popup"
+    class="gender-popup"
   >
-    Gender
+    <div
+      class="checkbox is-btn"
+
+      @click="changeGender(1)"
+    >
+      {{ $t('views_profile_userinfo_man') }}
+      <div
+        class="circle"
+        :class="{'seleted-checkbox' : selectGender === 1}"
+      />
+    </div>
+    <div
+      class="checkbox is-btn"
+
+      @click="changeGender(0)"
+    >
+      {{ $t('views_profile_userinfo_woman') }}
+      <div
+        class="circle"
+        :class="{'seleted-checkbox' : selectGender === 0}"
+      />
+    </div>
+    <!-- 確認按鈕 -->
+    <d-button
+      type="primary"
+      block
+      class="my-2 is-btn"
+      :loading="genderLoading"
+      :disabled="genderLoading"
+      @click="checkGender"
+    >
+      {{ $t('common_confirm') }}
+    </d-button>
   </d-popup>
 </template>
 
 <script>
 import {
-  onBeforeMount, ref, reactive, computed,
+  onBeforeMount, ref, reactive, computed, watch,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -179,6 +219,8 @@ export default {
     // ref
     const showBalance = ref(false);
     const showGenderPopup = ref(false);
+    const genderLoading = ref(false);
+    const selectGender = ref(1);
 
     // reactive
     const state = reactive({
@@ -188,10 +230,10 @@ export default {
     const userList = computed(() => [
       { label: t('views_profile_userinfo_nickName'), redirect: '/profile/userinfo/setNickName', value: 'nickName' },
       { label: t('views_profile_userinfo_realName'), redirect: '/profile/userinfo/setRealName', value: 'name' },
-      { label: t('views_profile_userinfo_gender'), redirect: '/deposit', value: 'gender' },
-      { label: t('views_profile_userinfo_birthday'), redirect: '/deposit', value: 'birthday' },
+      { label: t('views_profile_userinfo_gender'), redirect: '/', value: 'gender' },
+      { label: t('views_profile_userinfo_birthday'), redirect: '/', value: 'birthday' },
       { label: t('views_profile_userinfo_phone'), redirect: '/profile/userinfo/setPhone', value: 'phone' },
-      { label: t('views_profile_userinfo_walletManagement'), redirect: '/wallet', value: 'wallet' },
+      { label: t('views_profile_userinfo_walletManagement'), redirect: '/profile/wallet', value: 'wallet' },
     ]);
 
     const contactList = computed(() => [
@@ -212,6 +254,12 @@ export default {
     const balance = computed(() => store.state.user.balance);
     const usersLockBalance = computed(() => store.state.user.usersLockBalance);
     const user = computed(() => store.state.user);
+    const registerSetting = computed(() => store.state.info.registerSetting);
+
+    // watch
+    watch(showGenderPopup, () => {
+      selectGender.value = user?.value?.gender;
+    });
 
     // methods
     const getUserPartialInfo = async () => {
@@ -261,6 +309,26 @@ export default {
 
     const goPage = (item) => {
       switch (item.value) {
+        case 'name':
+          if (!user.value.name) {
+            router.push(item.redirect);
+          } else {
+            window.$vue.$message.info(t('common_modifyContactService'));
+          }
+          break;
+        case 'gender':
+          if (user.value.gender === 2) {
+            showGenderPopup.value = true;
+          } else {
+            window.$vue.$message.info(t('common_modifyContactService'));
+          }
+          break;
+        case 'qqAccount':
+        case 'wechat':
+        case 'email':
+        case 'line':
+          router.push({ path: item.redirect, query: { type: item.value } });
+          break;
         default:
           router.push(item.redirect);
           break;
@@ -278,6 +346,10 @@ export default {
       }
     };
 
+    const changeGender = (val) => {
+      selectGender.value = val;
+    };
+
     const getUserValue = (val) => {
       switch (val) {
         case 'gender':
@@ -286,6 +358,47 @@ export default {
           return val;
         default:
           return user?.value?.[val];
+      }
+    };
+
+    const checkGender = async () => {
+      genderLoading.value = true;
+      const params = {
+        gender: selectGender.value,
+      };
+      const res = await MemberApi.updateMember(account.value, params);
+      genderLoading.value = false;
+      if (res.code === 200) {
+        store.commit('SET_GENDER', res.data.gender);
+        window.$vue.$message.success(t('common_modifySuccess'));
+      } else {
+        window.$vue.$message.error(res.message);
+      }
+      showGenderPopup.value = false;
+    };
+
+    const showInfo = (val) => {
+      switch (val) {
+        case 'nickName':
+          return registerSetting.value.showNickname;
+        case 'name':
+          return registerSetting.value.showRealName;
+        case 'gender':
+          return registerSetting.value.showGender;
+        case 'birthday':
+          return registerSetting.value.showBirthday;
+        case 'phone':
+          return registerSetting.value.showTel;
+        case 'qqAccount':
+          return registerSetting.value.showQQ;
+        case 'wechat':
+          return registerSetting.value.showWechat;
+        case 'email':
+          return registerSetting.value.showEmail;
+        case 'line':
+          return registerSetting.value.showLine;
+        default:
+          return true;
       }
     };
 
@@ -310,6 +423,11 @@ export default {
       contactList,
       modifyList,
       getUserValue,
+      changeGender,
+      selectGender,
+      genderLoading,
+      checkGender,
+      showInfo,
     };
   },
 };
@@ -418,6 +536,25 @@ export default {
     font-size: 14px;
 
     @apply mb-2;
+  }
+}
+
+.gender-popup {
+  .checkbox {
+    font-size: 14px;
+
+    @apply flex items-center justify-between pl-3 mb-2;
+
+    .circle {
+      width: 16px;
+      height: 16px;
+      border: 1px solid #f2f2f2;
+      border-radius: 50%;
+
+      &.seleted-checkbox {
+        background: radial-gradient(#fff 0%, #fff 20%, #fff 30%, #0e88f5 30%, #0e88f5 100%);
+      }
+    }
   }
 }
 </style>

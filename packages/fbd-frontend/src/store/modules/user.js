@@ -66,6 +66,12 @@ const mutations = {
   SET_TRACE_COUNT(state, traceCount) {
     state.traceCount = traceCount;
   },
+  SET_PHONE(state, phone) {
+    state.phone = phone;
+  },
+  SET_GENDER(state, gender) {
+    state.gender = gender;
+  },
   CLEAR(state) {
     Cookies.remove('_tianyin_token');
 

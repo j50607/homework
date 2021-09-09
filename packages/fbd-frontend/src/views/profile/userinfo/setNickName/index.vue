@@ -10,8 +10,10 @@
     />
     <a-form
       :model="state.form"
+      ref="formRef"
       :label-col="{ span: 0 }"
       :wrapper-col="{ span: 24 }"
+      :rules="rules"
     >
       <div class="set-area">
         <!-- 目前暱稱 -->
@@ -26,12 +28,16 @@
         </a-form-item>
         <!-- 新暱稱 -->
         <div
-          v-if="traceCount.nickname < 2"
+          v-if="traceCount && traceCount.nickname && traceCount.nickname < 2"
           class="set-area-title"
         >
           {{ $t('views_profile_userinfo_setNickName_newNickName') }}:
         </div>
-        <a-form-item class="mb-2">
+        <a-form-item
+          v-if="traceCount && traceCount.nickname && traceCount.nickname < 2"
+          class="mb-2"
+          name="newNickName"
+        >
           <a-input
             v-model:value="state.form.newNickName"
             :placeholder="$t('views_profile_userinfo_setNickName_pleaseEnterNewNickName')"
@@ -39,26 +45,26 @@
         </a-form-item>
         <!-- 修改次數警告 -->
         <div
-          v-if="traceCount.nickname < 2"
+          v-if="traceCount && traceCount.nickname && traceCount.nickname < 2"
           class="set-area-warning"
         >
-          {{ $t('views_profile_userinfo_setNickName_nickNameWarning', {times: traceCount.nickname}) }}
+          {{ $t('views_profile_userinfo_setNickName_nickNameWarning', {times: traceCount && traceCount.nickname}) }}
         </div>
         <div
           v-else
           class="set-area-warning"
         >
-          {{ $t('views_profile_userinfo_setNickName_modifyOverLimit', {times: traceCount.nickname}) }}
+          {{ $t('views_profile_userinfo_setNickName_modifyOverLimit', {times: traceCount && traceCount.nickname}) }}
           <a
             :href="serviceUrl"
             class="service"
           >
-            {{ $t('views_profile_userinfo_setNickName_onlineService', {times: traceCount.nickname}) }}
+            {{ $t('views_profile_userinfo_setNickName_onlineService', {times: traceCount && traceCount.nickname}) }}
           </a>
         </div>
         <!-- 確認按鈕 -->
         <d-button
-          v-if="traceCount.nickname < 2"
+          v-if="traceCount && traceCount.nickname && traceCount.nickname < 2"
           type="primary"
           block
           class="mt-8 is-btn"
@@ -93,6 +99,7 @@ export default {
     const validator = inject('$validator');
 
     // ref
+    const formRef = ref(null);
     const showBalance = ref(false);
     const loading = ref(false);
 
@@ -102,6 +109,10 @@ export default {
         newNickName: '',
       },
     });
+
+    const rules = {
+      newNickName: [{ required: true, message: t('common_errorNoEmpty'), trigger: ['change', 'blur'] }],
+    };
 
     // computed
     const serviceUrl = computed(() => store.state.info.serviceUrl);
@@ -118,11 +129,13 @@ export default {
         validateResult = validator.value.validateNickname(state.form.newNickName);
         if (!validateResult.result) {
           window.$vue.$message.error(validateResult.errorMsg);
+          loading.value = false;
           return;
         }
       }
       if (state.form.newNickName === nickName.value) {
         window.$vue.$message.error(t('views_profile_userinfo_setNickName_nickNameConflict'));
+        loading.value = false;
         return;
       }
       const params = {
@@ -142,6 +155,7 @@ export default {
     };
 
     return {
+      formRef,
       showBalance,
       loading,
       state,
@@ -149,6 +163,7 @@ export default {
       traceCount,
       serviceUrl,
       submit,
+      rules,
     };
   },
 };

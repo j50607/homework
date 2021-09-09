@@ -125,6 +125,14 @@ class SystemApi extends API {
     const result = await this.callAxios('POST', '/system/carousel/get/all', params, undefined, false);
     return result;
   }
+
+  // 取得手機驗證碼
+  static async sendSms({ phone, auth = true }) {
+    const params = { phone };
+
+    const result = await this.callAxios('POST', '/utility/sms/send', params, null, auth);
+    return result;
+  }
 }
 
 export default SystemApi;

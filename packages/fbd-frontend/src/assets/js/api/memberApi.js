@@ -370,6 +370,16 @@ class MemberApi extends API {
     const result = await this.callAxios('POST', `/member/update/${account}`, params, undefined, true);
     return result;
   }
+
+  /**
+  * 電話綁定驗證
+  */
+  static async verifySms({ phone, verifyCode, password }) {
+    const params = { phone, verifyCode, password };
+
+    const result = await this.callAxios('POST', '/member/bind-phone/verify', params, null, true);
+    return result;
+  }
 }
 
 export default MemberApi;
