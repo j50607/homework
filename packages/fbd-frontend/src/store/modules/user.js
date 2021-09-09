@@ -57,6 +57,15 @@ const mutations = {
   SET_WITHDRAW_CODE(state, value) {
     state.withdrawalCodeSetting = value;
   },
+  SET_NAME(state, name) {
+    state.name = name;
+  },
+  SET_NICK_NAME(state, nickName) {
+    state.nickName = nickName;
+  },
+  SET_TRACE_COUNT(state, traceCount) {
+    state.traceCount = traceCount;
+  },
   CLEAR(state) {
     Cookies.remove('_tianyin_token');
 

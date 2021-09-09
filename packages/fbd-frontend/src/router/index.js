@@ -30,6 +30,67 @@ const routes = [
     meta: {
       title: 'Userinfo',
       layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/userinfo/setNickName',
+    name: 'setNickName',
+    component: () => import(/* webpackChunkName: "SetNickName" */ '@/views/profile/userinfo/setNickName'),
+    meta: {
+      title: 'SetNickName',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/userinfo/setRealName',
+    name: 'setRealName',
+    component: () => import(/* webpackChunkName: "SetRealName" */ '@/views/profile/userinfo/setRealName'),
+    meta: {
+      title: 'SetRealName',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/userinfo/setPhone',
+    name: 'setPhone',
+    component: () => import(/* webpackChunkName: "SetPhone" */ '@/views/profile/userinfo/setPhone'),
+    meta: {
+      title: 'SetPhone',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/userinfo/modifyLoginPassword',
+    name: 'modifyLoginPassword',
+    component: () => import(/* webpackChunkName: "ModifyLoginPassword" */ '@/views/profile/userinfo/modifyLoginPassword'),
+    meta: {
+      title: 'ModifyLoginPassword',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/userinfo/modifyWithdrawPassword',
+    name: 'modifyWithdrawPassword',
+    component: () => import(/* webpackChunkName: "ModifyWithdrawPassword" */ '@/views/profile/userinfo/modifyWithdrawPassword'),
+    meta: {
+      title: 'ModifyWithdrawPassword',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/userinfo/setContact',
+    name: 'setContact',
+    component: () => import(/* webpackChunkName: "SetContact" */ '@/views/profile/userinfo/setContact'),
+    meta: {
+      title: 'SetContact',
+      layout: Layout,
+      requiresAuth: true,
     },
   },
   {
@@ -86,7 +147,7 @@ const routes = [
     meta: {
       title: 'Wallet',
       layout: Layout,
-      // requiresAuth: true,
+      requiresAuth: true,
     },
   },
   {
@@ -96,7 +157,7 @@ const routes = [
     meta: {
       title: 'OrderDetail',
       layout: Layout,
-      // requiresAuth: true,
+      requiresAuth: true,
     },
   },
   {

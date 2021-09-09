@@ -2,9 +2,10 @@
   <div
     class="logo"
     :style="`justify-content:${leftPos || middlePos || rightPos}`"
-    @click="goService"
   >
     <img
+      class="is-btn"
+      @click="goService"
       :src="$requireSafe('header/icon-service-white.svg')"
     >
   </div>

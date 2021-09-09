@@ -362,6 +362,14 @@ class MemberApi extends API {
     const result = await this.callAxios('POST', `/member/avatar/update/${account}`, formData, headers, true);
     return result;
   }
+
+  /**
+  * 更新會員資料
+  */
+  static async updateMember(account, params) {
+    const result = await this.callAxios('POST', `/member/update/${account}`, params, undefined, true);
+    return result;
+  }
 }
 
 export default MemberApi;

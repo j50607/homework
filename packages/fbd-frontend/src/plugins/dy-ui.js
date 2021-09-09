@@ -6,6 +6,7 @@ import DHeaderRow from '@/components/DHeaderRow';
 import DLanguageModal from '@/components/DLanguageModal';
 import DLayout from '@/components/DLayout';
 import DLoading from '@/components/DLoading';
+import DProgressBar from '@/components/DProgressBar';
 import DLocale from '@/components/DLocale';
 import DLocaleImage from '@/components/DLocaleImage';
 import DPopup from '@/components/DPopup';
@@ -29,6 +30,7 @@ const useDyUI = (app) => {
     Vue.component('DLanguageModal', DLanguageModal);
     Vue.component('DLayout', DLayout);
     Vue.component('DLoading', DLoading);
+    Vue.component('DProgressBar', DProgressBar);
     Vue.component('DLocale', DLocale);
     Vue.component('DLocaleImage', DLocaleImage);
     Vue.component('DPopup', DPopup);

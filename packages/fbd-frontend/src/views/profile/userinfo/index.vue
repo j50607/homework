@@ -60,6 +60,7 @@
         class="card-row is-btn"
         v-for="(item, index) in userList"
         :key="`user${index}`"
+        @click="goPage(item)"
       >
         <div class="card-row-title">
           <div>
@@ -100,6 +101,7 @@
         class="card-row is-btn"
         v-for="(item, index) in contactList"
         :key="`contact${index}`"
+        @click="goPage(item)"
       >
         <div class="card-row-title">
           {{ item.label }}
@@ -130,6 +132,7 @@
         class="card-row is-btn"
         v-for="(item, index) in modifyList"
         :key="`modify${index}`"
+        @click="goPage(item)"
       >
         <div class="card-row-title">
           {{ item.label }}
@@ -142,6 +145,15 @@
       </div>
     </div>
   </div>
+  <d-popup
+    v-model:value="showGenderPopup"
+    position="bottom"
+    :round="true"
+    :title="$t('views_profile_userinfo_gender')"
+    class="popup"
+  >
+    Gender
+  </d-popup>
 </template>
 
 <script>
@@ -166,6 +178,7 @@ export default {
 
     // ref
     const showBalance = ref(false);
+    const showGenderPopup = ref(false);
 
     // reactive
     const state = reactive({
@@ -173,24 +186,24 @@ export default {
 
     // computed
     const userList = computed(() => [
-      { label: t('views_profile_userinfo_nickName'), redirect: '/deposit', value: 'nickName' },
-      { label: t('views_profile_userinfo_realName'), redirect: '/deposit', value: 'name' },
+      { label: t('views_profile_userinfo_nickName'), redirect: '/profile/userinfo/setNickName', value: 'nickName' },
+      { label: t('views_profile_userinfo_realName'), redirect: '/profile/userinfo/setRealName', value: 'name' },
       { label: t('views_profile_userinfo_gender'), redirect: '/deposit', value: 'gender' },
       { label: t('views_profile_userinfo_birthday'), redirect: '/deposit', value: 'birthday' },
-      { label: t('views_profile_userinfo_phone'), redirect: '/deposit', value: 'phone' },
+      { label: t('views_profile_userinfo_phone'), redirect: '/profile/userinfo/setPhone', value: 'phone' },
       { label: t('views_profile_userinfo_walletManagement'), redirect: '/wallet', value: 'wallet' },
     ]);
 
     const contactList = computed(() => [
-      { label: t('views_profile_userinfo_qq'), redirect: '/deposit', value: 'qqAccount' },
-      { label: t('views_profile_userinfo_wechat'), redirect: '/deposit', value: 'wechat' },
-      { label: t('views_profile_userinfo_mailbox'), redirect: '/deposit', value: 'email' },
-      { label: t('views_profile_userinfo_line'), redirect: '/deposit', value: 'line' },
+      { label: t('views_profile_userinfo_qq'), redirect: '/profile/userinfo/setContact', value: 'qqAccount' },
+      { label: t('views_profile_userinfo_wechat'), redirect: '/profile/userinfo/setContact', value: 'wechat' },
+      { label: t('views_profile_userinfo_mailbox'), redirect: '/profile/userinfo/setContact', value: 'email' },
+      { label: t('views_profile_userinfo_line'), redirect: '/profile/userinfo/setContact', value: 'line' },
     ]);
 
     const modifyList = computed(() => [
-      { label: t('views_profile_userinfo_modifyLoginPassword'), redirect: '/deposit' },
-      { label: t('views_profile_userinfo_modifyWithdrawPassword'), redirect: '/deposit' },
+      { label: t('views_profile_userinfo_modifyLoginPassword'), redirect: '/profile/userinfo/modifyLoginPassword', value: 'modifyLoginPassword' },
+      { label: t('views_profile_userinfo_modifyWithdrawPassword'), redirect: '/profile/userinfo/modifyWithdrawPassword', value: 'modifyWithdrawPassword' },
     ]);
 
     const account = computed(() => store.state.user.account);
@@ -246,10 +259,10 @@ export default {
       showBalance.value = !showBalance.value;
     };
 
-    const goPage = (page) => {
-      switch (page) {
+    const goPage = (item) => {
+      switch (item.value) {
         default:
-          router.push(page);
+          router.push(item.redirect);
           break;
       }
     };
@@ -283,6 +296,7 @@ export default {
 
     return {
       showBalance,
+      showGenderPopup,
       state,
       toggleEye,
       goPage,

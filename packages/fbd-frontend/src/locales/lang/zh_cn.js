@@ -85,6 +85,7 @@ const lang = {
   common_edit_success: '编辑成功',
   common_count: '次',
   common_limit: '限制',
+  common_modifySuccess: '更改成功',
 
   // Views
   views_notFound_desc: '404 page not found',
@@ -213,6 +214,15 @@ const lang = {
   views_profile_wallet_placeholder2: '请输入USDT提现地址',
   views_profile_wallet_walletAddress: '錢包地址',
   views_profile_wallet_deleteNotice: '确认要将此钱包删除吗',
+  views_profile_userinfo_setNickName_currentNickName: '目前昵称',
+  views_profile_userinfo_setNickName_newNickName: '新昵称',
+  views_profile_userinfo_setNickName_pleaseEnterNewNickName: '请输入新昵称',
+  views_profile_userinfo_setNickName_nickNameWarning: '昵称只能修改 2 次，已修改 {times} 次',
+  views_profile_userinfo_setNickName_modifyOverLimit: '修改昵称次数已达上限, 若要修改请联系',
+  views_profile_userinfo_setNickName_onlineService: '在线客服',
+  views_profile_userinfo_setNickName_nickNameConflict: '新旧昵称不得相同',
+  views_profile_userinfo_setNickName_pleaseEnterRealName: '请输入真实姓名',
+  views_profile_userinfo_setRealName_warning: '输入后无法变更',
 
   // Components
   components_common_dialog_confirm: '确认',
