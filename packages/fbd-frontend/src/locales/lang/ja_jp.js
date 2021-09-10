@@ -136,6 +136,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_nickname_placeholder: '请输入昵称',
   components_pages_loginAndRegister_loginRegister_register_phone: '手机号',
   components_pages_loginAndRegister_loginRegister_register_phone_placeholder: '请输入手机号',
+  components_pages_loginAndRegister_loginRegister_register_email: '邮箱',
+  components_pages_loginAndRegister_loginRegister_register_email_placeholder: '请输入邮箱',
   components_pages_loginAndRegister_loginRegister_register_qq: 'QQ号',
   components_pages_loginAndRegister_loginRegister_register_qq_placeholder: '请输入QQ号',
   components_pages_loginAndRegister_loginRegister_register_weChat: '微信',
@@ -168,6 +170,9 @@ const lang = {
   error21: 'Wechat アカウントは全角文字を含まない',
   error22: 'WeChatアカウントには、特殊文字や句読点は含まれていません',
   error23: 'Wechatの字数が長すぎです',
+  error24: 'メールアドレスを入力',
+  error25: 'メールアドレスが間違えています',
+  error26: 'メールアドレスが長すぎです',
 };
 
 export default {

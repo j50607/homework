@@ -136,6 +136,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_nickname_placeholder: '请输入昵称',
   components_pages_loginAndRegister_loginRegister_register_phone: '手机号',
   components_pages_loginAndRegister_loginRegister_register_phone_placeholder: '请输入手机号',
+  components_pages_loginAndRegister_loginRegister_register_email: '邮箱',
+  components_pages_loginAndRegister_loginRegister_register_email_placeholder: '请输入邮箱',
   components_pages_loginAndRegister_loginRegister_register_qq: 'QQ号',
   components_pages_loginAndRegister_loginRegister_register_qq_placeholder: '请输入QQ号',
   components_pages_loginAndRegister_loginRegister_register_weChat: '微信',
@@ -168,6 +170,9 @@ const lang = {
   error21: 'บัญชี WeChat ห้ามมีตัวพิมพ์ใหญ่',
   error22: 'บัญชี WeChat ไม่มีสัญลักษณ์พิเศษหรือเครื่องหมายวรรคตอน',
   error23: 'Wechat ข้อความยาวเกิน',
+  error24: 'ใส่่Email',
+  error25: 'Email ภาษาที่ใช้ไม่ถูกต้อง',
+  error26: 'Email ข้อความยาวเกิน',
 };
 
 export default {

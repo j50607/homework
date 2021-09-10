@@ -147,7 +147,7 @@
                 <a-form-item
                   v-if="registerSetting.showRealName"
                   class="main-input"
-                  name="realnameInputValue"
+                  name="realNameInputValue"
                   :label="$t('components_pages_loginAndRegister_loginRegister_register_real_name')"
                 >
                   <a-input-group
@@ -160,7 +160,7 @@
                     </div>
 
                     <a-input
-                      v-model:value="state.formState.realnameInputValue"
+                      v-model:value="state.formState.realNameInputValue"
                       :type="'text'"
                       :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_register_real_name_placeholder')}`"
                       @focus="focusRealNameInput"
@@ -215,6 +215,30 @@
                       :placeholder="$t('components_pages_loginAndRegister_loginRegister_register_phone_placeholder')"
                       @focus="focusPhoneInput"
                       @blur="blurPhoneInput"
+                    />
+                  </a-input-group>
+                </a-form-item>
+
+                <a-form-item
+                  v-if="registerSetting.showEmail"
+                  class="main-input"
+                  name="emailInputValue"
+                  :label="$t('components_pages_loginAndRegister_loginRegister_register_email')"
+                >
+                  <a-input-group
+                    compact
+                    class="main-input"
+                    :class="[checkFocus('email')]"
+                  >
+                    <div class="input-icon">
+                      <img :src="$requireSafe('icon/mail.svg')">
+                    </div>
+
+                    <a-input
+                      v-model:value="state.formState.emailInputValue"
+                      :placeholder="$t('components_pages_loginAndRegister_loginRegister_register_email_placeholder')"
+                      @focus="focusEmailInput"
+                      @blur="blurEmailInput"
                     />
                   </a-input-group>
                 </a-form-item>
@@ -336,6 +360,7 @@ export default {
     const phoneBool = ref(false);
     const qqBool = ref(false);
     const weixinBool = ref(false);
+    const emailBool = ref(false);
 
     const focusMainBool = ref(false);
     const focusPasswordBool = ref(false);
@@ -346,6 +371,7 @@ export default {
     const focusPhoneBool = ref(false);
     const focusQQBool = ref(false);
     const focusWeixinBool = ref(false);
+    const focusEmailBool = ref(false);
 
     const registerRef = ref(null);
 
@@ -382,6 +408,7 @@ export default {
         realNameInputValue: undefined,
         nicknameInputValue: undefined,
         phoneInputValue: undefined,
+        emailInputValue: undefined,
         qqInputValue: undefined,
         weixinInputValue: undefined,
       },
@@ -496,6 +523,31 @@ export default {
       return Promise.resolve();
     };
 
+    const registerEmail = computed(() => store.state.info.registerSetting.registerEmail);
+    const emailValidate = async (rule, value) => {
+      const emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (registerEmail.value) {
+        if (!value || !value.trim()) {
+          emailBool.value = false;
+          return Promise.reject(new Error(t('error24')));
+        }
+
+        if (!emailReg.test(value)) {
+          emailBool.value = false;
+          return Promise.reject(new Error(t('error25')));
+        }
+
+        if (value.length > 50) {
+          emailBool.value = false;
+          return Promise.reject(new Error(t('error26')));
+        }
+      }
+
+      emailBool.value = true;
+      return Promise.resolve();
+    };
+
     const registerQQ = computed(() => store.state.info.registerSetting.registerQQ);
     const qqValidate = async (rule, value) => {
       const regCantContainChinese = /[`~!@#$^&*()=|{}':;',[\]<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]/;
@@ -531,16 +583,16 @@ export default {
       if (registerWechat.value) {
         if (!value || !value.trim()) {
           weixinBool.value = false;
-          return Promise.reject(new Error(t('error16')));
+          return Promise.reject(new Error(t('error20')));
         } if (regCantContainChinese.test(value)) {
           weixinBool.value = false;
-          return Promise.reject(new Error(t('error19')));
+          return Promise.reject(new Error(t('error22')));
         } if (regCantContainFull.test(value)) {
           weixinBool.value = false;
-          return Promise.reject(new Error(t('error17')));
+          return Promise.reject(new Error(t('error21')));
         } if (value.length > 20) {
           weixinBool.value = false;
-          return Promise.reject(new Error(t('error18')));
+          return Promise.reject(new Error(t('error23')));
         }
       }
 
@@ -585,6 +637,7 @@ export default {
       realNameInputValue: [{ required: registerRealName.value, validator: realNameValidate, trigger: 'change' }],
       nicknameInputValue: [{ required: registerNickname.value, validator: nicknameValidate, trigger: 'change' }],
       phoneInputValue: [{ required: registerTel.value, validator: phoneValidate, trigger: 'change' }],
+      emailInputValue: [{ required: registerEmail.value, validator: emailValidate, trigger: 'change' }],
       qqInputValue: [{ required: registerQQ.value, validator: qqValidate, trigger: 'change' }],
       weixinInputValue: [{ required: registerWechat.value, validator: weixinValidate, trigger: 'change' }],
     });
@@ -754,6 +807,18 @@ export default {
       }
     };
 
+    const focusEmailInput = (val) => {
+      if (val && val.type === 'focus') {
+        focusEmailBool.value = true;
+      }
+    };
+
+    const blurEmailInput = (val) => {
+      if (val) {
+        focusEmailBool.value = false;
+      }
+    };
+
     const checkFocus = (type) => {
       let result = '';
 
@@ -866,6 +931,18 @@ export default {
             result = 'blur-input';
           }
           break;
+        case 'email':
+          if (focusEmailBool.value && !emailBool.value) {
+            result = 'has-error';
+          } else if (focusEmailBool.value) {
+            result = 'focus-input';
+          } else if (!emailBool.value) {
+            focusEmailBool.value = false;
+            result = 'has-error';
+          } else {
+            result = 'blur-input';
+          }
+          break;
         default:
           break;
       }
@@ -883,6 +960,7 @@ export default {
       focusPhoneBool.value = false;
       focusQQBool.value = false;
       focusWeixinBool.value = false;
+      focusEmailBool.value = false;
       accountBool.value = true;
       passwordBool.value = true;
       confirmPasswordBool.value = true;
@@ -892,6 +970,7 @@ export default {
       phoneBool.value = true;
       qqBool.value = true;
       weixinBool.value = true;
+      emailBool.value = true;
     };
 
     onMounted(() => {
@@ -960,6 +1039,10 @@ export default {
       focusWeixinInput,
       blurWeixinInput,
       registerRef,
+      emailBool,
+      focusEmailBool,
+      focusEmailInput,
+      blurEmailInput,
     };
   },
 };

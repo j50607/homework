@@ -288,6 +288,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_nickname_placeholder: '请输入昵称',
   components_pages_loginAndRegister_loginRegister_register_phone: '手机号',
   components_pages_loginAndRegister_loginRegister_register_phone_placeholder: '请输入手机号',
+  components_pages_loginAndRegister_loginRegister_register_email: '邮箱',
+  components_pages_loginAndRegister_loginRegister_register_email_placeholder: '请输入邮箱',
   components_pages_loginAndRegister_loginRegister_register_qq: 'QQ号',
   components_pages_loginAndRegister_loginRegister_register_qq_placeholder: '请输入QQ号',
   components_pages_loginAndRegister_loginRegister_register_weChat: '微信',
@@ -323,10 +325,13 @@ const lang = {
   error17: 'QQ账号不可包含全形字元',
   error18: 'QQ 字数过长',
   error19: 'QQ账号不包含特殊字符或标点符号',
-  error20: '请输入wechat账号',
+  error20: '请输入微信账号',
   error21: '微信账号不可包含全形字元',
   error22: '微信账号不包含特殊字符或标点符号',
-  error23: 'Wechat 字数过长',
+  error23: '微信 字数过长',
+  error24: '请输入邮箱',
+  error25: '邮箱 格式错误',
+  error26: '邮箱 字数过长',
 };
 
 export default {

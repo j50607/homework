@@ -136,6 +136,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_nickname_placeholder: '请输入昵称',
   components_pages_loginAndRegister_loginRegister_register_phone: '手机号',
   components_pages_loginAndRegister_loginRegister_register_phone_placeholder: '请输入手机号',
+  components_pages_loginAndRegister_loginRegister_register_email: '邮箱',
+  components_pages_loginAndRegister_loginRegister_register_email_placeholder: '请输入邮箱',
   components_pages_loginAndRegister_loginRegister_register_qq: 'QQ号',
   components_pages_loginAndRegister_loginRegister_register_qq_placeholder: '请输入QQ号',
   components_pages_loginAndRegister_loginRegister_register_weChat: '微信',
@@ -168,6 +170,9 @@ const lang = {
   error21: 'Tài khoản WeChat không bao gồm kí tự full-width',
   error22: 'Tài khoản WeChat không bao gồm kí tự đặc biệt hoặc dấu câu',
   error23: 'Độ dài mật khẩu WeChat ít hơn 20 kí tự',
+  error24: 'Vui lòng nhập Email',
+  error25: 'Định dạng Email không đúng',
+  error26: 'Độ dài Email quá giới hạn',
 };
 
 export default {

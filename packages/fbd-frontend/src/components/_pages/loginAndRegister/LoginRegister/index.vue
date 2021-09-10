@@ -259,6 +259,7 @@ export default {
         name: formState.realNameInputValue,
         nickName: formState.nicknameInputValue,
         phone: formState.phoneInputValue,
+        email: formState.emailInputValue,
         qqAccount: formState.qqInputValue,
         weChat: formState.weixinInputValue,
         registerType: registerType.value,

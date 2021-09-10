@@ -136,6 +136,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_nickname_placeholder: '请输入昵称',
   components_pages_loginAndRegister_loginRegister_register_phone: '手机号',
   components_pages_loginAndRegister_loginRegister_register_phone_placeholder: '请输入手机号',
+  components_pages_loginAndRegister_loginRegister_register_email: '邮箱',
+  components_pages_loginAndRegister_loginRegister_register_email_placeholder: '请输入邮箱',
   components_pages_loginAndRegister_loginRegister_register_qq: 'QQ号',
   components_pages_loginAndRegister_loginRegister_register_qq_placeholder: '请输入QQ号',
   components_pages_loginAndRegister_loginRegister_register_weChat: '微信',
@@ -168,6 +170,9 @@ const lang = {
   error21: 'WeChat account cannot contain full-width characters',
   error22: 'WeChat account does not contain special characters or punctuation marks',
   error23: 'Wechat is too long',
+  error24: 'Please enter Email',
+  error25: 'Email format error',
+  error26: 'Email word count is too long',
 };
 
 export default {
