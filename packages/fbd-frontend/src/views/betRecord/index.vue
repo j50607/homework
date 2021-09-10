@@ -42,7 +42,7 @@
           >
             <div class="betrecord-item-piece">
               <div class="betrecord-text betrecord-text">
-                {{ item.createdAt }}
+                {{ dayjs(item.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
               </div>
             </div>
 
@@ -65,7 +65,7 @@
               </div>
 
               <div class="betrecord-text betrecord-text-xl betrecord-text-em">
-                {{ item.name2 }}
+                {{ renderGameInfo(item) }}
               </div>
             </div>
 
@@ -77,7 +77,7 @@
                 {{ $t('views_betRecord_item_label1') }}
               </div>
               <div class="betrecord-text betrecord-text-lg">
-                {{ item.amount }}
+                {{ item?.realAmount }}
               </div>
 
               <div class="betrecord-text betrecord-text-sm">
@@ -88,7 +88,7 @@
                   {{ item.option1 }}
                 </span>
                 <span class="betrecord-item-option-em">
-                  {{ item.option2 }}
+                  {{ item?.payRate }}
                 </span>
               </div>
 
@@ -96,7 +96,7 @@
                 {{ $t('views_betRecord_item_label3') }}
               </div>
               <div class="betrecord-text betrecord-text-lg">
-                {{ item.charge }}
+                {{ item?.fee }}
               </div>
 
               <div class="betrecord-text betrecord-text-sm">
@@ -106,7 +106,7 @@
                 class="betrecord-text betrecord-text-lg"
                 :class="renderNumberStyle(item.status)"
               >
-                {{ renderNumber(item.estimateProfit) }}
+                {{ renderNumber(item?.estimateProfit) }}
               </div>
             </div>
 
@@ -128,7 +128,7 @@
           {{ $t('views_betRecord_sum_label1') }}
         </span>
         <span>
-          {{ state.sumData.amount }}
+          {{ state.sumData.totalBetAmount }}
         </span>
       </div>
 
@@ -137,7 +137,7 @@
           {{ $t('views_betRecord_sum_label2') }}
         </span>
         <span>
-          {{ state.sumData.endGame }}
+          {{ state.sumData.countSettled }}
         </span>
       </div>
 
@@ -146,7 +146,7 @@
           {{ $t('views_betRecord_sum_label4') }}
         </span>
         <span>
-          {{ state.sumData.realProfit }}
+          {{ state.sumData.totalProfit }}
         </span>
       </div>
 
@@ -155,7 +155,7 @@
           {{ $t('views_betRecord_sum_label3') }}
         </span>
         <span>
-          {{ state.sumData.onGoingGame }}
+          {{ state.sumData.countUnsettled }}
         </span>
       </div>
 
@@ -164,7 +164,7 @@
           {{ $t('views_betRecord_sum_label5') }}
         </span>
         <span>
-          {{ state.sumData.estimateProfit }}
+          {{ state.sumData.totalEstimateProfit }}
         </span>
       </div>
     </div>
@@ -180,38 +180,43 @@
     <div class="popup-label">
       {{ $t('views_betRecord_filterPopup_label1') }}
     </div>
-    <ul class="popup-list">
-      <li class="popup-item is-btn">
-        {{ $t('views_betRecord_filterPopup_status1') }}
-      </li>
-      <li class="popup-item is-btn">
-        {{ $t('views_betRecord_filterPopup_status2') }}
-      </li>
-    </ul>
 
-    <div class="popup-label">
-      {{ $t('views_betRecord_filterPopup_label2') }}
+    <div class="popup-list">
+      <a-radio-group v-model:value="state.tempSelectedStatus">
+        <a-radio
+          v-for="(item, idx) in state.statusList"
+          :key="`statusList[${idx}]`"
+          :value="item.value"
+        >
+          {{ item.text }}
+        </a-radio>
+      </a-radio-group>
     </div>
-    <ul class="popup-list">
-      <li
-        v-for="(item, idx) in 20"
-        :key="`filterItem[${idx}]`"
-        class="popup-item is-btn"
+
+    <div class="popup-piece">
+      <d-button
+        type="primary"
+        :block="true"
+        @click="changeStatus"
       >
-        {{ `选项名称${item}` }}
-      </li>
-    </ul>
+        {{ $t('common_confirm') }}
+      </d-button>
+    </div>
   </d-popup>
 
   <d-footer-row />
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue';
+import {
+  ref, reactive, computed, onBeforeMount,
+} from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import * as R from 'ramda';
+import dayjs from 'dayjs';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons-vue';
+import SportApi from '@/assets/js/api/sportApi';
 import DScroll from '@/components/DScroll';
 
 export default {
@@ -255,6 +260,10 @@ export default {
         { text: t('components_dSelectDateModal_custom2'), value: 'custom', index: 3 },
       ],
       currentRange: 'today',
+      currentRangeObj: {
+        start: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
+        end: dayjs().endOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
+      },
       currentExpandIdx: undefined,
       isFilterPopupShow: false,
       betRecordData: [
@@ -262,104 +271,40 @@ export default {
           createdAt: '2021/08/08 06:06:06',
           name: '俄罗斯乙级联赛',
           time: '2021/08/08 06:06(CST)',
-          name2: 'FC奥伦堡II V.S. 图伊马济斯巴达',
+          gameInfo: 'FC奥伦堡II V.S. 图伊马济斯巴达',
           status: 12.12,
-          amount: 1000,
+          realAmount: 1000,
           option1: '半场 0 : 0',
-          option2: '@2.56%',
-          charge: '0.56%',
-          estimateProfit: 2.56,
-        },
-        {
-          createdAt: '2021/08/08 06:06:06',
-          name: '俄罗斯乙级联赛',
-          time: '2021/08/08 06:06(CST)',
-          name2: 'FC奥伦堡II V.S. 图伊马济斯巴达',
-          status: -12.12,
-          amount: 1000,
-          option1: '半场 0 : 0',
-          option2: '@2.56%',
-          charge: '0.56%',
-          estimateProfit: -2.56,
-        },
-        {
-          createdAt: '2021/08/08 06:06:06',
-          name: '俄罗斯乙级联赛',
-          time: '2021/08/08 06:06(CST)',
-          name2: 'FC奥伦堡II V.S. 图伊马济斯巴达',
-          status: 12.12,
-          amount: 1000,
-          option1: '半场 0 : 0',
-          option2: '@2.56%',
-          charge: '0.56%',
-          estimateProfit: 2.56,
-        },
-        {
-          createdAt: '2021/08/08 06:06:06',
-          name: '俄罗斯乙级联赛',
-          time: '2021/08/08 06:06(CST)',
-          name2: 'FC奥伦堡II V.S. 图伊马济斯巴达',
-          status: 12.12,
-          amount: 1000,
-          option1: '半场 0 : 0',
-          option2: '@2.56%',
-          charge: '0.56%',
-          estimateProfit: 2.56,
-        },
-        {
-          createdAt: '2021/08/08 06:06:06',
-          name: '俄罗斯乙级联赛',
-          time: '2021/08/08 06:06(CST)',
-          name2: 'FC奥伦堡II V.S. 图伊马济斯巴达',
-          status: 12.12,
-          amount: 1000,
-          option1: '半场 0 : 0',
-          option2: '@2.56%',
-          charge: '0.56%',
-          estimateProfit: 2.56,
-        },
-        {
-          createdAt: '2021/08/08 06:06:06',
-          name: '俄罗斯乙级联赛',
-          time: '2021/08/08 06:06(CST)',
-          name2: 'FC奥伦堡II V.S. 图伊马济斯巴达',
-          status: 12.12,
-          amount: 1000,
-          option1: '半场 0 : 0',
-          option2: '@2.56%',
-          charge: '0.56%',
-          estimateProfit: 2.56,
-        },
-        {
-          createdAt: '2021/08/08 06:06:06',
-          name: '俄罗斯乙级联赛',
-          time: '2021/08/08 06:06(CST)',
-          name2: 'FC奥伦堡II V.S. 图伊马济斯巴达',
-          status: 12.12,
-          amount: 1000,
-          option1: '半场 0 : 0',
-          option2: '@2.56%',
-          charge: '0.56%',
+          payRate: '@2.56%',
+          fee: '0.56%',
           estimateProfit: 2.56,
         },
       ],
       sumData: {
-        amount: 123.248,
-        endGame: 21,
-        onGoingGame: 7,
-        realProfit: 217664.97,
-        estimateProfit: 1084265.9,
+        totalBetAmount: 123.248,
+        countSettled: 21,
+        countUnsettled: 7,
+        totalProfit: 217664.97,
+        totalEstimateProfit: 1084265.9,
+      },
+      statusList: [
+        { text: t('common_all'), value: 'all', index: 0 },
+        { text: t('views_betRecord_filterPopup_status2'), value: 2, index: 1 },
+        { text: t('views_betRecord_filterPopup_status1'), value: 1, index: 2 },
+      ],
+      tempSelectedStatus: 'all',
+      currentStatus: 'all',
+      pageData: {
+        pageIndex: 1,
+        isLastPage: false,
       },
     });
 
     // computed
     const siteStyle = computed(() => store.state.info.siteStyle);
+    const language = computed(() => store.state.info.language);
 
     // methods
-    const changeRange = (range) => {
-      state.currentRange = range;
-    };
-
     const renderNumber = (val) => {
       const num = Number(val) || 0;
       if (num > 0) return `+${num}`;
@@ -375,31 +320,117 @@ export default {
 
     const renderExpandStatus = (val) => (val ? t('views_betRecord_item_action2') : t('views_betRecord_item_action1'));
 
-    const toggleFilterPopup = (isShow) => {
-      state.isFilterPopupShow = isShow;
+    const renderGameInfo = (item, type = 'payRate') => {
+      let lang = window._jsvar.siteLocale;
+      switch (language.value) {
+        case 'zh_cn':
+        case 'zh_tw':
+          lang = 'zh_cn';
+          break;
+        default:
+          lang = 'en_us';
+          break;
+      }
+      return item[lang] && item[lang][type];
     };
 
-    const getRecord = async () => {
-      const data = R.clone(state.betRecordData);
-      const result = data.map((item) => ({ ...item, isShowDetails: false }));
-      return result;
+    const toggleFilterPopup = (isShow, isInitTempStatus = true) => {
+      state.isFilterPopupShow = isShow;
+
+      if (isInitTempStatus) {
+        state.tempSelectedStatus = state.currentStatus;
+      }
+    };
+
+    const refreshData = () => {
+      state.pageData.pageIndex = 1;
+      state.pageData.isLastPage = false;
+      state.betRecordData = [];
+      state.sumData = {};
+    };
+
+    const getBetOrderPage = async () => {
+      const params = {
+        start: state.currentRangeObj.start,
+        end: state.currentRangeObj.end,
+        status: state.currentStatus === 'all' ? [1, 2, 5] : [state.currentStatus],
+        pageIndex: state.pageData.pageIndex,
+      };
+      const { code, data } = await SportApi.getBetOrderPage(params) || {};
+      console.log(code, data);
+      if (code !== 200) return {};
+      return data;
+    };
+
+    const getBetOrderStatistic = async () => {
+      const params = {
+        start: state.currentRangeObj.start,
+        end: state.currentRangeObj.end,
+      };
+      const { code, data } = await SportApi.getBetOrderStatistic(params) || {};
+      console.log(code, data);
+      if (code !== 200) return {};
+      return data;
+    };
+
+    const getData = async () => {
+      // const data = R.clone(state.betRecordData);
+      const data = await getBetOrderPage();
+      const result = data?.content?.map((item) => ({ ...item, isShowDetails: false }));
+      state.betRecordData = result;
+      state.sumData = await getBetOrderStatistic();
     };
 
     const loadMoreRecord = () => {
-      // state.pageData.pageIndex += 1;
-      getRecord();
+      state.pageData.pageIndex += 1;
+      getData();
     };
 
     const pullingDown = () => {
-      // state.pageData.pageIndex += 1;
-      getRecord();
+      refreshData();
+      getData();
+    };
+
+    const changeStatus = async () => {
+      state.currentStatus = state.tempSelectedStatus;
+      await getData();
+      toggleFilterPopup(false, false);
+    };
+
+    const changeRange = async (range) => {
+      state.currentRange = range;
+
+      switch (range) {
+        case 'today':
+          state.currentRangeObj.start = dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss');
+          state.currentRangeObj.end = dayjs().endOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss');
+          break;
+        case 'yesterday':
+          state.currentRangeObj.start = dayjs().subtract(1, 'day').startOf('day').tz('Asia/Shanghai')
+            .format('YYYY/MM/DD HH:mm:ss');
+          state.currentRangeObj.end = dayjs().subtract(1, 'day').endOf('day').tz('Asia/Shanghai')
+            .format('YYYY/MM/DD HH:mm:ss');
+          break;
+        case 'sevenDays':
+          state.currentRangeObj.start = dayjs().subtract(6, 'day').startOf('day').tz('Asia/Shanghai')
+            .format('YYYY/MM/DD HH:mm:ss');
+          state.currentRangeObj.end = dayjs().endOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss');
+          break;
+        default:
+          break;
+      }
+
+      await getData();
     };
 
     const init = async () => {
-      state.betRecordData = await getRecord();
+      await getData();
     };
 
-    init();
+    // hooks
+    onBeforeMount(async () => {
+      await init();
+    });
 
     return {
       state,
@@ -409,10 +440,14 @@ export default {
       renderNumber,
       renderNumberStyle,
       renderExpandStatus,
+      renderGameInfo,
       toggleFilterPopup,
+      refreshData,
       loadMoreRecord,
       pullingDown,
+      changeStatus,
       Ramda,
+      dayjs,
     };
   },
 };
@@ -534,7 +569,7 @@ export default {
 
 .popup {
   &-label {
-    @apply mb-2 text-xs;
+    @apply mb-2 text-xs font-bold;
   }
 
   &-list {
@@ -551,5 +586,50 @@ export default {
       background: var(--btn-primary-bg);
     }
   }
+
+  &-piece {
+    @apply mb-4;
+  }
+
+  &-piece .d-btn {
+    @apply text-xs;
+  }
+}
+
+::v-deep(.ant-radio-wrapper) {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+  border-top: 1px solid #f2f2f2;
+  font-size: 12px;
+
+  &:last-of-type {
+    border-bottom: 1px solid #f2f2f2;
+  }
+
+  /* > span {
+    padding: 0;
+  } */
+}
+
+::v-deep(.ant-radio-group) {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 12px;
+}
+
+::v-deep(.ant-radio-inner) {
+  &::after {
+    background-color: #fff;
+  }
+}
+
+::v-deep(.ant-radio-checked) .ant-radio-inner {
+  border-color: var(--link-color);
+  background-color: var(--link-color);
 }
 </style>

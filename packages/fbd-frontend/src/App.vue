@@ -13,6 +13,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import FbdSocket from '@/assets/js/socket/fbdSocket';
 import SystemApi from '@/assets/js/api/systemApi';
 import Stylesheet from '@/assets/js/stylesheet';
 import clientModeEnum from '@/assets/enum/clientModeEnum';
@@ -301,6 +302,13 @@ export default {
       // 不加 nextTick 的話，在此時 vue instance 尚未掛到 window.$vue 上
       await nextTick();
       getSystemConfig();
+
+      // 接入socket
+      const msg = {
+        action: 'join',
+      };
+      const fbdSocket = await FbdSocket();
+      fbdSocket.send(JSON.stringify(msg));
     });
 
     onMounted(() => {

@@ -18,7 +18,7 @@
 import { ref, watch, onUnmounted } from 'vue';
 
 export default {
-  emits: ['finish'],
+  emits: ['finish', 'seconds'],
   props: {
     /**
      * 預設為True，若給False的話，倒數動畫暫停。
@@ -60,7 +60,7 @@ export default {
      */
     timeColor: {
       type: String,
-      default: '#333',
+      default: 'var(--font-color)',
     },
   },
   setup(props, { emit }) {
@@ -71,6 +71,9 @@ export default {
     const counting = () => {
       if (props.running) {
         now.value -= 1;
+        emit('seconds', now.value);
+      } else {
+        clearInterval(timer.value);
       }
     };
 
@@ -78,7 +81,7 @@ export default {
     watch(now, (val) => {
       if (val === 0) {
         emit('finish');
-        now.value = props.time;
+        // now.value = props.time;
       }
     });
 
@@ -90,12 +93,24 @@ export default {
       }, 1000);
     }, { immediate: true });
 
+    // watch(() => props.running, (val) => {
+    //   clearInterval(timer.value);
+    //   if (val) {
+    //     timer.value = setInterval(() => {
+    //       counting();
+    //     }, 1000);
+    //   }
+    // });
     watch(() => props.running, (val) => {
       clearInterval(timer.value);
       if (val) {
+        now.value = props.time;
         timer.value = setInterval(() => {
           counting();
         }, 1000);
+      } else {
+        now.value = 0;
+        clearInterval(timer.value);
       }
     });
 

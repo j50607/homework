@@ -463,8 +463,19 @@ export const convertToCst = (time, formatString = 'YYYY/MM/DD HH:mm:ss') => dayj
  * @param {number} digit - 捨去到第几位
  */
 export const floorToDigit = (num, digit = 2) => {
+  if (!isNumber(num)) return 0;
   const base = 10 ** digit;
   return NP.divide(Math.floor(NP.times(num, base)), base);
+};
+
+/**
+ * 前端从 api 拿到赔率后 render 在画面上的数字
+ * @param {number} num
+ */
+export const renderPayRate = (num) => {
+  if (!isNumber(num)) return 0;
+  const percentage = NP.times(NP.minus(num, 1), 100);
+  return `${percentage}%`;
 };
 
 export const isValidUrl = (url) => url.trim() && url.trim() !== 'https://';

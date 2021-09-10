@@ -18,17 +18,65 @@ class SportApi extends API {
   * 體育下注統計清單取得
   */
   static async getCaculateLog({
-    // gameCode, issueNo, playTypeM, playTypeS, option = [],
-    issueNo, playTypeM, playTypeS, option = [],
+    gameCode, issueNo, playTypeM, playTypeS, option = [],
+    // issueNo, playTypeM, playTypeS, option = [],
   }) {
     const params = {
-      gameCode: 'sportsoccer',
+      // gameCode: 'sportsoccer',
+      gameCode,
       issueNo,
       playTypeM,
       playTypeS,
       option,
     };
     const result = await this.callAxios('POST', '/frontend/sport-game/sport-caculate-log/get', params, null, true);
+    return result;
+  }
+
+  /**
+  * 體育賽事下注
+  */
+  static async handleBetting({
+    gameCode, issueNo, betMainInfo,
+    // issueNo, betMainInfo,
+  }) {
+    const params = {
+      // gameCode: 'sport_soccer',
+      gameCode,
+      issueNo,
+      betMainInfo,
+    };
+    const result = await this.callAxios('POST', '/frontend/betting', params, null, true);
+    return result;
+  }
+
+  /*
+  * 賽事注單分頁查詢
+  */
+  static async getBetOrderPage({
+    start, end, status, pageIndex,
+  }) {
+    const params = {
+      start,
+      end,
+      status,
+      pageIndex,
+    };
+    const result = await this.callAxios('POST', '/frontend/sport-game/view/bet/order/page', params, null, true);
+    return result;
+  }
+
+  /*
+  * 賽事注單統計
+  */
+  static async getBetOrderStatistic({
+    start, end,
+  }) {
+    const params = {
+      start,
+      end,
+    };
+    const result = await this.callAxios('POST', '/frontend/sport-game/view/bet/order/statistic', params, null, true);
     return result;
   }
 
@@ -50,22 +98,6 @@ class SportApi extends API {
   }
 
   /**
-  * 體育賽事下注
-  */
-  static async handleBetting({
-    // gameCode, issueNo, betMainInfo,
-    issueNo, betMainInfo,
-  }) {
-    const params = {
-      gameCode: 'sportsoccer',
-      issueNo,
-      betMainInfo,
-    };
-    const result = await this.callAxios('POST', '/frontend/betting', params, null, true);
-    return result;
-  }
-
-  /**
   * 取得取得比賽大綱清單
   */
   static async getGameSummary(params) {
@@ -78,14 +110,6 @@ class SportApi extends API {
   */
   static async getGameSummaryRecord(params) {
     const result = await this.callAxios('POST', '/frontend/sport-game/history-summary/get', params, null, true);
-    return result;
-  }
-
-  /*
-  * 體育賽事下注
-  */
-  static async getGame(params = {}) {
-    const result = await this.callAxios('POST', '/frontend/sport-game/game-summary/get', params, null, true);
     return result;
   }
 }

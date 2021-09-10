@@ -22,7 +22,8 @@ class stylesheet {
       },
       // 連結預設顏色
       linkColor: {
-        1: '#4ab1ff',
+        // 1: '#4ab1ff',
+        1: '#0e88f5',
       },
       // 正數預設顏色
       positiveColor: {

@@ -25,10 +25,10 @@
         </div>
         <div class="betting-time">
           <div class="betting-time-item betting-info-text">
-            {{ renderDate(state.betOptionData[0]?.matchTIme) }}
+            {{ renderDate(state.currentGameData?.matchTIme) }}
           </div>
           <div class="betting-time-item betting-time-item-em betting-info-text">
-            {{ renderTime(state.betOptionData[0]?.matchTIme) }}
+            {{ renderTime(state.currentGameData?.matchTIme) }}
           </div>
           <div class="betting-time-item betting-info-text">
             ({{ timeZone }})
@@ -66,80 +66,114 @@
           :key="`playTypeS[${idx}]`"
           class="betting-tab-item"
           :class="{ 'betting-tab-item-active': state.currentPlayTypeS === item.playTypeS }"
-          @click="changePlayTypeS(item)"
+          @click="changePlayTypeS(item, true)"
         >
           <span class="betting-tab-text">{{ item?.playTypeSName }}</span>
         </div>
       </div>
 
       <div class="betting-main-container">
-        <div class="betting-sum">
-          <div class="betting-sum-text">
-            <div
-              class="betting-text betting-text-wrap"
-              @click="toggleSumPopup(true)"
-            >
-              <span class="betting-text-sm">{{ $t('views_betting_statistic_popup_sum') }}</span>
-              <img
-                class="betting-text-img"
-                :src="$requireSafe(`betting/style${siteStyle}/sum.svg`)"
-              >
-            </div>
-            <div
-              class="betting-text"
-              :class="{ 'text-win': state.gameSum.sum > 0 }"
-            >
-              {{ numWithCommas(state.gameSum.sum) }}
-            </div>
-          </div>
-          <div class="betting-sum-countdown">
-            <img
-              src=""
-              alt=""
-            >
-          </div>
-        </div>
-
-        <ul class="betting-list">
-          <li
-            v-for="(item, idx) in state.betOptionData[0]?.betOptionList"
-            :key="`availableAmount[${idx}]`"
-            class="betting-item"
-            :class="{ 'is-btn': !item?.isFulled && item?.payRate }"
-            @click="toggleBettingPopup(true, item)"
-          >
-            <div class="betting-digit">
-              <div class="betting-text-sm betting-score">
-                {{ getSportScore(item?.option, 'renderData') }}
-              </div>
-              <div class="betting-text-sm betting-percent">
-                {{ convertRate(item?.payRate) }}
-              </div>
-            </div>
-            <div class="betting-amount">
-              <div class="betting-text-sm">
-                {{ $t('views_betting_main_availableAmount') }}
-              </div>
-              <div class="betting-text-sm">
-                {{ item?.limitAmount }}
-              </div>
-            </div>
-            <div
-              v-show="item?.isFulled || !item?.payRate"
-              class="betting-overlay"
-            >
+        <template v-if="!state.isGameClosed">
+          <div class="betting-sum">
+            <div class="betting-sum-text">
               <div
-                v-show="item?.isFulled"
-                class="betting-text-sm betting-score betting-overlay-text"
+                class="betting-text betting-text-wrap"
+                @click="toggleSumPopup(true)"
               >
-                {{ getSportScore(item?.option, 'renderData') }}
+                <span class="betting-text-sm">{{ $t('views_betting_statistic_popup_sum') }}</span>
+                <img
+                  class="betting-text-img"
+                  :src="$requireSafe(`betting/style${siteStyle}/sum.svg`)"
+                >
               </div>
-              <div class="betting-text-sm betting-overlay-text">
-                {{ renderMaintainText(item) }}
+              <div
+                class="betting-text"
+                :class="{ 'text-win': state.gameSum.sum > 0 }"
+              >
+                {{ numWithCommas(state.gameSum.sum) }}
               </div>
             </div>
-          </li>
-        </ul>
+            <div class="betting-sum-countdown">
+              <!-- <img
+                src=""
+                alt=""
+              > -->
+              <d-progress-bar
+                :time="5"
+                :running="state.isHandlePolling"
+                @seconds="receivedProgressTimer"
+                @finish="getData"
+              />
+              {{ state.pollingTimer }}
+            </div>
+          </div>
+
+          <ul class="betting-list">
+            <li
+              v-for="(item, idx) in state.currentGameData?.betOptionList"
+              :key="`availableAmount[${idx}]`"
+              class="betting-item"
+              :class="{ 'is-btn': !item?.isFulled && item?.payRate }"
+              @click="isBettingNotAllowed(item) ? null : toggleBettingPopup(true, item)"
+            >
+              <div class="betting-digit">
+                <div class="betting-text-sm betting-score">
+                  <div class="betting-goal">
+                    <img
+                      :src="$requireSafe(`betting/style${siteStyle}/goal.svg`)"
+                      alt=""
+                    >
+                  </div>
+                  <span class="relative">{{ getSportScore(item?.option, 'renderData') }}</span>
+                </div>
+                <div class="betting-text-sm betting-percent">
+                  {{ renderPayRate(item?.payRate) }}
+                </div>
+              </div>
+              <div class="betting-amount">
+                <div class="betting-text-sm">
+                  {{ $t('views_betting_main_availableAmount') }}
+                </div>
+                <div class="betting-text-sm">
+                  {{ item?.limitAmount }}
+                </div>
+              </div>
+              <div
+                v-show="isBettingNotAllowed(item)"
+                class="betting-overlay"
+              >
+                <div
+                  v-show="item?.isFulled"
+                  class="betting-text-sm betting-score betting-overlay-text"
+                >
+                  {{ getSportScore(item?.option, 'renderData') }}
+                </div>
+                <div class="betting-text-sm betting-overlay-text">
+                  {{ renderMaintainText(item) }}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </template>
+
+        <template v-else>
+          <div class="betting-empty pt-10">
+            <figure class="betting-empty-icon">
+              <img
+                class="transform rotate-180 w-20 mx-auto mb-4"
+                :src="$requireSafe(`betting/style${siteStyle}/desc.svg`)"
+              >
+              <figcaption class="betting-empty-info">
+                <div class="betting-text betting-empty-text mb-2">
+                  {{ $t('views_betting_main_empty') }}
+                </div>
+                <div class="betting-text is-btn betting-empty-link text-xs text-link">
+                  {{ $t('views_betting_main_back') }}
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -276,12 +310,22 @@
 
     <div class="popup-piece">
       <d-button
+        v-show="state.isHandlePolling"
         type="primary"
         :block="true"
         :disabled="!state.betAmount"
         @click="handleBetting"
       >
-        {{ $t('views_betting_main_popup_btnAction') }}
+        {{ $t('views_betting_main_popup_btnAction') }}({{ state.pollingTimer }})
+      </d-button>
+      <d-button
+        v-show="!state.isHandlePolling"
+        type="primary"
+        :block="true"
+        :disabled="!state.betAmount"
+        @click="refreshData"
+      >
+        {{ $t('views_betting_main_popup_btnAction2') }}
       </d-button>
     </div>
   </d-popup>
@@ -292,15 +336,16 @@
 <script>
 import {
   // inject, reactive, computed, onBeforeMount,
-  reactive, computed, onBeforeMount,
+  reactive, computed, watch, onBeforeMount, onUnmounted,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import NP from 'number-precision';
 import {
-  timeZoneUnit, numWithCommas, getSportScore, convertToCst, isNumber, floorToDigit,
+  timeZoneUnit, numWithCommas, getSportScore, convertToCst, isNumber, floorToDigit, renderPayRate,
 } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
 
@@ -311,12 +356,14 @@ export default {
     // use
     const store = useStore();
     const { t } = useI18n();
+    const route = useRoute();
 
     // inject
     // const validator = inject('$validator');
 
     // reactive
     const state = reactive({
+      issueNo: '',
       currentPlayTypeS: 1, // 當前次玩法(全場/半場)
       currentPlayTypeSName: '', // 當前次玩法名稱(全場/半場)
       currentGameData: {},
@@ -380,6 +427,9 @@ export default {
           amount: 100000,
         },
       ],
+      pollingTimer: 0,
+      pollingIntervalId: 0,
+      isHandlePolling: false,
     });
 
     // computed
@@ -410,10 +460,20 @@ export default {
       state.betAmount = 1;
     };
 
-    const changePlayTypeS = (item) => {
-      state.currentPlayTypeS = item.playTypeS;
-      state.currentPlayTypeSName = item.playTypeSName;
+    const handleBettingDeadline = () => {
+      const matchTime = dayjs(state.currentGameData?.matchTIme);
+      const currentTime = dayjs();
+      const diffMs = matchTime.diff(currentTime);
+      state.bettingDeadline = dayjs() + diffMs;
+    };
+
+    const changePlayTypeS = (item, isHandleBettingDeadline = false) => {
+      state.currentPlayTypeS = item?.playTypeS;
+      state.currentPlayTypeSName = item?.playTypeSName;
       state.currentGameData = { ...item };
+      if (isHandleBettingDeadline) {
+        handleBettingDeadline();
+      }
     };
 
     const renderDate = (date) => dayjs(date).format('MM-DD');
@@ -425,15 +485,15 @@ export default {
       return t('views_betting_main_fulled');
     };
 
-    const convertRate = (num) => {
-      if (!isNumber(num)) return '0%';
-      return `${NP.times(num, 100)}%`;
-    };
+    // const convertRate = (num) => {
+    //   if (!isNumber(num)) return '0%';
+    //   return `${NP.times(num, 100)}%`;
+    // };
 
     const getBetOption = async () => {
       const params = {
         // issueNo: 255673972,
-        issueNo: 255674423,
+        issueNo: state.issueNo,
       };
 
       const { code, data } = await SportApi.getBetOption(params) || {};
@@ -443,7 +503,7 @@ export default {
 
     const getCaculateLog = async () => {
       const params = {
-        // gameCode: state.currentGameData.gameCode,
+        gameCode: state.currentGameData.gameCode,
         issueNo: state.currentGameData.issueNo,
         playTypeM: state.currentGameData.playTypeM,
         playTypeS: state.currentGameData.playTypeS,
@@ -454,42 +514,11 @@ export default {
       return data;
     };
 
-    const getGame = async () => {
-      const params = {
-        timeType: 'matchTime',
-        startTime: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
-        endTime: dayjs().add(7, 'day').endOf('day').tz('Asia/Shanghai')
-          .format('YYYY/MM/DD HH:mm:ss'),
-        pageIndex: 1,
-        gameStatus: [0],
-        // leagueId: props.searchLeagueList,
-        direction: 1,
-      };
-
-      const { code, data } = await SportApi.getGame(params) || {};
-      if (code !== 200) return {};
-      console.log(data);
-      return data;
-    };
-
-    // const getData = async () => {
-    //   state.betOptionData = await getBetOption();
-    //   state.caculateLogData = await getCaculateLog();
-    // };
-
-    const handleBettingDeadline = () => {
-      const matchTime = dayjs(state.currentGameData.matchTIme);
-      // console.log(matchTime.format('YYYY/MM/DD HH:mm:ss'));
-      const currentTime = dayjs();
-      const diffMs = matchTime.diff(currentTime);
-      // console.log(dayjs.duration(matchTime.diff(currentTime)).format('HH:mm:ss'));
-      state.bettingDeadline = dayjs() + diffMs;
-    };
-
     const handleBettingCountdownEnded = () => {
-      console.log('closed');
       state.isGameClosed = true;
     };
+
+    const isBettingNotAllowed = (item) => item?.isFulled || !item?.payRate || !item?.enabled;
 
     // 預期獲利=(投注金額*賠率)-{(投注金額*賠率)*手續費}，結果無條件捨去至小數點後2位
     const renderExpectProfit = (payRate = 0) => {
@@ -519,23 +548,73 @@ export default {
         }],
       };
 
-      const { code, data } = await SportApi.handleBetting(params) || {};
-      console.log(code, data);
+      const { code, message } = await SportApi.handleBetting(params) || {};
+      const defaultMsg = code === 200 ? t('views_betting_main_handleBettingText') : t('common_betFailMsg');
+      const toastText = message || defaultMsg;
+
+      window.$vue.$message(toastText);
+      toggleBettingPopup(false);
     };
 
-    const init = async () => {
+    const handlePolling = async () => {
+    // const handlePolling = async (durationTime = 5) => {
+    //   state.pollingTimer = durationTime;
+    //   state.isHandlePolling = true;
+
+    //   state.pollingIntervalId = setInterval(() => {
+    //     state.pollingTimer -= 1;
+    //     if (state.pollingTimer < 0) state.pollingTimer = durationTime;
+    //   }, 1000);
+    };
+
+    const getData = async () => {
+      // state.isHandlePolling = false;
+      state.betOptionData = await getBetOption();
+      state.caculateLogData = await getCaculateLog();
+      // state.isHandlePolling = true;
+    };
+
+    const receivedProgressTimer = (val) => {
+      state.pollingTimer = val;
+    };
+
+    const refreshData = async () => {
+      await getData();
+      await handlePolling();
+    };
+
+    const handleInit = async () => {
       // await getData();
       state.betOptionData = await getBetOption();
-      changePlayTypeS(state.betOptionData[0]);
+      changePlayTypeS(state.betOptionData[0], false);
       state.caculateLogData = await getCaculateLog();
       handleBettingDeadline();
+      // clearInterval(state.pollingIntervalId);
+      // await handlePolling();
+
+      state.isHandlePolling = true;
     };
+
+    watch(() => state.pollingTimer, async (val) => {
+      if (val !== 0) return;
+
+      // clearInterval(state.pollingIntervalId);
+      console.log('clearrrrr');
+
+      if (state.isBettingPopupShow) {
+        state.isHandlePolling = false;
+        // await refreshData();
+      }
+    });
 
     // hooks
     onBeforeMount(async () => {
-      await init();
-      getGame();
-      console.log(dayjs().startOf('day').format('YYYY/MM/DD HH:mm:ss'));
+      state.issueNo = route.query?.issueNo;
+      await handleInit();
+    });
+
+    onUnmounted(() => {
+      clearInterval(state.pollingIntervalId);
     });
 
     return {
@@ -550,17 +629,22 @@ export default {
       getSportScore,
       convertToCst,
       floorToDigit,
+      renderPayRate,
+      isNumber,
       toggleSumPopup,
       toggleBettingPopup,
       changePlayTypeS,
       renderDate,
       renderTime,
       renderMaintainText,
-      convertRate,
       handleBettingCountdownEnded,
       handleBetting,
       quickSelect,
       renderExpectProfit,
+      isBettingNotAllowed,
+      refreshData,
+      getData,
+      receivedProgressTimer,
     };
   },
 };
@@ -684,9 +768,13 @@ export default {
   }
 
   &-score {
-    @apply text-base;
+    @apply relative text-base;
 
     padding: 8px 0 4px;
+  }
+
+  &-goal {
+    @apply absolute bottom-0 left-1/2 z-0 w-7 transform-gpu -translate-x-1/2;
   }
 
   &-percent {
