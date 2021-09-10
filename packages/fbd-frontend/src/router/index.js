@@ -121,6 +121,16 @@ const routes = [
     },
   },
   {
+    path: '/profile/deposit',
+    name: 'profile-deposit',
+    component: () => import('@/views/profile/deposit' /* webpackChunkName: 'Deposit' */),
+    meta: {
+      title: 'Deposit',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/profile/withdraw',
     name: 'profile-withdraw',
     component: () => import('@/views/profile/withdraw' /* webpackChunkName: 'Withdraw' */),

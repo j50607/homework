@@ -78,7 +78,7 @@
         <template v-if="!state.isGameClosed">
           <div class="betting-sum">
             <div
-              class="betting-sum-text"
+              class="betting-sum-text is-btn"
               @click="toggleSumPopup(true)"
             >
               <div
@@ -274,10 +274,17 @@
       <div class="popup-row">
         <a-input-number
           v-model:value="state.betAmount"
+          v-first-not-zero
           v-positive-places
-          type="number"
           :placeholder="$t('views_betting_main_popup_betAmountPlaceholder')"
           class="popup-input"
+          :class="{'popup-input-error': showInputNotify}"
+          @change="state.startNotify = true"
+        />
+        <em
+          v-show="showInputNotify"
+          v-text="$t('views_profile_balanceNotEnough')"
+          class="popup-input-notify"
         />
       </div>
     </div>
@@ -322,7 +329,7 @@
         =
       </div>
       <div class="popup-text popup-text-expect popup-preview-item">
-        {{ numWithCommas(renderExpectProfit(state.currentBetItem?.payRate)) }}{{ renderExpectProfit(state.currentBetItem?.payRate) && $t('views_betting_main_popup_dollars') }}
+        {{ numWithCommas(renderExpectProfit(state.currentBetItem?.payRate)) }}{{ $t('views_betting_main_popup_dollars') }}
       </div>
     </div>
 
@@ -434,6 +441,7 @@ export default {
       isBettingProcessing: false, // 按下下單按鈕，call betting api 是否還在處理中
       bettingConfig: {}, // 投注設定
       isLoading: false,
+      startNotify: false,
     });
 
     // computed
@@ -441,8 +449,6 @@ export default {
     const timeZone = computed(() => timeZoneUnit());
     // 用户余额
     const balance = computed(() => store.state.user.balance || 0);
-    // 全站手续费
-    const chargeFee = computed(() => store.state.info.chargeFee || 0);
     const deadlineStyleList = computed(() => {
       const base = 10 * 60 * 1000;
       if (state.bettingDeadline - dayjs() > base) return {};
@@ -451,7 +457,10 @@ export default {
       };
     });
 
-    const lockBettingBtn = computed(() => !state.betAmount || state.isBettingProcessing);
+    const isBalanceNotEnough = computed(() => state.betAmount > balance.value);
+
+    const showInputNotify = computed(() => state.startNotify && isBalanceNotEnough.value);
+    const lockBettingBtn = computed(() => !state.betAmount || state.isBettingProcessing || isBalanceNotEnough.value);
 
     // methods
     const toggleSumPopup = (isShow = true) => {
@@ -525,8 +534,11 @@ export default {
         gameCode: state.currentGameData.gameCode,
       };
 
-      const { code, data } = await SportApi.getBettingConfig(params) || {};
-      if (code !== 200) return {};
+      const { code, data, message } = await SportApi.getBettingConfig(params) || {};
+      if (code !== 200) {
+        window.$vue.$message.error(message || '');
+        return {};
+      }
       return data;
     };
 
@@ -541,8 +553,9 @@ export default {
     // 預期獲利=(投注金額*賠率)-{(投注金額*賠率)*手續費}，結果無條件捨去至小數點後2位
     const renderExpectProfit = (payRate = 0) => {
       // 投注金額*賠率
-      const betAmountResult = NP.times(state.betAmount, payRate);
-      const result = NP.times(NP.minus(1, chargeFee.value), betAmountResult);
+      const betAmountResult = NP.times(Number(state.betAmount) || 0, NP.minus(payRate, 1));
+      const rowResult = NP.times(NP.minus(1, state.bettingConfig?.bettingFee || 0), betAmountResult);
+      const result = rowResult ? floorToDigit(rowResult, 2) : 0;
       return result;
     };
 
@@ -564,7 +577,7 @@ export default {
           option: state.currentBetItem?.option,
           quantity: 1,
           payRate: state.currentBetItem?.payRate,
-          unitPrice: state.betAmount,
+          unitPrice: Number(state.betAmount) || 0,
         }],
       };
 
@@ -699,7 +712,8 @@ export default {
       siteStyle,
       timeZone,
       balance,
-      chargeFee,
+      isBalanceNotEnough,
+      showInputNotify,
       deadlineStyleList,
       lockBettingBtn,
       numWithCommas,
@@ -1016,6 +1030,14 @@ export default {
 
     margin-right: 9px;
     transform: scale(0.625);
+  }
+
+  &-input-error {
+    @apply border-negative shadow-none;
+  }
+
+  &-input-notify {
+    @apply block mt-1 text-negative text-xs;
   }
 }
 </style>

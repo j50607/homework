@@ -340,10 +340,10 @@ export const copyByText = (text, showToast = true) => {
     oInput.className = 'oInput';
     oInput.parentNode.removeChild(oInput);
     if (showToast) {
-      window.$vue.$message.success(window.$vue.$t('copySuccess'));
+      window.$vue.$message.success(window.$vue.$t('common_copySuccess'));
     }
   } else if (showToast) {
-    window.$vue.$message.error(window.$vue.$t('noContenttoCopy'));
+    window.$vue.$message.error(window.$vue.$t('common_noContenttoCopy'));
   }
 };
 

@@ -16,11 +16,8 @@ class FinanceApi extends Api {
 
   /* 取得支付類型
     */
-  static async getDepositChannel(unit) {
-    const params = {
-      unit,
-    };
-    const result = await this.callAxios('POST', '/frontend/deposit-channel', params, null, true);
+  static async getDepositChannel() {
+    const result = await this.callAxios('POST', '/finance/deposit-channel', null, null, true);
     return result;
   }
 

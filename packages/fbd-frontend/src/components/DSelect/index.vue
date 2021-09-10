@@ -28,7 +28,7 @@
         <div
           class="d-select-item"
           v-for="(item, index) in data"
-          :key="index"
+          :key="`d-select-item${index}`"
           @click.stop="selectItem(item)"
         >
           <template v-if="hasDropdownSlot">
