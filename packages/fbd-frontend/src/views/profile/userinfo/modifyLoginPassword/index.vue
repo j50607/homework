@@ -8,72 +8,97 @@
       :title="$t('views_profile_userinfo_modifyLoginPassword_title')"
       :bg-color="'linear-gradient(180deg, #F3AC0A 0%, #B58007 100%)'"
     />
-    <a-form
-      :model="state.form"
-      ref="formRef"
-      :label-col="{ span: 0 }"
-      :wrapper-col="{ span: 24 }"
-      :rules="rules"
-    >
-      <div class="set-area">
-        <!-- 舊登入密碼 -->
-        <div class="set-area-title">
-          {{ $t('views_profile_userinfo_modifyLoginPassword_oldPassword') }}:
+    <!-- step1 -->
+    <template v-if="step === 1">
+      <a-form
+        :model="state.form"
+        ref="formRef"
+        :label-col="{ span: 0 }"
+        :wrapper-col="{ span: 24 }"
+        :rules="rules"
+      >
+        <div class="set-area">
+          <!-- 舊登入密碼 -->
+          <div class="set-area-title">
+            {{ $t('views_profile_userinfo_modifyLoginPassword_oldPassword') }}:
+          </div>
+          <a-form-item
+            class="mb-2"
+            name="oldPassword"
+          >
+            <a-input
+              v-model:value="state.form.oldPassword"
+              :maxlength="12"
+              :placeholder="$t('views_profile_userinfo_modifyLoginPassword_pleaseEnterOldPassword')"
+            />
+          </a-form-item>
+          <!-- 新登入密碼 -->
+          <div class="set-area-title">
+            {{ $t('views_profile_userinfo_modifyLoginPassword_newPassword') }}:
+          </div>
+          <a-form-item
+            class="mb-2"
+            name="newPassword"
+          >
+            <a-input
+              v-model:value="state.form.newPassword"
+              :maxlength="12"
+              :placeholder="$t('views_profile_userinfo_modifyLoginPassword_pleaseEnterNewPassword')"
+            />
+          </a-form-item>
+          <!-- 確認新登入密碼 -->
+          <div class="set-area-title">
+            {{ $t('views_profile_userinfo_modifyLoginPassword_confirmNewPassword') }}:
+          </div>
+          <a-form-item
+            class="mb-2"
+            name="confirmNewPassword"
+          >
+            <a-input
+              v-model:value="state.form.confirmNewPassword"
+              :maxlength="12"
+              :placeholder="$t('views_profile_userinfo_modifyLoginPassword_confirmNewPasswordAgain')"
+            />
+          </a-form-item>
+          <!-- 確認按鈕 -->
+          <d-button
+            type="primary"
+            block
+            class="mt-8 is-btn"
+            :loading="loading"
+            :disabled="!state.form.oldPassword || !state.form.newPassword || !state.form.confirmNewPassword || loading"
+            @click="submit"
+          >
+            {{ $t('common_confirm') }}
+          </d-button>
         </div>
-        <a-form-item
-          class="mb-2"
-          name="oldPassword"
-        >
-          <a-input
-            v-model:value="state.form.oldPassword"
-            :placeholder="$t('views_profile_userinfo_modifyLoginPassword_pleaseEnterOldPassword')"
-          />
-        </a-form-item>
-        <!-- 新登入密碼 -->
-        <div class="set-area-title">
-          {{ $t('views_profile_userinfo_modifyLoginPassword_newPassword') }}:
-        </div>
-        <a-form-item
-          class="mb-2"
-          name="newPassword"
-        >
-          <a-input
-            v-model:value="state.form.newPassword"
-            :placeholder="$t('views_profile_userinfo_modifyLoginPassword_pleaseEnterNewPassword')"
-          />
-        </a-form-item>
-        <!-- 確認新登入密碼 -->
-        <div class="set-area-title">
-          {{ $t('views_profile_userinfo_modifyLoginPassword_confirmNewPassword') }}:
-        </div>
-        <a-form-item
-          class="mb-2"
-          name="confirmNewPassword"
-        >
-          <a-input
-            v-model:value="state.form.confirmNewPassword"
-            :placeholder="$t('views_profile_userinfo_modifyLoginPassword_confirmNewPasswordAgain')"
-          />
-        </a-form-item>
-        <!-- 確認按鈕 -->
-        <d-button
-          type="primary"
-          block
-          class="mt-8 is-btn"
-          :loading="loading"
-          :disabled="!state.form.oldPassword || !state.form.newPassword || !state.form.confirmNewPassword || loading"
-          @click="submit"
-        >
-          {{ $t('common_confirm') }}
-        </d-button>
+      </a-form>
+    </template>
+    <template v-if="step === 2">
+      <img
+        class="success"
+        :src="$requireSafe(`profile/userinfo/success.svg`)"
+      >
+      <div class="modify-text">
+        {{ $t('common_editedSucceeded') }}
       </div>
-    </a-form>
+      <!-- 確認按鈕 -->
+      <d-button
+        type="primary"
+        block
+        class="modify-btn is-btn"
+        :loading="reloginLoading"
+        @click="relogin"
+      >
+        {{ $t('common_confirm') }}
+      </d-button>
+    </template>
   </div>
 </template>
 
 <script>
 import {
-  ref, reactive, computed, inject,
+  ref, reactive, inject,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -93,6 +118,8 @@ export default {
     // ref
     const formRef = ref(null);
     const loading = ref(false);
+    const reloginLoading = ref(false);
+    const step = ref(1);
 
     // reactive
     const state = reactive({
@@ -109,12 +136,24 @@ export default {
       confirmNewPassword: [{ required: true, message: t('common_errorNoEmpty'), trigger: ['change', 'blur'] }],
     };
 
-    // computed
-    const account = computed(() => store.state.user.account);
-
     // methods
+    const relogin = async () => {
+      reloginLoading.value = true;
+      const { code } = await MemberApi.logout();
+      if (code === 200) {
+        window.$vue.$message.success(t('common_passwordModifySuccessNeedRelogin'));
+        store.commit('CLEAR');
+        router.push('/loginAndRegister');
+      }
+      reloginLoading.value = false;
+    };
     const submit = async () => {
       loading.value = true;
+      if (state.form.newPassword !== state.form.confirmNewPassword) {
+        window.$vue.$message.error(t('common_errorPasswordConfirmFailed'));
+        loading.value = false;
+        return;
+      }
       if (state.form.newPassword) {
         let validateResult = true;
 
@@ -126,15 +165,15 @@ export default {
         }
       }
       const params = {
-        name: state.form.newPassword,
+        oldPassword: state.form.oldPassword,
+        newPassword: state.form.newPassword,
+        confirmPassword: state.form.confirmNewPassword,
       };
-      const res = await MemberApi.updateMember(account.value, params);
+      const res = await MemberApi.changePassword(params);
       loading.value = false;
       if (res.code === 200) {
-        store.commit('SET_NAME', res.data.name);
-        window.$vue.$message.success(t('common_modifySuccess'));
         state.form.newPassword = '';
-        router.push('/profile/userinfo');
+        step.value = 2;
       } else {
         window.$vue.$message.error(res.message);
       }
@@ -143,9 +182,12 @@ export default {
     return {
       formRef,
       loading,
+      reloginLoading,
       state,
       submit,
       rules,
+      step,
+      relogin,
     };
   },
 };
@@ -180,6 +222,21 @@ export default {
         color: #0e88f5;
       }
     }
+  }
+
+  .success {
+    width: 80px;
+    height: 80px;
+    margin-top: 80px;
+
+    @apply flex items-center justify-center w-full mb-4;
+  }
+
+  .modify-text {
+    margin-bottom: 80px;
+    color: #4d5772;
+
+    @apply text-center font-bold;
   }
 }
 </style>

@@ -73,6 +73,7 @@ const lang = {
   common_errorAtLeastNumberCharacters: '至少{number}位字符，必须包含1位大写字母及1位数字',
   common_errorSamePassword: '新旧密码不得相同，请重新输入',
   common_errorPasswordConfirmFailed: '新密码与确认新密码输入不一致，请重新输入',
+  common_passwordModifySuccessNeedRelogin: '密码修改成功，请重新登录',
   common_errorDisconnectedAndRefresh: '连线中断，请检查网路并刷新页面',
   common_contactService: '联系客服',
   common_modifyContactService: ' 若需修改请联系在线客服',
