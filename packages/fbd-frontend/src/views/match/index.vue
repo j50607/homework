@@ -35,7 +35,7 @@
 
     <!-- 選擇聯盟 -->
     <div
-      class="all-league-list flex flex-col h-full flex-nowrap pt-2"
+      class="all-league-list overflow-auto flex flex-col h-full flex-nowrap pt-2"
       v-else
     >
       <div
