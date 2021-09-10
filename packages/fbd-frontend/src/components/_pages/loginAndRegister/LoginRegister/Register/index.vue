@@ -445,15 +445,17 @@ export default {
 
       const regCantFull = /[\uFF00-\uFFFF]/g;
 
-      if (!value || !value.trim()) {
-        realNameBool.value = false;
-        return Promise.reject(new Error(t('error8')));
-      } if (regCantSing.test(value)) {
-        realNameBool.value = false;
-        return Promise.reject(new Error(t('error9')));
-      } if (regCantFull.test(value)) {
-        realNameBool.value = false;
-        return Promise.reject(new Error(t('error10')));
+      if (registerRealName.value) {
+        if (!value || !value.trim()) {
+          realNameBool.value = false;
+          return Promise.reject(new Error(t('error8')));
+        } if (regCantSing.test(value)) {
+          realNameBool.value = false;
+          return Promise.reject(new Error(t('error9')));
+        } if (regCantFull.test(value)) {
+          realNameBool.value = false;
+          return Promise.reject(new Error(t('error10')));
+        }
       }
 
       realNameBool.value = true;
@@ -464,15 +466,17 @@ export default {
     const nicknameValidate = async (rule, value) => {
       const reg = /^[\u4E00-\u9FA5a-zA-Z0-9]+$/g;
 
-      if (!value || !value.trim()) {
-        nicknameBool.value = false;
-        return Promise.reject(new Error(t('error12')));
-      } if (!(reg.test(value))) {
-        nicknameBool.value = false;
-        return Promise.reject(new Error(t('error13')));
-      } if (value.length > 8) {
-        nicknameBool.value = false;
-        return Promise.reject(new Error(t('error14')));
+      if (registerNickname.value) {
+        if (!value || !value.trim()) {
+          nicknameBool.value = false;
+          return Promise.reject(new Error(t('error12')));
+        } if (!(reg.test(value))) {
+          nicknameBool.value = false;
+          return Promise.reject(new Error(t('error13')));
+        } if (value.length > 8) {
+          nicknameBool.value = false;
+          return Promise.reject(new Error(t('error14')));
+        }
       }
 
       nicknameBool.value = true;
@@ -481,9 +485,11 @@ export default {
 
     const registerTel = computed(() => store.state.info.registerSetting.registerTel);
     const phoneValidate = async (rule, value) => {
-      if (!value || !value.trim()) {
-        phoneBool.value = false;
-        return Promise.reject(new Error(t('error15')));
+      if (registerTel.value) {
+        if (!value || !value.trim()) {
+          phoneBool.value = false;
+          return Promise.reject(new Error(t('error15')));
+        }
       }
 
       phoneBool.value = true;
@@ -496,18 +502,20 @@ export default {
 
       const regCantContainFull = /[\uFF00-\uFFFF]/g;
 
-      if (!value || !value.trim()) {
-        qqBool.value = false;
-        return Promise.reject(new Error(t('error16')));
-      } if (regCantContainChinese.test(value)) {
-        qqBool.value = false;
-        return Promise.reject(new Error(t('error19')));
-      } if (regCantContainFull.test(value)) {
-        qqBool.value = false;
-        return Promise.reject(new Error(t('error17')));
-      } if (value.length > 20) {
-        qqBool.value = false;
-        return Promise.reject(new Error(t('error18')));
+      if (registerQQ.value) {
+        if (!value || !value.trim()) {
+          qqBool.value = false;
+          return Promise.reject(new Error(t('error16')));
+        } if (regCantContainChinese.test(value)) {
+          qqBool.value = false;
+          return Promise.reject(new Error(t('error19')));
+        } if (regCantContainFull.test(value)) {
+          qqBool.value = false;
+          return Promise.reject(new Error(t('error17')));
+        } if (value.length > 20) {
+          qqBool.value = false;
+          return Promise.reject(new Error(t('error18')));
+        }
       }
 
       qqBool.value = true;
@@ -520,18 +528,20 @@ export default {
 
       const regCantContainFull = /[\uFF00-\uFFFF]/g;
 
-      if (!value || !value.trim()) {
-        weixinBool.value = false;
-        return Promise.reject(new Error(t('error16')));
-      } if (regCantContainChinese.test(value)) {
-        weixinBool.value = false;
-        return Promise.reject(new Error(t('error19')));
-      } if (regCantContainFull.test(value)) {
-        weixinBool.value = false;
-        return Promise.reject(new Error(t('error17')));
-      } if (value.length > 20) {
-        weixinBool.value = false;
-        return Promise.reject(new Error(t('error18')));
+      if (registerWechat.value) {
+        if (!value || !value.trim()) {
+          weixinBool.value = false;
+          return Promise.reject(new Error(t('error16')));
+        } if (regCantContainChinese.test(value)) {
+          weixinBool.value = false;
+          return Promise.reject(new Error(t('error19')));
+        } if (regCantContainFull.test(value)) {
+          weixinBool.value = false;
+          return Promise.reject(new Error(t('error17')));
+        } if (value.length > 20) {
+          weixinBool.value = false;
+          return Promise.reject(new Error(t('error18')));
+        }
       }
 
       weixinBool.value = true;
