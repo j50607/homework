@@ -5,7 +5,7 @@
       right-components="Service"
     />
     <div class="h-full pt-h-h pl-3 pr-3 text-sm">
-      <div>{{ $t('錢包地址') }}</div>
+      <div>{{ $t('views_profile_wallet_walletAddress') }}</div>
     </div>
   </div>
   <withdraw-code

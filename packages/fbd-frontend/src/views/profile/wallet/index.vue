@@ -8,7 +8,31 @@
       right-components="Service"
     />
     <div class="h-full pt-h-h pl-3 pr-3 text-sm">
-      <div class="h-full pt-3 overflow-y-auto">
+      <div
+        v-if="showSuccess"
+        class="h-full flex flex-col items-center"
+      >
+        <img
+          class="h-20 w-20 mt-20"
+          :src="require('@/assets/img/icon/icon-success-green.svg')"
+          alt=""
+        >
+        <div class="mt-4 text-base font-bold">
+          {{ $t('views_profile_wallet_addSuccess') }}
+        </div>
+        <d-button
+          type="primary"
+          block
+          class="mt-20"
+          @click="showSuccess = false"
+        >
+          {{ $t('common_confirm') }}
+        </d-button>
+      </div>
+      <div
+        v-else
+        class="h-full pt-3 overflow-y-auto"
+      >
         <template v-if="walletList.length">
           <div
             v-for="(item, index) in walletList"
@@ -70,7 +94,7 @@
     v-if="showWithdraw"
     mode="SET"
     @confirm="confirmWithdrawCode"
-    @close="close"
+    @close="closeWithdraw"
   />
   <!-- 新增编辑钱包 -->
   <edit-wallet
@@ -130,6 +154,7 @@ export default {
       showWithdraw: false,
       showEditWallet: false,
       showDelete: false,
+      showSuccess: false,
       walletAddress: '',
       chainType: '',
       info: {},
@@ -161,6 +186,9 @@ export default {
         chainType: state.chainType,
       });
       if (code === 200) {
+        if (state.mode === 'add') {
+          state.showSuccess = true;
+        }
         state.showEditWallet = false;
       }
     };
@@ -225,8 +253,8 @@ export default {
       state.showWithdraw = false;
     };
 
-    const close = () => {
-
+    const closeWithdraw = () => {
+      state.showWithdraw = false;
     };
 
     const closeWallet = () => {
@@ -252,7 +280,7 @@ export default {
       addWallet,
       deleteWallet,
       confirmWithdrawCode,
-      close,
+      closeWithdraw,
       closeWallet,
       confirmWallet,
       deleteBankcard,

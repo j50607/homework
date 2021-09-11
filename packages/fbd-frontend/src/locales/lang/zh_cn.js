@@ -266,6 +266,7 @@ const lang = {
   views_finance_popup_user_withdraw: '会员提现',
   views_finance_popup_artificial_deposit: '人工充值',
   views_finance_popup_artificial_withdraw: '人工提现',
+  views_profile_wallet_addSuccess: '钱包已新增成功',
 
   // Components
   components_common_dialog_confirm: '确认',
