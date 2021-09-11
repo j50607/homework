@@ -85,6 +85,7 @@
   <withdraw-code
     v-if="showWithdraw"
     mode="VERIFY"
+    :header-title="$t('views_profile_walletManagement')"
     @confirm="confirm"
     @close="close"
   />

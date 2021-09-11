@@ -194,6 +194,29 @@
       {{ $t('common_confirm') }}
     </d-button>
   </d-popup>
+  <d-dialog
+    v-model:visible="showBindDialog"
+    :footer="null"
+    :title="$t('views_profile_noWallet')"
+    :width="'90%'"
+    v-if="showBindDialog"
+  >
+    <template #body>
+      <div class="text-center text-xs text-normal">
+        {{ $t('views_profile_userinfo_noWallet') }}
+      </div>
+    </template>
+    <template #footer>
+      <div class="flex justify-center mt-3">
+        <d-button
+          type="primary"
+          @click="router.push('/profile/wallet')"
+        >
+          {{ $t('views_profile_goBind') }}
+        </d-button>
+      </div>
+    </template>
+  </d-dialog>
 </template>
 
 <script>
@@ -205,10 +228,12 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Avatar from '@/components/Avatar';
 import MemberApi from '@/assets/js/api/memberApi';
+import DDialog from '@/components/DDialog';
 
 export default {
   components: {
     Avatar,
+    DDialog,
   },
   setup() {
     // use
@@ -221,6 +246,7 @@ export default {
     const showGenderPopup = ref(false);
     const genderLoading = ref(false);
     const selectGender = ref(1);
+    const showBindDialog = ref(false);
 
     // reactive
     const state = reactive({
@@ -255,6 +281,8 @@ export default {
     const usersLockBalance = computed(() => store.state.user.usersLockBalance);
     const user = computed(() => store.state.user);
     const registerSetting = computed(() => store.state.info.registerSetting);
+    const withdrawalCode = computed(() => store.state.user.withdrawalCode);
+    const withdrawalCodeSetting = computed(() => store.state.user.withdrawalCodeSetting);
 
     // watch
     watch(showGenderPopup, () => {
@@ -303,6 +331,14 @@ export default {
       }
     };
 
+    const checkBankCard = () => {
+      if (!withdrawalCode.value && !withdrawalCodeSetting.value) {
+        showBindDialog.value = true;
+      } else {
+        router.push('/profile/userinfo/modifyWithdrawPassword');
+      }
+    };
+
     const toggleEye = () => {
       showBalance.value = !showBalance.value;
     };
@@ -328,6 +364,9 @@ export default {
         case 'email':
         case 'line':
           router.push({ path: item.redirect, query: { type: item.value } });
+          break;
+        case 'modifyWithdrawPassword':
+          checkBankCard();
           break;
         default:
           router.push(item.redirect);
@@ -428,6 +467,9 @@ export default {
       genderLoading,
       checkGender,
       showInfo,
+      checkBankCard,
+      showBindDialog,
+      router,
     };
   },
 };

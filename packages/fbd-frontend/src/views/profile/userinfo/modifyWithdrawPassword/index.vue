@@ -8,13 +8,33 @@
       :title="$t('views_profile_userinfo_modifyWithdrawPassword_title')"
       :bg-color="'linear-gradient(180deg, #F3AC0A 0%, #B58007 100%)'"
     />
+
+    <withdraw-code
+      v-if="step !== 4"
+      mode="MODIFY"
+      @confirm="submit"
+      @close="close"
+      :header-title="$t('views_profile_userinfo_modifyWithdrawPassword_title')"
+      :modify-step="step"
+    />
+
+    <!-- 修改成功 -->
+    <div
+      v-if="step === 4"
+      class="set-result-figure"
+    >
+      <img
+        :src="require('@/assets/img/icon/payment-selected.svg')"
+        alt=""
+      >
+      <figcaption>{{ $t('common_editedSucceeded') }}</figcaption>
+    </div>
     <!-- 確認按鈕 -->
     <d-button
       type="primary"
       block
-      class="mt-8 is-btn"
+      class="mt-16 is-btn"
       :loading="loading"
-      :disabled="!state.form.oldPassword || !state.form.newPassword || !state.form.confirmNewPassword || loading"
       @click="submit"
     >
       {{ $t('common_confirm') }}
@@ -24,31 +44,33 @@
 
 <script>
 import {
-  ref, reactive, computed, inject,
+  ref, reactive, computed,
 } from 'vue';
+//   inject,
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import MemberApi from '@/assets/js/api/memberApi';
+import WithdrawCode from '@/components/_pages/profile/WithdrawCode';
 
 export default {
+  components: {
+    WithdrawCode,
+  },
   setup() {
     // use
     const { t } = useI18n();
     const router = useRouter();
     const store = useStore();
 
-    // inject
-    const validator = inject('$validator');
-
     // ref
     const formRef = ref(null);
     const loading = ref(false);
+    const step = ref(1);
 
     // reactive
     const state = reactive({
       form: {
-        oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
       },
@@ -61,42 +83,74 @@ export default {
     };
 
     // computed
-    const account = computed(() => store.state.user.account);
+    const originwithdrawalCode = computed(() => store.state.user.withdrawalCode);
 
     // methods
-    const submit = async () => {
-      loading.value = true;
-      if (state.form.newPassword) {
-        let validateResult = true;
+    // 设定提现密码
+    const changeWithDrawalCode = async () => {
+      const { code } = await MemberApi.changeWithDrawalCode({
+        oldPassword: originwithdrawalCode.value,
+        newPassword: state.form.newPassword,
+        confirmPassword: state.form.confirmNewPassword,
+      });
+      if (code === 200) {
+        store.commit('SET_USER_INFO', { withdrawalCode: state.form.confirmNewPassword });
+        store.commit('SET_WITHDRAW_CODE', true);
+        return true;
+      }
+      return false;
+    };
 
-        validateResult = validator.value.validatePassword(state.form.newPassword);
-        if (!validateResult.result) {
-          window.$vue.$message.error(validateResult.errorMsg);
-          loading.value = false;
+    const submit = async (val) => {
+      if (step.value === 1) {
+        if (val !== originwithdrawalCode.value) {
+          window.$vue.$message.error(t('error3'));
           return;
         }
+        step.value += 1;
+        return;
       }
-      const params = {
-        name: state.form.newPassword,
-      };
-      const res = await MemberApi.updateMember(account.value, params);
-      loading.value = false;
-      if (res.code === 200) {
-        store.commit('SET_NAME', res.data.name);
-        window.$vue.$message.success(t('common_modifySuccess'));
-        state.form.newPassword = '';
-        router.push('/profile/userinfo');
-      } else {
-        window.$vue.$message.error(res.message);
+
+      if (step.value === 2) {
+        if (val === originwithdrawalCode.value) {
+          window.$vue.$message.error(t('common_errorSamePassword'));
+          return;
+        }
+        state.form.newPassword = val;
+        step.value += 1;
+        return;
+      }
+
+      if (step.value === 3) {
+        if (val !== state.form.newPassword) {
+          window.$vue.$message.error(t('common_errorPasswordConfirmFailed'));
+          return;
+        }
+        state.form.confirmNewPassword = val;
+        await changeWithDrawalCode();
+        step.value += 1;
+        return;
+      }
+
+      if (step.value === 4) {
+        step.value = 1;
+        router.back();
       }
     };
 
+    const close = () => {
+      router.back();
+    };
+
     return {
+      changeWithDrawalCode,
       formRef,
       loading,
       state,
       submit,
       rules,
+      step,
+      close,
     };
   },
 };
@@ -130,6 +184,20 @@ export default {
       .service {
         color: #0e88f5;
       }
+    }
+  }
+
+  &-result-figure {
+    padding-top: 80px;
+
+    > figcaption {
+      font-weight: bold;
+      text-align: center;
+    }
+
+    > img {
+      width: 80px;
+      margin: 0 auto 18px;
     }
   }
 }

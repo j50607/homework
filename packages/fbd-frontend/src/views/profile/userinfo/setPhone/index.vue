@@ -51,10 +51,24 @@
                   type="primary"
                   class="verify is-btn"
                   :loading="loading"
-                  :disabled="!state.form.phone || loading || state.form.phone.length !== (validator && validator.phoneLen)"
+                  :disabled="!state.form.phone || loading || state.form.phone.length !== (validator && validator.phoneLen) || countdowning"
                   @click="getVerificationCode"
                 >
-                  {{ $t('views_profile_userinfo_setPhone_sendVerifyNumber') }}
+                  <span class="count-down-timer">
+                    <a-statistic-countdown
+                      v-if="countdowning"
+                      format="ss"
+                      :value="Date.now() + 1000 * smsResendSec"
+                      value-style="color: #fff; font-size: 14px; margin-right:5px;"
+                      @finish="countdowning = false"
+                    />
+                    <span v-if="countdowning">
+                      {{ $t('views_profile_userinfo_setPhone_sec') }}
+                    </span>
+                    <span v-else>
+                      {{ $t('views_profile_userinfo_setPhone_sendVerifyNumber') }}
+                    </span>
+                  </span>
                 </a-button>
               </template>
             </a-input>
@@ -114,6 +128,7 @@ export default {
     // ref
     const formRef = ref(null);
     const loading = ref(false);
+    const countdowning = ref(false);
 
     // reactive
     const state = reactive({
@@ -135,12 +150,15 @@ export default {
     const smsResendSec = computed(() => store.state.info.timeSetting.smsResendSec);
     const smsVerifySwitch = computed(() => store.state.info.switchSetting.smsVerifySwitch);
 
-    console.log('smsResendSec :>> ', smsResendSec.value);
     // methods
     const getVerificationCode = async () => {
-      console.log('send!');
+      if (countdowning.value) {
+        return;
+      }
+
       const res = await SystemApi.sendSms({ phone: state.form.phone });
       if (res.code === 200) {
+        countdowning.value = true;
         window.$vue.$message.success(t('common_sendSuccess'));
       } else {
         window.$vue.$message.error(res.message);
@@ -178,6 +196,7 @@ export default {
     return {
       formRef,
       loading,
+      countdowning,
       state,
       nickName,
       submit,
@@ -185,6 +204,7 @@ export default {
       validator,
       getVerificationCode,
       smsVerifySwitch,
+      smsResendSec,
     };
   },
 };
@@ -271,6 +291,10 @@ export default {
         }
 
         @apply absolute h-full px-2 flex items-center justify-center;
+      }
+
+      .count-down-timer {
+        @apply flex items-center;
       }
     }
   }
