@@ -112,6 +112,14 @@ class SportApi extends API {
     const result = await this.callAxios('POST', '/frontend/sport-game/history-summary/get', params, null, true);
     return result;
   }
+
+  /**
+  * 取得投注設定
+  */
+  static async getBettingConfig(params) {
+    const result = await this.callAxios('POST', '/frontend/setting/betting-config/get', params, null, true);
+    return result;
+  }
 }
 
 export default SportApi;

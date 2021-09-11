@@ -425,16 +425,6 @@ export const timeZoneUnit = () => {
 };
 
 /**
- * 數字隔幾位加上逗號
- * @param {number} num
- * @param {number} digit - 位數
- */
-export const numWithCommas = (num, digit = 3) => {
-  if (!isNumber(num)) return 0;
-  return num.toString().split('').map((item, idx) => (idx && !(idx % digit) ? `,${item}` : item)).join('');
-};
-
-/**
  * 轉換主客比分
  * @param {number} num
  * @param {string} type - 選擇回傳資料的型式(rowData 回傳陣列 [主, 客]，renderData 回傳比分 '主 : 客')
@@ -467,6 +457,12 @@ export const floorToDigit = (num, digit = 2) => {
   const base = 10 ** digit;
   return NP.divide(Math.floor(NP.times(num, base)), base);
 };
+
+/**
+ * 數字隔3位加上逗號
+ * @param {number} amount
+ */
+export const numWithCommas = (amount) => amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
 
 /**
  * 前端从 api 拿到赔率后 render 在画面上的数字

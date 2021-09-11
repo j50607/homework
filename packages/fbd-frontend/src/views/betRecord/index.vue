@@ -4,6 +4,7 @@
   />
 
   <div class="betrecord">
+    <d-loading :loading="state.isLoading" />
     <div class="range">
       <ul class="range-list">
         <li
@@ -48,24 +49,24 @@
 
             <div class="betrecord-item-piece betrecord-item-piece-multi">
               <div class="betrecord-text betrecord-text-lg">
-                {{ item.name }}
+                {{ $t('views_betRecord_item_label6') }}
               </div>
               <div class="betrecord-text betrecord-text-sm">
                 {{ $t('views_betRecord_item_label5') }}
               </div>
 
               <div class="betrecord-text betrecord-text-lg">
-                {{ item.time }}
+                {{ Number(renderGameInfo(item, 'matchTime')) && dayjs(Number(renderGameInfo(item, 'matchTime'))).format('YYYY-MM-DD HH:mm:ss') }}{{ Number(renderGameInfo(item, 'matchTime')) && `(${timeZone})` }}
               </div>
               <div
                 class="betrecord-text betrecord-text-sm"
-                :class="renderNumberStyle(item.status)"
+                :class="renderIsWinningStyle(item)"
               >
-                {{ renderNumber(item.status) }}
+                {{ renderStatus(item) }}
               </div>
 
               <div class="betrecord-text betrecord-text-xl betrecord-text-em">
-                {{ renderGameInfo(item) }}
+                {{ `${renderGameInfo(item, 'homeTeamName')} V.S. ${renderGameInfo(item, 'awayTeamName')}` }}
               </div>
             </div>
 
@@ -85,10 +86,13 @@
               </div>
               <div class="betrecord-text betrecord-text-lg betrecord-item-option">
                 <span>
-                  {{ item.option1 }}
+                  {{ renderGameInfo(item, 'playTypeMName') }}
+                </span>
+                <span>
+                  {{ renderGameInfo(item, 'optionName') }}
                 </span>
                 <span class="betrecord-item-option-em">
-                  {{ item?.payRate }}
+                  {{ `@${renderPayRate(item?.payRate)}` }}
                 </span>
               </div>
 
@@ -96,7 +100,7 @@
                 {{ $t('views_betRecord_item_label3') }}
               </div>
               <div class="betrecord-text betrecord-text-lg">
-                {{ item?.fee }}
+                {{ renderChargeFee(item?.fee) }}
               </div>
 
               <div class="betrecord-text betrecord-text-sm">
@@ -112,7 +116,7 @@
 
             <div
               class="betrecord-expand-btn is-btn"
-              @click="item.isShowDetails = !item.isShowDetails"
+              @click="handleShowDetails(item)"
             >
               <span>{{ renderExpandStatus(item.isShowDetails) }}</span>
               <CaretUpOutlined v-show="item.isShowDetails" />
@@ -121,6 +125,20 @@
           </li>
         </ul>
       </d-scroll>
+
+      <template v-else>
+        <figure class="betrecord-empty-icon">
+          <img
+            class="w-20 mx-auto mb-2 mt-10"
+            :src="$requireSafe(`betting/style${siteStyle}/no-data.svg`)"
+          >
+          <figcaption class="betrecord-empty-info">
+            <div class="text-base text-center mb-2">
+              {{ $t('common_noData') }}
+            </div>
+          </figcaption>
+        </figure>
+      </template>
     </div>
     <div class="betrecord-item-piece-multi betrecord-sum">
       <div class="betrecord-text betrecord-text-em betrecord-text-xl">
@@ -209,13 +227,16 @@
 
 <script>
 import {
-  ref, reactive, computed, onBeforeMount,
+  ref, reactive, computed, nextTick, onBeforeMount,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import * as R from 'ramda';
 import dayjs from 'dayjs';
+import NP from 'number-precision';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons-vue';
+import {
+  timeZoneUnit, isNumber, renderPayRate,
+} from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
 import DScroll from '@/components/DScroll';
 
@@ -226,23 +247,6 @@ export default {
     DScroll,
   },
   setup() {
-    const Ramda = () => {
-      // 將多個函數合並成一個函數，並從左到右執行
-
-      // 流水線：第一個的函數的返回值交給第二個，第二個的交給第三個，依次類推
-
-      const negative = (x) => -1 * x;
-
-      const increaseOne = (x) => x + 1;
-
-      /* eslint-disable-next-line */
-      const f = R.pipe(Math.pow, negative, increaseOne);
-
-      // 第一個求3的4次方，返回值給後邊方法，以此類推
-
-      return (f(3, 4));
-    };
-
     // use
     const store = useStore();
     const { t } = useI18n();
@@ -265,20 +269,7 @@ export default {
       },
       currentExpandIdx: undefined,
       isFilterPopupShow: false,
-      betRecordData: [
-        {
-          createdAt: '2021/08/08 06:06:06',
-          name: '俄罗斯乙级联赛',
-          time: '2021/08/08 06:06(CST)',
-          gameInfo: 'FC奥伦堡II V.S. 图伊马济斯巴达',
-          status: 12.12,
-          realAmount: 1000,
-          option1: '半场 0 : 0',
-          payRate: '@2.56%',
-          fee: '0.56%',
-          estimateProfit: 2.56,
-        },
-      ],
+      betRecordData: [],
       sumData: {
         totalBetAmount: 123.248,
         countSettled: 21,
@@ -297,9 +288,11 @@ export default {
         pageIndex: 1,
         isLastPage: false,
       },
+      isLoading: false,
     });
 
     // computed
+    const timeZone = computed(() => timeZoneUnit());
     const siteStyle = computed(() => store.state.info.siteStyle);
     const language = computed(() => store.state.info.language);
 
@@ -317,9 +310,16 @@ export default {
       return '';
     };
 
+    const renderIsWinningStyle = (item) => {
+      if (item.status !== 2) return '';
+      if (item.isWinning && item.estimateProfit) return 'text-positive';
+      if (!item.isWinning && item.realAmount) return 'text-negative';
+      return '';
+    };
+
     const renderExpandStatus = (val) => (val ? t('views_betRecord_item_action2') : t('views_betRecord_item_action1'));
 
-    const renderGameInfo = (item, type = 'payRate') => {
+    const renderGameInfo = (item, type = 'payRateInfo') => {
       let lang = window._jsvar.siteLocale;
       switch (language.value) {
         case 'zh_cn':
@@ -330,7 +330,25 @@ export default {
           lang = 'en_us';
           break;
       }
-      return item[lang] && item[lang][type];
+
+      return item?.gameInfo[lang] && item?.gameInfo[lang][type];
+    };
+
+    const renderStatus = (item) => {
+      switch (item?.status) {
+        case 1:
+          return t('views_betRecord_item_pending');
+        case 2:
+          if (item.winning) return `+${item?.estimateProfit}`;
+          return `-${item?.realAmount}`;
+        default:
+          return '';
+      }
+    };
+
+    const renderChargeFee = (fee) => {
+      if (!isNumber(fee)) return '0%';
+      return `${NP.times(fee, 100)}%`;
     };
 
     const toggleFilterPopup = (isShow, isInitTempStatus = true) => {
@@ -371,11 +389,21 @@ export default {
     };
 
     const getData = async () => {
-      // const data = R.clone(state.betRecordData);
+      state.isLoading = true;
       const data = await getBetOrderPage();
-      const result = data?.content?.map((item) => ({ ...item, isShowDetails: false }));
+      const { content, last } = data || {};
+      const result = content?.map((item) => ({ ...item, isShowDetails: false }));
       state.betRecordData = result;
+      state.pageData.isLastPage = last;
       state.sumData = await getBetOrderStatistic();
+      state.isLoading = false;
+
+      nextTick(() => {
+        if (scroll.value) {
+          scroll.value.lastPageCheck(state.pageData.isLastPage);
+          scroll.value.refresh();
+        }
+      });
     };
 
     const loadMoreRecord = () => {
@@ -388,13 +416,25 @@ export default {
       getData();
     };
 
+    const handleShowDetails = (item) => {
+      item.isShowDetails = !item.isShowDetails;
+
+      nextTick(() => {
+        if (scroll.value) {
+          scroll.value.refresh();
+        }
+      });
+    };
+
     const changeStatus = async () => {
+      refreshData();
       state.currentStatus = state.tempSelectedStatus;
       await getData();
       toggleFilterPopup(false, false);
     };
 
     const changeRange = async (range) => {
+      refreshData();
       state.currentRange = range;
 
       switch (range) {
@@ -438,12 +478,17 @@ export default {
       renderNumberStyle,
       renderExpandStatus,
       renderGameInfo,
+      renderIsWinningStyle,
+      renderStatus,
+      renderChargeFee,
       toggleFilterPopup,
       refreshData,
       loadMoreRecord,
       pullingDown,
       changeStatus,
-      Ramda,
+      handleShowDetails,
+      timeZone,
+      renderPayRate,
       dayjs,
     };
   },
@@ -459,7 +504,7 @@ export default {
   padding: var(--header-height) 0 var(--footer-height);
 
   &-container {
-    @apply h-full px-3 pt-4;
+    @apply px-3 pt-4;
 
     height: calc(100% - var(--range-list-height) - 88px);
   }
@@ -484,10 +529,14 @@ export default {
 
   &-item-option {
     @apply flex items-center;
+
+    span + span {
+      @apply ml-1;
+    }
   }
 
   &-item-option-em {
-    @apply ml-1 text-primary;
+    @apply text-primary;
   }
 
   &-text {

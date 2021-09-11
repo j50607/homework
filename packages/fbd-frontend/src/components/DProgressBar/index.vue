@@ -93,14 +93,6 @@ export default {
       }, 1000);
     }, { immediate: true });
 
-    // watch(() => props.running, (val) => {
-    //   clearInterval(timer.value);
-    //   if (val) {
-    //     timer.value = setInterval(() => {
-    //       counting();
-    //     }, 1000);
-    //   }
-    // });
     watch(() => props.running, (val) => {
       clearInterval(timer.value);
       if (val) {

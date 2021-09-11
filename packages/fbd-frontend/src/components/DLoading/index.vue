@@ -55,7 +55,7 @@ export default {
      */
     color: {
       type: String,
-      default: '#096fc9',
+      default: 'var(--primary-color)',
     },
     /**
      * 預設為#ffffff80，可改變overlay顏色。
@@ -122,7 +122,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 2000;
   display: flex;
   flex-direction: column;
   align-items: center;

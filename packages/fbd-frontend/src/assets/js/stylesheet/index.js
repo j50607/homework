@@ -5,6 +5,9 @@ class stylesheet {
       primaryColor: {
         1: '#7a5605',
       },
+      secondaryColor: {
+        1: '#f3ac0a',
+      },
       // 主漸層色
       btnPrimaryBg: {
         1: 'linear-gradient(180deg, #f3ac0a 0%, #B58007 100%)',
