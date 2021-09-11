@@ -59,9 +59,10 @@
         >
           <a-input
             v-six-decimal-places
-            v-model:value.number="form.amount"
+            v-model:value="form.amount"
             :placeholder="$t('views_profile_withdrawAmountPlaceholder')"
             class="text-xs"
+            autocomplete="off"
           />
         </a-form-item>
       </a-form>
@@ -103,11 +104,11 @@
       </div>
       <div class="row">
         <div>{{ $t('views_profile_charge') }}</div>
-        <div>{{ charge }}</div>
+        <div>{{ getMinusPrefix(charge) }}</div>
       </div>
       <div class="row">
         <div>{{ $t('views_profile_forceCharge') }}</div>
-        <div>{{ forceCharge }}</div>
+        <div>{{ getMinusPrefix(forceCharge) }}</div>
       </div>
       <div class="row">
         <div>{{ $t('views_profile_amount') }}</div>
@@ -160,6 +161,7 @@ export default {
       walletList: [],
       selectedItem: {},
       info: {},
+      // 显示输入提现密码页面
       showWithdraw: false,
       withdrawCode: '',
       // 显示余额不足弹窗
@@ -169,9 +171,18 @@ export default {
     });
 
     const withdrawSettings = computed(() => store.state.info.withdrawSettings);
+    const amountValidator = async (rule, value = '') => {
+      if (value < withdrawSettings.value.minWithdrawalThreshold || value > withdrawSettings.value.maxWithdrawalThreshold) {
+        state.withdrawThreshold = false;
+        return Promise.reject(new Error(`${t('common_limit')} ${withdrawSettings.value.minWithdrawalThreshold} ~ ${withdrawSettings.value.maxWithdrawalThreshold}`));
+      }
+
+      state.withdrawThreshold = true;
+      return Promise.resolve();
+    };
 
     const rules = computed(() => ({
-      // amount: [{ message: `${t('common_limit')} ${withdrawSettings.value.minWithdrawalThreshold} - ${withdrawSettings.value.maxWithdrawalThreshold}`, trigger: 'change' }],
+      amount: [{ required: true, validator: amountValidator, trigger: 'change' }],
     }));
 
     // 免费提现次数
@@ -183,10 +194,10 @@ export default {
 
     // 手续费 withdarwAdministrativeFeeRateSwitch 为true时收取百分比
     const charge = computed(() => {
-      if (freeWithdrawCount.value) return 0;
+      if (!state.info.chargeFees || freeWithdrawCount.value) return 0;
 
       if (withdrawSettings.value.withdarwAdministrativeFeeRateSwitch) {
-        return NP.times(NP.divide(withdrawSettings.value.withdarwAdministrativeFeeRate, 100), state.form.amount);
+        return NP.times(NP.divide(withdrawSettings.value.withdarwAdministrativeFeeRate, 100), +state.form.amount);
       }
       return withdrawSettings.value.withdarwAdministrativeFee;
     });
@@ -194,34 +205,34 @@ export default {
     const withdarwHandlingFee = computed(() => store.state.info.withdrawSettings.withdarwHandlingFee);
     // 强制提现手续费
     const forceCharge = computed(() => {
-      if (freeWithdrawCount.value || state.isWaterEnough) return 0;
+      if (!state.info.chargeFees || freeWithdrawCount.value || state.isWaterEnough) return 0;
 
       return NP.divide(withdarwHandlingFee.value, 100);
     });
 
     // 实际到账 提现金额 - 一般手续费 - 强制手续费
     const realAmount = computed(() => {
-      if (!isNumber(state.form.amount)) return 0;
+      if (!isNumber(+state.form.amount)) return 0;
 
       if (!state.isWaterEnough) {
-        return NP.minus(NP.minus(state.form.amount, charge.value), forceCharge.value);
+        return NP.minus(NP.minus(+state.form.amount, charge.value), forceCharge.value);
       }
-      return NP.minus(state.form.amount, charge.value);
+      return NP.minus(+state.form.amount, charge.value);
     });
 
     // 总金额 提现金额 + 一般手续费 + 强制手续费
     const totalAmount = computed(() => {
-      if (!isNumber(state.form.amount)) return 0;
+      if (!isNumber(+state.form.amount)) return 0;
       if (!state.isWaterEnough) {
-        return NP.plus(NP.plus(state.form.amount, charge.value), forceCharge.value);
+        return NP.plus(NP.plus(+state.form.amount, charge.value), forceCharge.value);
       }
-      return NP.plus(state.form.amount, charge.value);
+      return NP.plus(+state.form.amount, charge.value);
     });
 
     // 提现后余额
     const withdrawBalance = computed(() => NP.minus(state.balance, totalAmount.value));
 
-    const btnDisabled = computed(() => !state.form.amount || realAmount.value < 0 || !state.selectedItem.accountId);
+    const btnDisabled = computed(() => !+state.form.amount || realAmount.value < 0 || !state.selectedItem.accountId || !state.withdrawThreshold);
 
     // methods
     const getBankcard = async () => {
@@ -303,6 +314,8 @@ export default {
       state.showWithdraw = false;
     };
 
+    const getMinusPrefix = (num) => (+num !== 0 ? `-${num}` : num);
+
     getBankcard();
     getWaterCaculate();
     getUserPartialInfo();
@@ -321,6 +334,7 @@ export default {
       btnDisabled,
       ruleForm,
       rules,
+      getMinusPrefix,
       ...toRefs(state),
     };
   },

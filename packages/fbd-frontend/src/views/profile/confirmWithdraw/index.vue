@@ -114,6 +114,7 @@ export default {
           accountName: data.accountName,
           orderNumber: data.orderNumber,
           processAt: dayjs(data.processAt).format('YYYY-MM-DD HH:mm:ss'),
+          amount: state.amount,
         };
         router.push({
           path: '/profile/orderDetail',

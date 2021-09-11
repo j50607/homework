@@ -3,7 +3,16 @@
     <d-header-row
       :title="state.isDeposit ? $t('views_profile_deposit') : $t('views_profile_withdraw')"
       right-components="service"
-    />
+    >
+      <template #left>
+        <img
+          class="go-back"
+          :src="require('@/assets/img/header/icon-left-white.svg')"
+          alt=""
+          @click="goProfile"
+        >
+      </template>
+    </d-header-row>
     <div class="h-full pt-h-h pl-3 pr-3 flex flex-col items-center">
       <div class="detail-wrapper">
         <div class="absolute -top-16 w-full flex flex-col items-center">
@@ -66,7 +75,7 @@ export default {
 
     const withdrawList = [
       { name: t('views_profile_orderNumber'), value: 'orderNumber' },
-      { name: t('views_profile_time'), value: 'createAt' },
+      { name: t('views_profile_time'), value: 'processAt' },
       { name: t('views_profile_withdrawAmount'), value: 'amount' },
       { name: t('views_profile_chainType'), value: 'accountName' },
       { name: t('views_profile_walletAddress'), value: 'accountId' },
@@ -75,7 +84,6 @@ export default {
     const state = reactive({
       withdraw: {
         orderNumber: '',
-        createAt: '',
         amount: '',
         accountId: '',
         accountName: '',
@@ -99,6 +107,10 @@ export default {
       window.location = serviceUrl;
     };
 
+    const goProfile = () => {
+      router.push('/profile');
+    };
+
     const goHome = () => {
       router.push('/');
     };
@@ -107,6 +119,7 @@ export default {
     return {
       goService,
       goHome,
+      goProfile,
       withdrawList,
       state,
     };
@@ -135,5 +148,10 @@ export default {
   &:nth-child(4) {
     padding-top: 15px;
   }
+}
+
+.go-back {
+  width: 18px;
+  height: 18px;
 }
 </style>
