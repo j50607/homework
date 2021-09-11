@@ -1,0 +1,215 @@
+variables:
+  DEPLOY_PATH: /home/www/comprehensive
+  DIR_PROJECT_TYPE: general
+  DIR_MOBILE_PATH: m
+  DEPLOY_APP_VERSION: v0.1.0
+
+services:
+  - name: registry.dingyi.io/docker-public/docker:19.03.12-dind
+    alias: docker
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - deploy
+  - build_image
+
+.before_script: &before_script |
+  mkdir -p ~/.ssh
+  echo "$GITLAB_RUNNER_SSH_PRIVATE_KEY_DEV" > ~/.ssh/id_rsa
+  chmod 700 ~/.ssh/id_rsa
+
+.remove_script: &remove_script |
+  echo "Removing old variables from configs..."
+  sed -i '/VUE_APP_SYSTEM_BASE =/d' $TARGET_ENV_FILE
+  sed -i '/VUE_APP_MEMBER_BASE =/d' $TARGET_ENV_FILE
+  sed -i '/VUE_APP_FINANCE_BASE =/d' $TARGET_ENV_FILE
+  sed -i '/VUE_APP_SPORT_BASE =/d' $TARGET_ENV_FILE
+  sed -i '/VUE_APP_ANALYTICS_BASE =/d' $TARGET_ENV_FILE
+  sed -i '/VUE_APP_ANALYTICS_SITEID =/d' $TARGET_ENV_FILE
+  sed -i '/VUE_APP_BASE_CDN_URL =/d' $TARGET_ENV_FILE
+  sed -i '/THIRD_PARTY_LOGIN_URL =/d' $TARGET_ENV_FILE
+
+.build_script: &build_script |
+  echo "Building..."
+  npm config set @frontend:registry https://git.dingyi.io/api/v4/packages/npm/
+  npm config set '//git.dingyi.io/api/v4/packages/npm/:_authToken' ${CI_JOB_TOKEN}
+  npm install
+  npm run build
+  npm run redirect
+
+.build_redirect_script: &build_redirect_script |
+  cd redirect/ && npm install
+  npx babel ./ports/index.js --out-file ./output/ports/index.js
+  npx uglifyjs ./output/ports/index.js --output ./output/ports/index.js
+  cp ./ports/index.html ./output/ports/index.html
+  npx babel ./agents/index.js --out-file ./output/agents/index.js
+  npx uglifyjs ./output/agents/index.js --output ./output/agents/index.js
+  npx minify ./agents/index.css > ./output/agents/index.css
+  cp ./agents/index.html ./output/agents/index.html
+  cp ./agents/use-other-browser-arrow.svg ./output/agents/use-other-browser-arrow.svg
+  cd ..
+
+.deploy_script: &deploy_script |
+  (for SERVER in $TARGET_SERVERS;
+  do
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}_l/${DIR_MOBILE_PATH};
+    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}_l/${DIR_MOBILE_PATH};
+  done);
+
+.build_image_script: &build_image_script |
+  docker login -u $DOCKER_SWARM_DEPLOYER_UESRNAME -p $DOCKER_SWARM_DEPLOYER_TOKEN $CI_REGISTRY
+  docker build -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA .
+  docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA
+  docker tag $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:latest
+  docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:latest
+
+deploy_dev:
+  image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
+  stage: deploy
+  script:
+    - *before_script
+    - echo "TARGET_ENV='dev'" >> build.env
+    - echo "TARGET_ENV_FILE='./.env.prod'" >> build.env
+    - source build.env
+    - export TARGET_SERVERS="$DEV_SERVERS"
+    - echo VUE_APP_MEMBER_BASE = /api/member >> $TARGET_ENV_FILE
+    - echo VUE_APP_FINANCE_BASE = /api/finance >> $TARGET_ENV_FILE
+    - echo VUE_APP_SPORT_BASE = /api/sport >> $TARGET_ENV_FILE
+    - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
+    - echo VUE_APP_ANALYTICS_BASE = /api/analytics >> $TARGET_ENV_FILE
+    - echo VUE_APP_ANALYTICS_SITEID = '14' >> $TARGET_ENV_FILE
+    - echo VUE_APP_BASE_CDN_URL = https://$DEV_CDN_DOMAIN >> $TARGET_ENV_FILE
+    - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
+    - *build_redirect_script
+    - *build_script
+    - *deploy_script
+    # - export TARGET_SITE_ID=3
+    # - export TARGET_SERVERS="$DEV_SERVERS"
+    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"21\";/g" ./assets/js/config/config.js
+    # - *build_script
+    # - *deploy_script
+  artifacts:
+    name: "package"
+    paths:
+      - dist
+      - build.env
+    expire_in: 3min
+  environment:
+    name: $TARGET_ENV
+  only:
+    - develop
+    - feature/ci
+
+# DEV BUILD IMAGE JOBS
+# ================================================================================
+dev_build_image:
+  image: registry.dingyi.io/docker-public/docker:19.03.12
+  stage: build_image
+  script:
+    - source build.env
+    - *build_image_script
+  dependencies:
+    - deploy_dev
+  environment:
+    name: $TARGET_ENV
+  only:
+    - develop
+
+deploy_test:
+  image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
+  stage: deploy
+  script:
+    - *before_script
+    - export TARGET_ENV='test'
+    - export TARGET_ENV_FILE='./.env.prod'
+    - export TARGET_SERVERS="$TEST_SERVERS"
+    - echo VUE_APP_MEMBER_BASE = /api/member >> $TARGET_ENV_FILE
+    - echo VUE_APP_FINANCE_BASE = /api/finance >> $TARGET_ENV_FILE
+    - echo VUE_APP_SPORT_BASE = /api/sport >> $TARGET_ENV_FILE
+    - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
+    - echo VUE_APP_ANALYTICS_BASE = /api/analytics >> $TARGET_ENV_FILE
+    - echo VUE_APP_ANALYTICS_SITEID = '16' >> $TARGET_ENV_FILE
+    - echo VUE_APP_BASE_CDN_URL = https://$TEST_CDN_DOMAIN >> $TARGET_ENV_FILE
+    - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
+    - *build_redirect_script
+    - *build_script
+    - *deploy_script
+    # - export TARGET_SITE_ID=3
+    # - export TARGET_SERVERS="$TEST_SERVERS"
+    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"22\";/g" ./assets/js/config/config.js
+    # - *build_script
+    # - *deploy_script
+  environment:
+    name: $TARGET_ENV
+  only:
+    - test
+
+deploy_stage:
+  image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
+  stage: deploy
+  script:
+    - *before_script
+    - export TARGET_ENV='stage'
+    - export TARGET_ENV_FILE='./.env.prod'
+    - export TARGET_SERVERS="$STAGE_SERVERS"
+    - echo VUE_APP_MEMBER_BASE = /api/member >> $TARGET_ENV_FILE
+    - echo VUE_APP_FINANCE_BASE = /api/finance >> $TARGET_ENV_FILE
+    - echo VUE_APP_SPORT_BASE = /api/sport >> $TARGET_ENV_FILE
+    - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
+    - echo VUE_APP_ANALYTICS_BASE = /api/analytics >> $TARGET_ENV_FILE
+    - echo VUE_APP_ANALYTICS_SITEID = '15' >> $TARGET_ENV_FILE
+    - echo VUE_APP_BASE_CDN_URL = https://$STAGE_CDN_DOMAIN >> $TARGET_ENV_FILE
+    - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
+    - *build_redirect_script
+    - *build_script
+    - *deploy_script
+    # - export TARGET_SITE_ID=3
+    # - export TARGET_SERVERS="$STAGE_SERVERS"
+    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"23\";/g" ./assets/js/config/config.js
+    # - *build_script
+    # - *deploy_script
+  environment:
+    name: $TARGET_ENV
+  only:
+    - master
+
+deploy_prod:
+  image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
+  stage: deploy
+  script:
+    - *before_script
+    - export TARGET_ENV='prod'
+    - export TARGET_ENV_FILE='./.env.prod'
+    - export TARGET_SERVERS="$PROD_SERVERS"
+    - echo VUE_APP_MEMBER_BASE = /api/member >> $TARGET_ENV_FILE
+    - echo VUE_APP_FINANCE_BASE = /api/finance >> $TARGET_ENV_FILE
+    - echo VUE_APP_SPORT_BASE = /api/sport >> $TARGET_ENV_FILE
+    - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
+    - echo VUE_APP_ANALYTICS_BASE = /api/analytics >> $TARGET_ENV_FILE
+    - echo VUE_APP_ANALYTICS_SITEID = '9' >> $TARGET_ENV_FILE
+    - echo VUE_APP_BASE_CDN_URL = https://$PROD_CDN_DOMAIN >> $TARGET_ENV_FILE
+    - echo THIRD_PARTY_LOGIN_URL = https://sso.sahudfi8y74933ujk.com/ >> $TARGET_ENV_FILE
+    - *build_redirect_script
+    - *build_script
+    - *deploy_script
+    # - export TARGET_SITE_ID=201
+    # - export TARGET_SERVERS="$PROD_SERVERS"
+    # - sed -i "s/^  static shareHost =.*/  static shareHost = \"https\:\/\/165908.com\?a\=x\&c\=\";/g" ./assets/js/config/config.js
+    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"12\";/g" ./assets/js/config/config.js
+    # - *build_script
+    # - *deploy_script
+    # - export TARGET_SITE_ID=202
+    # - export TARGET_SERVERS="$PROD_SERVERS"
+    # - sed -i "s/^  static shareHost =.*/  static shareHost = \"https\:\/\/266089.com\?a\=x\&c\=\";/g" ./assets/js/config/config.js
+    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"17\";/g" ./assets/js/config/config.js
+    # - *build_script
+    # - *deploy_script
+  environment:
+    name: $TARGET_ENV
+  only:
+    - production
