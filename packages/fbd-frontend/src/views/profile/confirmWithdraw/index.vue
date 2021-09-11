@@ -109,7 +109,6 @@ export default {
       });
       if (code === 200) {
         const params = {
-          type: 'withdraw',
           accountId: data.accountId,
           accountName: data.accountName,
           orderNumber: data.orderNumber,
@@ -119,6 +118,7 @@ export default {
         router.push({
           path: '/profile/orderDetail',
           query: {
+            type: 'withdraw',
             withdraw: JSON.stringify(params),
           },
         });

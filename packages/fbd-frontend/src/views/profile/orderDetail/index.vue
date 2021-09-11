@@ -18,23 +18,52 @@
         <div class="absolute -top-16 w-full flex flex-col items-center">
           <img
             class="h-10 w-10 mt-8"
-            :src="$requireSafe(`icon/icon-success-${state.isDeposit ? 'blue' : 'green'}.svg`)"
+            :src="$requireSafe(`icon/icon-success-green.svg`)"
             alt=""
           >
           <div class="mt-2 font-bold text-sm">
             {{ state.isDeposit ? $t('views_profile_depositHandling') : $t('views_profile_withdrawHandling') }}
           </div>
         </div>
-        <div class="pl-4 pr-4">
+        <div
+          v-if="state.isDeposit"
+          class="pl-4 pr-4"
+        >
+          <template
+            v-for="(item, index) in depositList"
+            :key="index"
+          >
+            <div
+              v-if="state?.deposit?.[item?.value]"
+              class="row flex pt-1 pb-1 deposit-row"
+            >
+              <div class="flex-1 break-all">
+                {{ item.name }}
+              </div>
+              <div
+                class="flex-1 break-all text-right"
+                :style="{color: `${item.color ? 'var(--primary-color)' : ''}`}"
+              >
+                {{ state?.deposit?.[item?.value] }}
+              </div>
+            </div>
+          </template>
+        </div>
+        <div
+          v-else
+          class="pl-4 pr-4"
+        >
           <div
-            class="row flex pt-1 pb-1"
+            class="row flex pt-1 pb-1 withdraw-row"
             v-for="(item, index) in withdrawList"
             :key="index"
           >
             <div class="flex-1 break-all">
               {{ item.name }}
             </div>
-            <div class="flex-1 break-all text-right">
+            <div
+              class="flex-1 break-all text-right"
+            >
               {{ state.withdraw[item.value] }}
             </div>
           </div>
@@ -73,6 +102,16 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
+    const depositList = [
+      { name: t('views_profile_currency'), value: 'currency' },
+      { name: t('views_profile_depositAmount'), value: 'amount' },
+      { name: t('views_profile_handlingFee'), value: 'charge' },
+      { name: t('views_profile_promotionAmount'), value: 'bonus' },
+      { name: t('views_profile_actualAmount'), value: 'actualAmount', color: true },
+      { name: t('views_profile_chainType'), value: 'accountName' },
+      { name: t('views_profile_walletAddress'), value: 'accountId' },
+    ];
+
     const withdrawList = [
       { name: t('views_profile_orderNumber'), value: 'orderNumber' },
       { name: t('views_profile_time'), value: 'processAt' },
@@ -90,7 +129,12 @@ export default {
         processAt: '',
       },
       deposit: {
-
+        orderNumber: '',
+        amount: '',
+        accountId: '',
+        accountName: '',
+        processAt: '',
+        currency: '',
       },
       isDeposit: route.query.type === 'deposit',
     });
@@ -98,9 +142,15 @@ export default {
     const serviceUrl = computed(() => store.state.info.serviceUrl);
 
     const initData = () => {
-      Object.entries(JSON.parse(route.query.withdraw)).forEach(([key, value]) => {
-        state.withdraw[key] = value;
-      });
+      if (state.isDeposit) {
+        Object.entries(JSON.parse(route.query.deposit)).forEach(([key, value]) => {
+          state.deposit[key] = value;
+        });
+      } else {
+        Object.entries(JSON.parse(route.query.withdraw)).forEach(([key, value]) => {
+          state.withdraw[key] = value;
+        });
+      }
     };
 
     const goService = () => {
@@ -120,6 +170,7 @@ export default {
       goService,
       goHome,
       goProfile,
+      depositList,
       withdrawList,
       state,
     };
@@ -132,20 +183,31 @@ export default {
   position: relative;
   width: 100%;
   margin: 75px 20px 20px;
-  padding: 75px 0 10px;
-  border-radius: 3px;
+  padding: 75px 0 15px;
+  border-radius: 5px;
   font-size: 14px;
   background: #fff;
   box-shadow: 0 2px 4px #4d57721a;
 }
 
-.row {
+.withdraw-row {
   &:nth-child(3) {
     padding-bottom: 15px;
     border-bottom: 1px solid #f2f2f2;
   }
 
   &:nth-child(4) {
+    padding-top: 15px;
+  }
+}
+
+.deposit-row {
+  &:nth-last-child(3) {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f2f2f2;
+  }
+
+  &:nth-last-child(2) {
     padding-top: 15px;
   }
 }

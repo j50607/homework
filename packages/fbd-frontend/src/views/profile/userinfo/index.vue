@@ -61,7 +61,6 @@
         :key="`contact${index}`"
       >
         <div
-          v-if="showInfo(item.value)"
           class="card-row is-btn"
           @click="goPage(item)"
         >
@@ -228,6 +227,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Avatar from '@/components/Avatar';
 import MemberApi from '@/assets/js/api/memberApi';
+import SystemApi from '@/assets/js/api/systemApi';
 import DDialog from '@/components/DDialog';
 
 export default {
@@ -418,16 +418,6 @@ export default {
 
     const showInfo = (val) => {
       switch (val) {
-        case 'nickName':
-          return registerSetting.value.showNickname;
-        case 'name':
-          return registerSetting.value.showRealName;
-        case 'gender':
-          return registerSetting.value.showGender;
-        case 'birthday':
-          return registerSetting.value.showBirthday;
-        case 'phone':
-          return registerSetting.value.showTel;
         case 'qqAccount':
           return registerSetting.value.showQQ;
         case 'wechat':
@@ -441,9 +431,17 @@ export default {
       }
     };
 
+    const getSystemConfig = async () => {
+      const { code, data } = await SystemApi.getSystemConfig();
+      if (code === 200 && data) {
+        store.commit('SET_SYSTEM_CONFIG', data);
+      }
+    };
+
     // hooks
     onBeforeMount(async () => {
       getUserPartialInfo();
+      getSystemConfig();
     });
 
     return {

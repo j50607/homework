@@ -33,6 +33,7 @@ class FinanceApi extends Api {
     extendContent,
     certificate,
     unit,
+    depositAccountId,
   }) {
     const formData = new FormData();
     const inputData = {
@@ -44,6 +45,7 @@ class FinanceApi extends Api {
       extendContent,
       certificate,
       unit,
+      depositAccountId,
     };
     const headers = {
       'Content-Type': 'multipart/form-data',
@@ -55,7 +57,7 @@ class FinanceApi extends Api {
       }
       return null;
     });
-    const result = await this.callAxios('POST', '/frontend/deposit/apply', formData, headers, true);
+    const result = await this.callAxios('POST', '/finance/deposit/apply', formData, headers, true);
 
     return result;
   }

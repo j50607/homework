@@ -128,14 +128,16 @@
           class="text-xs"
         />
       </div>
-      <div class="form-item">
+      <div
+        v-if="showUsdtExtendName"
+        class="form-item"
+      >
         <div class="text-label">
-          {{ $t('views_profile_deposit_BackEndCustomizeRemark') }}
+          {{ usdtExtendName }}
         </div>
         <a-input
-          v-two-decimal-places
-          v-model:value="form.amount"
-          :placeholder="$t('views_profile_deposit_customizeRemark')"
+          v-model:value="form.extendContent"
+          :placeholder="usdtExtendName"
           class="text-xs"
         />
       </div>
@@ -172,7 +174,8 @@
         class="mt-4 btn"
         type="primary"
         block
-        @click="handleDepositDialog(false)"
+        :disabled="!form.amount || (requireUsdtExtendName && !form.extendContent)"
+        @click="applyDeposit"
       >
         {{ $t('common_confirm') }}
       </d-button>
@@ -185,11 +188,18 @@ import {
   ref, reactive, toRefs, onBeforeMount, computed, watch,
 } from 'vue';
 import * as R from 'ramda';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import NP from 'number-precision';
 import FinanceApi from '@/assets/js/api/financeApi';
 import { copyByText } from '@/assets/js/utils/utils';
 
 export default {
   setup() {
+    // use
+    const store = useStore();
+    const router = useRouter();
+
     // ref
     const showDepoistDialog = ref(false);
     const qrCode = ref('');
@@ -199,9 +209,23 @@ export default {
     const state = reactive({
       form: {
         amount: '',
+        extendContent: '',
       },
       channelList: [],
       selectedItem: {},
+    });
+
+    // computed
+    const showUsdtExtendName = computed(() => store.state.info.depositAccountExtends.showUsdtExtendName);
+    const requireUsdtExtendName = computed(() => store.state.info.depositAccountExtends.requireUsdtExtendName);
+    const usdtExtendName = computed(() => store.state.info.depositAccountExtends.usdtExtendName);
+    const getActualAmount = computed(() => {
+      if (promotionEnable.value && state.form.amount) {
+        const percent = NP.plus(NP.divide(state.selectedItem?.promotionPercentage, 100), 1);
+        const result = NP.times(Number(state.form.amount), percent).toFixed(3).slice(0, -1);
+        return result || 0;
+      }
+      return state.form.amount || 0;
     });
 
     // methods
@@ -212,11 +236,15 @@ export default {
     const handleDepositDialog = handleRefValue(showDepoistDialog);
 
     const getDepositChannel = async () => {
-      const { code, data, info } = await FinanceApi.getDepositChannel();
+      const {
+        code, data, info, message,
+      } = await FinanceApi.getDepositChannel();
       if (code === 200) {
         state.channelList = data?.CRYPTO_CURRENCY;
         state.selectedItem = data?.CRYPTO_CURRENCY[0];
         promotionEnable.value = info.promotionEnable;
+      } else {
+        window.$vue.$message.error(message);
       }
     };
 
@@ -227,8 +255,31 @@ export default {
       return {};
     };
 
-    // computed
-    const getActualAmount = computed(() => 0);
+    const applyDeposit = async () => {
+      const params = {
+        depositAccountId: state.selectedItem.id,
+        amount: state.form.amount,
+        applyPromotion: promotionEnable.value,
+        extendContent: state.form.extendContent || undefined,
+      };
+      const { code, data, message } = await FinanceApi.applyDeposit(params);
+
+      if (code === 200) {
+        const query = {
+          currency: parseJson(state.selectedItem?.description)?.unit,
+          amount: data.amount,
+          charge: data.charge,
+          bonus: data.bonus,
+          actualAmount: NP.minus(NP.plus(data.amount, data.bonus), data.charge),
+          accountName: state.selectedItem?.holder,
+          accountId: data.accountId,
+        };
+        router.push({ path: '/profile/orderDetail', query: { type: 'deposit', deposit: JSON.stringify(query) } });
+        handleDepositDialog(false);
+      } else {
+        window.$vue.$message.error(message);
+      }
+    };
 
     // watch
     watch(() => state.selectedItem, (val) => {
@@ -258,6 +309,10 @@ export default {
       parseJson,
       copyByText,
       getActualAmount,
+      showUsdtExtendName,
+      requireUsdtExtendName,
+      usdtExtendName,
+      applyDeposit,
     };
   },
 };
