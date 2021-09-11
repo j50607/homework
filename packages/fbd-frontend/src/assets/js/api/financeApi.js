@@ -72,7 +72,7 @@ class FinanceApi extends Api {
    * 前台交易紀錄
    */
   static async getFrontendQueryLog(params) {
-    const result = await this.callAxios('POST', '/frontend/log/query', params, null, true);
+    const result = await this.callAxios('POST', '/finance/log/query', params, null, true);
     return result;
   }
 

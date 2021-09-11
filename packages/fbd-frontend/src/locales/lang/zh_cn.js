@@ -305,7 +305,8 @@ const lang = {
   components_dSelectDateModal_today: '今日',
   components_dSelectDateModal_yesterday: '昨日',
   components_dSelectDateModal_sevenDays: '七日',
-  components_dSelectDateModal_sevenDays2: '7日内',
+  components_dSelectDateModal_sevenDays2: '7日內',
+  components_dSelectDateModal_sevenDays3: '一周内',
   components_dSelectDateModal_custom: '自定义',
   components_dSelectDateModal_custom2: '自订',
   components_scroll_allLoaded: '已全部加载',
@@ -354,7 +355,8 @@ const lang = {
   components_footer_finance: '账务',
   components_footer_profile: '我的',
   components_match_betAmount: '总销量',
-
+  components_datepicker_chooseDate: '选择日期',
+  components_datepicker_dateRange: '开始时间不得大于结束时间',
   // Error
   error1: '6~12位英数字混合',
   error2: '6~12位英数字',

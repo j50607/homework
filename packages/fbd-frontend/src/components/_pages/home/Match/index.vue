@@ -13,7 +13,7 @@
             :src="require('@/assets/img/locale/zh_cn.svg')"
             alt=""
           >
-          <div>{{ data.homTeamName }}</div>
+          <div>{{ data.homeTeamName }}</div>
         </div>
         <div class="ml-5">
           vs
