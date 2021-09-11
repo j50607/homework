@@ -240,7 +240,6 @@ export default {
 
       // 第一個求3的4次方，返回值給後邊方法，以此類推
 
-      console.log('R.pipe:', f(3, 4));
       return (f(3, 4));
     };
 
@@ -357,7 +356,6 @@ export default {
         pageIndex: state.pageData.pageIndex,
       };
       const { code, data } = await SportApi.getBetOrderPage(params) || {};
-      console.log(code, data);
       if (code !== 200) return {};
       return data;
     };
@@ -368,7 +366,6 @@ export default {
         end: state.currentRangeObj.end,
       };
       const { code, data } = await SportApi.getBetOrderStatistic(params) || {};
-      console.log(code, data);
       if (code !== 200) return {};
       return data;
     };

@@ -35,7 +35,7 @@
 
     <!-- 選擇聯盟 -->
     <div
-      class="all-league-list overflow-auto flex flex-col h-full flex-nowrap pt-2"
+      class="all-league-list overflow-auto flex flex-col h-full flex-nowrap pt-2 pb-20"
       v-else
     >
       <div
@@ -70,24 +70,28 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="buttons flex fixed px-3 w-full">
-        <d-button
-          class="select-all flex-1 mr-2"
-          type="primary"
-          @click="selectAll"
-        >
-          {{ $t('views_market_switchLeague_select_all') }}
-        </d-button>
-        <d-button
-          class="not-slelect-all flex-1 border border-solid border-primary"
-          @click="unSelectAll"
-          type="default"
-          :border="true"
-        >
-          {{ $t('views_market_switchLeague_select_not') }}
-        </d-button>
-      </div>
+    <div
+      v-if="state.switchLeague"
+      class="buttons flex fixed px-3 py-4 w-full"
+    >
+      <d-button
+        class="select-all flex-1 mr-2"
+        type="primary"
+        @click="selectAll"
+      >
+        {{ $t('views_market_switchLeague_select_all') }}
+      </d-button>
+      <d-button
+        class="not-slelect-all flex-1 border border-solid border-primary"
+        style="background: rgba(255, 255, 255, 0.5);"
+        @click="unSelectAll"
+        type="default"
+        :border="true"
+      >
+        {{ $t('views_market_switchLeague_select_not') }}
+      </d-button>
     </div>
     <!-- 選擇聯盟按鈕 -->
     <div
@@ -297,7 +301,9 @@ export default {
 }
 
 .buttons {
-  bottom: calc(var(--footer-height) + 20px);
+  bottom: calc(var(--footer-height));
+  align-items: flex-end;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 1));
 }
 
 </style>

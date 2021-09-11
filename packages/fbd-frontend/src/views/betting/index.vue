@@ -104,7 +104,6 @@
                 @seconds="receivedProgressTimer"
                 @finish="getData"
               />
-              {{ state.pollingTimer }}
             </div>
           </div>
 
@@ -552,7 +551,7 @@ export default {
       const defaultMsg = code === 200 ? t('views_betting_main_handleBettingText') : t('common_betFailMsg');
       const toastText = message || defaultMsg;
 
-      window.$vue.$message(toastText);
+      window.$vue.$message.info(toastText);
       toggleBettingPopup(false);
     };
 
@@ -599,7 +598,6 @@ export default {
       if (val !== 0) return;
 
       // clearInterval(state.pollingIntervalId);
-      console.log('clearrrrr');
 
       if (state.isBettingPopupShow) {
         state.isHandlePolling = false;

@@ -190,7 +190,6 @@ export default {
 
       // 第一個求3的4次方，返回值給後邊方法，以此類推
 
-      console.log('R.pipe:', f(3, 4));
       return (f(3, 4));
     };
 
@@ -311,6 +310,10 @@ export default {
       if (!e.target.checked) {
         state.allCheck = true;
       }
+
+      if (e.target.checked) {
+        state.checkResult = [];
+      }
     };
 
     const changeCheckbox = (list) => {
@@ -320,7 +323,6 @@ export default {
       } else {
         state.typeResult = state.checkResult.reduce((acc, val) => acc.concat(val), []);
 
-        console.log(state.typeResult);
         state.allCheck = false;
       }
     };
