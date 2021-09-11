@@ -1,4 +1,5 @@
 <template>
+  <d-loading :loading="loading" />
   <div
     ref="wallet"
     class="h-full"
@@ -160,15 +161,21 @@ export default {
       info: {},
       selectedItem: {},
       mode: 'add',
+      loading: false,
     });
 
     const account = computed(() => store.state.user.account);
 
     const getBankcard = async () => {
+      state.loading = true;
+
       const { code, data } = await MemberApi.getBankcard({
         unit: 'USDT',
         receivePaymentSetting: 'VIRTUAL_WALLET',
       });
+
+      state.loading = false;
+
       if (code === 200) {
         state.walletList = data.bankcards;
         state.info = data.info;
@@ -179,12 +186,17 @@ export default {
 
     // 新增钱包
     const addBankcard = async () => {
+      state.loading = true;
+
       const { code } = await MemberApi.addBankcard({
         account: account.value,
         receivePaymentSetting: 'VIRTUAL_WALLET',
         walletAddress: state.walletAddress,
         chainType: state.chainType,
       });
+
+      state.loading = false;
+
       if (code === 200) {
         if (state.mode === 'add') {
           state.showSuccess = true;
@@ -195,6 +207,8 @@ export default {
 
     // 更新钱包
     const updateBankcard = async () => {
+      state.loadind = true;
+
       const { code } = await MemberApi.updateBankcard({
         account: account.value,
         receivePaymentSetting: 'VIRTUAL_WALLET',
@@ -202,6 +216,9 @@ export default {
         chainType: state.chainType,
         ids: [state.bankId],
       });
+
+      state.loading = false;
+
       if (code === 200) {
         state.showEditWallet = false;
         window.$vue.$message.info(t('common_edit_success'));
@@ -209,9 +226,14 @@ export default {
     };
 
     const deleteBankcard = async () => {
+      state.loading = true;
+
       const { code } = await MemberApi.deleteBankcard({
         ids: [state.selectedItem.id],
       });
+
+      state.loading = false;
+
       if (code === 200) {
         window.$vue.$message.info(t('common_delete_success'));
         state.showDelete = false;
@@ -221,11 +243,16 @@ export default {
 
     // 设定提现密码
     const changeWithDrawalCode = async (withdrawCode) => {
+      state.loading = true;
+
       const { code } = await MemberApi.changeWithDrawalCode({
         oldPassword: withdrawCode,
         newPassword: withdrawCode,
         confirmPassword: withdrawCode,
       });
+
+      state.loading = false;
+
       if (code === 200) {
         store.commit('SET_USER_INFO', { withdrawalCode: withdrawCode });
         return true;

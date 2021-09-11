@@ -1,4 +1,5 @@
 <template>
+  <d-loading :loading="state.loading" />
   <div class="h-full">
     <d-header-row
       :title="$t('views_profile_withdraw')"
@@ -93,11 +94,14 @@ export default {
       // 錢包ID
       bankcardId: '',
       withdrawCode: '',
+      loading: false,
     });
 
     const account = computed(() => store.state.user.account);
 
     const applyWithdrawal = async () => {
+      state.loading = true;
+
       const { code, data } = await FinanceApi.applyWithdrawal({
         bankName: state.accountName,
         amount: +state.amount,
@@ -107,6 +111,9 @@ export default {
         force: true,
         withdrawalCode: state.withdrawCode,
       });
+
+      state.loading = false;
+
       if (code === 200) {
         const params = {
           accountId: data.accountId,

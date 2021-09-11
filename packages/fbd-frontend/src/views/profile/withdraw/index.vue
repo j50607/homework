@@ -1,4 +1,5 @@
 <template>
+  <d-loading :loading="loading" />
   <div class="h-full">
     <d-header-row
       :title="$t('views_profile_withdraw')"
@@ -168,6 +169,7 @@ export default {
       showNotice: false,
       balance: 0,
       isWaterEnough: false,
+      loading: false,
     });
 
     const withdrawSettings = computed(() => store.state.info.withdrawSettings);
@@ -236,10 +238,15 @@ export default {
 
     // methods
     const getBankcard = async () => {
+      state.loading = true;
+
       const { code, data } = await MemberApi.getBankcard({
         unit: 'USDT',
         receivePaymentSetting: 'VIRTUAL_WALLET',
       });
+
+      state.loading = false;
+
       if (code === 200) {
         state.walletList = data.bankcards;
         state.info = data.info;
@@ -258,7 +265,12 @@ export default {
 
     // 检查提现密码
     const checkWithdraw = async () => {
+      state.loading = true;
+
       const { code } = await FinanceApi.getWithdrawalCode(state.withdrawCode);
+
+      state.loading = false;
+
       if (code === 200) {
         state.showWithdraw = false;
         router.push({
