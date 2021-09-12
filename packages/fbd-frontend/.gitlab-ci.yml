@@ -36,7 +36,7 @@ stages:
   npm config set @frontend:registry https://git.dingyi.io/api/v4/packages/npm/
   npm config set '//git.dingyi.io/api/v4/packages/npm/:_authToken' ${CI_JOB_TOKEN}
   npm install
-  npm run build
+  npm run build:prod
 
 .deploy_script: &deploy_script |
   (for SERVER in $TARGET_SERVERS;
