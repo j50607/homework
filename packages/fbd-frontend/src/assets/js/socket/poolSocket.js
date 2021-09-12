@@ -6,7 +6,7 @@ let reconnectCount = 0;
 const maxReconnectCount = 100;
 const reconnectDuration = 10 * 1000;
 
-const url = process.env.VUE_APP_IS_SELF_API === 'true' ? `wss://${window.location.host}/${process.env.VUE_APP_STOMP_SOCKET_BASE}` : process.env.VUE_APP_STOMP_SOCKET_BASE;
+const url = process.env.VUE_APP_IS_SELF_API === 'true' ? `wss://${window.location.host}/${process.env.VUE_APP_SOCKET_BASE}` : process.env.VUE_APP_SOCKET_BASE;
 
 let TOPIC_RAVAGE_LEVEL;
 
