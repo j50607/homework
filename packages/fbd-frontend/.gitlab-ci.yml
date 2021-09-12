@@ -44,13 +44,6 @@ stages:
     rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE};
   done);
 
-.build_image_script: &build_image_script |
-  docker login -u $DOCKER_SWARM_DEPLOYER_UESRNAME -p $DOCKER_SWARM_DEPLOYER_TOKEN $CI_REGISTRY
-  docker build -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA .
-  docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA
-  docker tag $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:latest
-  docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:latest
-
 deploy_dev:
   image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
   stage: deploy
@@ -64,7 +57,7 @@ deploy_dev:
     - echo VUE_APP_FINANCE_BASE = /api/finance >> $TARGET_ENV_FILE
     - echo VUE_APP_SPORT_BASE = /api/sport >> $TARGET_ENV_FILE
     - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
-    - echo VUE_APP_SOCKET_BASE = /api/notify >> $TARGET_ENV_FILE
+    - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$DEV_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_script
@@ -75,19 +68,6 @@ deploy_dev:
       - dist
       - build.env
     expire_in: 3min
-  environment:
-    name: $TARGET_ENV
-  only:
-    - develop
-
-dev_build_image:
-  image: registry.dingyi.io/docker-public/docker:19.03.12
-  stage: build_image
-  script:
-    - source build.env
-    - *build_image_script
-  dependencies:
-    - deploy_dev
   environment:
     name: $TARGET_ENV
   only:
@@ -105,7 +85,7 @@ deploy_test:
     - echo VUE_APP_FINANCE_BASE = /api/finance >> $TARGET_ENV_FILE
     - echo VUE_APP_SPORT_BASE = /api/sport >> $TARGET_ENV_FILE
     - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
-    - echo VUE_APP_SOCKET_BASE = /api/notify >> $TARGET_ENV_FILE
+    - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$TEST_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_script
@@ -127,7 +107,7 @@ deploy_stage:
     - echo VUE_APP_FINANCE_BASE = /api/finance >> $TARGET_ENV_FILE
     - echo VUE_APP_SPORT_BASE = /api/sport >> $TARGET_ENV_FILE
     - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
-    - echo VUE_APP_SOCKET_BASE = /api/notify >> $TARGET_ENV_FILE
+    - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$STAGE_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_script
@@ -149,7 +129,7 @@ deploy_prod:
     - echo VUE_APP_FINANCE_BASE = /api/finance >> $TARGET_ENV_FILE
     - echo VUE_APP_SPORT_BASE = /api/sport >> $TARGET_ENV_FILE
     - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
-    - echo VUE_APP_SOCKET_BASE = /api/notify >> $TARGET_ENV_FILE
+    - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$PROD_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo THIRD_PARTY_LOGIN_URL = https://sso.sahudfi8y74933ujk.com/ >> $TARGET_ENV_FILE
     - *build_script
