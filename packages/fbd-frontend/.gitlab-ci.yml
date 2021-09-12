@@ -38,19 +38,6 @@ stages:
   npm config set '//git.dingyi.io/api/v4/packages/npm/:_authToken' ${CI_JOB_TOKEN}
   npm install
   npm run build
-  npm run redirect
-
-.build_redirect_script: &build_redirect_script |
-  cd redirect/ && npm install
-  npx babel ./ports/index.js --out-file ./output/ports/index.js
-  npx uglifyjs ./output/ports/index.js --output ./output/ports/index.js
-  cp ./ports/index.html ./output/ports/index.html
-  npx babel ./agents/index.js --out-file ./output/agents/index.js
-  npx uglifyjs ./output/agents/index.js --output ./output/agents/index.js
-  npx minify ./agents/index.css > ./output/agents/index.css
-  cp ./agents/index.html ./output/agents/index.html
-  cp ./agents/use-other-browser-arrow.svg ./output/agents/use-other-browser-arrow.svg
-  cd ..
 
 .deploy_script: &deploy_script |
   (for SERVER in $TARGET_SERVERS;
@@ -85,14 +72,8 @@ deploy_dev:
     - echo VUE_APP_ANALYTICS_SITEID = '14' >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$DEV_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
-    - *build_redirect_script
     - *build_script
     - *deploy_script
-    # - export TARGET_SITE_ID=3
-    # - export TARGET_SERVERS="$DEV_SERVERS"
-    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"21\";/g" ./assets/js/config/config.js
-    # - *build_script
-    # - *deploy_script
   artifacts:
     name: "package"
     paths:
@@ -103,7 +84,6 @@ deploy_dev:
     name: $TARGET_ENV
   only:
     - develop
-    - feature/ci
 
 # DEV BUILD IMAGE JOBS
 # ================================================================================
@@ -136,14 +116,8 @@ deploy_test:
     - echo VUE_APP_ANALYTICS_SITEID = '16' >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$TEST_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
-    - *build_redirect_script
     - *build_script
     - *deploy_script
-    # - export TARGET_SITE_ID=3
-    # - export TARGET_SERVERS="$TEST_SERVERS"
-    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"22\";/g" ./assets/js/config/config.js
-    # - *build_script
-    # - *deploy_script
   environment:
     name: $TARGET_ENV
   only:
@@ -165,14 +139,8 @@ deploy_stage:
     - echo VUE_APP_ANALYTICS_SITEID = '15' >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$STAGE_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
-    - *build_redirect_script
     - *build_script
     - *deploy_script
-    # - export TARGET_SITE_ID=3
-    # - export TARGET_SERVERS="$STAGE_SERVERS"
-    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"23\";/g" ./assets/js/config/config.js
-    # - *build_script
-    # - *deploy_script
   environment:
     name: $TARGET_ENV
   only:
@@ -194,21 +162,8 @@ deploy_prod:
     - echo VUE_APP_ANALYTICS_SITEID = '9' >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$PROD_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo THIRD_PARTY_LOGIN_URL = https://sso.sahudfi8y74933ujk.com/ >> $TARGET_ENV_FILE
-    - *build_redirect_script
     - *build_script
     - *deploy_script
-    # - export TARGET_SITE_ID=201
-    # - export TARGET_SERVERS="$PROD_SERVERS"
-    # - sed -i "s/^  static shareHost =.*/  static shareHost = \"https\:\/\/165908.com\?a\=x\&c\=\";/g" ./assets/js/config/config.js
-    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"12\";/g" ./assets/js/config/config.js
-    # - *build_script
-    # - *deploy_script
-    # - export TARGET_SITE_ID=202
-    # - export TARGET_SERVERS="$PROD_SERVERS"
-    # - sed -i "s/^  static shareHost =.*/  static shareHost = \"https\:\/\/266089.com\?a\=x\&c\=\";/g" ./assets/js/config/config.js
-    # - sed -i "s/^  static analyticsSiteId =.*/  static analyticsSiteId = \"17\";/g" ./assets/js/config/config.js
-    # - *build_script
-    # - *deploy_script
   environment:
     name: $TARGET_ENV
   only:
