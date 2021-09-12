@@ -1,6 +1,6 @@
 variables:
   DEPLOY_PATH: /home/www/comprehensive
-  DIR_PROJECT_TYPE: general
+  DIR_PROJECT_TYPE: anti
   DIR_MOBILE_PATH: m
   DEPLOY_APP_VERSION: v0.1.0
 
