@@ -42,9 +42,7 @@ stages:
   (for SERVER in $TARGET_SERVERS;
   do
     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE};
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}_l;
     rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE};
-    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}_l;
   done);
 
 .build_image_script: &build_image_script |
