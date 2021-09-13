@@ -358,6 +358,13 @@ export default {
             window.$vue.$message.info(t('common_modifyContactService'));
           }
           break;
+        case 'phone':
+          if (user.value.phone) {
+            window.$vue.$message.info(t('common_modifyContactService'));
+          } else {
+            router.push(item.redirect);
+          }
+          break;
         case 'qqAccount':
         case 'wechat':
         case 'email':

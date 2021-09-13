@@ -27,13 +27,13 @@
         </a-form-item>
         <!-- 新暱稱 -->
         <div
-          v-if="traceCount && traceCount.nickname && traceCount.nickname < 2"
+          v-if="traceCount?.nickname < 2"
           class="set-area-title"
         >
           {{ $t('views_profile_userinfo_setNickName_newNickName') }}:
         </div>
         <a-form-item
-          v-if="traceCount && traceCount.nickname && traceCount.nickname < 2"
+          v-if="traceCount?.nickname < 2"
           class="mb-2"
           name="newNickName"
         >
@@ -44,26 +44,26 @@
         </a-form-item>
         <!-- 修改次數警告 -->
         <div
-          v-if="traceCount && traceCount.nickname && traceCount.nickname < 2"
+          v-if="traceCount?.nickname < 2"
           class="set-area-warning"
         >
-          {{ $t('views_profile_userinfo_setNickName_nickNameWarning', {times: traceCount && traceCount.nickname}) }}
+          {{ $t('views_profile_userinfo_setNickName_nickNameWarning', {times: traceCount?.nickname}) }}
         </div>
         <div
           v-else
           class="set-area-warning"
         >
-          {{ $t('views_profile_userinfo_setNickName_modifyOverLimit', {times: traceCount && traceCount.nickname}) }}
+          {{ $t('views_profile_userinfo_setNickName_modifyOverLimit', {times: traceCount?.nickname}) }}
           <a
             :href="serviceUrl"
             class="service"
           >
-            {{ $t('views_profile_userinfo_setNickName_onlineService', {times: traceCount && traceCount.nickname}) }}
+            {{ $t('views_profile_userinfo_setNickName_onlineService', {times: traceCount?.nickname}) }}
           </a>
         </div>
         <!-- 確認按鈕 -->
         <d-button
-          v-if="traceCount && traceCount.nickname && traceCount.nickname < 2"
+          v-if="traceCount?.nickname < 2"
           type="primary"
           block
           class="mt-8 is-btn"
