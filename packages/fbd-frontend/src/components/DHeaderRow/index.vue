@@ -20,13 +20,13 @@
     />
     <div
       v-if="hasMiddleSlot"
-      class="middle"
+      class="middle h-full flex justify-center"
     >
       <slot name="middle" />
     </div>
     <component
       v-else
-      class="middle"
+      class="middle h-full flex justify-center"
       :is="middleComponents"
       :title="title"
       :text-color="textColor"

@@ -11,7 +11,11 @@
         class="title-image is-btn"
         :class="locale"
       >
-        <div class="logo" />
+        <img
+          :src="$requireSafe(`site/${sitePrefix}/logo-white.svg`)"
+          class="logo"
+          :alt="sitePrefix"
+        >
       </div>
     </div>
 
@@ -103,6 +107,7 @@ export default {
 
     // computed
     const isLogin = computed(() => store.state.user.isLogin);
+    const sitePrefix = computed(() => store.state.info.siteInfo.prefix);
     const exchangeInfoList = computed(() => store.state.exchange.exchangeInfoList.filter((e) => e.showNavigation));
     const s3Base = computed(() => process.env.VUE_APP_IMG_URL_PREFIX);
 
@@ -348,6 +353,7 @@ export default {
       showRegister,
       validateCodeFlag,
       validateFlag,
+      sitePrefix,
     };
   },
 };
@@ -377,21 +383,13 @@ export default {
   .title-image {
     width: 168px;
     height: 92px;
-    background-image: url('~@/assets/img/loginAndRegister/logo_zh_cn.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100%;
+    // background-repeat: no-repeat;
+    // background-position: center;
+    // background-size: 100%;
 
     .logo {
       width: 100%;
       height: 100%;
-    }
-
-    &.en_us,
-    &.vi_vn,
-    &.th_th,
-    &.ja_jp {
-      background-image: url('~@/assets/img/loginAndRegister/logo_en.svg');
     }
   }
 }

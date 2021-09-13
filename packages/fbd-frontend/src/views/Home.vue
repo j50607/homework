@@ -22,10 +22,11 @@
       </template>
       <template #middle>
         <!-- LOGO -->
-        <!-- <img
-          :src="$requireSafe(`site/${siteInfo.sitePrefix}/logo.svg`)"
+        <img
+          class="h-full"
+          :src="$requireSafe(`site/${sitePrefix}/logo.svg`)"
           alt=""
-        >         -->
+        >
       </template>
       <template #right>
         <div class="flex items-center justify-end">
@@ -151,6 +152,7 @@ export default {
     const avatar = computed(() => store.state.user.avatar);
     const isLogin = computed(() => store.state.user.isLogin);
     const displayLanguageSwitch = computed(() => store.state.info.switchSetting.displayLanguageSwitch);
+    const sitePrefix = computed(() => store.state.info.siteInfo.prefix);
 
     const getCarousel = async () => {
       const { code, data } = await SystemApi.getCarousel();
@@ -223,6 +225,7 @@ export default {
       isLogin,
       displayLanguageSwitch,
       serviceUrl,
+      sitePrefix,
       ...toRefs(state),
     };
   },

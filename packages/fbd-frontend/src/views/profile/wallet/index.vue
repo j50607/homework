@@ -291,6 +291,7 @@ export default {
     const confirmWallet = async (address, type) => {
       state.walletAddress = address;
       state.chainType = type;
+      console.log('!state.info.withdrawalCodeSetting :>> ', !state.info.withdrawalCodeSetting);
 
       if (!state.info.withdrawalCodeSetting) {
         state.showWithdraw = true;
