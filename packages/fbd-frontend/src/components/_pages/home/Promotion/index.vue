@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-5">
+  <div>
     <d-swiper
       class="rounded-5"
       :img-list="list"

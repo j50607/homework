@@ -97,7 +97,7 @@
     </div>
     <div class="line" />
     <!-- 轉導頁面列表 -->
-    <div class="redirect">
+    <div class="redirect mb-3">
       <div
         class="redirect-item is-btn"
         v-for="(item, index) in redirectListTop"
@@ -117,7 +117,7 @@
         >
       </div>
     </div>
-    <div class="redirect">
+    <div class="redirect mb-6">
       <div
         class="redirect-item is-btn"
         v-for="(item, index) in redirectListBottom"
@@ -253,7 +253,7 @@ export default {
       if (code === 200) {
         window.$vue.$message.success(t('views_profile_logoutSuccess'));
         store.commit('CLEAR');
-        router.push('/loginAndRegister');
+        router.replace('/loginAndRegister');
       }
     };
 
@@ -308,7 +308,7 @@ export default {
 .profile {
   background-image: url('~@/assets/img/profile/bg.png');
 
-  @apply bg-layout bg-top bg-no-repeat bg-contain h-full;
+  @apply bg-layout bg-top bg-no-repeat bg-contain pb-f-h;
 
   &-header {
     @apply h-h-h p-3 flex items-center justify-between mb-7;
@@ -419,7 +419,7 @@ export default {
     background: #fff 0% 0% no-repeat padding-box;
     box-shadow: 0 2px 4px #4d57721a;
 
-    @apply mx-3 mb-3;
+    @apply mx-3;
 
     &-item {
       @apply flex items-center px-3 py-2;

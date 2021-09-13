@@ -55,7 +55,7 @@
       </div>
     </div>
     <!-- 個人資料區 -->
-    <div class="card">
+    <div class="card mb-3">
       <template
         v-for="(item, index) in userList"
         :key="`contact${index}`"
@@ -99,7 +99,7 @@
       </div>
     </div>
     <!-- 社交軟體及郵箱 -->
-    <div class="card">
+    <div class="card mb-3">
       <template
         v-for="(item, index) in contactList"
         :key="`contact${index}`"
@@ -134,7 +134,7 @@
     <div class="setting">
       {{ $t('views_profile_userinfo_setting') }}
     </div>
-    <div class="card">
+    <div class="card mb-6">
       <div
         class="card-row is-btn"
         v-for="(item, index) in modifyList"
@@ -478,7 +478,7 @@ export default {
   background-image: url('~@/assets/img/profile/userinfo/bg.png');
   background-position-y: var(--header-height);
 
-  @apply bg-layout bg-no-repeat bg-contain h-full pt-h-h px-3 pb-4;
+  @apply bg-layout bg-no-repeat bg-contain pt-h-h px-3;
 
   .user {
     color: #4d5772;
@@ -531,8 +531,6 @@ export default {
     border-radius: 5px;
     background-color: #fff;
     box-shadow: 0 2px 4px #4d57721a;
-
-    @apply mb-3;
 
     &-row {
       color: #4d5772;

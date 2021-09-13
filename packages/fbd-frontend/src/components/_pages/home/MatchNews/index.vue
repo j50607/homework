@@ -1,5 +1,5 @@
 <template>
-  <div class="flex pb-1 overflow-x-auto  overflow-y-hidden">
+  <div class="flex pb-1 overflow-x-auto  overflow-y-hidden match-news">
     <div
       v-for="(item, index) in list"
       :key="index"
@@ -113,5 +113,23 @@ export default {
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.match-news {
+  padding-bottom: 10px;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #00000010;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #d6d6d6;
+  }
 }
 </style>

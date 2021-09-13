@@ -99,7 +99,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "'," */ '@/views/betRecord'),
     meta: {
       title: 'BetRecord',
-      // requiresAuth: true,
+      requiresAuth: true,
     },
   },
   {
@@ -200,6 +200,7 @@ const routes = [
     meta: {
       title: 'finance',
       layout: Layout,
+      requiresAuth: true,
     },
   },
 ];

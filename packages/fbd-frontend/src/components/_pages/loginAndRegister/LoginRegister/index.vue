@@ -234,7 +234,7 @@ export default {
         lastAccount = rememberAccountBool ? formState.mainInputValue : '';
         window.localStorage.setItem('lastAccount', lastAccount);
 
-        window.$vue.$message.info(t('components_pages_loginAndRegister_loginRegister_index_loginSuccess'));
+        window.$vue.$message.success(t('components_pages_loginAndRegister_loginRegister_index_loginSuccess'));
         await userInfoInit(data);
         router.push('/');
       } else if (code === 403) {
