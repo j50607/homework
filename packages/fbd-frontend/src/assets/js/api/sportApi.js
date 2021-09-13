@@ -19,17 +19,15 @@ class SportApi extends API {
   */
   static async getCaculateLog({
     gameCode, issueNo, playTypeM, playTypeS, option = [],
-    // issueNo, playTypeM, playTypeS, option = [],
   }) {
     const params = {
-      // gameCode: 'sportsoccer',
       gameCode,
       issueNo,
       playTypeM,
       playTypeS,
       option,
     };
-    const result = await this.callAxios('POST', '/frontend/sport-game/sport-caculate-log/get', params, null, true);
+    const result = await this.callAxios('POST', '/frontend/sport-game/sport-calculate-log/get', params, null, true);
     return result;
   }
 
@@ -38,10 +36,8 @@ class SportApi extends API {
   */
   static async handleBetting({
     gameCode, issueNo, betMainInfo,
-    // issueNo, betMainInfo,
   }) {
     const params = {
-      // gameCode: 'sport_soccer',
       gameCode,
       issueNo,
       betMainInfo,

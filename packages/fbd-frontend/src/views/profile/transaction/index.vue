@@ -107,6 +107,11 @@
       </div>
     </div>
   </div>
+
+  <date-picker-popup
+    v-model:visible="showCalendar"
+    @confirm="selectDate"
+  />
 </template>
 
 <script>
@@ -117,8 +122,12 @@ import * as R from 'ramda';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
 import FinanceApi from '@/assets/js/api/financeApi';
+import DatePickerPopup from '@/components/_pages/DatePickerPopup';
 
 export default {
+  components: {
+    DatePickerPopup,
+  },
   setup() {
     // use
     const { t } = useI18n();
@@ -226,12 +235,22 @@ export default {
       }
     };
 
+    const selectDate = async (data) => {
+      params.start = data?.startDate ?? '';
+      params.end = data?.endDate ?? '';
+      params.pageIndex = 1;
+
+      await getTellerLog();
+    };
+
     onBeforeMount(() => {
       getTellerLog();
     });
 
     return {
       scroll,
+      showCalendar,
+      showFilter,
       ...toRefs(state),
       changeTab,
       handleFilterDialog,
@@ -240,6 +259,7 @@ export default {
       formatStatus,
       loadMoreRecord,
       pullingDown,
+      selectDate,
     };
   },
 };

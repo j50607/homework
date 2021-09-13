@@ -14,7 +14,7 @@ const initialState = () => ({
   usersLockBalance: undefined,
   birthday: undefined,
   gender: undefined,
-  lotteryBetAgentRate: undefined,
+  lotteryBetAgentRate: 1800,
   phone: undefined,
   traceCount: undefined,
   vipLevel: undefined,

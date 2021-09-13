@@ -121,6 +121,8 @@ const lang = {
   views_betting_main_popup_btnAction: '下单',
   views_betting_main_popup_btnAction2: '获取最新资料',
   views_betting_main_popup_dollars: '元',
+  views_betting_main_popup_notify1: '投注金额需介于{minBet} ~ {maxBet}',
+  views_betting_main_popup_notify2: '投注金额不得大于{limitAmount}',
   views_betting_statistic_popup_title: '交易量明细',
   views_betting_statistic_popup_sum: '总成交量',
   views_betting_statistic_popup_others: '其他',

@@ -465,13 +465,14 @@ export const floorToDigit = (num, digit = 2) => {
 export const numWithCommas = (amount) => amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
 
 /**
- * 前端从 api 拿到赔率后 render 在画面上的数字
- * @param {number} num
+ * 賠率
  */
-export const renderPayRate = (num) => {
-  if (!isNumber(num)) return 0;
-  const percentage = NP.times(NP.minus(num, 1), 100);
-  return `${percentage}%`;
+export const fmtPayRate = (payRate) => {
+  const lotteryBetAgentRate = window.$vue.$store.state.user?.lotteryBetAgentRate ?? 1800;
+  const finalPayRate = NP.times(Number(payRate ?? 0), NP.divide(lotteryBetAgentRate, 2000));
+  const result = `${NP.times(NP.minus(finalPayRate, 1), 100)}%`;
+
+  return result;
 };
 
 export const isValidUrl = (url) => url.trim() && url.trim() !== 'https://';

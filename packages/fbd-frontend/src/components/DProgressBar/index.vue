@@ -3,6 +3,7 @@
     class="progressbar"
     :class="{'run-progress' : running}"
     :style="`transform: scale(${scale}); animation-duration:${time}s;`"
+    @click="handleReset"
   >
     <div
       v-if="showTiming"
@@ -56,11 +57,18 @@ export default {
       default: 12,
     },
     /**
-     * 預設為#333，控制倒數時間字體顏色。
+     * 預設為css variable(文字顏色)，控制倒數時間字體顏色。
      */
     timeColor: {
       type: String,
       default: 'var(--font-color)',
+    },
+    /**
+     * 是否支援點擊重置(點擊該元件後，now 會歸 0 並 emit finish)
+     */
+    hasClickRefresh: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, { emit }) {
@@ -75,6 +83,10 @@ export default {
       } else {
         clearInterval(timer.value);
       }
+    };
+
+    const handleReset = () => {
+      now.value = 0;
     };
 
     // watch
@@ -113,6 +125,7 @@ export default {
 
     return {
       now,
+      handleReset,
     };
   },
 };

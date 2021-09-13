@@ -146,7 +146,7 @@ export default {
       state.currentDate = dateMap[item.value] || dayjs().format(format);
       nextTick(() => {
         state.startDate = state.currentDate;
-        state.endDate = dayjs().endOf().format(format);
+        state.endDate = item.value === 'yesterday' ? dayjs().subtract(1, 'day').endOf('day').format(format) : dayjs().endOf().format(format);
       });
     };
 

@@ -92,7 +92,7 @@
                   {{ renderGameInfo(item, 'optionName') }}
                 </span>
                 <span class="betrecord-item-option-em">
-                  {{ `@${renderPayRate(item?.payRate)}` }}
+                  {{ `@${fmtPayRate(item?.payRate)}` }}
                 </span>
               </div>
 
@@ -222,6 +222,11 @@
     </div>
   </d-popup>
 
+  <date-picker-popup
+    v-model:visible="state.isDatePickerPopupShow"
+    @confirm="selectDate"
+  />
+
   <d-footer-row />
 </template>
 
@@ -235,16 +240,18 @@ import dayjs from 'dayjs';
 import NP from 'number-precision';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons-vue';
 import {
-  timeZoneUnit, isNumber, renderPayRate,
+  timeZoneUnit, isNumber, fmtPayRate,
 } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
 import DScroll from '@/components/DScroll';
+import DatePickerPopup from '@/components/_pages/DatePickerPopup';
 
 export default {
   components: {
     CaretUpOutlined,
     CaretDownOutlined,
     DScroll,
+    DatePickerPopup,
   },
   setup() {
     // use
@@ -269,6 +276,7 @@ export default {
       },
       currentExpandIdx: undefined,
       isFilterPopupShow: false,
+      isDatePickerPopupShow: false,
       betRecordData: [],
       sumData: {
         totalBetAmount: 123.248,
@@ -359,6 +367,10 @@ export default {
       }
     };
 
+    const toggleDatePickerPopup = (isShow = false) => {
+      state.isDatePickerPopupShow = isShow;
+    };
+
     const refreshData = () => {
       state.pageData.pageIndex = 1;
       state.pageData.isLastPage = false;
@@ -434,6 +446,10 @@ export default {
     };
 
     const changeRange = async (range) => {
+      if (range === 'custom') {
+        toggleDatePickerPopup(true);
+        return;
+      }
       refreshData();
       state.currentRange = range;
 
@@ -456,6 +472,16 @@ export default {
         default:
           break;
       }
+
+      await getData();
+    };
+
+    const selectDate = async (data) => {
+      refreshData();
+      state.currentRange = 'custom';
+
+      state.currentRangeObj.start = data?.startDate ?? '';
+      state.currentRangeObj.end = data?.endDate ?? '';
 
       await getData();
     };
@@ -487,8 +513,9 @@ export default {
       pullingDown,
       changeStatus,
       handleShowDetails,
+      selectDate,
       timeZone,
-      renderPayRate,
+      fmtPayRate,
       dayjs,
     };
   },

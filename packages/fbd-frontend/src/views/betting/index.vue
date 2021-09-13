@@ -14,15 +14,18 @@
       </div>
       <div class="betting-info-container">
         <div class="betting-team">
-          <div class="betting-team-name betting-info-text betting-info-text-em">
+          <div
+            class="betting-team-name betting-info-text betting-info-text-em"
+            :class="{ 'betting-info-text-em-xs': !isChinese }"
+          >
             {{ state.currentGameData?.homeTeamName || '' }}{{ state.currentGameData?.homeTeamName && `(${$t('views_betting_host')})` }}
           </div>
           <div class="betting-team-logo betting-info-text">
             <img :src="$requireSafe('icon/default-team.svg')">
           </div>
-          <div class="betting-team-score betting-info-text betting-info-text-em">
+          <!-- <div class="betting-team-score betting-info-text betting-info-text-em">
             {{ 0 }}
-          </div>
+          </div> -->
         </div>
         <div class="betting-time">
           <div class="betting-time-item betting-info-text">
@@ -36,15 +39,18 @@
           </div>
         </div>
         <div class="betting-team">
-          <div class="betting-team-name betting-info-text betting-info-text-em">
+          <div
+            class="betting-team-name betting-info-text betting-info-text-em"
+            :class="{ 'betting-info-text-em-xs': !isChinese }"
+          >
             {{ state.currentGameData?.awayTeamName || '' }}
           </div>
           <div class="betting-team-logo betting-info-text">
             <img :src="$requireSafe('icon/default-team.svg')">
           </div>
-          <div class="betting-team-score betting-info-text betting-info-text-em">
+          <!-- <div class="betting-team-score betting-info-text betting-info-text-em">
             {{ 0 }}
-          </div>
+          </div> -->
         </div>
 
         <div class="betting-deadline">
@@ -68,7 +74,7 @@
           :key="`playTypeS[${idx}]`"
           class="betting-tab-item"
           :class="{ 'betting-tab-item-active': state.currentPlayTypeS === item.playTypeS }"
-          @click="changePlayTypeS(item, true)"
+          @click="!state.isBetItemSkeletonShow ? changePlayTypeS(item, true, true) : null"
         >
           <span class="betting-tab-text">{{ item?.playTypeSName }}</span>
         </div>
@@ -78,32 +84,56 @@
         <template v-if="!state.isGameClosed">
           <div class="betting-sum">
             <div
-              class="betting-sum-text is-btn"
+              class="betting-sum-text is-btn flex-1 pr-6"
               @click="toggleSumPopup(true)"
             >
               <div
                 class="betting-text betting-text-wrap"
               >
-                <span class="betting-text-sm">{{ $t('views_betting_statistic_popup_sum') }}</span>
-                <img
-                  class="betting-text-img"
-                  :src="$requireSafe(`betting/style${siteStyle}/sum.svg`)"
+                <a-skeleton
+                  :loading="state.isBetItemSkeletonShow"
+                  :active="true"
+                  :paragraph="{ 'rows': 1 }"
+                  :title="false"
                 >
+                  <span class="betting-text-sm">{{ $t('views_betting_statistic_popup_sum') }}</span>
+                  <img
+                    class="betting-text-img"
+                    :src="$requireSafe(`betting/style${siteStyle}/sum.svg`)"
+                  >
+                </a-skeleton>
               </div>
               <div
-                class="betting-text betting-text-left"
-                :class="{ 'text-win': state.gameSum.sum > 0 }"
+                class="betting-text betting-text-left mt-1"
+                :class="{ 'text-win': state.gameSum?.sum > 0 }"
               >
-                {{ numWithCommas(state.gameSum?.sum || 0) }}
+                <a-skeleton
+                  :loading="state.isBetItemSkeletonShow"
+                  :active="true"
+                  :paragraph="{ 'rows': 1 }"
+                  :title="false"
+                >
+                  {{ numWithCommas(state.gameSum?.sum || 0) }}
+                </a-skeleton>
               </div>
             </div>
             <div class="betting-sum-countdown">
-              <d-progress-bar
-                :time="15"
-                :running="state.isHandlePolling"
-                @seconds="receivedProgressTimer"
-                @finish="handleProgressEnded"
-              />
+              <a-skeleton
+                :loading="state.isBetItemSkeletonShow"
+                :active="true"
+                :paragraph="false"
+                :title="false"
+                :avatar="{ shape: 'circle', size: 36 }"
+              >
+                <d-progress-bar
+                  v-if="!state.isBetItemSkeletonShow"
+                  :time="15"
+                  :running="state.isHandlePolling"
+                  :has-click-refresh="true"
+                  @seconds="receivedProgressTimer"
+                  @finish="handleProgressEnded"
+                />
+              </a-skeleton>
             </div>
           </div>
 
@@ -115,42 +145,50 @@
               :class="{ 'is-btn': !item?.isFulled && item?.payRate }"
               @click="isBettingNotAllowed(item) ? null : toggleBettingPopup(true, item)"
             >
-              <div class="betting-digit">
-                <div class="betting-text-sm betting-score">
-                  <div class="betting-goal">
-                    <img
-                      :src="$requireSafe(`betting/style${siteStyle}/goal.svg`)"
-                      alt=""
-                    >
-                  </div>
-                  <span class="relative">{{ getSportScore(item?.option, 'renderData') }}</span>
-                </div>
-                <div class="betting-text-sm betting-percent">
-                  {{ renderPayRate(item?.payRate) }}
-                </div>
-              </div>
-              <div class="betting-amount">
-                <div class="betting-text-sm">
-                  {{ $t('views_betting_main_availableAmount') }}
-                </div>
-                <div class="betting-text-sm">
-                  {{ item?.limitAmount }}
-                </div>
-              </div>
-              <div
-                v-show="isBettingNotAllowed(item)"
-                class="betting-overlay"
+              <a-skeleton
+                :loading="state.isBetItemSkeletonShow"
+                :active="true"
+                :paragraph="false"
+                :title="false"
+                :avatar="{ shape: 'square', size: 102 }"
               >
+                <div class="betting-digit">
+                  <div class="betting-text-sm betting-score">
+                    <div class="betting-goal">
+                      <img
+                        :src="$requireSafe(`betting/style${siteStyle}/goal.svg`)"
+                        alt=""
+                      >
+                    </div>
+                    <span class="relative">{{ getSportScore(item?.option, 'renderData') }}</span>
+                  </div>
+                  <div class="betting-text-sm betting-percent">
+                    {{ fmtPayRate(item?.payRate ?? 0) }}
+                  </div>
+                </div>
+                <div class="betting-amount">
+                  <div class="betting-text-sm">
+                    {{ $t('views_betting_main_availableAmount') }}
+                  </div>
+                  <div class="betting-text-sm">
+                    {{ item?.limitAmount }}
+                  </div>
+                </div>
                 <div
-                  v-show="item?.isFulled"
-                  class="betting-text-sm betting-score betting-overlay-text"
+                  v-show="isBettingNotAllowed(item)"
+                  class="betting-overlay"
                 >
-                  {{ getSportScore(item?.option, 'renderData') }}
+                  <div
+                    v-show="item?.isFulled"
+                    class="betting-text-sm betting-score betting-overlay-text"
+                  >
+                    {{ getSportScore(item?.option, 'renderData') }}
+                  </div>
+                  <div class="betting-text-sm betting-overlay-text">
+                    {{ renderMaintainText(item) }}
+                  </div>
                 </div>
-                <div class="betting-text-sm betting-overlay-text">
-                  {{ renderMaintainText(item) }}
-                </div>
-              </div>
+              </a-skeleton>
             </li>
           </ul>
         </template>
@@ -283,7 +321,7 @@
         />
         <em
           v-show="showInputNotify"
-          v-text="$t('views_profile_balanceNotEnough')"
+          v-text="renderBetAmountNotify"
           class="popup-input-notify"
         />
       </div>
@@ -317,7 +355,7 @@
         X
       </div>
       <div class="popup-text popup-preview-item">
-        {{ renderPayRate(state.currentBetItem?.payRate) }}
+        {{ fmtPayRate(state.currentBetItem?.payRate ?? 0) }}
       </div>
       <div class="popup-text popup-item-prefix">
         -
@@ -368,8 +406,9 @@ import { useRoute, useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import NP from 'number-precision';
+import Cookie from 'js-cookie';
 import {
-  timeZoneUnit, numWithCommas, getSportScore, convertToCst, isNumber, floorToDigit, renderPayRate,
+  timeZoneUnit, numWithCommas, getSportScore, convertToCst, isNumber, isArray, floorToDigit, fmtPayRate,
 } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
 
@@ -393,10 +432,11 @@ export default {
       bettingDeadline: '', // 當前賽事下單截止時間
       mainCountdown: 15, // 倒數15秒，時間到重取資料
       gameSum: {
-        sum: 132132.12, // 總成交量
+        sum: 0, // 總成交量
         optionList: [], // 交易量明细
       },
       betOptionData: [], // 所有投注選項資料
+      caculateLogData: [],
       currentBetItem: {}, // 當前投注項目(betting popup 開啟的項目)
       isSumPopupShow: false,
       isBettingPopupShow: false,
@@ -439,16 +479,25 @@ export default {
       pollingTimer: 0, // 投注頁的倒數15秒計時
       isHandlePolling: false, // 是否啟用投注頁的倒數
       isBettingProcessing: false, // 按下下單按鈕，call betting api 是否還在處理中
-      bettingConfig: {}, // 投注設定
+      bettingConfig: {
+        bettingFee: 0.02,
+        gameCode: '',
+        maxBet: 100000,
+        minBet: 10,
+      }, // 投注設定
       isLoading: false,
       startNotify: false,
+      isBetItemSkeletonShow: false, // 是否顯示投注項目 Skeleton
     });
 
     // computed
     const siteStyle = computed(() => store.state.info.siteStyle);
     const timeZone = computed(() => timeZoneUnit());
+    const language = computed(() => store.state.info.language);
+    const isChinese = computed(() => language.value === 'zh_cn' || language.value === 'zh_tw');
     // 用户余额
     const balance = computed(() => store.state.user.balance || 0);
+    const isLogin = computed(() => Cookie.get('_tianyin_token') && store.state.user?.isLogin);
     const deadlineStyleList = computed(() => {
       const base = 10 * 60 * 1000;
       if (state.bettingDeadline - dayjs() > base) return {};
@@ -458,16 +507,60 @@ export default {
     });
 
     const isBalanceNotEnough = computed(() => state.betAmount > balance.value);
+    // 超過限額
+    const greaterThanLimit = computed(() => {
+      if (!isNumber(state.betAmount)) {
+        return false;
+      }
+      return state.betAmount > (Number(state.bettingConfig?.maxBet) ?? 0);
+    });
 
-    const showInputNotify = computed(() => state.startNotify && isBalanceNotEnough.value);
-    const lockBettingBtn = computed(() => !state.betAmount || state.isBettingProcessing || isBalanceNotEnough.value);
+    // 少於限額
+    const lessThanLimit = computed(() => {
+      if (!isNumber(state.betAmount)) {
+        return false;
+      }
+      return state.betAmount < (Number(state.bettingConfig?.minBet) ?? 0);
+    });
+
+    const renderBetAmountNotify = computed(() => {
+      if (isBalanceNotEnough.value) return t('views_profile_balanceNotEnough');
+
+      if (lessThanLimit.value || greaterThanLimit.value) {
+        return t('views_betting_main_popup_notify1', { minBet: state.bettingConfig?.minBet ?? 0, maxBet: state.bettingConfig?.maxBet ?? 0 });
+      }
+
+      return '';
+    });
+
+    const showInputNotify = computed(() => isBalanceNotEnough.value || greaterThanLimit.value || lessThanLimit.value);
+    const lockBettingBtn = computed(() => !state.betAmount || state.isBettingProcessing || isBalanceNotEnough.value || showInputNotify.value);
 
     // methods
+    const goPage = (name, params = {}, query = {}) => {
+      router.push({
+        name,
+        params,
+        query,
+      });
+    };
+
+    // 遊客轉導至登入頁
+    const handleLoginFirst = () => {
+      window.$vue.$message.info(window.$vue.$t('common_loginFirst'));
+      goPage('loginAndRegister');
+    };
+
     const toggleSumPopup = (isShow = true) => {
       state.isSumPopupShow = isShow;
     };
 
     const toggleBettingPopup = (isShow = true, data = {}, currentQuickAmount) => {
+      if (!isLogin.value) {
+        handleLoginFirst();
+        return;
+      }
+
       state.isBettingPopupShow = isShow;
 
       state.currentBetItem = data;
@@ -483,21 +576,12 @@ export default {
       state.isGameClosed = diffMs <= 0;
     };
 
-    const changePlayTypeS = (item, isHandleBettingDeadline = false) => {
-      state.currentPlayTypeS = item?.playTypeS;
-      state.currentPlayTypeSName = item?.playTypeSName;
-      state.currentGameData = { ...item };
-      if (isHandleBettingDeadline) {
-        handleBettingDeadline();
-      }
-    };
-
     const renderDate = (date) => dayjs(date).format('MM-DD');
 
     const renderTime = (date) => dayjs(date).format('HH:mm');
 
     const renderMaintainText = (item) => {
-      if (!item?.payRate) return t('views_betting_main_closed');
+      if (!item?.payRate || !item?.enabled) return t('views_betting_main_closed');
       return t('views_betting_main_fulled');
     };
 
@@ -530,6 +614,7 @@ export default {
     };
 
     const getBettingConfig = async () => {
+      if (!isLogin.value) return {};
       const params = {
         gameCode: state.currentGameData.gameCode,
       };
@@ -595,9 +680,14 @@ export default {
     const handleBetItemIsFulled = () => {
       if (!state.currentGameData?.betOptionList?.length) return;
       state.currentGameData.betOptionList.forEach((betItem) => {
+        if (!isArray(state.caculateLogData)) {
+          betItem.isFulled = false;
+          return;
+        }
         const currentItem = state.caculateLogData?.find((logItem) => logItem.option === betItem.option) || {};
         if (currentItem) {
           betItem.isFulled = currentItem.amount >= betItem.limitAmount;
+          betItem.amount = currentItem.amount;
           currentItem.limitAmount = betItem.limitAmount;
         } else {
           betItem.isFulled = false;
@@ -606,11 +696,11 @@ export default {
     };
 
     const handleGameSum = () => {
-      const total = state.caculateLogData.reduce((acc, item) => acc + (item?.amount || 0), 0);
-      state.gameSum.sum = total;
-
+      const total = isArray(state.caculateLogData) ? state.caculateLogData.reduce((acc, item) => acc + (item?.amount || 0), 0) : 0;
+      state.gameSum.sum = total ?? 0;
       state.gameSum.optionList = JSON.parse(JSON.stringify(state.caculateLogData));
 
+      if (!isArray(state.gameSum.optionList)) return;
       state.gameSum.optionList.forEach((item) => {
         item.percentage = NP.divide((item.amount || 0), (item.limitAmount || 1));
       });
@@ -622,7 +712,7 @@ export default {
     };
 
     const asyncGameData = () => {
-      state.currentGameData = state?.betOptionData?.find((item) => item.playTypeS === state.currentPlayTypeS);
+      state.currentGameData = state.betOptionData?.find((item) => item.playTypeS === state.currentPlayTypeS);
     };
 
     // 将 currentBetItem、currentBetItem 与重整后的 betOptionData 资料同步
@@ -661,6 +751,24 @@ export default {
       }
     };
 
+    const changePlayTypeS = async (item, isHandleBettingDeadline = false, isRefreshData = false) => {
+      if (isRefreshData) {
+        await refreshData();
+      }
+
+      state.isBetItemSkeletonShow = true;
+      state.currentPlayTypeS = item?.playTypeS;
+      state.currentPlayTypeSName = item?.playTypeSName;
+      state.currentGameData = { ...item };
+
+      if (isHandleBettingDeadline) {
+        handleBettingDeadline();
+      }
+      setTimeout(() => {
+        state.isBetItemSkeletonShow = false;
+      }, 1000);
+    };
+
     const handleInit = async () => {
       state.isLoading = true;
       state.betOptionData = await getBetOption();
@@ -672,14 +780,6 @@ export default {
 
       state.isLoading = false;
       state.isHandlePolling = true;
-    };
-
-    const goPage = (name, params = {}, query = {}) => {
-      router.push({
-        name,
-        params,
-        query,
-      });
     };
 
     watch(() => state.pollingTimer, async (val) => {
@@ -711,8 +811,10 @@ export default {
       state,
       siteStyle,
       timeZone,
+      isChinese,
       balance,
       isBalanceNotEnough,
+      renderBetAmountNotify,
       showInputNotify,
       deadlineStyleList,
       lockBettingBtn,
@@ -720,8 +822,8 @@ export default {
       getSportScore,
       convertToCst,
       floorToDigit,
-      renderPayRate,
       isNumber,
+      fmtPayRate,
       toggleSumPopup,
       toggleBettingPopup,
       changePlayTypeS,
@@ -769,6 +871,10 @@ export default {
       @apply font-bold text-primary text-sm;
     }
 
+    &-em-xs {
+      @apply text-xs;
+    }
+
     img {
       @apply mx-auto;
     }
@@ -776,6 +882,12 @@ export default {
 
   &-team {
     @apply col-span-2 justify-self-center;
+
+    max-width: calc(100% - 30px);
+  }
+
+  &-team-name {
+    @apply mx-auto text-center break-all;
   }
 
   &-team-logo {
@@ -1020,7 +1132,7 @@ export default {
   }
 
   &-progress {
-    @apply absolute top-0 left-0 h-full rounded-8;
+    @apply absolute top-0 left-0 max-w-full h-full rounded-8;
 
     background: linear-gradient(270deg, #f3ac0a 0%, #b58007 100%);
   }
@@ -1039,5 +1151,13 @@ export default {
   &-input-notify {
     @apply block mt-1 text-negative text-xs;
   }
+}
+
+::v-deep(.ant-skeleton.ant-skeleton-active .ant-skeleton-avatar) {
+  border-radius: 3px;
+}
+
+::v-deep(.ant-skeleton.ant-skeleton-active .ant-skeleton-avatar-circle) {
+  border-radius: 50%;
 }
 </style>
