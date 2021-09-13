@@ -49,8 +49,8 @@ export default {
       selectedKey: 1,
     });
 
-    const getMessage = async () => {
-      const { code, data } = await SystemApi.getMessage({});
+    const getAnnouncement = async () => {
+      const { code, data } = await SystemApi.getAnnouncement({});
       if (code === 200) {
         return data.content;
       }
@@ -63,7 +63,7 @@ export default {
     };
 
     onMounted(async () => {
-      state.list = await getMessage();
+      state.list = await getAnnouncement();
     });
     return {
       ...toRefs(state),
