@@ -5,6 +5,7 @@
     round
     position="bottom"
     duration="0.4"
+    @close="close"
   >
     <div class="flex justify-center mt-2 mb-4 text-xs">
       <div
@@ -34,14 +35,17 @@
         {{ endDate }}
       </div>
     </div>
-    <d-date-picker
-      class="date-picker mt-5"
-      v-model:value="currentDate"
-      :min-data="minDate"
-      :max-date="maxDate"
-      :format="format"
-      @change="change"
-    />
+    <transition name="fade">
+      <d-date-picker
+        v-if="show"
+        class="date-picker mt-5"
+        v-model:value="currentDate"
+        :min-data="minDate"
+        :max-date="maxDate"
+        :format="format"
+        @change="change"
+      />
+    </transition>
     <d-button
       type="primary"
       block
@@ -54,7 +58,9 @@
 </template>
 
 <script>
-import { nextTick, reactive, toRefs } from 'vue';
+import {
+  computed, nextTick, reactive, toRefs,
+} from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
 import { convertToCst } from '@/assets/js/utils/utils';
@@ -80,15 +86,18 @@ export default {
       type: [String, Number],
       default: new Date().getFullYear() - 10,
     },
+    visible: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['confirm'],
+  emits: ['confirm', 'update:visible'],
   setup(props, { emit }) {
     const { t } = useI18n();
 
     const format = `YYYY${props.format}MM${props.format}DD`;
 
     const state = reactive({
-      show: true,
       currentDate: dayjs().format(format),
       selectIndex: 0,
       quickList: [
@@ -108,6 +117,11 @@ export default {
       startDate: dayjs().format(format),
       endDate: dayjs().format(format),
       dateType: 'start',
+    });
+
+    const show = computed({
+      get: () => props.visible,
+      set: (val) => emit('update:visible', val),
     });
 
     const changeDate = (item, index) => {
@@ -153,7 +167,12 @@ export default {
         startDate: convertToCst(`${state.startDate} 00:00:00`),
         endDate: convertToCst(`${state.endDate} 23:59:59`),
       });
-      state.show = false;
+
+      show.value = false;
+    };
+
+    const close = () => {
+      show.value = false;
     };
 
     return {
@@ -161,6 +180,8 @@ export default {
       selectDate,
       change,
       confirm,
+      close,
+      show,
       ...toRefs(state),
     };
   },
@@ -210,5 +231,13 @@ export default {
 
 .d-btn {
   font-size: 12px !important;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.4s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>
