@@ -93,6 +93,7 @@ const lang = {
   common_betFailMsg: '投注失败',
   common_copySuccess: '复制成功',
   common_noContenttoCopy: '没有内容可以复制',
+  common_checkDetail: '查看详情',
 
   // Views
   views_notFound_desc: '404 page not found',

@@ -11,7 +11,7 @@
           {{ item.title }}
         </div>
         <div class="detail">
-          查看详情 >
+          {{ $t('common_checkDetail') }} >
         </div>
       </div>
       <div
@@ -24,7 +24,7 @@
     v-model:value="show"
     :data="list"
     :selected-key="selectedKey"
-    modal-title="赛事快讯"
+    :modal-title="$t('views_home_matchNews')"
     id-key="msgId"
     title-key="title"
     content-key="content"

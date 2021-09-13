@@ -30,10 +30,12 @@
       <template #right>
         <div class="flex items-center justify-end">
           <d-locale-image
+            v-if="displayLanguageSwitch"
             class="icon-size is-btn"
             @click="showLangModal = true"
           />
           <img
+            v-if="serviceUrl"
             class="icon-size ml-3 is-btn"
             :src="require('@/assets/img/header/icon-service.svg')"
             alt=""
@@ -148,6 +150,7 @@ export default {
     const s3Base = computed(() => process.env.VUE_APP_IMG_URL_PREFIX);
     const avatar = computed(() => store.state.user.avatar);
     const isLogin = computed(() => store.state.user.isLogin);
+    const displayLanguageSwitch = computed(() => store.state.info.switchSetting.displayLanguageSwitch);
 
     const getCarousel = async () => {
       const { code, data } = await SystemApi.getCarousel();
@@ -218,6 +221,8 @@ export default {
       goPage,
       goBet,
       isLogin,
+      displayLanguageSwitch,
+      serviceUrl,
       ...toRefs(state),
     };
   },
