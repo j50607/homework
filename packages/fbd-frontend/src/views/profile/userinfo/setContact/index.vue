@@ -3,7 +3,6 @@
     <!-- Header -->
     <d-header-row
       :left-components="'GoBack'"
-      :right-components="'Service'"
       :middle-components="'Title'"
       :title="getType"
     />

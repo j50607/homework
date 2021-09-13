@@ -2,7 +2,7 @@
   <div class="absolute top-0 right-0 bottom-0 left-0 bg-layout z-10">
     <d-header-row
       :title="headerTitle"
-      right-components="service"
+      :right-components=" !isModify ? 'service': undefined"
     >
       <template #left>
         <img

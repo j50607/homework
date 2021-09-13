@@ -2,7 +2,6 @@
   <div class="h-full">
     <d-header-row
       :title="state.isDeposit ? $t('views_profile_deposit') : $t('views_profile_withdraw')"
-      right-components="service"
     >
       <template #left>
         <img

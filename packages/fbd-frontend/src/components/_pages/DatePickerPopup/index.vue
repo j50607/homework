@@ -7,7 +7,10 @@
     duration="0.4"
     @close="close"
   >
-    <div class="flex justify-center mt-2 mb-4 text-xs">
+    <div
+      v-if="useSelect"
+      class="flex justify-center mt-2 mb-4 text-xs"
+    >
       <div
         class="btn"
         v-for="(item, index) in quickList"
@@ -18,7 +21,10 @@
         {{ item.name }}
       </div>
     </div>
-    <div class="flex items-center justify-between">
+    <div
+      v-if="useSelect"
+      class="flex items-center justify-between"
+    >
       <div
         class="date-box"
         :class="{'on': dateType === 'start'}"
@@ -40,7 +46,7 @@
         v-if="show"
         class="date-picker mt-5"
         v-model:value="currentDate"
-        :min-data="minDate"
+        :min-date="minDate"
         :max-date="maxDate"
         :format="format"
         @change="change"
@@ -87,6 +93,10 @@ export default {
       default: new Date().getFullYear() - 10,
     },
     visible: {
+      type: Boolean,
+      default: false,
+    },
+    useSelect: {
       type: Boolean,
       default: false,
     },

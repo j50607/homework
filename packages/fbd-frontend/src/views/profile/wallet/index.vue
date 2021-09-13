@@ -6,7 +6,7 @@
   >
     <d-header-row
       :title="$t('views_profile_walletManagement')"
-      right-components="Service"
+      :right-components="!showSuccess ? 'Service' : undefined"
     />
     <div class="h-full pt-h-h pl-3 pr-3 text-sm">
       <div

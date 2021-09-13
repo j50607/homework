@@ -215,6 +215,12 @@
       </div>
     </template>
   </d-dialog>
+  <date-picker-popup
+    v-model:visible="showBirthPopup"
+    :use-select="flase"
+    :min-date="1901"
+    @confirm="datePickerConfirm"
+  />
 </template>
 
 <script>
@@ -224,15 +230,18 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import * as moment from 'moment';
 import Avatar from '@/components/Avatar';
 import MemberApi from '@/assets/js/api/memberApi';
 import SystemApi from '@/assets/js/api/systemApi';
 import DDialog from '@/components/DDialog';
+import DatePickerPopup from '@/components/_pages/DatePickerPopup';
 
 export default {
   components: {
     Avatar,
     DDialog,
+    DatePickerPopup,
   },
   setup() {
     // use
@@ -246,6 +255,7 @@ export default {
     const genderLoading = ref(false);
     const selectGender = ref(1);
     const showBindDialog = ref(false);
+    const showBirthPopup = ref(false);
 
     // reactive
     const state = reactive({
@@ -365,6 +375,13 @@ export default {
             router.push(item.redirect);
           }
           break;
+        case 'birthday':
+          if (!user.value.birthday) {
+            showBirthPopup.value = true;
+          } else {
+            window.$vue.$message.info(t('common_modifyContactService'));
+          }
+          break;
         case 'qqAccount':
         case 'wechat':
         case 'email':
@@ -422,6 +439,19 @@ export default {
       showGenderPopup.value = false;
     };
 
+    const datePickerConfirm = async ({ startDate }) => {
+      const params = {
+        birthday: moment(startDate).format('YYYY/MM/DD'),
+      };
+      const res = await MemberApi.updateMember(account.value, params);
+      if (res.code === 200) {
+        store.commit('SET_BIRTH', res.data.birthday);
+        window.$vue.$message.success(t('common_modifySuccess'));
+      } else {
+        window.$vue.$message.error(res.message);
+      }
+    };
+
     const showInfo = (val) => {
       switch (val) {
         case 'qqAccount':
@@ -474,6 +504,8 @@ export default {
       checkBankCard,
       showBindDialog,
       router,
+      showBirthPopup,
+      datePickerConfirm,
     };
   },
 };

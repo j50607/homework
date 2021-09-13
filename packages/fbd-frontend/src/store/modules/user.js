@@ -72,6 +72,9 @@ const mutations = {
   SET_GENDER(state, gender) {
     state.gender = gender;
   },
+  SET_BIRTH(state, birth) {
+    state.birthday = birth;
+  },
   CLEAR(state) {
     Cookies.remove('_tianyin_token');
 

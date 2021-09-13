@@ -3,7 +3,6 @@
     <!-- Header -->
     <d-header-row
       :left-components="'GoBack'"
-      :right-components="'Service'"
       :middle-components="'Title'"
       :title="$t('views_profile_userinfo_modifyWithdrawPassword_title')"
     />

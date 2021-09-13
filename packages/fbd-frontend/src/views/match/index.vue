@@ -1,7 +1,7 @@
 <template>
   <div class="market pt-h-h pb-f-h relative h-full">
     <d-header-row
-      :right-components="'Service'"
+      :right-components="state.switchLeague ? undefined : 'Service'"
       :title="state.switchLeague ?$t('views_market_switchLeague') : $t('views_market_title')"
     >
       <template #left>

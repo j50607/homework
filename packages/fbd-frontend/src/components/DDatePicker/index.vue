@@ -96,7 +96,6 @@ export default {
       for (let i = 0; i <= count; i++) {
         dateArr.push(+props.minDate + i);
       }
-
       return dateArr;
     };
 

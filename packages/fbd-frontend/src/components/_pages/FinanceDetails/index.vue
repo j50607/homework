@@ -157,6 +157,7 @@
 
   <date-picker-popup
     v-model:visible="state.showDateModalBool"
+    :use-select="true"
     @confirm="datePickerConfirm"
   />
 </template>

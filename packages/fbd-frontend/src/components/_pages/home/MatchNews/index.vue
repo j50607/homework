@@ -25,7 +25,7 @@
     :data="list"
     :selected-key="selectedKey"
     :modal-title="$t('views_home_matchNews')"
-    id-key="msgId"
+    id-key="annId"
     title-key="title"
     content-key="content"
     time-key="createdTime"
@@ -59,7 +59,7 @@ export default {
 
     const showAnnouncement = (item) => {
       state.show = true;
-      state.selectedKey = item.msgId;
+      state.selectedKey = item.annId;
     };
 
     onMounted(async () => {
