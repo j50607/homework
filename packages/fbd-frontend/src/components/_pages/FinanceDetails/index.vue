@@ -42,8 +42,7 @@
               </div>
 
               <div
-                class="finance-details-text finance-details-text-sm"
-                :class="renderNumberStyle(item.amount)"
+                class="finance-details-text finance-details-text-sm finance-details-text-em"
               >
                 {{ renderNumber(item.amount) }}
               </div>
@@ -55,7 +54,7 @@
               <div
                 class="finance-details-text finance-details-text-sm"
               >
-                余额: {{ item.balance }}
+                {{ $t('balance') }}: {{ item.balance }}
               </div>
             </div>
 
@@ -68,8 +67,7 @@
               </div>
 
               <div
-                class="finance-details-text finance-details-text-sm"
-                :class="renderNumberStyle(item.amount)"
+                class="finance-details-text finance-details-text-sm finance-details-text-em"
               >
                 {{ renderNumber(item.amount) }}
               </div>
@@ -81,7 +79,7 @@
               <div
                 class="finance-details-text finance-details-text-sm"
               >
-                余额: {{ item.balance }}
+                {{ $t('balance') }}: {{ item.balance }}
               </div>
             </div>
           </li>
@@ -151,11 +149,16 @@
 
     <div class="popup-btn is-btn">
       <a-button
-        v-text="'确认'"
+        v-text="$t('common_confirm')"
         @click="confirm()"
       />
     </div>
   </d-popup>
+
+  <date-picker-popup
+    v-model:visible="state.showDateModalBool"
+    @confirm="datePickerConfirm"
+  />
 </template>
 
 <script>
@@ -166,11 +169,13 @@ import * as moment from 'moment';
 import * as R from 'ramda';
 import { onMounted } from '@vue/runtime-core';
 import DScroll from '@/components/DScroll';
+import DatePickerPopup from '@/components/_pages/DatePickerPopup';
 import financeApi from '@/assets/js/api/financeApi';
 
 export default {
   components: {
     DScroll,
+    DatePickerPopup,
   },
   setup() {
     // ref
@@ -216,19 +221,21 @@ export default {
         withdrawAmount: 1600,
       },
       typeList: [
-        { label: '充值记录', value: [0, 2, 4, 37, 38, 45] },
-        { label: '提现记录', value: [1, 3, 23, 24] },
-        { label: '活动赠送', value: [5, 18, 19, 21, 22, 25, 48] },
-        { label: '返水记录', value: [9, 17, 35] },
-        { label: '返点记录', value: [33] },
-        { label: '手续费', value: [32, 36] },
-        { label: '钱包变帐', value: [12, 13, 31, 51, 52] },
-        { label: '转账记录', value: [46, 47, 49, 50] },
-        { label: '其他', value: [53, 54] },
+        { label: window.$vue.$t('views_finance_popup_user_deposit'), value: [0, 2, 4, 37, 38, 45] },
+        { label: window.$vue.$t('views_finance_popup_user_withdraw'), value: [1, 3, 23, 24] },
+        { label: window.$vue.$t('views_finance_popup_event_gift'), value: [5, 18, 19, 21, 22, 25, 48] },
+        { label: window.$vue.$t('views_finance_popupreturn_water_record'), value: [9, 17, 35] },
+        { label: window.$vue.$t('views_finance_popup_rebate_record'), value: [33] },
+        { label: window.$vue.$t('views_finance_popup_poundage'), value: [32, 36] },
+        { label: window.$vue.$t('views_finance_popup_wallet_account_change'), value: [12, 13, 31, 51, 52] },
+        { label: window.$vue.$t('views_finance_popup_transfer_record'), value: [46, 47, 49, 50] },
+        { label: window.$vue.$t('views_finance_popup_other'), value: [53, 54] },
       ],
       checkResult: [],
       typeResult: [],
       allCheck: true,
+
+      showDateModalBool: false,
     });
 
     // computed
@@ -240,13 +247,6 @@ export default {
       const num = Number(val) || 0;
       if (num > 0) return `+${num}`;
       return num;
-    };
-
-    const renderNumberStyle = (val) => {
-      const num = Number(val) || 0;
-      if (num > 0) return 'text-positive';
-      if (num < 0) return 'text-negative';
-      return '';
     };
 
     const timeConversion = (time) => moment(time).format('YYYY-MM-DD HH:mm:ss');
@@ -270,9 +270,9 @@ export default {
       return [start, end];
     };
 
-    const queryLog = async () => {
-      const start = timeJudgment()[0];
-      const end = timeJudgment()[1];
+    const queryLog = async (startDate, endDate) => {
+      const start = startDate || timeJudgment()[0];
+      const end = endDate || timeJudgment()[1];
 
       const info = {
         type: state.typeResult,
@@ -301,7 +301,16 @@ export default {
 
     const changeRange = (range) => {
       state.currentRange = range;
-      queryLog();
+
+      if (range === 'custom') {
+        state.showDateModalBool = true;
+      } else {
+        queryLog();
+      }
+    };
+
+    const datePickerConfirm = ({ startDate, endDate }) => {
+      queryLog(startDate, endDate);
     };
 
     const changeAll = (e) => {
@@ -365,12 +374,12 @@ export default {
       changeRange,
       toggleFilterPopup,
       renderNumber,
-      renderNumberStyle,
       queryLog,
       timeConversion,
       changeAll,
       changeCheckbox,
       confirm,
+      datePickerConfirm,
     };
   },
 };
