@@ -39,9 +39,21 @@
     </div>
     <div class="h-px w-full bg-border" />
     <div class="flex items-center justify-between h-full">
-      <div>
-        {{ $t('views_betting_info_deadline') }}
-        <span>06:05:31</span>
+      <div v-if="isEnded">
+        {{ $t('views_betting_info_deadlineClosed') }}
+      </div>
+      <div
+        v-else
+        class="flex items-center"
+      >
+        <span class="mr-1">
+          {{ $t('views_betting_info_deadline') }}
+        </span>
+        <a-statistic-countdown
+          :value-style="{fontSize: '0.75rem'}"
+          :value="data.matchTime * 1000"
+          @finish="finish"
+        />
       </div>
       <img
         class="w-2 h-2"
@@ -63,9 +75,12 @@ export default {
       default: () => {},
     },
   },
-  setup() {
+  setup(props) {
     const validator = inject('$validator');
     const timeZoneUnit = computed(() => validator.value?.timeZoneUnit);
+
+    // 下注是否截止
+    const isEnded = computed(() => dayjs().valueOf() > props.data.matchTime * 1000);
 
     const amoutnFormat = (num) => {
       let result = (num || 0).toString();
@@ -73,11 +88,17 @@ export default {
       return result;
     };
 
+    const finish = () => {
+      isEnded.value = true;
+    };
+
     return {
       dayjs,
       validator,
       amoutnFormat,
       timeZoneUnit,
+      finish,
+      isEnded,
     };
   },
 };
@@ -117,4 +138,9 @@ export default {
   box-shadow: inset 0 3px 6px #00000029;
 }
 
+.ant-statistic {
+  .ant-statistic-content {
+    font-size: 12px;
+  }
+}
 </style>

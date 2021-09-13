@@ -75,6 +75,7 @@
             :key="index"
             class="mb-3"
             :data="item"
+            @click="goBet(item)"
           />
           <div class="title">
             <img
@@ -112,6 +113,7 @@ import {
 import { useStore } from 'vuex';
 import * as R from 'ramda';
 import { useRouter } from 'vue-router';
+import dayjs from 'dayjs';
 import Match from '@/components/_pages/home/Match';
 import MatchNews from '@/components/_pages/home/MatchNews';
 import Promotion from '@/components/_pages/home/Promotion';
@@ -190,6 +192,19 @@ export default {
       window.location = serviceUrl.value;
     };
 
+    const goBet = (item) => {
+      if (item.matchTime * 1000 < dayjs().valueOf()) {
+        return;
+      }
+
+      router.push({
+        path: '/betting',
+        query: {
+          issueNo: item.issueNo,
+        },
+      });
+    };
+
     onMounted(async () => {
       getHomePageData();
       state.marqueeList = await getMarquee();
@@ -201,6 +216,7 @@ export default {
       goService,
       avatar,
       goPage,
+      goBet,
       isLogin,
       ...toRefs(state),
     };
