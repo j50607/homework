@@ -63,7 +63,6 @@ import Register from '@/components/_pages/loginAndRegister/LoginRegister/Registe
 // import ValidateRegister from '@/components/_pages/loginAndRegister/ValidateRegister';
 // import ServiceModal from '@/components/_pages/loginAndRegister/ServiceModal';
 import MemberApi from '@/assets/js/api/memberApi';
-import ExchangeApi from '@/assets/js/api/exchangeApi';
 import Locale from '@/components/Locale';
 import QuickLogin from '@/components/_pages/loginAndRegister/QuickLogin';
 
@@ -314,17 +313,8 @@ export default {
       agentCode.value = queryC;
     };
 
-    // 取得前台交易所信息列表
-    const getExchangeInfoList = async () => {
-      const { code, data } = await ExchangeApi.getExchangeInfoList();
-      if (code === 200) {
-        store.commit('SET_EXCHANGE_INFO_LIST', data);
-      }
-    };
-
     onBeforeMount(() => {
       getAgentCode();
-      getExchangeInfoList();
     });
 
     // hooks

@@ -96,7 +96,7 @@ const routes = [
   {
     path: '/betRecord',
     name: 'bet-record',
-    component: () => import(/* webpackChunkName: "'," */ '@/views/betRecord'),
+    component: () => import(/* webpackChunkName: "BetRecord" */ '@/views/betRecord'),
     meta: {
       title: 'BetRecord',
       requiresAuth: true,
@@ -105,7 +105,7 @@ const routes = [
   {
     path: '/betting',
     name: 'betting',
-    component: () => import(/* webpackChunkName: "'," */ '@/views/betting'),
+    component: () => import(/* webpackChunkName: "Betting" */ '@/views/betting'),
     meta: {
       title: 'Betting',
       // requiresAuth: true,
@@ -114,16 +114,16 @@ const routes = [
   {
     path: '/match',
     name: 'match',
-    component: () => import(/* webpackChunkName: "match" */ '@/views/match'),
+    component: () => import(/* webpackChunkName: "Match" */ '@/views/match'),
     meta: {
-      title: 'match',
+      title: 'Match',
       layout: Layout,
     },
   },
   {
     path: '/profile/deposit',
     name: 'profile-deposit',
-    component: () => import('@/views/profile/deposit' /* webpackChunkName: 'Deposit' */),
+    component: () => import(/* webpackChunkName: 'Deposit' */ '@/views/profile/deposit'),
     meta: {
       title: 'Deposit',
       layout: Layout,
@@ -173,18 +173,18 @@ const routes = [
   {
     path: '/notFound',
     name: 'not-found',
-    component: () => import('@/views/notFound' /* webpackChunkName: "notFound" */),
+    component: () => import('@/views/notFound' /* webpackChunkName: "NotFound" */),
     meta: {
-      title: 'notFound',
+      title: 'NotFound',
       layout: Layout,
     },
   },
   {
     path: '/loginAndRegister',
     name: 'loginAndRegister',
-    component: () => import('@/views/loginAndRegister' /* webpackChunkName: "loginAndRegister" */),
+    component: () => import('@/views/loginAndRegister' /* webpackChunkName: "LoginAndRegister" */),
     meta: {
-      title: 'loginAndRegister',
+      title: 'LoginAndRegister',
       layout: Layout,
       isLoginPage: true,
     },
@@ -196,9 +196,19 @@ const routes = [
   {
     path: '/finance',
     name: 'finance',
-    component: () => import('@/views/finance' /* webpackChunkName: "finance" */),
+    component: () => import('@/views/finance' /* webpackChunkName: "Finance" */),
     meta: {
-      title: 'finance',
+      title: 'Finance',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/profile/transaction',
+    name: 'transaction',
+    component: () => import(/* webpackChunkName: "Transaction" */ '@/views/profile/transaction'),
+    meta: {
+      title: 'Transaction',
       layout: Layout,
       requiresAuth: true,
     },

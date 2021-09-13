@@ -5,7 +5,6 @@
       :left-components="'GoBack'"
       :middle-components="'Title'"
       :title="$t('views_profile_userinfo_title')"
-      :bg-color="'linear-gradient(180deg, #F3AC0A 0%, #B58007 100%)'"
     />
     <!-- 大頭貼 -->
     <div class="user">

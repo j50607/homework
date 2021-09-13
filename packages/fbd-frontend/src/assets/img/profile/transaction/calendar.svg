@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_57519" data-name="Rectangle 57519" width="24" height="24" transform="translate(318 284)" fill="#4d5772" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-充提紀錄_月曆">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="充提紀錄_月曆" clip-path="url(#clip-充提紀錄_月曆)">
+    <g id="签到" transform="translate(-318 -284)" clip-path="url(#clip-path)">
+      <g id="Group_36398" data-name="Group 36398" transform="translate(319.001 285.489)">
+        <g id="Group_36396" data-name="Group 36396" transform="translate(3.771)">
+          <path id="Path_47264" data-name="Path 47264" d="M1177.58,239.6a.806.806,0,0,1-.807-.807V234.21a.807.807,0,1,1,1.613,0v4.583a.806.806,0,0,1-.806.807Z" transform="translate(-1176.772 -233.376)" fill="#4d5772"/>
+          <path id="Path_47265" data-name="Path 47265" d="M1187.13,239.6a.806.806,0,0,1-.806-.807V234.21a.806.806,0,0,1,1.612,0v4.583a.805.805,0,0,1-.806.807Z" transform="translate(-1173.484 -233.376)" fill="#4d5772"/>
+        </g>
+        <g id="Group_36397" data-name="Group 36397" transform="translate(0 2.665)">
+          <path id="Path_47266" data-name="Path 47266" d="M1195.97,240.973v-3.592a2.016,2.016,0,0,0-2.017-2.017h-17.966a2.016,2.016,0,0,0-2.017,2.017v3.592Z" transform="translate(-1173.97 -235.364)" fill="#4d5772"/>
+          <path id="Path_47267" data-name="Path 47267" d="M1173.97,240.736v9.094a2.017,2.017,0,0,0,2.017,2.017h17.966a2.017,2.017,0,0,0,2.017-2.017v-9.094Zm15.813,5.042h-9.625a.807.807,0,0,1,0-1.613h9.625a.807.807,0,0,1,0,1.613Z" transform="translate(-1173.97 -233.513)" fill="#4d5772"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

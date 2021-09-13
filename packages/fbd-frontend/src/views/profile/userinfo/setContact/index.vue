@@ -6,7 +6,6 @@
       :right-components="'Service'"
       :middle-components="'Title'"
       :title="getType"
-      :bg-color="'linear-gradient(180deg, #F3AC0A 0%, #B58007 100%)'"
     />
     <a-form
       :model="state.form"

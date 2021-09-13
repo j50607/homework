@@ -65,7 +65,7 @@ class FinanceApi extends Api {
   /**
    * 前台審核紀錄查詢(tellerLog)
    */
-  static async getQueryLog(params) {
+  static async getTellerLog(params) {
     const result = await this.callAxios('POST', '/finance/teller/log/query', params, null, true);
     return result;
   }

@@ -6,7 +6,6 @@
       :right-components="'Service'"
       :middle-components="'Title'"
       :title="$t('views_profile_userinfo_setPhone_title')"
-      :bg-color="'linear-gradient(180deg, #F3AC0A 0%, #B58007 100%)'"
     />
     <a-form
       :model="state.form"
