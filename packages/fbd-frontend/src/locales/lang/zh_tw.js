@@ -102,6 +102,7 @@ const lang = {
   views_finance_popup_transfer_record: '轉賬記錄',
   views_finance_popup_other: '其他',
   views_finance: '賬務明細',
+  views_finance_balance: '餘額',
   // Components
   components_common_dialog_confirm: '確認',
   components_common_dialog_cancel: '取消',

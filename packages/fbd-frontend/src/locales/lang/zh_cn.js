@@ -324,6 +324,7 @@ const lang = {
   views_profile_transaction_cancelSuccess: '撤单成功',
   views_profile_transaction_cancelAuditing: '撤单审核中',
   views_profile_transaction_empty: '暂无资料',
+  views_finance_balance: '余额',
 
   // Components
   components_common_dialog_confirm: '确认',

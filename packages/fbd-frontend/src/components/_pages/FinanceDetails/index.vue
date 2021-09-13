@@ -54,7 +54,7 @@
               <div
                 class="finance-details-text finance-details-text-sm"
               >
-                {{ $t('balance') }}: {{ item.balance }}
+                {{ $t('views_finance_balance') }}: {{ item.balance }}
               </div>
             </div>
 
@@ -79,7 +79,7 @@
               <div
                 class="finance-details-text finance-details-text-sm"
               >
-                {{ $t('balance') }}: {{ item.balance }}
+                {{ $t('views_finance_balance') }}: {{ item.balance }}
               </div>
             </div>
           </li>
@@ -162,7 +162,9 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from '@vue/reactivity';
+import {
+  ref, reactive, nextTick, computed,
+} from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import * as moment from 'moment';
@@ -214,6 +216,7 @@ export default {
       currentExpandIdx: undefined,
       isFilterPopupShow: false,
       financeRecordData: [],
+      financeRecordPageIndex: 1,
       totalDepositAmount: 0,
       totalWithdrawAmount: 0,
       sumData: {
@@ -236,6 +239,7 @@ export default {
       allCheck: true,
 
       showDateModalBool: false,
+      isLastPage: false,
     });
 
     // computed
@@ -282,14 +286,28 @@ export default {
         filterType: [39, 40],
         review: undefined,
         showSub: false,
+        pageIndex: state.financeRecordPageIndex,
       };
 
       const { code, data } = await financeApi.getFrontendQueryLog(info);
 
       if (code === 200) {
-        state.financeRecordData = data.page.content || [];
+        if (data.page.first) {
+          state.financeRecordData = data.page.content || [];
+        } else {
+          state.financeRecordData = [...state.financeRecordData, ...data.page.content] || [];
+        }
         state.totalDepositAmount = data.totalDepositAmount || 0;
         state.totalWithdrawAmount = data.totalWithdrawAmount || 0;
+
+        state.isLastPage = data.page.last;
+
+        nextTick(() => {
+          if (scroll.value) {
+            scroll.value.lastPageCheck(state.isLastPage);
+            scroll.value.refresh();
+          }
+        });
       }
     };
 
@@ -305,11 +323,13 @@ export default {
       if (range === 'custom') {
         state.showDateModalBool = true;
       } else {
+        state.financeRecordPageIndex = 1;
         queryLog();
       }
     };
 
     const datePickerConfirm = ({ startDate, endDate }) => {
+      state.financeRecordPageIndex = 1;
       queryLog(startDate, endDate);
     };
 
@@ -337,11 +357,18 @@ export default {
     };
 
     const loadMoreRecord = () => {
+      state.financeRecordPageIndex += 1;
+      queryLog();
       getRecord();
     };
 
     const pullingDown = () => {
+      state.financeRecordPageIndex = 1;
+      queryLog();
       getRecord();
+
+      scroll.value.finishPullDown();
+      scroll.value.refresh();
     };
 
     const toggleFilterPopup = (isShow) => {

@@ -304,6 +304,8 @@ const lang = {
   views_finance_popup_transfer_record: 'Lịch sử chuyển khoản',
   views_finance_popup_other: 'khác',
   views_profile_wallet_addSuccess: '钱包已新增成功',
+  views_finance: '账务明细',
+  views_finance_balance: '余额',
   // Components
   components_common_dialog_confirm: 'Xác nhận',
   components_common_dialog_cancel: 'Hủy',

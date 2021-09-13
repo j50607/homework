@@ -22,6 +22,7 @@ export default {
 
 <style lang="postcss" scoped>
 .finance-details-pages {
+  height: 100%;
   overflow: hidden;
 }
 </style>
