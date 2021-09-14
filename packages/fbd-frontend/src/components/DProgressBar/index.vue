@@ -1,6 +1,6 @@
 <template>
   <div
-    class="progressbar"
+    class="progressbar px-progressbar"
     :class="{'run-progress' : running}"
     :style="`transform: scale(${scale}); animation-duration:${time}s;`"
     @click="handleReset"
@@ -136,9 +136,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url('~@/assets/img/progressbar/progressbar.png');
+}
+
+.px-progressbar {
   width: 36px;
   height: 36px;
-  background-image: url('~@/assets/img/progressbar/progressbar.png');
 }
 
 .run-progress {

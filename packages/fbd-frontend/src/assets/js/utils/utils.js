@@ -469,8 +469,11 @@ export const numWithCommas = (amount) => amount.toString().replace(/\B(?=(\d{3})
  */
 export const fmtPayRate = (payRate) => {
   const lotteryBetAgentRate = window.$vue.$store.state.user?.lotteryBetAgentRate ?? 1800;
-  const finalPayRate = NP.times(Number(payRate ?? 0), NP.divide(lotteryBetAgentRate, 2000));
-  const result = `${NP.times(NP.minus(finalPayRate, 1), 100)}%`;
+  const payRateAmount = NP.minus(payRate, 1);
+  const finalPayRate = NP.times(Number(payRateAmount ?? 0), NP.divide(lotteryBetAgentRate, 2000));
+  // 賠率無條件捨去到小數點後第四位，轉換成 % 後為小數點後第二位，如未到第二位補上 0 讓它對齊
+  const floorNum = floorToDigit(finalPayRate, 4);
+  const result = `${NP.times(floorNum, 100).toFixed(2)}%`;
 
   return result;
 };

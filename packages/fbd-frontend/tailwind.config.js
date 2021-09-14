@@ -22,6 +22,7 @@ module.exports = {
         'primary-content': 'var(--primary-content-bg)',
         'secondary-content': 'var(--secondary-content-bg)',
         border: 'var(--border-color)',
+        'input-border': 'var(--input-border-color)',
         maintain: 'var(--maintain-bg)',
       },
       spacing: {

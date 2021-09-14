@@ -323,6 +323,7 @@ const lang = {
   views_profile_transaction_success: '交易成功',
   views_profile_transaction_cancel: '交易取消',
   views_profile_transaction_fail: '交易失败',
+  views_profile_transaction_refused: '交易拒绝',
   views_profile_transaction_auditing: '审核中',
   views_profile_transaction_cancelSuccess: '撤单成功',
   views_profile_transaction_cancelAuditing: '撤单审核中',

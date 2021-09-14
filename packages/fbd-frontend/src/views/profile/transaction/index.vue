@@ -114,8 +114,56 @@
 
   <date-picker-popup
     v-model:visible="showCalendar"
+    :use-select="true"
     @confirm="selectDate"
   />
+
+  <d-popup
+    v-model:value="showFilter"
+    position="bottom"
+    :round="true"
+    :title="$t('views_betRecord_filterPopup_title')"
+    class="popup"
+  >
+    <div class="popup-label">
+      {{ $t('views_finance_popup_label1') }}
+    </div>
+    <div class="popup-list">
+      <div class="popup-item is-btn">
+        <a-radio
+          class="popup-font-12 popup-reverse popup-mr-0"
+          v-model:checked="allCheck"
+          @change="changeAll"
+        >
+          {{ $t('views_finance_popup_all') }}
+        </a-radio>
+      </div>
+    </div>
+
+    <div class="popup-list">
+      <a-checkbox-group
+        class="popup-checkbox"
+        v-model:value="checkResult"
+        @change="changeCheckbox"
+      >
+        <a-checkbox
+          class="popup-item is-btn popup-reverse"
+          v-for="(item, index) in typeList"
+          :key="`typeList[${index}]`"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </a-checkbox>
+      </a-checkbox-group>
+    </div>
+
+    <div class="popup-btn is-btn">
+      <a-button
+        v-text="$t('common_confirm')"
+        @click="confirmFilter()"
+      />
+    </div>
+  </d-popup>
 </template>
 
 <script>
@@ -148,10 +196,32 @@ export default {
       withdraw: [1],
     };
 
+    const filterList = {
+      deposit: [
+        { label: window.$vue.$t('views_profile_transaction_success'), value: [1] },
+        { label: window.$vue.$t('views_profile_transaction_fail'), value: [2, 3, 5] },
+        { label: window.$vue.$t('views_profile_transaction_auditing'), value: [0, 4, 6, 7] },
+      ],
+      withdraw: [
+        { label: window.$vue.$t('views_profile_transaction_success'), value: [1] },
+        { label: window.$vue.$t('views_profile_transaction_fail'), value: [2, 3, 5] },
+        { label: window.$vue.$t('views_profile_transaction_auditing'), value: [0] },
+        { label: window.$vue.$t('views_profile_transaction_refused'), value: [4] },
+      ],
+    };
+
     // reactive
     const state = reactive({
       tabType: 'deposit',
       queryContent: [],
+      allCheck: true,
+      checkResult: [],
+      typeResult: [],
+      typeList: [
+        { label: window.$vue.$t('views_profile_transaction_success'), value: [1] },
+        { label: window.$vue.$t('views_profile_transaction_fail'), value: [2, 3, 5] },
+        { label: window.$vue.$t('views_profile_transaction_auditing'), value: [0, 4, 6, 7] },
+      ],
     });
 
     const params = reactive({
@@ -160,7 +230,7 @@ export default {
       end: dayjs().endOf('day').format('YYYY/MM/DD HH:mm:ss'),
       pageIndex: 1,
       isLastPage: false,
-      // status: [],
+      status: state.typeResult,
     });
 
     // methods
@@ -171,12 +241,42 @@ export default {
     const handleFilterDialog = handleRefValue(showFilter);
     const handleCalendarDialog = handleRefValue(showCalendar);
 
+    const changeAll = (e) => {
+      state.typeResult = e.target.checked ? [] : state.checkResult;
+
+      if (!e.target.checked) {
+        state.allCheck = true;
+      }
+
+      if (e.target.checked) {
+        state.checkResult = [];
+      }
+    };
+
+    const changeCheckbox = (list) => {
+      if (list.length === state.typeList.length) {
+        state.checkResult = [];
+        state.allCheck = true;
+      } else {
+        state.typeResult = state.checkResult.reduce((acc, val) => acc.concat(val), []);
+
+        state.allCheck = false;
+      }
+    };
+
+    const initFilter = () => {
+      state.typeList = JSON.parse(JSON.stringify(filterList[state.tabType]));
+      state.checkResult = [];
+      state.typeResult = [];
+      state.allCheck = true;
+    };
+
     const getTellerLog = async () => {
       const {
         code, data, message,
       } = await FinanceApi.getTellerLog(params);
       if (code === 200) {
-        if (data.first) {
+        if (data?.page?.first) {
           state.queryContent = data?.page?.content;
         } else {
           state.queryContent = [...state.queryContent, ...data?.page?.content];
@@ -237,6 +337,7 @@ export default {
         params.pageIndex = 1;
         params.isLastPage = false;
         params.type = searchType[state.tabType];
+        initFilter();
         getTellerLog();
       }
     };
@@ -251,6 +352,13 @@ export default {
 
     const goDetail = (info) => {
       router.push({ name: 'transactionDetail', params: { info: JSON.stringify(info) } });
+    };
+
+    const confirmFilter = async () => {
+      params.pageIndex = 1;
+
+      await getTellerLog();
+      handleFilterDialog(false);
     };
 
     onBeforeMount(() => {
@@ -271,6 +379,9 @@ export default {
       pullingDown,
       selectDate,
       goDetail,
+      changeAll,
+      changeCheckbox,
+      confirmFilter,
     };
   },
 };
@@ -414,6 +525,49 @@ export default {
 
       @apply font-normal;
     }
+  }
+}
+
+.popup {
+  &-label {
+    @apply mb-2 text-xs font-bold;
+  }
+
+  &-list {
+    @apply mt-2 mb-2 text-xs border-t border-solid border-input-border;
+  }
+
+  &-item {
+    @apply mt-2 mb-2 text-xs ml-0;
+  }
+
+  &-checkbox {
+    @apply flex flex-col;
+  }
+
+  &-reverse {
+    @apply flex flex-row-reverse justify-between;
+  }
+
+  &-btn {
+    @apply mt-4 mb-4 text-xs;
+
+    .ant-btn {
+      width: 100%;
+      height: 36px;
+      border-radius: 3px;
+      color: #fff;
+      font-size: 12px;
+      background: linear-gradient(#f3ac0a 0%, #b58007 100%);
+    }
+  }
+
+  &-font-12 {
+    @apply text-xs;
+  }
+
+  &-mr-0 {
+    @apply mr-0;
   }
 }
 </style>

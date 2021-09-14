@@ -14,14 +14,14 @@
       </div>
       <div class="betting-info-container">
         <div class="betting-team">
+          <div class="betting-team-logo betting-info-text">
+            <img :src="$requireSafe('icon/default-team.svg')">
+          </div>
           <div
             class="betting-team-name betting-info-text betting-info-text-em"
             :class="{ 'betting-info-text-em-xs': !isChinese }"
           >
             {{ state.currentGameData?.homeTeamName || '' }}{{ state.currentGameData?.homeTeamName && `(${$t('views_betting_host')})` }}
-          </div>
-          <div class="betting-team-logo betting-info-text">
-            <img :src="$requireSafe('icon/default-team.svg')">
           </div>
           <!-- <div class="betting-team-score betting-info-text betting-info-text-em">
             {{ 0 }}
@@ -39,14 +39,14 @@
           </div>
         </div>
         <div class="betting-team">
+          <div class="betting-team-logo betting-info-text">
+            <img :src="$requireSafe('icon/default-team.svg')">
+          </div>
           <div
             class="betting-team-name betting-info-text betting-info-text-em"
             :class="{ 'betting-info-text-em-xs': !isChinese }"
           >
             {{ state.currentGameData?.awayTeamName || '' }}
-          </div>
-          <div class="betting-team-logo betting-info-text">
-            <img :src="$requireSafe('icon/default-team.svg')">
           </div>
           <!-- <div class="betting-team-score betting-info-text betting-info-text-em">
             {{ 0 }}
@@ -171,7 +171,7 @@
                     {{ $t('views_betting_main_availableAmount') }}
                   </div>
                   <div class="betting-text-sm">
-                    {{ item?.limitAmount }}
+                    {{ item?.leftAmount ?? 0 }}
                   </div>
                 </div>
                 <div
@@ -678,20 +678,24 @@ export default {
     };
 
     const handleBetItemIsFulled = () => {
-      if (!state.currentGameData?.betOptionList?.length) return;
-      state.currentGameData.betOptionList.forEach((betItem) => {
+      const betOptionList = state.betOptionData?.find((item) => item.playTypeS === state.currentPlayTypeS)?.betOptionList;
+      if (!betOptionList?.length) return;
+      betOptionList.forEach((betItem) => {
         if (!isArray(state.caculateLogData)) {
           betItem.isFulled = false;
           return;
         }
-        const currentItem = state.caculateLogData?.find((logItem) => logItem.option === betItem.option) || {};
+        const currentItem = state.caculateLogData?.find((logItem) => logItem.option === betItem.option);
         if (currentItem) {
           betItem.isFulled = currentItem.amount >= betItem.limitAmount;
-          betItem.amount = currentItem.amount;
+
           currentItem.limitAmount = betItem.limitAmount;
         } else {
           betItem.isFulled = false;
         }
+
+        betItem.amount = currentItem?.amount || 0;
+        betItem.leftAmount = betItem.limitAmount - (currentItem?.amount || 0);
       });
     };
 
@@ -702,7 +706,7 @@ export default {
 
       if (!isArray(state.gameSum.optionList)) return;
       state.gameSum.optionList.forEach((item) => {
-        item.percentage = NP.divide((item.amount || 0), (item.limitAmount || 1));
+        item.percentage = NP.times(NP.divide((item.amount || 0), (item.limitAmount || 1)), 100);
       });
     };
 
@@ -745,8 +749,8 @@ export default {
 
     const handleProgressEnded = async () => {
       state.isHandlePolling = false;
-      await getData();
       if (!state.isBettingPopupShow) {
+        await getData();
         state.isHandlePolling = true;
       }
     };
@@ -766,7 +770,7 @@ export default {
       }
       setTimeout(() => {
         state.isBetItemSkeletonShow = false;
-      }, 1000);
+      }, 500);
     };
 
     const handleInit = async () => {

@@ -121,6 +121,8 @@ const lang = {
   views_betting_main_popup_btnAction: 'Đặt cược',
   views_betting_main_popup_btnAction2: 'Nhận được thông tin mới',
   views_betting_main_popup_dollars: 'đồng',
+  views_betting_main_popup_notify1: 'Số tiền đặt cược phải từ {minBet} ~ {maxBet}',
+  views_betting_main_popup_notify2: 'Số tiền đặt cược không lớn hơn {limitAmount}',
   views_betting_statistic_popup_title: 'Chi tiết số lương giao dịch',
   views_betting_statistic_popup_sum: 'tổng lượng giao thành công',
   views_betting_statistic_popup_others: 'Khác ',

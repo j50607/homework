@@ -224,6 +224,7 @@
 
   <date-picker-popup
     v-model:visible="state.isDatePickerPopupShow"
+    :use-select="true"
     @confirm="selectDate"
   />
 
