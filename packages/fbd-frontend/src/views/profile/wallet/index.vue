@@ -102,6 +102,8 @@
     v-if="showEditWallet"
     :address="walletAddress"
     :type="chainType"
+    :sms-verify-switch="smsVerifySwitch"
+    :phone="phone"
     @confirm="confirmWallet"
     @close="closeWallet"
   />
@@ -135,6 +137,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import MemberApi from '@/assets/js/api/memberApi';
 import WithdrawCode from '@/components/_pages/profile/WithdrawCode';
 import EditWallet from '@/components/_pages/profile/EditWallet';
@@ -146,6 +149,7 @@ export default {
   },
   setup() {
     const { t } = useI18n();
+    const router = useRouter();
     const store = useStore();
 
     const wallet = ref(null);
@@ -158,13 +162,16 @@ export default {
       showSuccess: false,
       walletAddress: '',
       chainType: '',
+      verifyCode: '',
       info: {},
       selectedItem: {},
       mode: 'add',
       loading: false,
     });
 
+    const phone = computed(() => store.state.user.phone);
     const account = computed(() => store.state.user.account);
+    const smsVerifySwitch = computed(() => store.state.info.switchSetting.smsVerifySwitch);
 
     const getBankcard = async () => {
       state.loading = true;
@@ -193,6 +200,7 @@ export default {
         receivePaymentSetting: 'VIRTUAL_WALLET',
         walletAddress: state.walletAddress,
         chainType: state.chainType,
+        verifyCode: state.verifyCode,
       });
 
       state.loading = false;
@@ -215,6 +223,7 @@ export default {
         walletAddress: state.walletAddress,
         chainType: state.chainType,
         ids: [state.bankId],
+        verifyCode: state.verifyCode,
       });
 
       state.loading = false;
@@ -261,6 +270,10 @@ export default {
     };
 
     const addWallet = (item) => {
+      if (smsVerifySwitch.value && !phone.value) {
+        router.push('/profile/userinfo/setPhone');
+        return;
+      }
       state.walletAddress = item?.accountId;
       state.chainType = item?.accountName;
       state.bankId = item?.bankId;
@@ -288,10 +301,10 @@ export default {
       state.showEditWallet = false;
     };
 
-    const confirmWallet = async (address, type) => {
+    const confirmWallet = async (address, type, smsCode) => {
       state.walletAddress = address;
       state.chainType = type;
-      console.log('!state.info.withdrawalCodeSetting :>> ', !state.info.withdrawalCodeSetting);
+      state.verifyCode = smsCode;
 
       if (!state.info.withdrawalCodeSetting) {
         state.showWithdraw = true;
@@ -313,6 +326,8 @@ export default {
       confirmWallet,
       deleteBankcard,
       wallet,
+      smsVerifySwitch,
+      phone,
       ...toRefs(state),
     };
   },
