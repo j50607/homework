@@ -292,7 +292,6 @@ export default {
     const user = computed(() => store.state.user);
     const registerSetting = computed(() => store.state.info.registerSetting);
     const withdrawalCode = computed(() => store.state.user.withdrawalCode);
-    const withdrawalCodeSetting = computed(() => store.state.user.withdrawalCodeSetting);
 
     // watch
     watch(showGenderPopup, () => {
