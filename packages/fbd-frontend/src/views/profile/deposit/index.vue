@@ -240,9 +240,9 @@ export default {
         code, data, info, message,
       } = await FinanceApi.getDepositChannel();
       if (code === 200) {
-        state.channelList = data?.CRYPTO_CURRENCY;
-        state.selectedItem = data?.CRYPTO_CURRENCY[0];
-        promotionEnable.value = info.promotionEnable;
+        state.channelList = [...data?.CRYPTO_CURRENCY, ...data?.USDT];
+        state.selectedItem = state?.channelList[0];
+        promotionEnable.value = info?.promotionEnable;
       } else {
         window.$vue.$message.error(message);
       }
