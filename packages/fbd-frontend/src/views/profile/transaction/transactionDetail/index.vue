@@ -3,24 +3,60 @@
     <d-header-row
       :title="$t('components_pages_profile_transaction')"
       :right-components="'Service'"
-    />
+    >
+      <template #left>
+        <div
+          class="go-back"
+        >
+          <img
+            :src="$requireSafe(`header/icon-left-white.svg`)"
+            class="is-btn"
+            @click="goBack"
+          >
+        </div>
+      </template>
+    </d-header-row>
     <div class="detail">
       <div class="detail-title">
         {{ $t('views_profile_transaction_transactionDetail_orderDetail') }}
       </div>
       <!-- 訂單內容 -->
-      <div
-        class="row"
-        v-for="(item, index) in info"
-        :key="`info${index}`"
-      >
-        <div class="row-title">
-          {{ item?.title }}
-        </div>
-        <div :class="['row-content', item?.index === 'status' ? `status${item?.value?.id}` : '']">
-          {{ renderContent(item) }}
-        </div>
-      </div>
+      <template v-if="type === 'deposit'">
+        <template
+          v-for="(item, index) in info?.deposit"
+          :key="`info${index}`"
+        >
+          <div
+            v-if="item?.value"
+            class="row"
+          >
+            <div class="row-title">
+              {{ item?.title }}
+            </div>
+            <div :class="['row-content', item?.index === 'status' ? `status${item?.value?.id}` : '']">
+              {{ renderContent(item) }}
+            </div>
+          </div>
+        </template>
+      </template>
+      <template v-else>
+        <template
+          v-for="(item, index) in info?.withdraw"
+          :key="`info${index}`"
+        >
+          <div
+            v-if="item?.value"
+            class="row"
+          >
+            <div class="row-title">
+              {{ item?.title }}
+            </div>
+            <div :class="['row-content', item?.index === 'status' ? `status${item?.value?.id}` : '']">
+              {{ renderContent(item) }}
+            </div>
+          </div>
+        </template>
+      </template>
     </div>
   </div>
 </template>
@@ -29,7 +65,7 @@
 import { reactive, toRefs, watch } from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import NP from 'number-precision';
 
 export default {
@@ -37,22 +73,37 @@ export default {
     // use
     const { t } = useI18n();
     const route = useRoute();
+    const router = useRouter();
 
     // reactive
     const state = reactive({
+      type: 'deposit',
       allDetail: {},
-      info: [
-        { title: t('views_profile_transaction_status'), value: undefined, index: 'status' },
-        { title: t('views_profile_transaction_orderNumber'), value: undefined, index: 'orderNumber' },
-        { title: t('views_profile_transaction_depositTime'), value: undefined, index: 'logAt' },
-        { title: t('views_profile_transaction_finishTime'), value: undefined, index: 'processAt' },
-        { title: t('views_profile_transaction_primaryNet'), value: undefined, index: 'accountName' },
-        { title: t('views_profile_transaction_walletAddress'), value: undefined, index: 'accountId' },
-        { title: t('views_profile_transaction_depositAmount'), value: undefined, index: 'amount' },
-        { title: t('views_profile_transaction_promotionAmount'), value: undefined, index: 'bonus' },
-        { title: t('views_profile_transaction_handlingFee'), value: undefined, index: 'charge' },
-        { title: t('views_profile_transaction_realAmount'), value: undefined, index: 'realAmount' },
-      ],
+      info: {
+        deposit: [
+          { title: t('views_profile_transaction_status'), value: undefined, index: 'status' },
+          { title: t('views_profile_transaction_orderNumber'), value: undefined, index: 'orderNumber' },
+          { title: t('views_profile_transaction_depositTime'), value: undefined, index: 'logAt' },
+          { title: t('views_profile_transaction_finishTime'), value: undefined, index: 'processAt' },
+          { title: t('views_profile_transaction_primaryNet'), value: undefined, index: 'accountName' },
+          { title: t('views_profile_transaction_walletAddress'), value: undefined, index: 'accountId' },
+          { title: t('views_profile_transaction_depositAmount'), value: undefined, index: 'amount' },
+          { title: t('views_profile_transaction_promotionAmount'), value: undefined, index: 'bonus' },
+          { title: t('views_profile_transaction_handlingFee'), value: undefined, index: 'charge' },
+          { title: t('views_profile_transaction_realAmount'), value: undefined, index: 'realAmount' },
+        ],
+        withdraw: [
+          { title: t('views_profile_transaction_status'), value: undefined, index: 'status' },
+          { title: t('views_profile_transaction_orderNumber'), value: undefined, index: 'orderNumber' },
+          { title: t('views_profile_transaction_withdrawTime'), value: undefined, index: 'logAt' },
+          { title: t('views_profile_transaction_finishTime'), value: undefined, index: 'processAt' },
+          { title: t('views_profile_transaction_primaryNet'), value: undefined, index: 'accountName' },
+          { title: t('views_profile_transaction_walletAddress'), value: undefined, index: 'accountId' },
+          { title: t('views_profile_transaction_withdrawAmount'), value: undefined, index: 'amount' },
+          { title: t('views_profile_transaction_generalHandlingFee'), value: undefined, index: 'charge' },
+          { title: t('views_profile_transaction_forceHandlingFee'), value: undefined, index: 'administrativeFee' },
+        ],
+      },
     });
 
     // methods
@@ -84,10 +135,17 @@ export default {
     // watch
     watch(route, (val) => {
       if (val?.params?.info) {
+        state.type = val?.params?.type;
         state.allDetail = JSON.parse(val?.params?.info);
-        state.info.forEach((e) => {
-          e.value = state?.allDetail?.[e?.index];
-        });
+        if (state.type === 'deposit') {
+          state.info.deposit.forEach((e) => {
+            e.value = state?.allDetail?.[e?.index];
+          });
+        } else {
+          state.info.withdraw.forEach((e) => {
+            e.value = state?.allDetail?.[e?.index];
+          });
+        }
       }
     }, { immediate: true });
 
@@ -101,13 +159,20 @@ export default {
           return formatDate(item?.value);
         case 'realAmount':
           return getRealAmount(state?.allDetail);
+        case 'amount':
+          return Math.abs(item?.value);
         default:
           return item?.value;
       }
     };
 
+    const goBack = () => {
+      router.replace({ name: 'transaction', params: { type: state.type } });
+    };
+
     return {
       ...toRefs(state),
+      goBack,
       renderContent,
     };
   },
@@ -164,6 +229,17 @@ export default {
         }
       }
     }
+  }
+}
+
+.go-back {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  img {
+    width: 18px;
+    height: 18px;
   }
 }
 </style>

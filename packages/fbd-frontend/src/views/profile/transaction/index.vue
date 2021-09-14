@@ -81,7 +81,7 @@
           </div>
           <div class="row">
             <div class="row-title">
-              {{ $t('views_profile_transaction_depositTime') }}
+              {{ tabType === 'deposit' ? $t('views_profile_transaction_depositTime') : $t('views_profile_transaction_withdrawTime') }}
             </div>
             <div class="row-content">
               {{ formatDate(item?.logAt) }}
@@ -168,12 +168,12 @@
 
 <script>
 import {
-  ref, reactive, toRefs, onBeforeMount, nextTick,
+  ref, reactive, toRefs, onBeforeMount, nextTick, watch,
 } from 'vue';
 import * as R from 'ramda';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import FinanceApi from '@/assets/js/api/financeApi';
 import DatePickerPopup from '@/components/_pages/DatePickerPopup';
 
@@ -185,6 +185,7 @@ export default {
     // use
     const { t } = useI18n();
     const router = useRouter();
+    const route = useRoute();
 
     // ref
     const scroll = ref(null);
@@ -232,6 +233,14 @@ export default {
       isLastPage: false,
       status: state.typeResult,
     });
+
+    // watch
+    watch(route, (val) => {
+      const type = val?.params?.type;
+      if (type) {
+        state.tabType = type;
+      }
+    }, { immediate: true });
 
     // methods
     const handleRefValue = R.curry((target, value) => {
@@ -351,7 +360,7 @@ export default {
     };
 
     const goDetail = (info) => {
-      router.push({ name: 'transactionDetail', params: { info: JSON.stringify(info) } });
+      router.push({ name: 'transactionDetail', params: { info: JSON.stringify(info), type: state.tabType } });
     };
 
     const confirmFilter = async () => {

@@ -37,6 +37,8 @@ export default {
 
 <style lang="scss" scoped>
 .title {
+  display: flex;
+  align-items: center;
   color: #fff;
   font-weight: 700;
   font-size: 14px;
