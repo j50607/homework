@@ -94,6 +94,7 @@ const lang = {
   common_copySuccess: '复制成功',
   common_noContenttoCopy: '没有内容可以复制',
   common_checkDetail: '查看详情',
+  common_language: '语言',
 
   // Views
   views_notFound_desc: '404 page not found',

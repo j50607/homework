@@ -16,7 +16,7 @@ export default {
       type: Object,
       default: () => ({
         zh_cn: 'locale/zh_cn.svg',
-        zh_tw: 'locale/zh_tw.svg',
+        // zh_tw: 'locale/zh_tw.svg',
         th_th: 'locale/th_th.svg',
         vi_vn: 'locale/vi_vn.svg',
         ja_jp: 'locale/ja_jp.svg',

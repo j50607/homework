@@ -217,7 +217,7 @@
   </d-dialog>
   <date-picker-popup
     v-model:visible="showBirthPopup"
-    :use-select="flase"
+    :use-select="false"
     :min-date="1901"
     @confirm="datePickerConfirm"
   />

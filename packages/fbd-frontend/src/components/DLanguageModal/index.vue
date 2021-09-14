@@ -5,7 +5,7 @@
   >
     <d-dialog
       v-model:visible="isModalShow"
-      :title="'语言'"
+      :title="$t('common_language')"
       :footer="null"
       :get-container="() => langRef"
       @cancel="hideModal"
@@ -35,7 +35,7 @@
           type="primary"
           @click="setLocale"
         >
-          {{ '确认' }}
+          {{ $t('common_confirm') }}
         </d-button>
       </template>
     </d-dialog>
@@ -71,16 +71,16 @@ export default {
     const state = reactive({
       langArr: [
         { text: '简体中文', value: 'zh_cn', index: 0 },
-        { text: '繁體中文', value: 'zh_tw', index: 1 },
+        // { text: '繁體中文', value: 'zh_tw', index: 1 },
         { text: 'Tiếng Việt', value: 'vi_vn', index: 2 },
         { text: 'ไทย', value: 'th_th', index: 3 },
-        { text: 'English', value: 'en_us', index: 4 },
-        { text: '日本語', value: 'ja_jp', index: 5 },
-        { text: '德國', value: 'de_de', index: 6 },
-        { text: '菲律兵', value: 'en_ph', index: 7 },
-        { text: '法國', value: 'fr_fr', index: 8 },
-        { text: '印尼', value: 'hi_in', index: 9 },
-        { text: '韩国', value: 'ko_kr', index: 10 },
+        // { text: 'English', value: 'en_us', index: 4 },
+        // { text: '日本語', value: 'ja_jp', index: 5 },
+        // { text: '德國', value: 'de_de', index: 6 },
+        // { text: '菲律兵', value: 'en_ph', index: 7 },
+        // { text: '法國', value: 'fr_fr', index: 8 },
+        // { text: '印尼', value: 'hi_in', index: 9 },
+        // { text: '韩国', value: 'ko_kr', index: 10 },
       ],
     });
 

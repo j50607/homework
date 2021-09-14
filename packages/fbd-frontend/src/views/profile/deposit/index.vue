@@ -37,7 +37,7 @@
           <template #dropdown="{ option }">
             <div>{{ parseJson(option?.description)?.unit }} - {{ option?.holder }}</div>
             <div
-              v-if="option.holder"
+              v-if="option?.holder"
               class="suffix"
             >
               <div>
@@ -72,14 +72,14 @@
               {{ $t('views_profile_deposit_walletAddress') }}
             </div>
             <p class="break-all mt-1">
-              {{ selectedItem.cardNumber }}
+              {{ selectedItem?.cardNumber }}
             </p>
           </div>
           <img
             :src="require('@/assets/img/icon/copy-btn.svg')"
             alt="copy"
             class="copy is-btn"
-            @click="copyByText(selectedItem.cardNumber)"
+            @click="copyByText(selectedItem?.cardNumber)"
           >
         </div>
       </div>
@@ -257,7 +257,7 @@ export default {
 
     const applyDeposit = async () => {
       const params = {
-        depositAccountId: state.selectedItem.id,
+        depositAccountId: state.selectedItem?.id,
         amount: state.form.amount,
         applyPromotion: promotionEnable.value,
         extendContent: state.form.extendContent || undefined,
@@ -284,8 +284,8 @@ export default {
     // watch
     watch(() => state.selectedItem, (val) => {
       const base = process.env.VUE_APP_IMG_URL_PREFIX;
-      if (val.qrCode) {
-        qrCode.value = `${base}/${val.qrCode}`;
+      if (val?.qrCode) {
+        qrCode.value = `${base}/${val?.qrCode}`;
       } else {
         qrCode.value = '';
       }
