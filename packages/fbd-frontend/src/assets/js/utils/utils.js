@@ -462,7 +462,7 @@ export const floorToDigit = (num, digit = 2) => {
  * 數字隔3位加上逗號
  * @param {number} amount
  */
-export const numWithCommas = (amount) => amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+export const numWithCommas = (amount) => amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 /**
  * 賠率
