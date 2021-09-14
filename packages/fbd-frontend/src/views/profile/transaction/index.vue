@@ -370,6 +370,13 @@ export default {
       handleFilterDialog(false);
     };
 
+    const confirmFilter = async () => {
+      params.pageIndex = 1;
+
+      await getTellerLog();
+      handleFilterDialog(false);
+    };
+
     onBeforeMount(() => {
       getTellerLog();
     });
