@@ -22,6 +22,7 @@ import {
   reactive, toRefs, ref, onMounted, computed, nextTick, watch,
 } from 'vue';
 import dayjs from 'dayjs';
+import * as moment from 'moment';
 import DPickerItem from './DPickerItem';
 
 export default {
@@ -84,8 +85,14 @@ export default {
 
     const generateMonth = () => {
       const dateArr = [];
-      for (let i = 1; i <= 12; i++) {
-        dateArr.push(i);
+      if (+state.valueArr[0] === +moment(new Date()).format('YYYY')) {
+        for (let i = 1; i <= +moment(new Date()).format('MM'); i++) {
+          dateArr.push(i);
+        }
+      } else {
+        for (let i = 1; i <= 12; i++) {
+          dateArr.push(i);
+        }
       }
       return dateArr;
     };
@@ -102,8 +109,14 @@ export default {
     const generateDay = () => {
       const dateArr = [];
       const count = dayjs(`${state.valueArr[0]}/${state.valueArr[1]}`).daysInMonth();
-      for (let i = 1; i <= count; i++) {
-        dateArr.push(i);
+      if (+state.valueArr[1] === +moment(new Date()).format('MM')) {
+        for (let i = 1; i <= +moment(new Date()).format('DD'); i++) {
+          dateArr.push(i);
+        }
+      } else {
+        for (let i = 1; i <= count; i++) {
+          dateArr.push(i);
+        }
       }
 
       return dateArr;
@@ -133,6 +146,7 @@ export default {
 
       if (index === 1) {
         state.data[2].value = generateDay();
+        state.data[1].value = generateMonth();
       }
       emit('change', currentDate.value);
     };

@@ -219,6 +219,7 @@
     v-model:visible="showBirthPopup"
     :use-select="false"
     :min-date="1901"
+    :max-date="2021"
     @confirm="datePickerConfirm"
   />
 </template>
@@ -341,7 +342,7 @@ export default {
     };
 
     const checkBankCard = () => {
-      if (!withdrawalCode.value && !withdrawalCodeSetting.value) {
+      if (!withdrawalCode.value) {
         showBindDialog.value = true;
       } else {
         router.push('/profile/userinfo/modifyWithdrawPassword');
@@ -506,6 +507,7 @@ export default {
       router,
       showBirthPopup,
       datePickerConfirm,
+      moment,
     };
   },
 };

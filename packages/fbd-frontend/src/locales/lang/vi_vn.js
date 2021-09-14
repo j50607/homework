@@ -280,7 +280,7 @@ const lang = {
   views_profile_userinfo_modifyLoginPassword_oldPassword: 'Mật khẩu đăng nhập cũ',
   views_profile_userinfo_modifyLoginPassword_pleaseEnterOldPassword: 'Vui lòng nhập mật khẩu cũ',
   views_profile_userinfo_modifyLoginPassword_newPassword: 'Vui lòng nhập mật khẩu mới',
-  views_profile_userinfo_modifyLoginPassword_pleaseEnterNewPassword: 'Vui lòng nhập 6 - 12 số mật khẩu mới , Cần có chữ tiếng Anh và chữ số',
+  views_profile_userinfo_modifyLoginPassword_pleaseEnterNewPassword: 'Vui lòng nhập 6 - 12 số mật khẩu mới',
   views_profile_userinfo_modifyLoginPassword_confirmNewPassword: 'Xác nhận mật khẩu đăng nhập mới',
   views_profile_userinfo_modifyLoginPassword_confirmNewPasswordAgain: 'Vui lòng nhập lại thêm mật khẩu mới lần nữa',
   views_profile_userinfo_modifyWithdrawPassword_title: 'Sửa đổi mật khẩu rút tiền',

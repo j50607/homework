@@ -93,7 +93,6 @@ export default {
       });
       if (code === 200) {
         store.commit('SET_USER_INFO', { withdrawalCode: state.form.confirmNewPassword });
-        store.commit('SET_WITHDRAW_CODE', true);
         return true;
       }
       return false;

@@ -283,7 +283,7 @@ const lang = {
   views_profile_userinfo_modifyLoginPassword_oldPassword: '旧登录密码',
   views_profile_userinfo_modifyLoginPassword_pleaseEnterOldPassword: '请输入旧密码',
   views_profile_userinfo_modifyLoginPassword_newPassword: '新登录密码',
-  views_profile_userinfo_modifyLoginPassword_pleaseEnterNewPassword: '请输入6-12位新密码，需含英文数字混合',
+  views_profile_userinfo_modifyLoginPassword_pleaseEnterNewPassword: '请输入6-12位新密码',
   views_profile_userinfo_modifyLoginPassword_confirmNewPassword: '确认新登录密码',
   views_profile_userinfo_modifyLoginPassword_confirmNewPasswordAgain: '请再次输入新密码',
   views_profile_userinfo_modifyWithdrawPassword_title: '修改提现密码',
