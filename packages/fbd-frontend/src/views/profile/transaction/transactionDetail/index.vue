@@ -100,8 +100,8 @@ export default {
           { title: t('views_profile_transaction_primaryNet'), value: undefined, index: 'accountName' },
           { title: t('views_profile_transaction_walletAddress'), value: undefined, index: 'accountId' },
           { title: t('views_profile_transaction_withdrawAmount'), value: undefined, index: 'amount' },
-          { title: t('views_profile_transaction_generalHandlingFee'), value: undefined, index: 'charge' },
-          { title: t('views_profile_transaction_forceHandlingFee'), value: undefined, index: 'administrativeFee' },
+          { title: t('views_profile_transaction_generalHandlingFee'), value: undefined, index: 'administrativeFee' },
+          { title: t('views_profile_transaction_forceHandlingFee'), value: undefined, index: 'charge' },
         ],
       },
     });
