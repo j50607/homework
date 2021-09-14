@@ -51,7 +51,7 @@
         </span>
         <a-statistic-countdown
           :value-style="{fontSize: '0.75rem'}"
-          :value="data.matchTime * 1000"
+          :value="data.matchTime"
           @finish="finish"
         />
       </div>
