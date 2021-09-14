@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-登入注册_zalo">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="登入注册_zalo" clip-path="url(#clip-登入注册_zalo)">
+    <g id="zalo" transform="translate(-1182.997 -550.998)">
+      <g id="Group_12538" data-name="Group 12538" transform="translate(1183.997 558.998)">
+        <path id="Path_24855" data-name="Path 24855" d="M387.162-593.769l4.114-5.183a1.558,1.558,0,0,0,.359-1.272h-6.181v1.354h4.329l-4.166,5.1h0a1.257,1.257,0,0,0-.314.709v.534h5.776a.563.563,0,0,0,.563-.563v-.677Z" transform="translate(-385.302 600.224)" fill="#bdbdbd"/>
+        <path id="Path_24856" data-name="Path 24856" d="M602.984-577.125A2.984,2.984,0,0,0,600-574.141a2.984,2.984,0,0,0,2.984,2.984,2.984,2.984,0,0,0,2.984-2.984A2.984,2.984,0,0,0,602.984-577.125Zm0,4.739a1.755,1.755,0,0,1-1.755-1.755,1.755,1.755,0,0,1,1.755-1.755,1.755,1.755,0,0,1,1.755,1.755A1.755,1.755,0,0,1,602.984-572.386Z" transform="translate(-583.969 578.851)" fill="#bdbdbd"/>
+        <path id="Path_24857" data-name="Path 24857" d="M479.888-577v.446a2.971,2.971,0,0,0-1.755-.569,2.984,2.984,0,0,0-2.984,2.984,2.984,2.984,0,0,0,2.984,2.984,2.972,2.972,0,0,0,1.755-.571.577.577,0,0,0,.577.569h.654v-5.848Zm-1.755,4.616a1.755,1.755,0,0,1-1.755-1.755,1.755,1.755,0,0,1,1.755-1.755,1.755,1.755,0,0,1,1.755,1.755,1.755,1.755,0,0,1-1.752,1.755Z" transform="translate(-468.441 578.851)" fill="#bdbdbd"/>
+        <path id="Rectangle_55184" data-name="Rectangle 55184" d="M0,0H1.313V7.7h0A1.313,1.313,0,0,1,0,6.381Z" transform="translate(13.761 0.004)" fill="#bdbdbd"/>
+      </g>
+    </g>
+    <rect id="Rectangle_55277" data-name="Rectangle 55277" width="24" height="24" fill="none"/>
+  </g>
+</svg>

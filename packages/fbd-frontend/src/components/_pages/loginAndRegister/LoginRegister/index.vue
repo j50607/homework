@@ -37,12 +37,12 @@
       <div class="go-where">
         <div
           class="go-where-text is-btn"
-          v-text="'登录'"
+          v-text="$t('components_pages_loginAndRegister_loginRegister_login')"
           @click="inLoginOrRegister('login')"
         />
         <div
           class="go-where-text is-btn border-style"
-          v-text="'注册新账户'"
+          v-text="$t('components_pages_loginAndRegister_loginRegister_register_new_user')"
           @click="inLoginOrRegister('register')"
         />
       </div>
@@ -267,6 +267,10 @@ export default {
         email: formState.emailInputValue,
         qqAccount: formState.qqInputValue,
         weChat: formState.weixinInputValue,
+        birthday: formState.birthdayInputValue,
+        gender: formState.genderInputValue,
+        line: formState.lineInputValue,
+        zalo: formState.zaloInputValue,
         registerType: registerType.value,
         authCodeKey: validateNumber,
         agentCode: formState.recommendedPersonInputValue,
@@ -325,7 +329,7 @@ export default {
 
     // hooks
     onMounted(async () => {
-      // getThirdPartyInfo();
+      getThirdPartyInfo();
       refreshLoginOrRegister();
     });
 
@@ -483,9 +487,9 @@ export default {
 }
 
 .border-style {
-  border: 2px solid #7a5605;
+  border: 1px solid #7a5605;
   color: #7a5605 !important;
-  background: none !important;
+  background: #f9fcffcc !important;
 }
 
 .vi_vn {

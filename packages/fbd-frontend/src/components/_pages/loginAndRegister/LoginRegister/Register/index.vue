@@ -92,6 +92,7 @@
                     <a-input
                       v-model:value="state.formState.checkPasswordInputValue"
                       :type="seeCheckPassword? 'text' : 'password'"
+                      :readonly="agentCodeReadonly"
                       :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_register_password_again')} ${$t('components_pages_loginAndRegister_loginRegister_register_mandatory')}`"
                       @focus="focusCheckPasswordInput"
                       @blur="blurCheckPasswordInput"
@@ -244,6 +245,59 @@
                 </a-form-item>
 
                 <a-form-item
+                  v-if="registerSetting.showBirthday"
+                  class="main-input"
+                  name="birthdayInputValue"
+                  :label="$t('components_pages_loginAndRegister_loginRegister_register_birthday')"
+                >
+                  <a-input-group
+                    compact
+                    class="main-input"
+                    :class="[checkFocus('birthday')]"
+                    @click.capture="showBirthdayPickerBool = true"
+                  >
+                    <div class="input-icon">
+                      <img :src="$requireSafe('icon/birthday.svg')">
+                    </div>
+
+                    <a-input
+                      v-model:value="state.formState.birthdayInputValue"
+                      :type="'text'"
+                      :readonly="true"
+                      :placeholder="$t('components_pages_loginAndRegister_loginRegister_register_birthday_placeholder')"
+                      @focus="focusBirthdayInput"
+                      @blur="blurBirthdayInput"
+                    />
+                  </a-input-group>
+                </a-form-item>
+
+                <a-form-item
+                  v-if="registerSetting.showGender"
+                  class="main-input"
+                  name="genderInputValue"
+                  :label="$t('components_pages_loginAndRegister_loginRegister_register_gender')"
+                >
+                  <div
+                    class="main-input"
+                    :class="[checkFocus('gender')]"
+                  >
+                    <div class="input-icon">
+                      <img :src="$requireSafe('icon/gender.svg')">
+                    </div>
+
+                    <a-select v-model:value="state.formState.genderInputValue">
+                      <a-select-option
+                        v-for="(item, index) in checkGender()"
+                        :key="index"
+                        :value="item.value"
+                      >
+                        {{ item.label }}
+                      </a-select-option>
+                    </a-select>
+                  </div>
+                </a-form-item>
+
+                <a-form-item
                   v-if="registerSetting.showQQ"
                   class="main-input"
                   name="qqInputValue"
@@ -293,9 +347,61 @@
                   </a-input-group>
                 </a-form-item>
 
+                <a-form-item
+                  v-if="registerSetting.showLine"
+                  class="main-input"
+                  name="lineInputValue"
+                  :label="$t('components_pages_loginAndRegister_loginRegister_register_line')"
+                >
+                  <a-input-group
+                    compact
+                    class="main-input"
+                    :class="[checkFocus('line')]"
+                  >
+                    <div class="input-icon">
+                      <img :src="$requireSafe('icon/line.svg')">
+                    </div>
+
+                    <a-input
+                      v-model:value="state.formState.lineInputValue"
+                      :type="'text'"
+                      :placeholder="$t('components_pages_loginAndRegister_loginRegister_register_line_placeholder')"
+                      @focus="focusLineInput"
+                      @blur="blurLineInput"
+                    />
+                  </a-input-group>
+                </a-form-item>
+
+                <a-form-item
+                  v-if="registerSetting.showZalo"
+                  class="main-input"
+                  name="zaloInputValue"
+                  :label="$t('components_pages_loginAndRegister_loginRegister_register_zalo')"
+                >
+                  <a-input-group
+                    compact
+                    class="main-input"
+                    :class="[checkFocus('zalo')]"
+                  >
+                    <div class="input-icon">
+                      <img :src="$requireSafe('icon/zalo.svg')">
+                    </div>
+
+                    <a-input
+                      v-model:value="state.formState.zaloInputValue"
+                      :type="'text'"
+                      :placeholder="$t('components_pages_loginAndRegister_loginRegister_register_zalo_placeholder')"
+                      @focus="focusZaloInput"
+                      @blur="blurZaloInput"
+                    />
+                  </a-input-group>
+                </a-form-item>
+
                 <a-form-item>
                   <a-button
                     class="register-button-area"
+                    :class="[{'success' : checkInputValue()}]"
+                    :disabled="!checkInputValue()"
                     @click="register()"
                   >
                     <div
@@ -310,6 +416,12 @@
         </div>
       </template>
     </d-dialog>
+    <date-picker-popup
+      class="date-picker"
+      v-model:visible="showBirthdayPickerBool"
+      :min-date="1901"
+      @confirm="confirmBirthday"
+    />
   </div>
 </template>
 
@@ -317,10 +429,13 @@
 import {
   ref, reactive, onMounted, computed, watch,
 } from 'vue';
-
+import * as moment from 'moment';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import DDialog from '@/components/DDialog';
+import DatePickerPopup from '@/components/_pages/DatePickerPopup';
+import systemApi from '@/assets/js/api/systemApi';
 
 export default {
   emits: ['login', 'register', 'thirdPartyLogin', 'update:value', 'cancel'],
@@ -336,10 +451,13 @@ export default {
   },
   components: {
     DDialog,
+    DatePickerPopup,
   },
   setup(props, { emit }) {
     // i18n
     const { t } = useI18n();
+
+    const route = useRoute();
 
     // ref
     const formRef = ref();
@@ -361,6 +479,10 @@ export default {
     const qqBool = ref(false);
     const weixinBool = ref(false);
     const emailBool = ref(false);
+    const lineBool = ref(false);
+    const zaloBool = ref(false);
+    const birthdayBool = ref(false);
+    const genderBool = ref(false);
 
     const focusMainBool = ref(false);
     const focusPasswordBool = ref(false);
@@ -372,8 +494,14 @@ export default {
     const focusQQBool = ref(false);
     const focusWeixinBool = ref(false);
     const focusEmailBool = ref(false);
+    const focusLineBool = ref(false);
+    const focusZaloBool = ref(false);
+    const focusBirthdayBool = ref(false);
+    const focusGenderBool = ref(false);
 
     const registerRef = ref(null);
+    const showBirthdayPickerBool = ref(false);
+    const agentCodeReadonly = ref(false);
 
     // reactive
     const state = reactive({
@@ -400,6 +528,8 @@ export default {
         },
       ],
 
+      genderList: [],
+
       formState: {
         mainInputValue: undefined,
         passwordInputValue: undefined,
@@ -411,6 +541,10 @@ export default {
         emailInputValue: undefined,
         qqInputValue: undefined,
         weixinInputValue: undefined,
+        lineInputValue: undefined,
+        zaloInputValue: undefined,
+        birthdayInputValue: undefined,
+        genderInputValue: 0,
       },
     });
 
@@ -423,7 +557,7 @@ export default {
 
       switch (registerType.value) {
         case 'ACCOUNT':
-          if (!value || value.length < 6 || value.length > 12) {
+          if (!value || value === '') {
             accountBool.value = false;
             return Promise.reject(new Error(t('error1')));
           }
@@ -516,6 +650,9 @@ export default {
         if (!value || !value.trim()) {
           phoneBool.value = false;
           return Promise.reject(new Error(t('error15')));
+        } if (value.length > 20) {
+          phoneBool.value = false;
+          return Promise.reject(new Error(t('error5')));
         }
       }
 
@@ -600,6 +737,84 @@ export default {
       return Promise.resolve();
     };
 
+    const registerLine = computed(() => store.state.info.registerSetting.registerLine);
+    const lineValidate = async (rule, value) => {
+      const regCantContainChinese = /[`~!@#$^&*()=|{}':;',[\]<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]/;
+
+      const regCantContainFull = /[\uFF00-\uFFFF]/g;
+
+      if (registerLine.value) {
+        if (!value || !value.trim()) {
+          lineBool.value = false;
+          return Promise.reject(new Error(t('error27')));
+        } if (regCantContainChinese.test(value)) {
+          lineBool.value = false;
+          return Promise.reject(new Error(t('error28')));
+        } if (regCantContainFull.test(value)) {
+          lineBool.value = false;
+          return Promise.reject(new Error(t('error29')));
+        } if (value.length > 25) {
+          lineBool.value = false;
+          return Promise.reject(new Error(t('error30')));
+        }
+      }
+
+      lineBool.value = true;
+      return Promise.resolve();
+    };
+
+    const registerZalo = computed(() => store.state.info.registerSetting.registerZalo);
+    const zaloValidate = async (rule, value) => {
+      const regCantContainChinese = /[`~!@#$^&*()=|{}':;',[\]<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]/;
+
+      const regCantContainFull = /[\uFF00-\uFFFF]/g;
+
+      if (registerZalo.value) {
+        if (!value || !value.trim()) {
+          zaloBool.value = false;
+          return Promise.reject(new Error(t('error31')));
+        } if (regCantContainChinese.test(value)) {
+          zaloBool.value = false;
+          return Promise.reject(new Error(t('error32')));
+        } if (regCantContainFull.test(value)) {
+          zaloBool.value = false;
+          return Promise.reject(new Error(t('error33')));
+        } if (value.length > 20) {
+          zaloBool.value = false;
+          return Promise.reject(new Error(t('error34')));
+        }
+      }
+
+      zaloBool.value = true;
+      return Promise.resolve();
+    };
+
+    const registerBirthday = computed(() => store.state.info.registerSetting.registerBirthday);
+    const birthdayValidate = async (rule, value) => {
+      if (registerBirthday.value) {
+        if (!value || !value.trim() || (value instanceof Date && Number.isNaN(value)) || value === 'Invalid date') {
+          birthdayBool.value = false;
+          return Promise.reject(new Error(t('error35')));
+        }
+      }
+
+      birthdayBool.value = true;
+      return Promise.resolve();
+    };
+
+    const registerGender = computed(() => store.state.info.registerSetting.registerGender);
+    const genderValidate = async (rule, value) => {
+      if (registerGender.value) {
+        if (value !== 0 && value !== 1 && value !== 2) {
+          genderBool.value = false;
+          return Promise.reject(new Error(t('error36')));
+        }
+      }
+
+      genderBool.value = true;
+      return Promise.resolve();
+    };
+
     // computed
     const siteName = computed(() => store.state.info.siteInfo.name);
     const siteId = computed(() => store.state.info.siteId);
@@ -640,6 +855,10 @@ export default {
       emailInputValue: [{ required: registerEmail.value, validator: emailValidate, trigger: 'change' }],
       qqInputValue: [{ required: registerQQ.value, validator: qqValidate, trigger: 'change' }],
       weixinInputValue: [{ required: registerWechat.value, validator: weixinValidate, trigger: 'change' }],
+      lineInputValue: [{ required: registerLine.value, validator: lineValidate, trigger: 'change' }],
+      zaloInputValue: [{ required: registerZalo.value, validator: zaloValidate, trigger: 'change' }],
+      birthdayInputValue: [{ required: registerBirthday.value, validator: birthdayValidate, trigger: 'change' }],
+      genderInputValue: [{ required: registerGender.value, validator: genderValidate, trigger: 'change' }],
     });
 
     // computed
@@ -648,7 +867,151 @@ export default {
       set: (val) => emit('update:value', val),
     });
 
+    const agentCode = computed(() => store.state.user.agentCode);
+
+    const isAccountBool = computed(() => {
+      if (accountBool.value && state.formState.mainInputValue) {
+        return true;
+      }
+
+      return false;
+    });
+
+    const isPasswordBool = computed(() => {
+      if (passwordBool.value && state.formState.passwordInputValue) {
+        return true;
+      }
+
+      return false;
+    });
+
+    const isConfirmPasswordBool = computed(() => {
+      if (confirmPasswordBool.value && state.formState.checkPasswordInputValue) {
+        return true;
+      }
+
+      return false;
+    });
+
+    const isAgentCodeBool = computed(() => {
+      if (registerAgentCode.value) {
+        if (recommendedPersonBool.value && state.formState.recommendedPersonInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isRealNameBool = computed(() => {
+      if (registerRealName.value) {
+        if (realNameBool.value && state.formState.realNameInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isNicknameBool = computed(() => {
+      if (registerNickname.value) {
+        if (nicknameBool.value && state.formState.nicknameInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isPhoneBool = computed(() => {
+      if (registerTel.value) {
+        if (phoneBool.value && state.formState.phoneInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isEmailBool = computed(() => {
+      if (registerEmail.value) {
+        if (emailBool.value && state.formState.emailInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isBirthdayBool = computed(() => {
+      if (registerBirthday.value) {
+        if (birthdayBool.value && state.formState.birthdayInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isGenderBool = computed(() => {
+      if (registerGender.value) {
+        if (genderBool.value && state.formState.genderInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isQQBool = computed(() => {
+      if (registerQQ.value) {
+        if (qqBool.value && state.formState.qqInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isWechatBool = computed(() => {
+      if (registerWechat.value) {
+        if (weixinBool.value && state.formState.weixinInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isLineBool = computed(() => {
+      if (registerLine.value) {
+        if (lineBool.value && state.formState.lineInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    const isZaloBool = computed(() => {
+      if (registerZalo.value) {
+        if (zaloBool.value && state.formState.zaloInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
     // methods
+    const checkInputValue = () => {
+      if (isAccountBool.value || isPasswordBool.value || isConfirmPasswordBool.value || isAgentCodeBool.value || isRealNameBool.value || isNicknameBool.value || isPhoneBool.value || isEmailBool.value || isBirthdayBool.value || isGenderBool.value || isQQBool.value || isWechatBool.value || isLineBool.value || isZaloBool.value) {
+        return true;
+      }
+
+      return false;
+    };
+
     const hideModal = () => {
       emit('cancel', false);
     };
@@ -697,6 +1060,52 @@ export default {
       result.forEach((e) => {
         state.tabArr.push(e);
       });
+    };
+
+    const confirmBirthday = ({ startDate }) => {
+      state.formState.birthdayInputValue = moment(startDate).format('YYYY/MM/DD');
+    };
+
+    /*
+     * 分享好友 => 获取邀请者的邀请码
+     */
+    const checkSiteDomain = async () => {
+      const c = route.query.c || agentCode.value;
+
+      const { code, data } = await systemApi.checkSiteDomain(window.location.hostname);
+
+      if (code === 200 && data && String(data).trim() && data !== 'null' && data !== 'undefined') {
+        state.formState.recommendedPersonInputValue = data;
+        agentCodeReadonly.value = true;
+        store.commit('SET_AGENT_CODE', data);
+      }
+
+      if (!register.agentCodeReadonly && c && String(c).trim() && c !== 'null' && c !== 'undefined') {
+        state.formState.recommendedPersonInputValue = c;
+        agentCodeReadonly.value = true;
+        store.commit('SET_AGENT_CODE', c);
+      }
+    };
+
+    const checkGender = () => {
+      let result = [];
+
+      if (registerSetting.value.registerGender) {
+        state.genderList = [
+          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_male'), value: 0 },
+          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_female'), value: 1 },
+        ];
+      } else {
+        state.genderList = [
+          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_male'), value: 0 },
+          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_female'), value: 1 },
+          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_noSetting'), value: 2 },
+        ];
+      }
+
+      result = state.genderList;
+
+      return result;
     };
 
     const focusMainInput = (val) => {
@@ -816,6 +1225,54 @@ export default {
     const blurEmailInput = (val) => {
       if (val) {
         focusEmailBool.value = false;
+      }
+    };
+
+    const focusLineInput = (val) => {
+      if (val && val.type === 'focus') {
+        focusLineBool.value = true;
+      }
+    };
+
+    const blurLineInput = (val) => {
+      if (val) {
+        focusLineBool.value = false;
+      }
+    };
+
+    const focusZaloInput = (val) => {
+      if (val && val.type === 'focus') {
+        focusZaloBool.value = true;
+      }
+    };
+
+    const blurZaloInput = (val) => {
+      if (val) {
+        focusZaloBool.value = false;
+      }
+    };
+
+    const focusBirthdayInput = (val) => {
+      if (val && val.type === 'focus') {
+        focusBirthdayBool.value = true;
+      }
+    };
+
+    const blurBirthdayInput = (val) => {
+      if (val) {
+        focusBirthdayBool.value = false;
+      }
+    };
+
+    const focusGenderInput = (val) => {
+      if (val && val.type === 'focus') {
+        focusGenderBool.value = true;
+      }
+    };
+
+    const blurGenderInput = (val) => {
+      if (val) {
+        focusGenderBool.value = false;
       }
     };
 
@@ -943,6 +1400,54 @@ export default {
             result = 'blur-input';
           }
           break;
+        case 'line':
+          if (focusLineBool.value && !lineBool.value) {
+            result = 'has-error';
+          } else if (focusLineBool.value) {
+            result = 'focus-input';
+          } else if (!lineBool.value) {
+            focusLineBool.value = false;
+            result = 'has-error';
+          } else {
+            result = 'blur-input';
+          }
+          break;
+        case 'zalo':
+          if (focusZaloBool.value && !zaloBool.value) {
+            result = 'has-error';
+          } else if (focusZaloBool.value) {
+            result = 'focus-input';
+          } else if (!zaloBool.value) {
+            focusZaloBool.value = false;
+            result = 'has-error';
+          } else {
+            result = 'blur-input';
+          }
+          break;
+        case 'birthday':
+          if (focusBirthdayBool.value && !birthdayBool.value) {
+            result = 'has-error';
+          } else if (focusBirthdayBool.value) {
+            result = 'focus-input';
+          } else if (!birthdayBool.value) {
+            focusBirthdayBool.value = false;
+            result = 'has-error';
+          } else {
+            result = 'blur-input';
+          }
+          break;
+        case 'gender':
+          if (focusGenderBool.value && !genderBool.value) {
+            result = 'has-error';
+          } else if (focusGenderBool.value) {
+            result = 'focus-input';
+          } else if (!genderBool.value) {
+            focusGenderBool.value = false;
+            result = 'has-error';
+          } else {
+            result = 'blur-input';
+          }
+          break;
         default:
           break;
       }
@@ -961,6 +1466,11 @@ export default {
       focusQQBool.value = false;
       focusWeixinBool.value = false;
       focusEmailBool.value = false;
+      focusLineBool.value = false;
+      focusZaloBool.value = false;
+      focusBirthdayBool.value = false;
+      focusGenderBool.value = false;
+
       accountBool.value = true;
       passwordBool.value = true;
       confirmPasswordBool.value = true;
@@ -971,9 +1481,14 @@ export default {
       qqBool.value = true;
       weixinBool.value = true;
       emailBool.value = true;
+      lineBool.value = true;
+      zaloBool.value = true;
+      birthdayBool.value = true;
+      genderBool.value = true;
     };
 
     onMounted(() => {
+      checkSiteDomain();
       showTabsArr();
 
       initFocus();
@@ -1023,6 +1538,8 @@ export default {
       phoneBool,
       qqBool,
       weixinBool,
+      lineBool,
+      zaloBool,
       focusRealNameBool,
       focusNicknameBool,
       focusPhoneBool,
@@ -1043,14 +1560,37 @@ export default {
       focusEmailBool,
       focusEmailInput,
       blurEmailInput,
+      focusLineInput,
+      blurLineInput,
+      focusZaloInput,
+      blurZaloInput,
+      birthdayBool,
+      focusBirthdayBool,
+      genderBool,
+      focusGenderBool,
+      focusBirthdayInput,
+      blurBirthdayInput,
+      focusGenderInput,
+      blurGenderInput,
+      checkGender,
+      checkInputValue,
+      showBirthdayPickerBool,
+      confirmBirthday,
+      checkSiteDomain,
+      agentCodeReadonly,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-::v-deep(.ant-modal-body) {
+::v-deep(.ant-modal-content) {
   max-height: 594px;
+  overflow-y: hidden;
+}
+
+::v-deep(.ant-modal-body) {
+  max-height: 494px;
   overflow-y: auto;
 }
 
@@ -1109,6 +1649,11 @@ export default {
           &::v-deep(.ant-input) {
             height: 30px;
             padding: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+          }
+
+          &::v-deep(.ant-select-selector) {
             border: none !important;
             box-shadow: none !important;
           }
@@ -1219,6 +1764,7 @@ export default {
           border-radius: 5px;
           color: #fff;
           background: linear-gradient(#f3ac0a 0%, #b58007 100%);
+          opacity: 0.5;
 
           &.success {
             background: linear-gradient(#f3ac0a 0%, #b58007 100%);
@@ -1330,5 +1876,13 @@ export default {
 
 ::v-deep(.ant-modal-close-x) {
   line-height: 2.5rem;
+}
+
+::v-deep(.overlay) {
+  z-index: 2000;
+}
+
+::v-deep(.date-picker) {
+  z-index: 5000;
 }
 </style>

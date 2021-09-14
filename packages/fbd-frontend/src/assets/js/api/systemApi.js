@@ -133,6 +133,18 @@ class SystemApi extends API {
     const result = await this.callAxios('POST', '/utility/sms/send', params, null, auth);
     return result;
   }
+
+  /**
+   * 檢查站台域名
+   */
+
+  static checkSiteDomain(domainName) {
+    const params = {
+      domainName,
+    };
+
+    return this.callAxios('POST', '/site/domain/check', params, undefined, false);
+  }
 }
 
 export default SystemApi;

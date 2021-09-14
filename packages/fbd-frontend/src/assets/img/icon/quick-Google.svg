@@ -1,22 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
   <defs>
-    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.696" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#f3ac0a"/>
-      <stop offset="1" stop-color="#7a5605"/>
-    </linearGradient>
     <clipPath id="clip-path">
-      <rect id="Rectangle_61654" data-name="Rectangle 61654" width="14" height="14" fill="#fff" stroke="#707070" stroke-width="1"/>
+      <rect id="Rectangle_62499" data-name="Rectangle 62499" width="24" height="24"/>
     </clipPath>
-    <clipPath id="clip-登入_google">
-      <rect width="24" height="24"/>
-    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.237" y1="0.179" x2="0.797" y2="0.739" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff8f8f"/>
+      <stop offset="1" stop-color="#f64343"/>
+    </linearGradient>
   </defs>
-  <g id="登入_google" clip-path="url(#clip-登入_google)">
-    <g id="Group_38630" data-name="Group 38630" transform="translate(-169 -718)">
-      <path id="Path_51048" data-name="Path 51048" d="M12,0A12,12,0,1,1,0,12,12,12,0,0,1,12,0Z" transform="translate(169 718)" fill="url(#linear-gradient)"/>
-      <g id="Mask_Group_493" data-name="Mask Group 493" transform="translate(173.996 722.997)" clip-path="url(#clip-path)">
-        <path id="Path_24928" data-name="Path 24928" d="M114.653,396.915H108.46v2.48H112.1a3.866,3.866,0,1,1-3.642-5.21,3.786,3.786,0,0,1,2.393.852l1.859-1.9a6.149,6.149,0,0,0-4.352-1.641,6.6,6.6,0,1,0,6.4,6.6A6.831,6.831,0,0,0,114.653,396.915Z" transform="translate(-101.152 -391.095)" fill="#fff"/>
-      </g>
-    </g>
+  <g id="快登_Google" clip-path="url(#clip-path)">
+    <circle id="Ellipse_1133" data-name="Ellipse 1133" cx="12" cy="12" r="12" fill="url(#linear-gradient)"/>
+    <path id="Path_24928" data-name="Path 24928" d="M115.886,397.425H109.11v2.713H113.1a4.23,4.23,0,1,1-3.985-5.7,4.142,4.142,0,0,1,2.619.932l2.033-2.074A6.728,6.728,0,0,0,109,391.5a7.223,7.223,0,1,0,7,7.219,7.475,7.475,0,0,0-.114-1.294Z" transform="translate(-97 -386.5)" fill="#fff"/>
+    <rect id="Rectangle_56229" data-name="Rectangle 56229" width="24" height="24" fill="none"/>
   </g>
 </svg>

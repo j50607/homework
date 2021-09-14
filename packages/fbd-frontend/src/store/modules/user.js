@@ -76,6 +76,9 @@ const mutations = {
   SET_BIRTH(state, birth) {
     state.birthday = birth;
   },
+  SET_AGENT_CODE(state, value) {
+    state.agentCode = value;
+  },
   CLEAR(state) {
     Cookies.remove('_tianyin_token');
 

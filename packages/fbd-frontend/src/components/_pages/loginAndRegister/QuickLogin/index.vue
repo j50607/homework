@@ -4,7 +4,7 @@
     class="quick-login"
   >
     <div class="quick-text">
-      <span>{{ '或以下列方式继续' }}</span>
+      <span>{{ $t('components_quick_login_text') }}</span>
     </div>
 
     <div class="quick-login-area">
@@ -22,7 +22,7 @@
       </div>
 
       <div
-        v-if="registerSetting.loginViaFacebook"
+        v-if="registerSetting.loginViaFB"
         class="quick-login-item is-btn"
         @click="openThirdParty('facebook')"
       >
@@ -32,8 +32,6 @@
             alt="FB"
           >
         </div>
-
-        <div v-text="'Facebook'" />
       </div>
 
       <div
@@ -47,8 +45,6 @@
             alt="qq"
           >
         </div>
-
-        <div v-text="'QQ'" />
       </div>
 
       <div
@@ -62,8 +58,6 @@
             alt="Google"
           >
         </div>
-
-        <div v-text="'Google+'" />
       </div>
 
       <div
@@ -88,6 +82,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import memberApi from '@/assets/js/api/memberApi';
 
 export default {
@@ -105,6 +100,7 @@ export default {
     // use
     const store = useStore();
     const route = useRoute();
+    const { t } = useI18n();
 
     // computed
     const registerSetting = computed(() => store.state.info.registerSetting);
@@ -156,7 +152,7 @@ export default {
     const thirdPartyLogin = async (token, type, lineRedirectUri) => {
       const { c } = route.query;
 
-      window.$vue.$message.info('成功');
+      window.$vue.$message.info(t('components_quick_login_success'));
 
       const { code, data, message } = await memberApi.thirdPartyLogin({
         token,

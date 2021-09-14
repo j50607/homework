@@ -74,7 +74,7 @@
               </a-form-item>
 
               <a-form-item
-                v-if="swipeVerification"
+                v-if="loginVerifyNumberSwitch"
                 class="validate-code"
                 name="validateInputValue"
                 :label="$t('components_pages_loginAndRegister_loginRegister_login_image')"
@@ -122,6 +122,8 @@
               <a-form-item>
                 <a-button
                   class="login-button-area"
+                  :class="[{'success' : checkInputValue()}]"
+                  :disabled="!checkInputValue()"
                   @click="login()"
                 >
                   <div
@@ -206,7 +208,7 @@ export default {
 
       switch (registerType.value) {
         case 'ACCOUNT':
-          if (value === '' || value.length < 6 || value.length > 12) {
+          if (value === '' || !value) {
             accountBool.value = false;
             return Promise.reject(new Error(t('error1')));
           }
@@ -227,16 +229,17 @@ export default {
       return Promise.resolve();
     };
 
+    const loginVerifyNumberSwitch = computed(() => store.state.info.switchSetting.loginVerifyNumberSwitch);
     const authKeyCodeValidate = async (rule, value) => {
-      if (!value || value.length < 5) {
-        authKeyBool.value = false;
-        return Promise.reject(new Error(t('error6')));
+      if (loginVerifyNumberSwitch.value) {
+        if (!value || value.length < 5) {
+          authKeyBool.value = false;
+          return Promise.reject(new Error(t('error6')));
+        }
       }
       authKeyBool.value = true;
       return Promise.resolve();
     };
-
-    const swipeVerification = computed(() => store.state.info.swipeVerification);
 
     // rules
     const rules = reactive({
@@ -252,7 +255,7 @@ export default {
       ],
       validateInputValue: [
         {
-          required: swipeVerification.value, validator: authKeyCodeValidate, trigger: 'change',
+          required: loginVerifyNumberSwitch.value, validator: authKeyCodeValidate, trigger: 'change',
         },
       ],
     });
@@ -459,6 +462,28 @@ export default {
       }
     };
 
+    const checkInputValue = () => {
+      let result = false;
+
+      const {
+        mainInputValue,
+        passwordInputValue,
+        validateInputValue,
+      } = state.formState;
+
+      if (loginVerifyNumberSwitch.value) {
+        if (mainInputValue && passwordInputValue && validateInputValue && accountBool.value && passwordBool.value && authKeyBool.value) {
+          result = true;
+        }
+      } else if (mainInputValue && passwordInputValue && accountBool.value && passwordBool.value) {
+        result = true;
+      } else {
+        result = false;
+      }
+
+      return result;
+    };
+
     onMounted(async () => {
       const rememberBool = window.localStorage.getItem('isRememberBool');
       const lastAccount = window.localStorage.getItem('lastAccount');
@@ -518,12 +543,13 @@ export default {
       rememberCheckbox,
       checkRemeberAccountImage,
       clickEnter,
-      swipeVerification,
+      loginVerifyNumberSwitch,
       hideModal,
       isModalShow,
       focusValidateInput,
       blurValidateInput,
       serviceUrl,
+      checkInputValue,
     };
   },
 };
@@ -669,6 +695,7 @@ export default {
           border-radius: 5px;
           color: #fff;
           background: linear-gradient(#f3ac0a 0%, #b58007 100%);
+          opacity: 0.5;
 
           &.success {
             background: linear-gradient(#f3ac0a 0%, #b58007 100%);
