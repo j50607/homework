@@ -153,7 +153,7 @@ export default {
     };
 
     const goService = () => {
-      window.location = serviceUrl;
+      window.location = serviceUrl.value;
     };
 
     const goProfile = () => {

@@ -148,7 +148,7 @@ export default {
     });
 
     const serviceUrl = computed(() => store.state.info.serviceUrl);
-    const s3Base = computed(() => process.env.VUE_APP_IMG_URL_PREFIX);
+    const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
     const avatar = computed(() => store.state.user.avatar);
     const isLogin = computed(() => store.state.user.isLogin);
     const displayLanguageSwitch = computed(() => store.state.info.switchSetting.displayLanguageSwitch);

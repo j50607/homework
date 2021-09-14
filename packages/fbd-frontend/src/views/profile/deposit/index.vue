@@ -216,6 +216,7 @@ export default {
     });
 
     // computed
+    const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
     const showUsdtExtendName = computed(() => store.state.info.depositAccountExtends.showUsdtExtendName);
     const requireUsdtExtendName = computed(() => store.state.info.depositAccountExtends.requireUsdtExtendName);
     const usdtExtendName = computed(() => store.state.info.depositAccountExtends.usdtExtendName);
@@ -283,9 +284,8 @@ export default {
 
     // watch
     watch(() => state.selectedItem, (val) => {
-      const base = process.env.VUE_APP_IMG_URL_PREFIX;
       if (val?.qrCode) {
-        qrCode.value = `${base}/${val?.qrCode}`;
+        qrCode.value = `${s3Base.value}/${val?.qrCode}`;
       } else {
         qrCode.value = '';
       }

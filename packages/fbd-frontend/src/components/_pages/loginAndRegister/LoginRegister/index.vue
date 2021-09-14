@@ -109,7 +109,7 @@ export default {
     const isLogin = computed(() => store.state.user.isLogin);
     const sitePrefix = computed(() => store.state.info.siteInfo.prefix);
     const exchangeInfoList = computed(() => store.state.exchange.exchangeInfoList.filter((e) => e.showNavigation));
-    const s3Base = computed(() => process.env.VUE_APP_IMG_URL_PREFIX);
+    const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
 
     // methods
     const setLocalStorage = (key) => window.localStorage.setItem('loginOrRegister', key);

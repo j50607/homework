@@ -26,7 +26,7 @@ export default {
     });
 
     // computed
-    const s3Base = computed(() => process.env.VUE_APP_IMG_URL_PREFIX);
+    const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
 
     // methods
     const getActivityList = async () => {
