@@ -1,7 +1,7 @@
 <template>
   <div class="match">
     <div class="mt-0.5">
-      {{ dayjs(data.matchTime * 1000).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnit})` }}
+      {{ dayjs(data.matchTime).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnit})` }}
     </div>
     <div class="flex items-center pt-2 pb-2">
       <div class="flex flex-col flex-1">
@@ -80,7 +80,7 @@ export default {
     const timeZoneUnit = computed(() => validator.value?.timeZoneUnit);
 
     // 下注是否截止
-    const isEnded = computed(() => dayjs().valueOf() > props.data.matchTime * 1000);
+    const isEnded = computed(() => dayjs().valueOf() > props.data.matchTime);
 
     const amoutnFormat = (num) => {
       let result = (num || 0).toString();
