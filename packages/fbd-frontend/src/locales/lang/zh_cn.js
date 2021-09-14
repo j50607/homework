@@ -328,6 +328,7 @@ const lang = {
   views_profile_transaction_cancelAuditing: '撤单审核中',
   views_profile_transaction_empty: '暂无资料',
   views_finance_balance: '余额',
+  views_profile_transaction_transactionDetail_orderDetail: '订单详情',
 
   // Components
   components_common_dialog_confirm: '确认',

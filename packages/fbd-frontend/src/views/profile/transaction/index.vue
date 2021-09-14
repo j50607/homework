@@ -1,6 +1,9 @@
 <template>
-  <div class="transaction absolute">
-    <d-header-row :title="$t('components_pages_profile_transaction')" />
+  <div class="transaction">
+    <d-header-row
+      :title="$t('components_pages_profile_transaction')"
+      :right-components="'Service'"
+    />
     <!-- 切換Tab -->
     <div class="tab">
       <div
@@ -54,6 +57,7 @@
           class="card is-btn"
           v-for="(item, index) in queryContent"
           :key="index"
+          @click="goDetail(item)"
         >
           <div class="row">
             <div class="amount">
@@ -121,6 +125,7 @@ import {
 import * as R from 'ramda';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import FinanceApi from '@/assets/js/api/financeApi';
 import DatePickerPopup from '@/components/_pages/DatePickerPopup';
 
@@ -131,6 +136,7 @@ export default {
   setup() {
     // use
     const { t } = useI18n();
+    const router = useRouter();
 
     // ref
     const scroll = ref(null);
@@ -243,6 +249,10 @@ export default {
       await getTellerLog();
     };
 
+    const goDetail = (info) => {
+      router.push({ name: 'transactionDetail', params: { info: JSON.stringify(info) } });
+    };
+
     onBeforeMount(() => {
       getTellerLog();
     });
@@ -260,6 +270,7 @@ export default {
       loadMoreRecord,
       pullingDown,
       selectDate,
+      goDetail,
     };
   },
 };
@@ -272,7 +283,7 @@ export default {
   bottom: 0;
   left: 0;
 
-  @apply pt-h-h text-normal;
+  @apply pt-h-h text-normal absolute;
 
   .tab {
     font-size: 14px;

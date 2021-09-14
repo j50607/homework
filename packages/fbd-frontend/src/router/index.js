@@ -213,6 +213,16 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/profile/transaction/transactionDetail',
+    name: 'transactionDetail',
+    component: () => import(/* webpackChunkName: "Transaction" */ '@/views/profile/transaction/transactionDetail'),
+    meta: {
+      title: 'TransactionDetail',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = createRouter({
