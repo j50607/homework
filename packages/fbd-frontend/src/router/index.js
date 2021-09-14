@@ -24,6 +24,16 @@ const routes = [
     },
   },
   {
+    path: '/profile/transfer',
+    name: 'Transfer',
+    component: () => import(/* webpackChunkName: "Userinfo" */ '@/views/profile/transfer'),
+    meta: {
+      title: 'Transfer',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/profile/userinfo',
     name: 'Userinfo',
     component: () => import(/* webpackChunkName: "Userinfo" */ '@/views/profile/userinfo'),
@@ -233,6 +243,7 @@ const router = createRouter({
 router.beforeEach((to) => {
   const hasToken = Cookie.get('_tianyin_token');
   const isLogin = store.state.user?.isLogin;
+  const transToSub = store.state.user?.transToSub;
   const isFullfilled = hasToken && isLogin;
   const query = to?.query;
   // 登入状态但 cookie 被清掉
@@ -249,6 +260,14 @@ router.beforeEach((to) => {
   // 已登入打網址進登入頁自動導回首頁
   if (to.meta?.isLoginPage && isFullfilled) {
     return { name: 'home', query };
+  }
+
+  // 轉帳功能未開啟，打網址進入
+  if (to.path === '/profile/transfer') {
+    if (!transToSub) {
+      window.$vue.$message.info(window.$vue.$t('views_profile_transfer_transfer_disable'));
+      return { name: 'home' };
+    }
   }
   return true;
 });

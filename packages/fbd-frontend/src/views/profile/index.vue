@@ -206,6 +206,7 @@ export default {
       { label: t('views_profile_personalityProfile'), img: 'profile', redirect: '/profile/userinfo' },
       { label: t('views_profile_myReport'), img: 'report', redirect: '/profile/report' },
       { label: t('views_profile_myVip'), img: 'vip', redirect: '/profile/vip' },
+      { label: t('views_profile_memberTransfer'), img: 'transfer', redirect: '/profile/transfer' },
     ]);
 
     const redirectListBottom = computed(() => [
@@ -218,6 +219,7 @@ export default {
 
     const serviceUrl = computed(() => store.state.info.serviceUrl);
     const account = computed(() => store.state.user.account);
+    const transToSub = computed(() => store.state.user.transToSub);
     const avatar = computed(() => store.state.user.avatar);
     const vipLevel = computed(() => store.state.user.vipLevel);
     const balance = computed(() => store.state.user.balance);
@@ -237,6 +239,7 @@ export default {
           'vipLevel',
           'balance',
           'usersLockBalance',
+          'transToSub',
         ],
       };
       const { code, data } = await MemberApi.getUserPartialInfo(params);
@@ -248,6 +251,7 @@ export default {
           vipLevel: data.vipLevel,
           balance: data.balance,
           usersLockBalance: data.usersLockBalance,
+          transToSub: data.transToSub,
         });
       }
     };
@@ -277,9 +281,17 @@ export default {
         case 'service':
           window.location = serviceUrl.value;
           break;
+        case '/profile/transfer':
+          if (!transToSub.value) {
+            window.$vue.$message.info(t('views_profile_transfer_transfer_disable'));
+          } else {
+            router.push(page);
+          }
+          break;
         case 'logout':
           logout();
           break;
+
         default:
           router.push(page);
           break;
@@ -321,6 +333,7 @@ export default {
       balance,
       usersLockBalance,
       displayLanguageSwitch,
+      transToSub,
     };
   },
 };

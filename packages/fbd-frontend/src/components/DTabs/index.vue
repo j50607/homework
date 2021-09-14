@@ -259,10 +259,10 @@ export default {
 <style lang="scss" scoped>
 .tabs-area {
   ::v-deep(.ant-tabs-nav) {
-    color: #333;
+    color: #4d5772;
 
     .ant-tabs-tab-active {
-      color: #333;
+      color: #1f2022;
       font-weight: bold;
     }
 
@@ -279,13 +279,12 @@ export default {
   align-items: center;
   justify-content: center;
   width: 100%;
-  color: #333;
+  color: #4d5772;
 
   .d-tabs-mobile-area {
     display: flex;
     align-items: center;
     width: 100%;
-    border-bottom: 1px solid #f0f0f0;
     overflow: hidden;
     white-space: nowrap;
 
@@ -350,6 +349,7 @@ export default {
       }
 
       &.active-text {
+        color: #1f2022;
         font-weight: bold;
       }
 
@@ -363,12 +363,12 @@ export default {
         position: absolute;
         bottom: 0;
         display: block;
-        width: 30px;
+        width: 20px;
         height: 2px;
         transition: all ease-in-out 0.2s;
 
         &.active-bg {
-          background: $primary-color;
+          background: #7a5605;
         }
       }
     }

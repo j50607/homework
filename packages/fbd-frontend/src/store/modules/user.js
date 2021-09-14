@@ -29,6 +29,7 @@ const initialState = () => ({
   withdrawalCodeSetting: false,
   // 餘額
   amount: undefined,
+  transToSub: undefined,
 });
 
 const state = () => (initialState());

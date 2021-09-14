@@ -119,7 +119,7 @@ class FinanceApi extends Api {
    * 前台資金轉賬
    */
   static async transfer(params) {
-    const result = await this.callAxios('POST', '/frontend/transfer-money', params, null, true);
+    const result = await this.callAxios('POST', '/finance/manual/transfer-money', params, null, true);
     return result;
   }
 

@@ -25,7 +25,7 @@
           type="primary"
           block
           class="mt-20"
-          @click="showSuccess = false"
+          @click="handlerConfirm()"
         >
           {{ $t('common_confirm') }}
         </d-button>
@@ -135,9 +135,9 @@
 import {
   computed, reactive, toRefs, ref,
 } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
 import MemberApi from '@/assets/js/api/memberApi';
 import WithdrawCode from '@/components/_pages/profile/WithdrawCode';
 import EditWallet from '@/components/_pages/profile/EditWallet';
@@ -151,6 +151,7 @@ export default {
     const { t } = useI18n();
     const router = useRouter();
     const store = useStore();
+    const route = useRoute();
 
     const wallet = ref(null);
 
@@ -167,6 +168,7 @@ export default {
       selectedItem: {},
       mode: 'add',
       loading: false,
+      paramsData: route.query,
     });
 
     const phone = computed(() => store.state.user.phone);
@@ -184,6 +186,7 @@ export default {
       state.loading = false;
 
       if (code === 200) {
+        store.commit('SET_WITHDRAW_CODE', data.info.withdrawalCodeSetting);
         state.walletList = data.bankcards;
         state.info = data.info;
         return data;
@@ -286,6 +289,15 @@ export default {
       state.showDelete = true;
     };
 
+    const handlerConfirm = () => {
+      state.showSuccess = false;
+      if (state.paramsData.routeFrom === 'backToTransfer') {
+        router.push({
+          name: 'Transfer',
+        });
+      }
+    };
+
     const confirmWithdrawCode = async (withdrawCode) => {
       await changeWithDrawalCode(withdrawCode);
       await addBankcard();
@@ -329,6 +341,7 @@ export default {
       smsVerifySwitch,
       phone,
       ...toRefs(state),
+      handlerConfirm,
     };
   },
 };
