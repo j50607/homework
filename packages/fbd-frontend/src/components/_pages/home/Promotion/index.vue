@@ -1,5 +1,15 @@
 <template>
-  <div>
+  <div
+    v-if="list && list.length > 0"
+    class="title"
+  >
+    <img
+      :src="require('@/assets/img/home/icon-promotion.svg')"
+      alt=""
+    >
+    <div>{{ $t('views_profile_promotion') }}</div>
+  </div>
+  <div v-if="list && list.length > 0">
     <d-swiper
       class="rounded-5"
       :img-list="list"
@@ -64,7 +74,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .swiper {
   height: 140px !important;
 
@@ -85,6 +95,18 @@ export default {
 
   ::v-deep(.swiper-pagination-bullet-active) {
     background: var(--primary-color);
+  }
+}
+
+.title {
+  @apply flex items-center font-bold;
+
+  margin: 12px 0;
+
+  img {
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
   }
 }
 </style>

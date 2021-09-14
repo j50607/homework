@@ -58,13 +58,6 @@
           :local-img="false"
         />
         <div class="match-wrapper">
-          <div class="title">
-            <img
-              :src="require('@/assets/img/home/icon-news.svg')"
-              alt=""
-            >
-            <div>{{ $t('views_home_matchNews') }}</div>
-          </div>
           <match-news />
           <div class="title">
             <img
@@ -80,13 +73,6 @@
             :data="item"
             @click="goBet(item)"
           />
-          <div class="title">
-            <img
-              :src="require('@/assets/img/home/icon-promotion.svg')"
-              alt=""
-            >
-            <div>{{ $t('views_profile_promotion') }}</div>
-          </div>
           <promotion />
         </div>
       </div>

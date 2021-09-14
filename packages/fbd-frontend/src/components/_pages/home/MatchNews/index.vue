@@ -1,5 +1,18 @@
 <template>
-  <div class="flex pb-1 overflow-x-auto  overflow-y-hidden match-news">
+  <div
+    v-if="list && list.length > 0"
+    class="title"
+  >
+    <img
+      :src="require('@/assets/img/home/icon-news.svg')"
+      alt=""
+    >
+    <div>{{ $t('views_home_matchNews') }}</div>
+  </div>
+  <div
+    v-if="list && list.length > 0"
+    class="flex pb-1 overflow-x-auto  overflow-y-hidden match-news"
+  >
     <div
       v-for="(item, index) in list"
       :key="index"
@@ -73,7 +86,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .news {
   flex: 0 0 295px;
   height: 115px;
@@ -130,6 +143,18 @@ export default {
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #d6d6d6;
+  }
+}
+
+.title {
+  @apply flex items-center font-bold;
+
+  margin: 12px 0;
+
+  img {
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
   }
 }
 </style>
