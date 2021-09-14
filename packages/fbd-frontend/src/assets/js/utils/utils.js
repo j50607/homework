@@ -459,10 +459,30 @@ export const floorToDigit = (num, digit = 2) => {
 };
 
 /**
- * 數字隔3位加上逗號
+ * 越南站千位数分隔符
+ * @param {Number} number - 數字或數字字串
+ */
+export const numberThousands = (amount) => {
+  const num = Math.trunc(amount);
+  const reg = /\B(?=(\d{3})+(?!\d))/g;
+  return num.toString().replace(reg, '.');
+};
+
+/**
+ * 數字隔 3 位加上逗號，越南站不顯示小數點後數字且用 '.' 分隔
  * @param {number} amount
  */
-export const numWithCommas = (amount) => amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export const numWithCommas = (amount) => {
+  const num = Number(amount) || 0;
+  const isVn = window._jsvar?.siteLocale === 'vi_vn';
+  if (isVn) return numberThousands(num);
+
+  const integerStr = Math.trunc(num).toString();
+  const decimalStr = num.toString()?.split('.')[1] ?? '';
+  const integerStrWithCommas = integerStr.replace(/.(?=(?:.{3})+$)/g, '$&,');
+  const point = decimalStr ? '.' : '';
+  return `${integerStrWithCommas}${point}${decimalStr}`;
+};
 
 /**
  * 賠率
