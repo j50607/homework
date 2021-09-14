@@ -1,5 +1,8 @@
 <template>
-  <d-loading :loading="isLoading" />
+  <d-loading
+    :loading="isLoading"
+    v-if="jsutChangeTabShow"
+  />
   <div class="all-match mt-2 absolute">
     <d-scroll
       ref="scroll"
@@ -59,7 +62,6 @@
               value-style="color: #4d5772; font-size: 12px; margin-left:10px;"
               @finish="onFinish(item, index)"
             />
-            <!-- :value="deadLine" -->
           </div>
           <div
             class="bet-time flex items-center justify-end text-primary"
@@ -157,10 +159,10 @@ export default {
     // ref
     const scroll = ref(null);
     const isLastPage = ref(false);
-    const isLoading = ref(false);
+    const isLoading = ref(true);
     const showGameDetail = ref(false);
     const selectedGameDetail = ref(undefined);
-    // const deadLine = Date.now() + 1000 * 60 * 60 * 0.01;
+    const jsutChangeTabShow = ref(true);
 
     // reactive
     const state = reactive({
@@ -171,7 +173,7 @@ export default {
         endTime: dayjs().add(6, 'day').endOf('day').tz('Asia/Shanghai')
           .format('YYYY/MM/DD HH:mm:ss'),
         pageIndex: 1,
-        gameStatus: [0],
+        gameStatus: [0, -5],
         leagueId: props.searchLeagueList,
         direction: 1,
       },
@@ -254,6 +256,7 @@ export default {
     };
 
     const loadMoreGameSummary = async () => {
+      jsutChangeTabShow.value = false;
       if (props.timeFilter !== 'history') {
         state.gameSummaryParams.pageIndex += 1;
         await getGameSummary(state.gameSummaryParams);
@@ -300,6 +303,8 @@ export default {
       async (newVal) => {
         state.gameSummaryParams.leagueId = [];
         state.historyGameSummaryParams.leagueId = [];
+        state.gameSummaryParams.pageIndex = 1;
+        state.historyGameSummaryParams.pageIndex = 1;
         if (newVal !== 'history') {
           state.gameSummaryParams.startTime = props.leagueListParams.startTime;
           state.gameSummaryParams.endTime = props.leagueListParams.endTime;
@@ -337,6 +342,7 @@ export default {
       clickHandler,
       onFinish,
       deadLine,
+      jsutChangeTabShow,
     };
   },
 };
@@ -344,9 +350,9 @@ export default {
 
 <style lang="postcss" scoped>
 .all-match {
-  top: 80px;
+  top: 90px;
   right: 0;
-  bottom: 0;
+  bottom: 60px;
   left: 0;
 }
 

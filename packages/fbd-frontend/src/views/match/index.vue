@@ -21,8 +21,9 @@
       :default-key="state.tabIndex"
       :tab-list="state.tabList"
       @change="changeTab"
-      class="text-white"
+      class="game-tab text-white"
       v-if="!state.switchLeague"
+      :tab-position="'center'"
     >
       <template #content>
         <league-list
@@ -95,11 +96,14 @@
     </div>
     <!-- 選擇聯盟按鈕 -->
     <div
-      class="switch-league fixed right-0 bottom-20 cursor-pointer py-2 px-1.5 text-white text-sm font-light"
+      class="switch-league fixed right-0 bottom-20 cursor-pointer py-1.5"
       @click="state.switchLeague = true"
       v-if="!state.switchLeague"
     >
-      {{ $t('views_market_switchLeague') }}
+      <img
+        :src="$requireSafe('icon/switch-league.svg')"
+        alt=""
+      >
     </div>
   </div>
   <d-footer-row />
@@ -273,11 +277,16 @@ export default {
 
 <style lang="postcss" scoped>
 .switch-league {
-  border-radius: 10px 0;
-  letter-spacing: 4px;
+  width: 58px;
+  border-radius: 20px 0 0 20px;
   background: transparent linear-gradient(180deg, #f3ac0a 0%, #7a5605 100%);
-  -webkit-writing-mode: vertical-rl;
-  writing-mode: vertical-lr;
+  box-shadow: 0 3px 6px #00000029;
+
+  img {
+    display: block;
+    width: 28px;
+    margin: 0 auto;
+  }
 }
 
 .league-list {
