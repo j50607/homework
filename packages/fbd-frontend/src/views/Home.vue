@@ -198,7 +198,7 @@ export default {
     };
 
     const goBet = (item) => {
-      if (item.matchTime * 1000 < dayjs().valueOf()) {
+      if (item.matchTime < dayjs().valueOf()) {
         return;
       }
 
