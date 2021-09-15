@@ -249,7 +249,7 @@ export default {
     });
 
     // watch
-    watch(route, (val) => {
+    watch(() => route, (val) => {
       const type = val?.params?.type;
       if (type) {
         state.tabType = type;

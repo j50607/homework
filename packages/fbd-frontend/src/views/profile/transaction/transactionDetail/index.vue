@@ -133,7 +133,7 @@ export default {
     };
 
     // watch
-    watch(route, (val) => {
+    watch(() => route, (val) => {
       if (val?.params?.info) {
         state.type = val?.params?.type;
         state.allDetail = JSON.parse(val?.params?.info);

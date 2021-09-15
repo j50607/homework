@@ -83,7 +83,7 @@ export default {
     const user = computed(() => store.state.user);
 
     // watch
-    watch(route, (val) => {
+    watch(() => route, (val) => {
       state.form.account = user.value?.[val?.query?.type];
     }, { immediate: true });
 

@@ -134,7 +134,7 @@
 
 <script>
 import {
-  computed, reactive, toRefs, ref,
+  computed, reactive, toRefs, ref, watch,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -151,8 +151,8 @@ export default {
   setup() {
     const { t } = useI18n();
     const router = useRouter();
-    const store = useStore();
     const route = useRoute();
+    const store = useStore();
 
     const wallet = ref(null);
 
@@ -275,7 +275,7 @@ export default {
 
     const addWallet = (item) => {
       if (smsVerifySwitch.value && !phone.value) {
-        router.push('/profile/userinfo/setPhone');
+        router.push({ name: 'setPhone', params: { isFromWallet: true } });
         return;
       }
       state.walletAddress = item?.accountId;
@@ -328,6 +328,12 @@ export default {
       state.mode === 'add' ? await addBankcard() : await updateBankcard();
       getBankcard();
     };
+
+    // watch
+    watch(() => route, (val) => {
+      const showEditWallet = val?.params?.showEditWallet;
+      if (showEditWallet) addWallet();
+    }, { immediate: true });
 
     getBankcard();
     return {

@@ -215,6 +215,7 @@ export default {
             lotteryBetAgentRate: info.lotteryBetAgentRate,
             traceCount: info.traceCount,
             accountGroup: info.accountGroup,
+            withdrawalCode: info.withdrawalCode,
           });
         }
       } else {

@@ -106,10 +106,10 @@
 
 <script>
 import {
-  ref, reactive, computed, inject,
+  ref, reactive, computed, inject, watch,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import MemberApi from '@/assets/js/api/memberApi';
 import SystemApi from '@/assets/js/api/systemApi';
@@ -119,6 +119,7 @@ export default {
     // use
     const { t } = useI18n();
     const router = useRouter();
+    const route = useRoute();
     const store = useStore();
 
     // inject
@@ -128,6 +129,7 @@ export default {
     const formRef = ref(null);
     const loading = ref(false);
     const countdowning = ref(false);
+    const isFromWallet = ref(false);
 
     // reactive
     const state = reactive({
@@ -148,6 +150,11 @@ export default {
     const nickName = computed(() => store.state.user.nickName);
     const smsResendSec = computed(() => store.state.info.timeSetting.smsResendSec);
     const smsVerifySwitch = computed(() => store.state.info.switchSetting.smsVerifySwitch);
+
+    watch(() => route, (val) => {
+      const fromWallet = val?.params?.isFromWallet;
+      if (fromWallet) isFromWallet.value = fromWallet;
+    }, { immediate: true });
 
     // methods
     const getVerificationCode = async () => {
@@ -186,7 +193,11 @@ export default {
       if (res.code === 200) {
         window.$vue.$message.success(t('common_modifySuccess'));
         store.commit('SET_PHONE', state.form.phone);
-        router.push('/profile/userinfo');
+        if (isFromWallet.value) {
+          router.push({ name: 'profile-wallet', params: { showEditWallet: true } });
+        } else {
+          router.push('/profile/userinfo');
+        }
       } else {
         window.$vue.$message.error(res.message);
       }
