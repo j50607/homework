@@ -20,7 +20,7 @@
             v-for="(item, index) in marqueeMessage"
             :key="index"
             class="marquee-text text-xs"
-            v-html="item"
+            v-html="item.replace(/<br \/>/gi, '')"
           />
         </div>
       </div>
@@ -63,13 +63,12 @@ export default {
     };
 
     // watch
-    watch(props.marqueeMessage, () => {
+    watch(() => props.marqueeMessage, () => {
       nextTick(() => {
         wrapWidth = marqueeWrap.value?.offsetWidth;
         contentWidth = marquee.value?.offsetWidth;
         duration.value = (contentWidth + wrapWidth) / 50;
         contentOffset.value = -contentWidth;
-
         marquee.value.addEventListener('transitionend', reset);
       });
     }, { immediate: true });
@@ -127,6 +126,8 @@ export default {
       height: 24px;
       overflow: hidden;
 
+      @apply flex items-center;
+
       .marquee-list-message {
         position: absolute;
         display: flex;
@@ -146,7 +147,7 @@ export default {
     }
 
     .marquee-text {
-      display: inline-block;
+      display: inline-flex;
       flex-flow: nowrap;
       padding: 0 100px 0 40px;
       white-space: nowrap;
