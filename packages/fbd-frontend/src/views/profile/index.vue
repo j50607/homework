@@ -1,7 +1,13 @@
 <template>
-  <div class="profile">
+  <div
+    ref="profile"
+    class="profile"
+  >
     <!-- Header -->
-    <div class="profile-header">
+    <div
+      class="profile-header"
+      :class="{'profile-header-color' : changeColor}"
+    >
       <div />
       <div class="profile-header-title">
         {{ $t('views_profile_title') }}
@@ -148,7 +154,7 @@
 
 <script>
 import {
-  onBeforeMount, ref, reactive, computed,
+  onBeforeMount, onBeforeUnmount, ref, reactive, computed,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -172,6 +178,8 @@ export default {
 
     // ref
     const showBalance = ref(false);
+    const changeColor = ref(false);
+    const profile = ref(null);
 
     // reactive
     const state = reactive({
@@ -278,13 +286,28 @@ export default {
       }
     };
 
+    const changeHeaderColor = () => {
+      if (window?.scrollY > 40) {
+        changeColor.value = true;
+      } else {
+        changeColor.value = false;
+      }
+    };
+
     // hooks
     onBeforeMount(async () => {
       getUserPartialInfo();
+      window.addEventListener('scroll', changeHeaderColor);
+    });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('scroll', changeHeaderColor);
     });
 
     return {
       showBalance,
+      changeColor,
+      profile,
       state,
       toggleLanguageModal,
       btnList,
@@ -307,10 +330,19 @@ export default {
 .profile {
   background-image: url('~@/assets/img/profile/bg.png');
 
-  @apply bg-layout bg-top bg-no-repeat bg-contain pb-f-h;
+  @apply bg-layout bg-top bg-no-repeat bg-contain pt-h-h pb-f-h;
 
   &-header {
-    @apply h-h-h p-3 flex items-center justify-between mb-7;
+    top: 0;
+    left: 0;
+
+    @apply h-h-h p-3 flex items-center justify-between mb-7 fixed w-full;
+
+    &.profile-header-color {
+      color: #fff;
+      background: var(--header-primary-bg);
+      transition: 0.2s;
+    }
   }
 
   &-title {
@@ -322,7 +354,7 @@ export default {
   }
 
   &-content {
-    @apply px-6;
+    @apply px-3;
 
     .user {
       @apply flex items-end mb-3;
@@ -379,7 +411,7 @@ export default {
       background-color: #fff;
       box-shadow: 0 2px 4px #4d57721a;
 
-      @apply flex justify-between items-center py-1 px-3 mb-3;
+      @apply flex justify-between items-center py-1 px-3 mb-5;
 
       .arrow-brown {
         @apply w-2 h-2;
