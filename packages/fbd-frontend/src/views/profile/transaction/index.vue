@@ -248,14 +248,6 @@ export default {
       typeResult: [], // 多選組合轉成要送給 api 的參數
     });
 
-    // watch
-    watch(() => route, (val) => {
-      const type = val?.params?.type;
-      if (type) {
-        state.tabType = type;
-      }
-    }, { immediate: true });
-
     // methods
     const handleRefValue = R.curry((target, value) => {
       target.value = value;
@@ -293,7 +285,7 @@ export default {
 
     // 切換充提將篩選狀態變回初始值(全部)
     const initFilter = () => {
-      state.typeList = JSON.parse(JSON.stringify(filterList[state.tabType]));
+      state.typeList = JSON.parse(JSON.stringify(filterList?.[state?.tabType]));
       state.checkResult = [];
       state.typeResult = [];
       state.allCheck = true;
@@ -415,6 +407,19 @@ export default {
       handleFilterDialog(false);
     };
 
+    // watch
+    watch(() => route, (val) => {
+      const type = val?.params?.type;
+      if (type) {
+        state.tabType = type;
+        state.queryContent = [];
+        params.pageIndex = 1;
+        params.isLastPage = false;
+        params.type = searchType[state.tabType];
+      }
+    }, { immediate: true });
+
+    // hooks
     onBeforeMount(() => {
       getTellerLog();
     });
