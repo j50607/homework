@@ -19,7 +19,7 @@
           <p
             v-for="(item, index) in marqueeMessage"
             :key="index"
-            class="marquee-text"
+            class="marquee-text text-xs"
             v-html="item"
           />
         </div>
@@ -121,6 +121,8 @@ export default {
 
     .marquee-list {
       position: relative;
+      display: flex;
+      align-items: center;
       width: 90%;
       height: 24px;
       overflow: hidden;

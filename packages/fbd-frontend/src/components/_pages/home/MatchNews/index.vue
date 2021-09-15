@@ -16,15 +16,19 @@
     <div
       v-for="(item, index) in list"
       :key="index"
-      class="news"
+      class="news overflow-hidden"
       @click="showAnnouncement(item)"
     >
-      <div class="flex mb-2 w-full">
+      <div class="flex mb-2 w-full items-center">
         <div class="title">
           {{ item.title }}
         </div>
         <div class="detail">
-          {{ $t('common_checkDetail') }} >
+          <img
+            :src="$requireSafe('home/icon-arrow-right.svg')"
+            alt=""
+            class="w-2"
+          >
         </div>
       </div>
       <div
@@ -107,16 +111,19 @@ export default {
   }
 
   .title {
-    width: 200px;
-
-    @extend .text-ellipsis;
+    display: -webkit-box;
+    width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
 
   .content {
-    width: 280px;
+    width: 100%;
+    height: 36px;
     word-break: break-all;
-
-    @extend .text-ellipsis;
   }
 }
 

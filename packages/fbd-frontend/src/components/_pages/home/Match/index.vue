@@ -1,74 +1,88 @@
 <template>
-  <div class="match">
-    <div class="mt-0.5">
+  <locale
+    class="match"
+    v-slot="{locale}"
+  >
+    <div class="label px-3 py-1">
       {{ dayjs(data.matchTime).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnit})` }}
     </div>
-    <div class="flex items-center pt-2 pb-2">
-      <div class="flex flex-col flex-1">
-        <div class="mb-2 text-primary text-sm">
-          {{ data.leagueName }}
+    <div class="content flex-1 flex flex-col px-3 py-1">
+      <div class="match-content flex items-center pt-2 pb-2">
+        <div class="match-info flex flex-col">
+          <div class="mb-2 text-primary text-sm">
+            {{ data.leagueName }}
+          </div>
+          <div class="team-info mb-1">
+            <img
+              :src="require('@/assets/img/locale/zh_cn.svg')"
+              alt=""
+            >
+            <div>{{ data.homeTeamName }}</div>
+          </div>
+          <div>
+            vs
+          </div>
+          <div class="team-info mt-1">
+            <img
+              :src="require('@/assets/img/locale/zh_cn.svg')"
+              alt=""
+            >
+            <div>{{ data.awayTeamName }}</div>
+          </div>
         </div>
-        <div class="team-info">
-          <img
-            :src="require('@/assets/img/locale/zh_cn.svg')"
-            alt=""
+        <div class="flex-1 justify-center">
+          <div
+            class="circle ml-auto"
+            :class="locale"
           >
-          <div>{{ data.homeTeamName }}</div>
-        </div>
-        <div class="ml-5">
-          vs
-        </div>
-        <div class="team-info">
-          <img
-            :src="require('@/assets/img/locale/zh_cn.svg')"
-            alt=""
-          >
-          <div>{{ data.awayTeamName }}</div>
-        </div>
-      </div>
-      <div class="flex-1 justify-center">
-        <div class="circle ml-auto">
-          <div class="circle-inner flex flex-col justify-center rounded-full bg-white z-10 text-center text-sm">
-            {{ $t('components_match_betAmount') }}
-            <div class="font-bold italic">
-              {{ amoutnFormat(data.totalBetAmount) }}
+            <div
+              class="circle-inner flex flex-col justify-center rounded-full bg-white z-10 text-center text-sm"
+            >
+              {{ $t('components_match_betAmount') }}
+              <div class="font-bold italic">
+                {{ amoutnFormat(data.totalBetAmount) }}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="h-px w-full bg-border" />
-    <div class="flex items-center justify-between h-full">
-      <div v-if="isEnded">
-        {{ $t('views_betting_info_deadlineClosed') }}
+      <div class="h-px w-full bg-border" />
+      <div class="flex items-center justify-between h-full">
+        <div v-if="isEnded">
+          {{ $t('views_betting_info_deadlineClosed') }}
+        </div>
+        <div
+          v-else
+          class="flex items-center"
+        >
+          <span class="mr-1">
+            {{ $t('views_betting_info_deadline') }}
+          </span>
+          <a-statistic-countdown
+            :value-style="{fontSize: '0.75rem'}"
+            :value="data.matchTime"
+            @finish="finish"
+          />
+        </div>
+        <img
+          class="w-2 h-2"
+          :src="require('@/assets/img/home/icon-arrow-right.svg')"
+          alt=""
+        >
       </div>
-      <div
-        v-else
-        class="flex items-center"
-      >
-        <span class="mr-1">
-          {{ $t('views_betting_info_deadline') }}
-        </span>
-        <a-statistic-countdown
-          :value-style="{fontSize: '0.75rem'}"
-          :value="data.matchTime"
-          @finish="finish"
-        />
-      </div>
-      <img
-        class="w-2 h-2"
-        :src="require('@/assets/img/home/icon-arrow-right.svg')"
-        alt=""
-      >
     </div>
-  </div>
+  </locale>
 </template>
 
 <script>
 import dayjs from 'dayjs';
 import { inject, computed } from 'vue';
+import Locale from '@/components/Locale';
 
 export default {
+  components: {
+    Locale,
+  },
   props: {
     data: {
       type: Object,
@@ -108,12 +122,26 @@ export default {
 .match {
   @apply text-xs relative flex flex-col;
 
-  height: 150px;
-  padding: 0 15px;
-  border-radius: 0 10px 10px;
+  height: 200px;
   color: #4d5772;
-  background: url('~@/assets/img/home/bg-hot-match.png') no-repeat center / cover;
-  box-shadow: -1px 2px 4px #4d57721a;
+
+  .label {
+    background: url('~@/assets/img/home/bg-hot-match-label.svg') no-repeat;
+  }
+
+  .content {
+    border-radius: 0 5px 5px;
+    background: url('~@/assets/img/home/bg-hot-match.png') no-repeat center / cover;
+    box-shadow: 0 2px 4px #4d57721a;
+
+    .match-content {
+      flex: 1 0 80%;
+
+      .match-info {
+        flex: 1 0 70%;
+      }
+    }
+  }
 }
 
 .team-info {
@@ -130,6 +158,16 @@ export default {
   width: 72px;
   height: 72px;
   background: conic-gradient(from 90deg at 50% 50%, #f3ac0a, #b58007);
+
+  &.vi_vn {
+    width: 92px;
+    height: 92px;
+
+    .circle-inner {
+      width: 84px;
+      height: 84px;
+    }
+  }
 }
 
 .circle-inner {
