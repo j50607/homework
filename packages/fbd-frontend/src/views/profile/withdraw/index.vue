@@ -209,7 +209,7 @@ export default {
     const forceCharge = computed(() => {
       if (!state.info.chargeFees || freeWithdrawCount.value || state.isWaterEnough) return 0;
 
-      return NP.divide(withdarwHandlingFee.value, 100);
+      return withdarwHandlingFee.value;
     });
 
     // 实际到账 提现金额 - 一般手续费 - 强制手续费

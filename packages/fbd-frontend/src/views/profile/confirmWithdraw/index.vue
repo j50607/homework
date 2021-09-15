@@ -117,7 +117,7 @@ export default {
       if (code === 200) {
         const params = {
           accountId: data.accountId,
-          accountName: data.accountName,
+          accountName: data.bank,
           orderNumber: data.orderNumber,
           processAt: dayjs(data.processAt).format('YYYY-MM-DD HH:mm:ss'),
           amount: state.amount,
