@@ -79,6 +79,9 @@ const mutations = {
   SET_AGENT_CODE(state, value) {
     state.agentCode = value;
   },
+  SET_USER_BALANCE(state, balance) {
+    state.balance = balance;
+  },
   CLEAR(state) {
     Cookies.remove('_tianyin_token');
 

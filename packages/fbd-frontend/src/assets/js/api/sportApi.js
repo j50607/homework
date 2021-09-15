@@ -57,6 +57,7 @@ class SportApi extends API {
       end,
       status,
       pageIndex,
+      filterTest: false,
     };
     const result = await this.callAxios('POST', '/frontend/sport-game/view/bet/order/page', params, null, true);
     return result;

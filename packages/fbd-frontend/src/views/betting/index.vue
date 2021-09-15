@@ -12,45 +12,72 @@
           :src="$requireSafe(`betting/style${siteStyle}/bg.png`)"
         >
       </div>
+
       <div class="betting-info-container">
-        <div class="betting-team">
-          <div class="betting-team-logo betting-info-text">
-            <img :src="$requireSafe('icon/default-team.svg')">
+        <!-- logo -->
+        <div class="betting-team-row mb-0.5">
+          <!-- H -->
+          <div class="betting-team-container px-betting-team-container">
+            <div class="betting-team-logo betting-info-text">
+              <img :src="$requireSafe('icon/default-team.svg')">
+            </div>
           </div>
-          <div
-            class="betting-team-name betting-info-text betting-info-text-em"
-            :class="{ 'betting-info-text-em-xs': !isChinese }"
-          >
-            {{ state.currentGameData?.homeTeamName || '' }}{{ state.currentGameData?.homeTeamName && `(${$t('views_betting_host')})` }}
-          </div>
-          <!-- <div class="betting-team-score betting-info-text betting-info-text-em">
-            {{ 0 }}
-          </div> -->
-        </div>
-        <div class="betting-time">
-          <div class="betting-time-item betting-info-text">
-            {{ renderDate(state.currentGameData?.matchTIme) }}
-          </div>
-          <div class="betting-time-item betting-time-item-em betting-info-text">
-            {{ renderTime(state.currentGameData?.matchTIme) }}
-          </div>
-          <div class="betting-time-item betting-info-text">
-            {{ state.currentGameData?.matchTIme && `(${timeZone})` }}
+          <!-- A -->
+          <div class="betting-team-container px-betting-team-container">
+            <div class="betting-team-logo betting-info-text">
+              <img :src="$requireSafe('icon/default-team.svg')">
+            </div>
           </div>
         </div>
-        <div class="betting-team">
-          <div class="betting-team-logo betting-info-text">
-            <img :src="$requireSafe('icon/default-team.svg')">
+
+        <!-- name -->
+        <div class="betting-team-row mb-1">
+          <!-- H -->
+          <div class="betting-team-container px-betting-team-container betting-team-text-container">
+            <div
+              class="betting-team-name betting-info-text betting-info-text-em"
+              :class="{ 'betting-info-text-em-xs': !isChinese }"
+            >
+              {{ state.currentGameData?.homeTeamName || '' }}{{ state.currentGameData?.homeTeamName && `(${renderHostText})` }}
+            </div>
           </div>
-          <div
-            class="betting-team-name betting-info-text betting-info-text-em"
-            :class="{ 'betting-info-text-em-xs': !isChinese }"
-          >
-            {{ state.currentGameData?.awayTeamName || '' }}
+          <!-- A -->
+          <div class="betting-team-container px-betting-team-container betting-team-text-container">
+            <div
+              class="betting-team-name betting-info-text betting-info-text-em"
+              :class="{ 'betting-info-text-em-xs': !isChinese }"
+            >
+              {{ state.currentGameData?.awayTeamName || '' }}
+            </div>
           </div>
-          <!-- <div class="betting-team-score betting-info-text betting-info-text-em">
-            {{ 0 }}
-          </div> -->
+        </div>
+
+        <!-- score -->
+        <div class="betting-team-row">
+          <!-- H -->
+          <div class="betting-team-container px-betting-team-container">
+            <div class="betting-team-score betting-info-text betting-info-text-em">
+              {{ 0 }}
+            </div>
+          </div>
+          <!-- A -->
+          <div class="betting-team-container px-betting-team-container">
+            <div class="betting-team-score betting-info-text betting-info-text-em">
+              {{ 0 }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="betting-time">
+        <div class="betting-time-item betting-info-text">
+          {{ renderDate(state.currentGameData?.matchTIme) }}
+        </div>
+        <div class="betting-time-item betting-time-item-em betting-info-text">
+          {{ renderTime(state.currentGameData?.matchTIme) }}
+        </div>
+        <div class="betting-time-item betting-info-text">
+          {{ state.currentGameData?.matchTIme && `(${timeZone})` }}
         </div>
 
         <div class="betting-deadline">
@@ -143,7 +170,7 @@
               :key="`availableAmount[${idx}]`"
               class="betting-item"
               :class="{ 'is-btn': !item?.isFulled && item?.payRate }"
-              @click="isBettingNotAllowed(item) ? null : toggleBettingPopup(true, item)"
+              @click="isBettingNotAllowed(item) ? null : toggleBettingPopup(true, item, true)"
             >
               <a-skeleton
                 :loading="state.isBetItemSkeletonShow"
@@ -312,7 +339,6 @@
       <div class="popup-row">
         <a-input-number
           v-model:value="state.betAmount"
-          v-first-not-zero
           v-positive-places
           :placeholder="$t('views_betting_main_popup_betAmountPlaceholder')"
           class="popup-input"
@@ -411,6 +437,7 @@ import {
   timeZoneUnit, numWithCommas, getSportScore, convertToCst, isNumber, isArray, floorToDigit, fmtPayRate,
 } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
+import MemberApi from '@/assets/js/api/memberApi';
 
 dayjs.extend(duration);
 
@@ -536,6 +563,8 @@ export default {
     const showInputNotify = computed(() => isBalanceNotEnough.value || greaterThanLimit.value || lessThanLimit.value);
     const lockBettingBtn = computed(() => !state.betAmount || state.isBettingProcessing || isBalanceNotEnough.value || showInputNotify.value);
 
+    const renderHostText = computed(() => (isChinese.value ? t('views_betting_host') : 'H'));
+
     // methods
     const goPage = (name, params = {}, query = {}) => {
       router.push({
@@ -555,10 +584,28 @@ export default {
       state.isSumPopupShow = isShow;
     };
 
-    const toggleBettingPopup = (isShow = true, data = {}, currentQuickAmount) => {
+    const getBalance = async () => {
+      state.isLoading = true;
+      const params = {
+        requestInfo: ['balance'],
+      };
+      const { code, data } = await MemberApi.getUserPartialInfo(params) || {};
+      state.isLoading = false;
+      if (code !== 200) return undefined;
+      return data?.balance;
+    };
+
+    const toggleBettingPopup = async (isShow = true, data = {}, hasGetBalance = false, currentQuickAmount) => {
       if (!isLogin.value) {
         handleLoginFirst();
         return;
+      }
+
+      if (hasGetBalance) {
+        const balanceAmount = await getBalance();
+        if (balanceAmount === 0 || balanceAmount) {
+          store.commit('SET_USER_BALANCE', balanceAmount);
+        }
       }
 
       state.isBettingPopupShow = isShow;
@@ -706,8 +753,14 @@ export default {
 
       if (!isArray(state.gameSum.optionList)) return;
       state.gameSum.optionList.forEach((item) => {
-        item.percentage = NP.times(NP.divide((item.amount || 0), (item.limitAmount || 1)), 100);
+        item.percentage = item.limitAmount ? NP.times(NP.divide((item.amount || 0), item.limitAmount), 100) : 0;
       });
+
+      // 若 api 不慎回傳重複 option 的資料，則濾除重複的 option 僅保留第一筆
+      state.gameSum.optionList = state.gameSum.optionList.reduce((acc, item) => {
+        const notRepeat = acc.findIndex((row) => row.option === item.option) === -1;
+        return notRepeat ? [...acc, item] : acc;
+      }, []);
     };
 
     const handleDataMapping = () => {
@@ -756,21 +809,21 @@ export default {
     };
 
     const changePlayTypeS = async (item, isHandleBettingDeadline = false, isRefreshData = false) => {
-      if (isRefreshData) {
-        await refreshData();
-      }
-
       state.isBetItemSkeletonShow = true;
       state.currentPlayTypeS = item?.playTypeS;
       state.currentPlayTypeSName = item?.playTypeSName;
       state.currentGameData = { ...item };
+
+      if (isRefreshData) {
+        await refreshData();
+      }
 
       if (isHandleBettingDeadline) {
         handleBettingDeadline();
       }
       setTimeout(() => {
         state.isBetItemSkeletonShow = false;
-      }, 500);
+      }, 300);
     };
 
     const handleInit = async () => {
@@ -822,6 +875,7 @@ export default {
       showInputNotify,
       deadlineStyleList,
       lockBettingBtn,
+      renderHostText,
       numWithCommas,
       getSportScore,
       convertToCst,
@@ -865,7 +919,7 @@ export default {
   }
 
   &-info-container {
-    @apply absolute top-0 grid grid-cols-5 w-full pt-6;
+    @apply absolute top-0 w-full pt-4 px-3;
   }
 
   &-info-text {
@@ -876,7 +930,7 @@ export default {
     }
 
     &-em-xs {
-      @apply text-xs;
+      @apply text-xs font-normal;
     }
 
     img {
@@ -884,26 +938,57 @@ export default {
     }
   }
 
-  &-team {
+  /* &-team {
     @apply col-span-2 justify-self-center;
 
     max-width: calc(100% - 30px);
+  } */
+
+  &-team-row {
+    @apply flex items-center justify-between;
+  }
+
+  &-team-container {
+    width: 127px;
+  }
+
+  &-team-text-container {
+    @apply flex flex-col justify-center;
+
+    height: 77px;
   }
 
   &-team-name {
-    @apply mx-auto text-center break-all;
+    /* @apply mx-auto text-center break-all; */
+    @apply mx-auto text-center;
+
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 
   &-team-logo {
-    @apply mt-1 mb-2 mx-auto w-8;
+    @apply mt-1 mb-2 mx-auto;
+
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 
     img {
       @apply w-full;
     }
   }
 
+  &-team-score {
+    font-size: 18px;
+  }
+
   &-time {
-    @apply col-span-1 justify-self-center;
+    @apply absolute top-1/2 left-1/2 transform-gpu -translate-x-1/2  -translate-y-1/2 flex flex-col items-center;
+
+    /* 用 flex column 排版避免有背景色的該行被下方 deadline 撐開寬度(多國語系) */
   }
 
   &-time-item {
@@ -922,7 +1007,7 @@ export default {
   }
 
   &-deadline {
-    @apply col-span-5 justify-self-center;
+    @apply mt-1;
   }
 
   &-deadline-text {
