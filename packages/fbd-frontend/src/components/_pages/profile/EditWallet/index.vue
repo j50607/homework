@@ -19,11 +19,11 @@
         class="mt-4 mb-1"
         v-if="smsVerifySwitch"
       >
-        {{ $t('views_profile_userinfo_setPhone_title') }}:
+        {{ $t('views_profile_userinfo_setPhone_title') }}
       </div>
 
       <a-input
-        v-model:value="phoneNum"
+        v-model:value="state.phoneNum"
         v-if="smsVerifySwitch"
         disabled
         style=" color: #666 !important; background: #eee !important;"
@@ -34,11 +34,11 @@
         <div
           class="mt-4 mb-1"
         >
-          {{ $t('views_profile_userinfo_setPhone_verifyPhoneNumber') }}:
+          {{ $t('views_profile_userinfo_setPhone_verifyPhoneNumber') }}
         </div>
         <a-input
           class="verify-row"
-          v-model:value="verifyCode"
+          v-model:value="state.verifyCode"
           type="number"
           v-positive-places="6"
           :placeholder="$t('views_profile_userinfo_setPhone_pleaseEnterVerifyPhoneNumber')"
@@ -47,18 +47,18 @@
             <a-button
               type="primary"
               class="verify is-btn"
-              :disabled="countdowning"
+              :disabled="state.countdowning"
               @click="getVerificationCode"
             >
               <span class="count-down-timer">
                 <a-statistic-countdown
-                  v-if="countdowning"
+                  v-if="state.countdowning"
                   format="ss"
                   :value="Date.now() + 1000 * smsResendSec"
                   value-style="color: #fff; font-size: 14px; margin-right:5px;"
-                  @finish="countdowning = false"
+                  @finish="state.countdowning = false"
                 />
-                <span v-if="countdowning">
+                <span v-if="state.countdowning">
                   {{ $t('views_profile_userinfo_setPhone_sec') }}
                 </span>
                 <span v-else>
@@ -70,39 +70,52 @@
         </a-input>
       </template>
 
-      <!-- 钱包地址 -->
-      <div class="mt-4 mb-1">
-        {{ $t('views_profile_wallet_walletAddress') }}
-      </div>
-      <a-input
-        v-model:value="walletAddress"
-        :placeholder="$t('views_profile_wallet_placeholder2')"
-      />
-
-      <!-- 主网类型 -->
-      <div class="mt-4 mb-1">
-        {{ $t('views_profile_chainType') }}
-      </div>
-      <a-input
-        v-model:value="chainType"
-        :placeholder="$t('views_profile_wallet_placeholder1')"
-      />
-      <d-button
-        type="primary"
-        block
-        class="mt-8"
-        :disabled="!walletAddress || !chainType || (smsVerifySwitch && (!isClickSms || !verifyCode))"
-        @click="submit"
+      <a-form
+        ref="formRef"
+        class="input-box"
+        :model="state.formState"
+        :rules="rules"
       >
-        {{ $t('common_confirm') }}
-      </d-button>
+        <!-- 钱包地址 -->
+        <a-form-item
+          class="main-input"
+          name="walletAddress"
+          :label="$t('views_profile_wallet_walletAddress')"
+        >
+          <a-input
+            v-model:value="state.formState.walletAddress"
+            maxlength="100"
+            :placeholder="$t('views_profile_wallet_placeholder2')"
+          />
+        </a-form-item>
+        <!-- 主网类型 -->
+        <a-form-item
+          class="main-input"
+          name="chainType"
+          :label="$t('views_profile_chainType')"
+        >
+          <a-input
+            v-model:value="state.formState.chainType"
+            :placeholder="$t('views_profile_wallet_placeholder1')"
+          />
+        </a-form-item>
+        <d-button
+          type="primary"
+          block
+          class="mt-8"
+          :disabled="!state.formState.walletAddress || !state.formState.chainType || (smsVerifySwitch && (!state.isClickSms || !verifyCode))"
+          @click="submit"
+        >
+          {{ $t('common_confirm') }}
+        </d-button>
+      </a-form>
     </div>
   </div>
 </template>
 
 <script>
 import {
-  reactive, toRefs, computed,
+  ref, reactive, computed, onMounted,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
@@ -133,22 +146,52 @@ export default {
   },
   emits: ['confirm', 'close'],
   setup(props, { emit }) {
+    const { t } = useI18n();
+    const store = useStore();
+    // ref
+    const formRef = ref();
+
+    const smsResendSec = computed(() => store.state.info.timeSetting.smsResendSec);
+
     const state = reactive({
-      walletAddress: props.address,
-      chainType: props.type,
       phoneNum: props.phone,
       verifyCode: '',
       countdowning: false,
       isClickSms: false,
+      formState: {
+        walletAddress: props.address,
+        chainType: props.type,
+      },
     });
 
-    const { t } = useI18n();
-    const store = useStore();
+    const walletValidate = async (rule, value) => {
+      if (value) {
+        if (/[`~!@#$^&*()=|{}':;',[\]<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？%--+=_.[\\\]\s]/.test(value)) {
+          return Promise.reject(new Error(t('error37')));
+        }
+        if (/[\u4E00-\u9FA5]+/.test(value)) {
+          return Promise.reject(new Error(t('error38')));
+        }
+        if (value.length > 100) {
+          return Promise.reject(new Error(t('error39')));
+        }
+      }
+      return Promise.resolve();
+    };
 
-    const smsResendSec = computed(() => store.state.info.timeSetting.smsResendSec);
+    // rules
+    const rules = reactive({
+      walletAddress: [
+        {
+          required: true, validator: walletValidate, trigger: 'change',
+        },
+      ],
+    });
 
-    const submit = async () => {
-      emit('confirm', state.walletAddress, state.chainType, state.verifyCode);
+    const submit = () => {
+      formRef.value.validate().then(async () => {
+        emit('confirm', state.formState.walletAddress, state.formState.chainType, state.verifyCode);
+      });
     };
 
     const getVerificationCode = async () => {
@@ -169,13 +212,19 @@ export default {
     const close = () => {
       emit('close');
     };
+
+    onMounted(() => {
+      formRef.value.resetFields();
+    });
     return {
       state,
       submit,
       close,
       getVerificationCode,
       smsResendSec,
-      ...toRefs(state),
+      formRef,
+      rules,
+      // ...toRefs(state),
     };
   },
 };
@@ -254,5 +303,21 @@ export default {
 .go-back {
   width: 18px;
   height: 18px;
+}
+
+::v-deep(.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before) {
+  display: none;
+}
+
+::v-deep(.ant-form-item-label) {
+  padding: 0;
+
+  > label {
+    font-size: 12px;
+  }
+}
+
+::v-deep(.ant-form-item) {
+  margin-bottom: 0.2rem;
 }
 </style>

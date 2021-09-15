@@ -230,6 +230,9 @@ const lang = {
   error34: 'Zalo字數過長',
   error35: '請輸入生日',
   error36: '請輸入性別',
+  error37: '钱包地址不可包含特殊字符或標點符號',
+  error38: '钱包地址不可包含中文',
+  error39: '钱包地址必须小于100字元',
 };
 
 export default {

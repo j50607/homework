@@ -447,6 +447,9 @@ const lang = {
   error34: 'Số lượng từ trên Zalo quá dài',
   error35: 'Vui lòng nhập ngày sinh',
   error36: 'Vui lòng nhập giới tính',
+  error37: '钱包地址不可包含特殊字元或标点符号',
+  error38: '钱包地址不可包含中文',
+  error39: '钱包地址必须小于100字元',
 };
 
 export default {

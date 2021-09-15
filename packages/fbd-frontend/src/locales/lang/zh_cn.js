@@ -273,7 +273,7 @@ const lang = {
   views_profile_wallet_addWallet: '新增钱包',
   views_profile_wallet_placeholder1: '请输入主网类型',
   views_profile_wallet_placeholder2: '请输入虚拟币提现地址',
-  views_profile_wallet_walletAddress: '钱包地址',
+  views_profile_wallet_walletAddress: '钱包地址：',
   views_profile_wallet_deleteNotice: '确认要将此钱包删除吗',
   views_profile_userinfo_setNickName_currentNickName: '目前昵称',
   views_profile_userinfo_setNickName_newNickName: '新昵称',
@@ -480,6 +480,9 @@ const lang = {
   error34: 'Zalo字数过长',
   error35: '请输入生日',
   error36: '请输入性别',
+  error37: '钱包地址不可包含特殊字元或标点符号',
+  error38: '钱包地址不可包含中文',
+  error39: '钱包地址必须小于100字元',
 };
 
 export default {
