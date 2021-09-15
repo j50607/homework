@@ -53,6 +53,9 @@
             </div>
           </template>
         </d-select>
+        <div class="warning mt-2">
+          {{ $t('views_profile_deposit_limitAmount', { min: selectedItem?.minAmount, max: selectedItem?.maxAmount }) }}
+        </div>
       </div>
       <div class="deposit-info">
         <div class="title px-3">
@@ -117,68 +120,87 @@
     width="90%"
   >
     <template #body>
-      <div class="form-item mb-3">
-        <div class="text-label">
-          {{ $t('views_profile_deposit_depositAmount') }}
-        </div>
-        <a-input
-          v-two-decimal-places
-          v-model:value="form.amount"
-          :placeholder="$t('views_profile_deposit_amountPlaceholder')"
-          class="text-xs"
-        />
-      </div>
-      <div
-        v-if="showUsdtExtendName"
-        class="form-item"
+      <a-form
+        :model="form"
+        ref="formRef"
+        :label-col="{ span: 0 }"
+        :wrapper-col="{ span: 24 }"
+        :rules="rules"
       >
-        <div class="text-label">
-          {{ usdtExtendName }}
+        <div class="form-item mb-3">
+          <div class="text-label">
+            {{ $t('views_profile_deposit_depositAmount') }}
+          </div>
+          <a-form-item
+            name="amount"
+          >
+            <a-input
+              v-two-decimal-places
+              v-model:value="form.amount"
+              :placeholder="$t('views_profile_deposit_amountPlaceholder')"
+              class="text-xs"
+            />
+          </a-form-item>
         </div>
-        <a-input
-          v-model:value="form.extendContent"
-          :placeholder="usdtExtendName"
-          class="text-xs"
-        />
-      </div>
-      <div class="mt-3">
-        <div class="text-label">
-          {{ $t('views_profile_deposit_hint') }}
+        <div
+          v-if="showUsdtExtendName"
+          class="form-item"
+        >
+          <div class="text-label">
+            {{ usdtExtendName }}
+          </div>
+          <a-form-item
+            name="extendContent"
+          >
+            <a-input
+              v-model:value="form.extendContent"
+              :placeholder="usdtExtendName"
+              class="text-xs"
+            />
+          </a-form-item>
         </div>
-        <ul class="mt-1 text-xs text-normal">
-          <li class="hint-item">
-            1. {{ $t('views_profile_deposit_hint_one') }}
-          </li>
-          <li class="hint-item">
-            2.
-            <span
-              v-if="promotionEnable && selectedItem?.promotionPercentage > 0"
-              class="mr-1"
-            >
-              {{ $t('views_profile_deposit_hint_two',{number: selectedItem?.promotionPercentage}) }}
-            </span>
-            <span
-              v-if="selectedItem?.chargePercentage > 0"
-              class="mr-1"
-            >
-              {{ $t('views_profile_deposit_hint_three',{number: selectedItem?.chargePercentage}) }}
-            </span>
-            <span class="mr-1">
-              {{ $t('views_profile_deposit_hint_four') }}
-            </span>
-            <span class="text-primary">{{ getActualAmount }}</span>
-          </li>
-        </ul>
-      </div>
-      <d-button
-        class="mt-4 btn"
-        type="primary"
-        block
-        :disabled="!form.amount || (requireUsdtExtendName && !form.extendContent)"
-        @click="applyDeposit"
-      >
-        {{ $t('common_confirm') }}
-      </d-button>
+        <div class="mt-3">
+          <div class="text-label">
+            {{ $t('views_profile_deposit_hint') }}
+          </div>
+          <ul class="mt-1 text-xs text-normal">
+            <li class="hint-item">
+              1. {{ $t('views_profile_deposit_hint_one') }}
+            </li>
+            <li class="hint-item">
+              2.
+              <span
+                v-if="promotionEnable && selectedItem?.promotionPercentage > 0"
+                class="mr-1"
+              >
+                {{ $t('views_profile_deposit_hint_two',{number: selectedItem?.promotionPercentage}) }}
+              </span>
+              <span
+                v-if="selectedItem?.chargePercentage > 0"
+                class="mr-1"
+              >
+                {{ $t('views_profile_deposit_hint_three',{number: selectedItem?.chargePercentage}) }}
+              </span>
+              <span class="mr-1">
+                {{ $t('views_profile_deposit_hint_four') }}
+              </span>
+              <span class="text-primary">{{ getActualAmount }}</span>
+            </li>
+            <li class="hint-item">
+              3. {{ $t('views_profile_deposit_hint_five', { min: selectedItem?.minAmount, max: selectedItem?.maxAmount }) }}
+            </li>
+          </ul>
+        </div>
+        <d-button
+          class="mt-4 btn"
+          type="primary"
+          block
+          :disabled="!form.amount || (requireUsdtExtendName && !form.extendContent)"
+          @click="applyDeposit"
+        >
+          {{ $t('common_confirm') }}
+        </d-button>
+      </a-form>
     </template>
   </d-dialog>
 </template>
@@ -188,6 +210,7 @@ import {
   ref, reactive, toRefs, onBeforeMount, computed, watch,
 } from 'vue';
 import * as R from 'ramda';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import NP from 'number-precision';
@@ -197,10 +220,12 @@ import { copyByText } from '@/assets/js/utils/utils';
 export default {
   setup() {
     // use
+    const { t } = useI18n();
     const store = useStore();
     const router = useRouter();
 
     // ref
+    const formRef = ref(null);
     const showDepoistDialog = ref(false);
     const qrCode = ref('');
     const promotionEnable = ref(false);
@@ -228,6 +253,38 @@ export default {
       }
       return state.form.amount || 0;
     });
+
+    // validate
+    const amountValidate = async (rule, value) => {
+      value = value?.toString() || '';
+
+      if (!value) {
+        return Promise.reject(new Error(t('common_errorNoEmpty', { min: state?.selectedItem?.minAmount, max: state?.selectedItem?.maxAmount })));
+      }
+
+      if (Number(value) < state?.selectedItem?.minAmount || Number(value) > state?.selectedItem?.maxAmount) {
+        return Promise.reject(new Error(t('views_profile_deposit_limitAmountWarning', { min: state?.selectedItem?.minAmount, max: state?.selectedItem?.maxAmount })));
+      }
+      return Promise.resolve();
+    };
+
+    const extendContentValidate = async (rule, value) => {
+      value = value?.toString() || '';
+
+      if (requireUsdtExtendName.value && !value) {
+        return Promise.reject(new Error(t('common_errorNoEmpty', { min: state?.selectedItem?.minAmount, max: state?.selectedItem?.maxAmount })));
+      }
+      return Promise.resolve();
+    };
+
+    const rules = {
+      amount: [
+        { validator: amountValidate, trigger: ['change', 'blur'] },
+      ],
+      extendContent: [
+        { validator: extendContentValidate, trigger: ['change', 'blur'] },
+      ],
+    };
 
     // methods
     const handleRefValue = R.curry((target, value) => {
@@ -301,6 +358,8 @@ export default {
     });
 
     return {
+      formRef,
+      rules,
       qrCode,
       showDepoistDialog,
       handleDepositDialog,
@@ -396,4 +455,8 @@ export default {
   }
 }
 
+.warning {
+  color: #f00;
+  font-size: 14px;
+}
 </style>
