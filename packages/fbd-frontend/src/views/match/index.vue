@@ -44,9 +44,34 @@
 
     <!-- 選擇聯盟 -->
     <div
-      class="all-league-list overflow-auto flex flex-col h-full flex-nowrap pt-2 pb-20"
+      class="all-league-list overflow-auto flex flex-col h-full flex-nowrap pt-10 pb-20"
       v-else
     >
+      <!-- 全選跟反選 -->
+      <div class="select-option flex justify-center fixed w-full left-0 h-8">
+        <div
+          class="select-aciton mr-3 w-2/5 flex py-1 justify-center text-xs cursor-pointer items-center mt-auto"
+          @click="selectAll"
+        >
+          <img
+            :src="$requireSafe('icon/icon-selectAll.svg')"
+            alt=""
+            class="w-3 mr-1"
+          >
+          {{ $t('views_market_switchLeague_select_all') }}
+        </div>
+        <div
+          class="select-aciton w-2/5 flex py-1 justify-center text-xs cursor-pointer items-center mt-auto"
+          @click="invertSelect()"
+        >
+          <img
+            :src="$requireSafe('icon/icon-invertSelect.svg')"
+            alt=""
+            class="w-3 mr-1"
+          >
+          {{ $t('views_market_switchLeague_select_not') }}
+        </div>
+      </div>
       <div
         class="league-list mx-3  my-1 p-3 rounded flex justify-start items-center cursor-pointer"
         v-for="(item,index) in state.leagueList"
@@ -83,23 +108,14 @@
 
     <div
       v-if="state.switchLeague"
-      class="buttons flex fixed px-3 py-4 w-full"
+      class="buttons fixed px-3 py-4 w-full bottom-f-h"
     >
       <d-button
-        class="select-all flex-1 mr-2"
+        class="select-all w-full block"
         type="primary"
-        @click="selectAll"
+        @click="confirmSelect()"
       >
-        {{ $t('views_market_switchLeague_select_all') }}
-      </d-button>
-      <d-button
-        class="not-slelect-all flex-1 border border-solid border-primary"
-        style="background: rgba(255, 255, 255, 0.5);"
-        @click="unSelectAll"
-        type="default"
-        :border="true"
-      >
-        {{ $t('views_market_switchLeague_select_not') }}
+        {{ $t('components_common_dialog_confirm') }}
       </d-button>
     </div>
     <!-- 選擇聯盟按鈕 -->
@@ -207,12 +223,26 @@ export default {
       });
     };
 
-    const unSelectAll = () => {
+    const invertSelect = () => {
       state.seachLeagueList = [];
-      state.leagueList.forEach((item) => {
-        item.selected = false;
+      const unSelectArr = state.leagueList.filter((item) => !item.selected);
+      state.leagueList.forEach((items) => {
+        items.selected = !items.selected;
+      });
+
+      unSelectArr.forEach((element) => {
+        state.seachLeagueList.push(element.leagueId);
       });
     };
+
+    const confirmSelect = () => {
+      if (!state.seachLeagueList.length) {
+        window.$vue.$message.info(t('views_market_switchLeague_noSelected'));
+      } else {
+        state.switchLeague = false;
+      }
+    };
+
     const changeTab = async (index) => {
       state.tabIndex = index;
       state.seachLeagueList = [];
@@ -285,10 +315,11 @@ export default {
       goBack,
       selectLeague,
       selectAll,
-      unSelectAll,
       LeagueListParams,
       avatar,
       goPage,
+      invertSelect,
+      confirmSelect,
     };
   },
 };
@@ -329,9 +360,20 @@ export default {
 }
 
 .buttons {
-  bottom: calc(var(--footer-height));
-  align-items: flex-end;
   background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 1));
+}
+
+.select-option {
+  top: calc(var(--header-height) - 1px);
+  background: linear-gradient(#fff, transparent);
+}
+
+.select-aciton {
+  height: 28px;
+  border: 1px solid #f3ac0a;
+  border-radius: 3px;
+  color: #f3ac0a;
+  background: #fff;
 }
 
 </style>
