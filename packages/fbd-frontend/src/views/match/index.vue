@@ -5,8 +5,16 @@
       :title="state.switchLeague ?$t('views_market_switchLeague') : $t('views_market_title')"
     >
       <template #left>
+        <img
+          v-if="!state.switchLeague"
+          class="avatar w-4 h-4 rounded-full is-btn"
+          :src="$requireSafe(`avatar/${avatar && avatar.system ? avatar.system : 0 }.png`)"
+          alt=""
+          @click="goPage('/profile/userInfo')"
+        >
         <div
           class="go-back"
+          v-else
         >
           <img
             :src="$requireSafe('header/icon-left-white.svg')"
@@ -111,11 +119,12 @@
 
 <script>
 import {
-  reactive, onBeforeMount, ref,
+  reactive, onBeforeMount, ref, computed,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
+import { useStore } from 'vuex';
 
 import LeagueList from '@/components/_pages/match/leagueList';
 import SportApi from '@/assets/js/api/sportApi.js';
@@ -129,6 +138,7 @@ export default {
     // use
     const { t } = useI18n();
     const router = useRouter();
+    const store = useStore();
 
     // ref
     const LeagueListParams = ref({
@@ -156,6 +166,9 @@ export default {
       timeFilter: 'all',
     });
 
+    // computed
+    const avatar = computed(() => store.state.user.avatar);
+
     // methods
     const getLeagueSummary = async (params) => {
       const res = await SportApi.getLeagueSummary(params);
@@ -169,6 +182,10 @@ export default {
           state.leagueList = leagueList;
         }
       }
+    };
+
+    const goPage = (url) => {
+      router.push(url);
     };
 
     const selectLeague = (item) => {
@@ -270,6 +287,8 @@ export default {
       selectAll,
       unSelectAll,
       LeagueListParams,
+      avatar,
+      goPage,
     };
   },
 };

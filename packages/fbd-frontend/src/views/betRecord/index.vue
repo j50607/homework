@@ -1,7 +1,16 @@
 <template>
   <d-header-row
     :title="$t('views_betRecord_item_title')"
-  />
+  >
+    <template #left>
+      <img
+        class="avatar w-4 h-4 rounded-full is-btn"
+        :src="$requireSafe(`avatar/${avatar && avatar.system ? avatar.system : 0 }.png`)"
+        alt=""
+        @click="goPage('/profile/userInfo')"
+      >
+    </template>
+  </d-header-row>
 
   <div class="betrecord">
     <d-loading :loading="state.isLoading" />
@@ -240,6 +249,7 @@ import { useI18n } from 'vue-i18n';
 import dayjs from 'dayjs';
 import NP from 'number-precision';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons-vue';
+import { useRouter } from 'vue-router';
 import {
   timeZoneUnit, isNumber, fmtPayRate,
 } from '@/assets/js/utils/utils';
@@ -257,6 +267,7 @@ export default {
   setup() {
     // use
     const store = useStore();
+    const router = useRouter();
     const { t } = useI18n();
 
     // ref
@@ -304,6 +315,7 @@ export default {
     const timeZone = computed(() => timeZoneUnit());
     const siteStyle = computed(() => store.state.info.siteStyle);
     const language = computed(() => store.state.info.language);
+    const avatar = computed(() => store.state.user.avatar);
 
     // methods
     const renderNumber = (val) => {
@@ -425,6 +437,10 @@ export default {
       });
     };
 
+    const goPage = (url) => {
+      router.push(url);
+    };
+
     const loadMoreRecord = () => {
       state.pageData.pageIndex += 1;
       getData();
@@ -524,6 +540,8 @@ export default {
       timeZone,
       fmtPayRate,
       dayjs,
+      avatar,
+      goPage,
     };
   },
 };
