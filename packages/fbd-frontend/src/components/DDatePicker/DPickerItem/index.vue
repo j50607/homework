@@ -113,7 +113,7 @@ export default {
       setIndex(index, false);
     };
 
-    watch([() => props.height, () => props.data, () => props.value], () => {
+    watch([() => props.height, () => props.value], () => {
       moveTo();
     });
 
