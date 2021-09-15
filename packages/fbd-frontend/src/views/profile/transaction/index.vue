@@ -32,7 +32,13 @@
         class="filter is-btn"
         @click="handleFilterDialog(true)"
       >
-        <img :src="$requireSafe(`profile/transaction/filter.svg`)">
+        <div class="filter-icon">
+          <img :src="$requireSafe(`profile/transaction/filter.svg`)">
+          <div
+            v-show="!allCheck"
+            class="filter-affix"
+          />
+        </div>
       </div>
       <div
         class="calendar is-btn"
@@ -124,6 +130,8 @@
     :round="true"
     :title="$t('views_betRecord_filterPopup_title')"
     class="popup"
+    @click-overlay="revertStatusFilter"
+    @close="revertStatusFilter"
   >
     <div class="popup-label">
       {{ $t('views_finance_popup_label1') }}
@@ -205,9 +213,9 @@ export default {
       ],
       withdraw: [
         { label: window.$vue.$t('views_profile_transaction_success'), value: [1] },
-        { label: window.$vue.$t('views_profile_transaction_fail'), value: [2, 3, 5] },
-        { label: window.$vue.$t('views_profile_transaction_auditing'), value: [0] },
-        { label: window.$vue.$t('views_profile_transaction_refused'), value: [4] },
+        { label: window.$vue.$t('views_profile_transaction_fail'), value: [3] },
+        { label: window.$vue.$t('views_profile_transaction_auditing'), value: [2, 5] },
+        { label: window.$vue.$t('views_profile_transaction_refused'), value: [0, 4, 6, 7] },
       ],
     };
 
@@ -234,6 +242,12 @@ export default {
       status: state.typeResult,
     });
 
+    const requestStatusFilter = reactive({ // 最後發出 request 的篩選狀態
+      allCheck: true, // 是否全選
+      checkResult: [], // 當前多選的組合
+      typeResult: [], // 多選組合轉成要送給 api 的參數
+    });
+
     // watch
     watch(route, (val) => {
       const type = val?.params?.type;
@@ -252,6 +266,7 @@ export default {
 
     const changeAll = (e) => {
       state.typeResult = e.target.checked ? [] : state.checkResult;
+      params.status = state.typeResult;
 
       if (!e.target.checked) {
         state.allCheck = true;
@@ -266,18 +281,26 @@ export default {
       if (list.length === state.typeList.length) {
         state.checkResult = [];
         state.allCheck = true;
+        state.typeResult = state.checkResult;
+        params.status = state.typeResult;
       } else {
         state.typeResult = state.checkResult.reduce((acc, val) => acc.concat(val), []);
+        params.status = state.typeResult;
 
         state.allCheck = false;
       }
     };
 
+    // 切換充提將篩選狀態變回初始值(全部)
     const initFilter = () => {
       state.typeList = JSON.parse(JSON.stringify(filterList[state.tabType]));
       state.checkResult = [];
       state.typeResult = [];
       state.allCheck = true;
+      requestStatusFilter.checkResult = [];
+      requestStatusFilter.typeResult = [];
+      requestStatusFilter.allCheck = true;
+      params.status = state.typeResult;
     };
 
     const getTellerLog = async () => {
@@ -363,10 +386,25 @@ export default {
       router.push({ name: 'transactionDetail', params: { info: JSON.stringify(info), type: state.tabType } });
     };
 
+    // 發 request 時紀錄篩選的狀態
+    const setLastStatusFilter = () => {
+      requestStatusFilter.allCheck = state.allCheck;
+      requestStatusFilter.checkResult = state.checkResult;
+      requestStatusFilter.typeResult = state.typeResult;
+    };
+
+    // 關閉篩選 popup 沒發 request 則還原上次 request 的狀態
+    const revertStatusFilter = () => {
+      state.allCheck = requestStatusFilter.allCheck;
+      state.checkResult = requestStatusFilter.checkResult;
+      state.typeResult = requestStatusFilter.typeResult;
+    };
+
     const confirmFilter = async () => {
       params.pageIndex = 1;
 
       await getTellerLog();
+      setLastStatusFilter();
       handleFilterDialog(false);
     };
 
@@ -398,6 +436,8 @@ export default {
       changeAll,
       changeCheckbox,
       confirmFilter,
+      requestStatusFilter,
+      revertStatusFilter,
     };
   },
 };
@@ -442,15 +482,26 @@ export default {
     }
 
     .filter {
+      @apply flex items-center justify-center ml-auto;
+
       height: 40px;
       padding: 0 7.5px;
+    }
 
-      img {
-        width: 16px;
-        height: 16px;
-      }
+    .filter-icon {
+      @apply relative;
 
-      @apply flex items-center justify-center ml-auto;
+      width: 16px;
+      height: 16px;
+    }
+
+    .filter-affix {
+      @apply absolute rounded-full bg-negative;
+
+      top: -2px;
+      right: -2px;
+      width: 6px;
+      height: 6px;
     }
 
     .calendar {

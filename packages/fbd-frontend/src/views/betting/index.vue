@@ -982,7 +982,7 @@ export default {
   }
 
   &-score {
-    @apply relative text-base;
+    @apply relative text-base font-bold;
 
     padding: 8px 0 4px;
   }

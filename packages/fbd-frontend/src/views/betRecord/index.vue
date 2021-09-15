@@ -347,6 +347,10 @@ export default {
       switch (item?.status) {
         case 1:
           return t('views_betRecord_item_pending');
+        case 5:
+          return t('views_betRecord_filterPopup_status3');
+        case 6:
+          return t('views_betRecord_filterPopup_status4');
         case 2:
           if (item.winning) return `+${item?.estimateProfit}`;
           return `-${item?.realAmount}`;
@@ -404,8 +408,10 @@ export default {
     const getData = async () => {
       state.isLoading = true;
       const data = await getBetOrderPage();
-      const { content, last } = data || {};
-      const result = content?.map((item) => ({ ...item, isShowDetails: false }));
+      const { content, last, first } = data || {};
+      const newData = content?.map((item) => ({ ...item, isShowDetails: false }));
+      const result = first ? newData : [...state.betRecordData, ...newData];
+
       state.betRecordData = result;
       state.pageData.isLastPage = last;
       state.sumData = await getBetOrderStatistic();

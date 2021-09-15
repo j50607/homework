@@ -149,6 +149,8 @@ const lang = {
   views_betRecord_filterPopup_label2: '项目名称',
   views_betRecord_filterPopup_status1: '未结算',
   views_betRecord_filterPopup_status2: '已结算',
+  views_betRecord_filterPopup_status3: '已撤单',
+  views_betRecord_filterPopup_status4: '和局',
   views_profile_title: '我的',
   views_profile_balance: '余额',
   views_profile_lockWallet: '锁定钱包',
