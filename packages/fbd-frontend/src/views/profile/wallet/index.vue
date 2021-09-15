@@ -32,7 +32,7 @@
       </div>
       <div
         v-else
-        class="h-full pt-3 overflow-y-auto"
+        class="h-full pt-3 overflow-y-auto flex flex-col"
       >
         <template v-if="walletList.length">
           <div
@@ -48,12 +48,13 @@
             </div>
             <div class="absolute top-2 right-2 flex">
               <img
+                class="is-btn"
                 :src="require('@/assets/img/icon/icon-edit.svg')"
                 alt=""
                 @click="addWallet(item)"
               >
               <img
-                class="ml-2"
+                class="ml-2 is-btn"
                 :src="require('@/assets/img/icon/icon-delete.svg')"
                 alt=""
                 @click="deleteWallet(item)"
@@ -63,7 +64,7 @@
           <d-button
             type="primary"
             block
-            class="mt-10"
+            class="mt-auto mb-6 is-btn"
             @click="addWallet"
           >
             {{ $t('views_profile_wallet_addWallet') }}

@@ -6,7 +6,7 @@
     >
       <template #left>
         <img
-          class="go-back"
+          class="go-back is-btn"
           :src="require('@/assets/img/header/icon-left-white.svg')"
           alt=""
           @click="close"
@@ -40,7 +40,7 @@
           class="verify-row"
           v-model:value="verifyCode"
           type="number"
-          :maxlength="6"
+          v-positive-places="6"
           :placeholder="$t('views_profile_userinfo_setPhone_pleaseEnterVerifyPhoneNumber')"
         >
           <template #suffix>

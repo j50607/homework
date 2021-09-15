@@ -41,7 +41,8 @@
           >
             <a-input
               v-model:value="state.form.verifyCode"
-              :maxlength="6"
+              v-positive-places="6"
+              type="number"
               :placeholder="$t('views_profile_userinfo_setPhone_pleaseEnterVerifyPhoneNumber')"
             >
               <template #suffix>
