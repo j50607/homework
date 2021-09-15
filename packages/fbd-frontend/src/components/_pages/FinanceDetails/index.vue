@@ -85,6 +85,20 @@
           </li>
         </ul>
       </d-scroll>
+
+      <template v-else>
+        <figure class="finance-empty-icon">
+          <img
+            class="w-20 mx-auto mb-2 mt-10"
+            :src="$requireSafe(`betting/style${siteStyle}/no-data.svg`)"
+          >
+          <figcaption class="finance-empty-info">
+            <div class="text-base text-center mb-2">
+              {{ $t('common_noData') }}
+            </div>
+          </figcaption>
+        </figure>
+      </template>
     </div>
   </div>
 
@@ -228,7 +242,7 @@ export default {
         { label: window.$vue.$t('views_finance_popup_user_deposit'), value: [0, 2, 4, 37, 38, 45] },
         { label: window.$vue.$t('views_finance_popup_user_withdraw'), value: [1, 3, 23, 24] },
         { label: window.$vue.$t('views_finance_popup_event_gift'), value: [5, 18, 19, 21, 22, 25, 48] },
-        { label: window.$vue.$t('views_finance_popupreturn_water_record'), value: [9, 17, 35] },
+        { label: window.$vue.$t('views_finance_popup_return_water_record'), value: [9, 17, 35] },
         { label: window.$vue.$t('views_finance_popup_rebate_record'), value: [33] },
         { label: window.$vue.$t('views_finance_popup_poundage'), value: [32, 36] },
         { label: window.$vue.$t('views_finance_popup_wallet_account_change'), value: [12, 13, 31, 51, 52] },

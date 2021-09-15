@@ -65,7 +65,7 @@
 
 <script>
 import {
-  computed, nextTick, reactive, toRefs,
+  computed, nextTick, reactive, toRefs, watch,
 } from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
@@ -132,6 +132,12 @@ export default {
     const show = computed({
       get: () => props.visible,
       set: (val) => emit('update:visible', val),
+    });
+
+    watch(() => show.value, () => {
+      setTimeout(() => {
+        state.selectIndex = 0;
+      }, 800);
     });
 
     const changeDate = (item, index) => {
