@@ -213,9 +213,9 @@ export default {
       ],
       withdraw: [
         { label: window.$vue.$t('views_profile_transaction_success'), value: [1] },
+        { label: window.$vue.$t('views_profile_transaction_cancel'), value: [2, 5] },
+        { label: window.$vue.$t('views_profile_transaction_auditing'), value: [0, 4, 6, 7] },
         { label: window.$vue.$t('views_profile_transaction_fail'), value: [3] },
-        { label: window.$vue.$t('views_profile_transaction_auditing'), value: [2, 5] },
-        { label: window.$vue.$t('views_profile_transaction_refused'), value: [0, 4, 6, 7] },
       ],
     };
 

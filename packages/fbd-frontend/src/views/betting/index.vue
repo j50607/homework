@@ -19,13 +19,27 @@
           <!-- H -->
           <div class="betting-team-container px-betting-team-container">
             <div class="betting-team-logo betting-info-text">
-              <img :src="$requireSafe('icon/default-team.svg')">
+              <img
+                v-if="state.currentGameData?.homeTeamLogo"
+                :src="`${s3Base}/${state.currentGameData?.homeTeamLogo}`"
+              >
+              <img
+                v-else
+                :src="$requireSafe('icon/default-team.svg')"
+              >
             </div>
           </div>
           <!-- A -->
           <div class="betting-team-container px-betting-team-container">
             <div class="betting-team-logo betting-info-text">
-              <img :src="$requireSafe('icon/default-team.svg')">
+              <img
+                v-if="state.currentGameData?.awayTeamLogo"
+                :src="`${s3Base}/${state.currentGameData?.awayTeamLogo}`"
+              >
+              <img
+                v-else
+                :src="$requireSafe('icon/default-team.svg')"
+              >
             </div>
           </div>
         </div>
@@ -111,8 +125,9 @@
         <template v-if="!state.isGameClosed">
           <div class="betting-sum">
             <div
-              class="betting-sum-text is-btn flex-1 pr-6"
-              @click="toggleSumPopup(true)"
+              class="betting-sum-text flex-1 mr-6"
+              :class="{ 'is-btn': !state.isBetItemSkeletonShow }"
+              @click="state.isBetItemSkeletonShow ? null : toggleSumPopup(true)"
             >
               <div
                 class="betting-text betting-text-wrap"
@@ -144,7 +159,10 @@
                 </a-skeleton>
               </div>
             </div>
-            <div class="betting-sum-countdown">
+            <div
+              class="betting-sum-countdown"
+              :class="{ 'is-btn': !state.isBetItemSkeletonShow }"
+            >
               <a-skeleton
                 :loading="state.isBetItemSkeletonShow"
                 :active="true"
@@ -169,8 +187,8 @@
               v-for="(item, idx) in state.currentGameData?.betOptionList"
               :key="`availableAmount[${idx}]`"
               class="betting-item"
-              :class="{ 'is-btn': !item?.isFulled && item?.payRate }"
-              @click="isBettingNotAllowed(item) ? null : toggleBettingPopup(true, item, true)"
+              :class="{ 'is-btn': !item?.isFulled && item?.payRate && !state.isBetItemSkeletonShow, 'betting-item-loading': state.isBetItemSkeletonShow }"
+              @click="isBettingNotAllowed(item) || state.isBetItemSkeletonShow ? null : toggleBettingPopup(true, item, true)"
             >
               <a-skeleton
                 :loading="state.isBetItemSkeletonShow"
@@ -305,6 +323,7 @@
     position="bottom"
     :round="true"
     :title="$t('views_betting_main_popup_title')"
+    :duration="state.popupDuration"
   >
     <div class="popup-piece">
       <div class="popup-text popup-row">
@@ -365,31 +384,31 @@
     </div>
 
     <div class="popup-piece popup-preview">
-      <div class="popup-item-prefix" />
+      <div class="popup-preview-prefix" />
       <div class="popup-text popup-text-profit popup-preview-item">
         {{ $t('views_betting_main_popup_profit') }}
       </div>
-      <div class="popup-item-prefix" />
+      <div class="popup-preview-prefix" />
       <div class="popup-text popup-preview-item">
         {{ $t('views_betting_main_popup_charge') }}
       </div>
-      <div class="popup-item-prefix" />
+      <div class="popup-preview-prefix" />
       <div class="popup-text popup-text-expect popup-preview-item">
         {{ $t('views_betting_main_popup_expectedProfit') }}
       </div>
-      <div class="popup-text popup-item-prefix">
+      <div class="popup-text popup-preview-prefix">
         X
       </div>
       <div class="popup-text popup-preview-item">
         {{ fmtPayRate(state.currentBetItem?.payRate ?? 0) }}
       </div>
-      <div class="popup-text popup-item-prefix">
+      <div class="popup-text popup-preview-prefix">
         -
       </div>
       <div class="popup-text popup-preview-item">
         {{ convertRate(state.bettingConfig?.bettingFee) }}
       </div>
-      <div class="popup-text popup-item-prefix">
+      <div class="popup-text popup-preview-prefix">
         =
       </div>
       <div class="popup-text popup-text-expect popup-preview-item">
@@ -515,6 +534,7 @@ export default {
       isLoading: false,
       startNotify: false,
       isBetItemSkeletonShow: false, // 是否顯示投注項目 Skeleton
+      popupDuration: 0.5,
     });
 
     // computed
@@ -565,6 +585,8 @@ export default {
 
     const renderHostText = computed(() => (isChinese.value ? t('views_betting_host') : 'H'));
 
+    const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
+
     // methods
     const goPage = (name, params = {}, query = {}) => {
       router.push({
@@ -610,9 +632,13 @@ export default {
 
       state.isBettingPopupShow = isShow;
 
-      state.currentBetItem = data;
-      state.currentQuickAmount = currentQuickAmount;
-      state.betAmount = 1;
+      // 等 popup 動畫結束再重置 popup 內容
+      const delay = state.popupDuration * 1000 + 50;
+      setTimeout(() => {
+        state.currentBetItem = data;
+        state.currentQuickAmount = currentQuickAmount;
+        state.betAmount = 1;
+      }, delay);
     };
 
     const handleBettingDeadline = () => {
@@ -725,6 +751,7 @@ export default {
     };
 
     const handleBetItemIsFulled = () => {
+      if (!state.betOptionData?.length) return;
       const betOptionList = state.betOptionData?.find((item) => item.playTypeS === state.currentPlayTypeS)?.betOptionList;
       if (!betOptionList?.length) return;
       betOptionList.forEach((betItem) => {
@@ -876,6 +903,7 @@ export default {
       deadlineStyleList,
       lockBettingBtn,
       renderHostText,
+      s3Base,
       numWithCommas,
       getSportScore,
       convertToCst,
@@ -919,7 +947,7 @@ export default {
   }
 
   &-info-container {
-    @apply absolute top-0 w-full pt-4 px-3;
+    @apply absolute top-0 w-full pt-4;
   }
 
   &-info-text {
@@ -949,23 +977,25 @@ export default {
   }
 
   &-team-container {
-    width: 127px;
+    @apply mx-3;
+
+    width: 148px;
+    max-width: 148px;
   }
 
   &-team-text-container {
     @apply flex flex-col justify-center;
 
-    height: 77px;
+    height: 60px;
   }
 
   &-team-name {
-    /* @apply mx-auto text-center break-all; */
     @apply mx-auto text-center;
 
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
 
@@ -974,10 +1004,9 @@ export default {
 
     width: 24px;
     height: 24px;
-    object-fit: contain;
 
     img {
-      @apply w-full;
+      @apply w-full h-full object-contain object-center;
     }
   }
 
@@ -1053,13 +1082,19 @@ export default {
   }
 
   &-list {
-    @apply grid grid-cols-3 gap-x-2 gap-y-4 mt-3;
+    @apply flex flex-wrap justify-between mt-3;
   }
 
   &-item {
     @apply relative rounded-3;
 
+    flex: calc(33.33% - 10px * (3 - 1) / 3) 0 0;
+    margin-bottom: 23px;
     box-shadow: 0 2px 4px #4d57721a;
+  }
+
+  &-item-loading {
+    @apply shadow-none;
   }
 
   &-digit {
@@ -1165,14 +1200,14 @@ export default {
   }
 
   &-grid {
-    @apply grid grid-cols-4;
-
-    gap: 8px;
+    @apply flex flex-wrap justify-between mb-0;
   }
 
   &-amount {
     @apply border border-solid border-border rounded-3 text-border text-center text-xs;
 
+    flex: calc(25% - 8px * (4 - 1) / 4) 0 0;
+    margin-bottom: 8px;
     padding: 8px 0;
 
     &-active,
@@ -1183,15 +1218,19 @@ export default {
   }
 
   &-preview {
-    @apply grid grid-cols-12 gap-y-1 mr-8 mb-4;
+    @apply flex flex-wrap mr-8 mb-3;
   }
 
   &-preview-item {
-    @apply col-span-3 text-center;
+    @apply text-center mb-1;
+
+    flex: 25% 0 0;
   }
 
   &-preview-prefix {
-    @apply col-span-1 text-left;
+    @apply text-left mb-1;
+
+    flex: 8.33% 0 0;
   }
 
   &-subtitle {
@@ -1248,5 +1287,13 @@ export default {
 
 ::v-deep(.ant-skeleton.ant-skeleton-active .ant-skeleton-avatar-circle) {
   border-radius: 50%;
+}
+
+::v-deep(.ant-skeleton-header) {
+  padding-right: 0;
+}
+
+::v-deep(.ant-skeleton-avatar-square) {
+  width: 100% !important;
 }
 </style>
