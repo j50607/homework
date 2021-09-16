@@ -22,7 +22,10 @@
                 #header
               >
                 <div class="announcement-title">
-                  <div class="announcement-mark" />
+                  <div
+                    class="announcement-mark"
+                    :class="{'is-read': readAnnouncement.includes(String(item[idKey]))}"
+                  />
                   <span class="title">
                     {{ item[titleKey] || '' }}
                   </span>
@@ -51,6 +54,7 @@
 <script>
 import moment from 'moment';
 import { computed, ref, watch } from 'vue';
+import { useStore } from 'vuex';
 import DDialog from '@/components/DDialog';
 
 export default {
@@ -97,6 +101,7 @@ export default {
   },
   emits: ['update:value'],
   setup(props, context) {
+    const store = useStore();
     // ref
     const activeKey = ref([1]);
     // computed
@@ -104,9 +109,16 @@ export default {
       get: () => props.value,
       set: (val) => context.emit('update:value', val),
     });
-
+    const readAnnouncement = computed(() => store.state.user.readAnnouncement);
+    // watch
     watch(() => props.selectedKey, (val) => {
       activeKey.value = val?.toString();
+    });
+
+    watch(() => activeKey.value, (val) => {
+      if (val[1] && !readAnnouncement.value.includes(val[1])) {
+        store.commit('SET_READ_ANNOUNCEMENT', val[1]);
+      }
     });
 
     const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
@@ -119,6 +131,7 @@ export default {
       formatTime,
       activeKey,
       s3Base,
+      readAnnouncement,
     };
   },
 
@@ -165,7 +178,11 @@ export default {
       margin-top: 2px;
       margin-right: 5px;
       border-radius: 50%;
-      background: #096fc9;
+      background: #f00;
+
+      &.is-read {
+        background: #999;
+      }
     }
 
     .title {

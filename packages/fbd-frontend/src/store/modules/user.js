@@ -30,6 +30,8 @@ const initialState = () => ({
   // 餘額
   amount: undefined,
   transToSub: undefined,
+  // 已讀最新信息
+  readAnnouncement: [],
 });
 
 const state = () => (initialState());
@@ -81,6 +83,9 @@ const mutations = {
   },
   SET_USER_BALANCE(state, balance) {
     state.balance = balance;
+  },
+  SET_READ_ANNOUNCEMENT(state, value) {
+    state.readAnnouncement.push(value);
   },
   CLEAR(state) {
     Cookies.remove('_tianyin_token');
