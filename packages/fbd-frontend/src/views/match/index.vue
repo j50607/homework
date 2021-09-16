@@ -93,9 +93,9 @@
         />
         <div class="league-info flex items-center">
           <img
-            :src="$requireSafe('icon/icon-vn.svg')"
+            :src="item.logoPath? `${s3Base}/${item.logoPath}`: $requireSafe('icon/default-league.svg')"
             alt=""
-            class="mr-2 w-8 h-8"
+            class="mr-2 w-8 h-8 object-contain"
           >
           <div class="league-text-content flex-1 text-sm">
             <div class="league-title mb-2 text-primary">
@@ -189,6 +189,7 @@ export default {
 
     // computed
     const avatar = computed(() => store.state.user.avatar);
+    const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
 
     // methods
     const getLeagueSummary = async (params) => {
@@ -325,6 +326,7 @@ export default {
       goPage,
       invertSelect,
       confirmSelect,
+      s3Base,
     };
   },
 };
@@ -386,7 +388,7 @@ export default {
     justify-content: space-between !important;
 
     .d-tabs-mobile-title {
-      margin-right: 0 !important;
+      margin-right: 8px !important;
     }
   }
 

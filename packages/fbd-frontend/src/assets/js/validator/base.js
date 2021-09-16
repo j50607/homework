@@ -420,15 +420,15 @@ class Base {
       return this._getResult(false, emptyMessage);
     }
 
-    const phoneBeginning = Number(thePhone.substr(0, 2));
-    if (phoneBeginning < this.phoneBeginning[0] || phoneBeginning > this.phoneBeginning[1]) {
-      const [phoneBeginning0, phoneBeginning1] = this.phoneBeginning || [];
-      const formatMessage = window.$vue.$t('common_errorPhoneBeginLimit', { phoneBeginning0, phoneBeginning1 });
-      if (toast) {
-        this._showToast(formatMessage);
-      }
-      return this._getResult(false, formatMessage);
-    }
+    // const phoneBeginning = Number(thePhone.substr(0, 2));
+    // if (phoneBeginning < this.phoneBeginning[0] || phoneBeginning > this.phoneBeginning[1]) {
+    //   const [phoneBeginning0, phoneBeginning1] = this.phoneBeginning || [];
+    //   const formatMessage = window.$vue.$t('common_errorPhoneBeginLimit', { phoneBeginning0, phoneBeginning1 });
+    //   if (toast) {
+    //     this._showToast(formatMessage);
+    //   }
+    //   return this._getResult(false, formatMessage);
+    // }
 
     if (thePhone && thePhone.length !== this.phoneLen) {
       const { phoneLen } = this || {};
