@@ -163,6 +163,7 @@ export default {
       showDelete: false,
       showSuccess: false,
       walletAddress: '',
+      id: undefined,
       chainType: '',
       verifyCode: '',
       info: {},
@@ -226,7 +227,7 @@ export default {
         receivePaymentSetting: 'VIRTUAL_WALLET',
         walletAddress: state.walletAddress,
         chainType: state.chainType,
-        ids: [state.bankId],
+        ids: [state.id],
         verifyCode: state.verifyCode,
       });
 
@@ -280,6 +281,7 @@ export default {
       }
       state.walletAddress = item?.accountId;
       state.chainType = item?.accountName;
+      state.id = item?.id;
       state.bankId = item?.bankId;
       state.showEditWallet = true;
       state.mode = item ? 'edit' : 'add';

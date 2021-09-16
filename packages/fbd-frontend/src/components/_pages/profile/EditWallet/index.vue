@@ -95,7 +95,7 @@
         >
           <a-input
             v-model:value="state.formState.walletAddress"
-            maxlength="100"
+            :maxlength="100"
             :placeholder="$t('views_profile_wallet_placeholder2')"
           />
         </a-form-item>
