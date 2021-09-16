@@ -99,7 +99,7 @@ const lang = {
   views_notFound_desc: '404 page not found',
   views_notFound_backToHome: 'Back to the homepage',
   views_betting_host: 'Main',
-  views_betting_info_deadline: 'The betting period ended.',
+  views_betting_info_deadline: 'Betting period ended',
   views_betting_info_deadlineClosed: 'The betting period has ended',
   views_betting_main_empty: 'The bet has concluded',
   views_betting_main_back: 'Return to the market list',
