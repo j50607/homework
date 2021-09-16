@@ -5,6 +5,10 @@
     @touchmove.prevent="onTouchMove"
     @touchend="onTouchEnd"
     @touchcancel="onTouchEnd"
+    @mousedown="onTouchStart"
+    @mousemove="onTouchMove"
+    @mouseup="onTouchEnd"
+    @mouseleave="onTouchEnd"
   >
     <ul
       class="picker-li"
@@ -15,6 +19,7 @@
         v-text="item"
         :key="childIndex"
         :class="{'on': selectIndex === childIndex}"
+        @click="setIndex(childIndex)"
       />
     </ul>
   </div>
@@ -66,6 +71,7 @@ export default {
       // 当前移动的距离
       offset: 0,
       selectIndex: 0,
+      isMouseDown: false,
     });
 
     const getTouch = (event) => event.changedTouches[0] || event.touches[0];
@@ -110,7 +116,7 @@ export default {
         }
       }
 
-      setIndex(index, false);
+      setIndex(index);
     };
 
     watch([() => props.height, () => props.value], () => {
@@ -118,13 +124,18 @@ export default {
     });
 
     const onTouchStart = (event) => {
-      const touch = getTouch(event);
+      const touch = event.type.includes('mouse') ? event : getTouch(event);
       state.startOffset = state.offset;
       state.startY = touch.clientY;
+      state.isMouseDown = true;
     };
 
     const onTouchMove = (event) => {
-      const touch = getTouch(event);
+      if (event.type.includes('mouse')) {
+        if (!state.isMouseDown) return;
+      }
+
+      const touch = event.type.includes('mouse') ? event : getTouch(event);
       const currentY = touch.clientY;
       const distance = currentY - state.startY;
       state.offset = state.startOffset + distance;
@@ -145,7 +156,9 @@ export default {
         index = vc - index;
       }
 
-      setIndex(index, true);
+      state.isMouseDown = false;
+
+      setIndex(index);
     };
 
     return {
@@ -158,6 +171,7 @@ export default {
       moveTo,
       pickerMask,
       transformStyle,
+      setIndex,
       ...toRefs(state),
     };
   },
@@ -169,6 +183,7 @@ export default {
   position: relative;
   width: 100%;
   overflow: hidden;
+  user-select: none;
 
   li {
     height: 35px;
