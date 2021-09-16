@@ -14,23 +14,20 @@
 
   <div class="betrecord">
     <d-loading :loading="state.isLoading" />
-    <div class="range">
-      <ul class="range-list">
-        <li
-          v-for="(item, idx) in state.rangeArr"
-          :key="`rangeArr[${idx}]`"
-          class="range-item is-btn"
-          :class="{ 'range-item-active': item.value === state.currentRange }"
-          v-text="item.text"
-          @click="changeRange(item.value)"
-        />
-        <li
-          class="range-item range-item-filter is-btn"
-          @click="toggleFilterPopup(true)"
-        >
-          <img :src="$requireSafe(`icon/style${siteStyle}/filter.svg`)">
-        </li>
-      </ul>
+    <div class="range flex justify-between">
+      <d-tabs
+        v-model:activeKey="state.currentKey"
+        :default-key="state.tabIndex"
+        :tab-list="state.rangeArr"
+        @change="changeTab"
+        class="time-tab"
+      />
+      <div
+        class="range-item range-item-filter is-btn"
+        @click="toggleFilterPopup(true)"
+      >
+        <img :src="$requireSafe(`icon/style${siteStyle}/filter.svg`)">
+      </div>
     </div>
 
     <div class="betrecord-container">
@@ -276,12 +273,13 @@ export default {
     // reactive
     const state = reactive({
       rangeArr: [
-        { text: t('components_dSelectDateModal_today'), value: 'today', index: 0 },
-        { text: t('components_dSelectDateModal_yesterday'), value: 'yesterday', index: 1 },
-        { text: t('components_dSelectDateModal_sevenDays2'), value: 'sevenDays', index: 2 },
-        { text: t('components_dSelectDateModal_custom2'), value: 'custom', index: 3 },
+        { label: t('components_dSelectDateModal_today'), value: 'today', index: 0 },
+        { label: t('components_dSelectDateModal_yesterday'), value: 'yesterday', index: 1 },
+        { label: t('components_dSelectDateModal_sevenDays2'), value: 'sevenDays', index: 2 },
+        { label: t('components_dSelectDateModal_custom2'), value: 'custom', index: 3 },
       ],
-      currentRange: 'today',
+      currentKey: 0,
+      tabIndex: 0,
       currentRangeObj: {
         start: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
         end: dayjs().endOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
@@ -468,26 +466,25 @@ export default {
       toggleFilterPopup(false, false);
     };
 
-    const changeRange = async (range) => {
-      if (range === 'custom') {
+    const changeTab = async (index) => {
+      // 自訂
+      if (index === 3) {
         toggleDatePickerPopup(true);
         return;
       }
       refreshData();
-      state.currentRange = range;
-
-      switch (range) {
-        case 'today':
+      switch (index) {
+        case 0:
           state.currentRangeObj.start = dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss');
           state.currentRangeObj.end = dayjs().endOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss');
           break;
-        case 'yesterday':
+        case 1:
           state.currentRangeObj.start = dayjs().subtract(1, 'day').startOf('day').tz('Asia/Shanghai')
             .format('YYYY/MM/DD HH:mm:ss');
           state.currentRangeObj.end = dayjs().subtract(1, 'day').endOf('day').tz('Asia/Shanghai')
             .format('YYYY/MM/DD HH:mm:ss');
           break;
-        case 'sevenDays':
+        case 2:
           state.currentRangeObj.start = dayjs().subtract(6, 'day').startOf('day').tz('Asia/Shanghai')
             .format('YYYY/MM/DD HH:mm:ss');
           state.currentRangeObj.end = dayjs().endOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss');
@@ -495,14 +492,11 @@ export default {
         default:
           break;
       }
-
       await getData();
     };
 
     const selectDate = async (data) => {
       refreshData();
-      state.currentRange = 'custom';
-
       state.currentRangeObj.start = data?.startDate ?? '';
       state.currentRangeObj.end = data?.endDate ?? '';
 
@@ -522,7 +516,7 @@ export default {
       state,
       scroll,
       siteStyle,
-      changeRange,
+      // changeRange,
       renderNumber,
       renderNumberStyle,
       renderExpandStatus,
@@ -542,6 +536,7 @@ export default {
       dayjs,
       avatar,
       goPage,
+      changeTab,
     };
   },
 };
@@ -635,14 +630,8 @@ export default {
 .range {
   @apply px-3;
 
-  &-list {
-    @apply flex items-center text-sm;
-
-    height: var(--range-list-height);
-  }
-
   &-item {
-    @apply w-1/4 py-2 text-center relative;
+    @apply w-1/4 py-2 text-center;
   }
 
   &-item-active {
@@ -661,6 +650,7 @@ export default {
   }
 
   &-item-filter img {
+    width: 16px;
     margin: 0 auto;
   }
 }
@@ -729,5 +719,19 @@ export default {
 ::v-deep(.ant-radio-checked) .ant-radio-inner {
   border-color: var(--link-color);
   background-color: var(--link-color);
+}
+
+.time-tab {
+  flex: 1 0 308px;
+  width: 308px;
+  margin-right: 20px;
+
+  ::v-deep(.d-tabs-mobile-box) {
+    justify-content: space-between !important;
+
+    .d-tabs-mobile-title {
+      margin-right: 0 !important;
+    }
+  }
 }
 </style>

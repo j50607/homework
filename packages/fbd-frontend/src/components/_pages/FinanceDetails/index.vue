@@ -1,22 +1,19 @@
 <template>
   <div class="finance-details">
-    <div class="range">
-      <ul class="range-list">
-        <li
-          v-for="(item, idx) in state.rangeArr"
-          :key="`rangeArr[${idx}]`"
-          class="range-item is-btn"
-          :class="{ 'range-item-active': item.value === state.currentRange }"
-          v-text="item.text"
-          @click="changeRange(item.value)"
-        />
-        <li
-          class="range-item range-item-filter is-btn"
-          @click="toggleFilterPopup(true)"
-        >
-          <img :src="$requireSafe(`icon/style${siteStyle}/filter.svg`)">
-        </li>
-      </ul>
+    <div class="range flex justify-between">
+      <d-tabs
+        v-model:activeKey="state.currentKey"
+        :default-key="state.tabIndex"
+        :tab-list="state.rangeArr"
+        @change="changeTab"
+        class="time-tab"
+      />
+      <div
+        class="range-item range-item-filter is-btn"
+        @click="toggleFilterPopup(true)"
+      >
+        <img :src="$requireSafe(`icon/style${siteStyle}/filter.svg`)">
+      </div>
     </div>
 
     <div class="finance-details-container">
@@ -222,12 +219,14 @@ export default {
     // reactive
     const state = reactive({
       rangeArr: [
-        { text: t('components_dSelectDateModal_today'), value: 'today', index: 0 },
-        { text: t('components_dSelectDateModal_yesterday'), value: 'yesterday', index: 1 },
-        { text: t('components_dSelectDateModal_sevenDays2'), value: 'sevenDays', index: 2 },
-        { text: t('components_dSelectDateModal_custom2'), value: 'custom', index: 3 },
+        { label: t('components_dSelectDateModal_today'), value: 'today', index: 0 },
+        { label: t('components_dSelectDateModal_yesterday'), value: 'yesterday', index: 1 },
+        { label: t('components_dSelectDateModal_sevenDays2'), value: 'sevenDays', index: 2 },
+        { label: t('components_dSelectDateModal_custom2'), value: 'custom', index: 3 },
       ],
       currentRange: 'today',
+      currentKey: 0,
+      tabIndex: 0,
       currentExpandIdx: undefined,
       isFilterPopupShow: false,
       financeRecordData: [],
@@ -333,10 +332,24 @@ export default {
       return result;
     };
 
-    const changeRange = (range) => {
-      state.currentRange = range;
-
-      if (range === 'custom') {
+    const changeTab = (index) => {
+      switch (index) {
+        case 0:
+          state.currentRange = 'today';
+          break;
+        case 1:
+          state.currentRange = 'yesterday';
+          break;
+        case 2:
+          state.currentRange = 'sevenDays';
+          break;
+        case 3:
+          state.currentRange = 'custom';
+          break;
+        default:
+          break;
+      }
+      if (index === 3) {
         state.showDateModalBool = true;
       } else {
         state.financeRecordPageIndex = 1;
@@ -414,7 +427,6 @@ export default {
       pullingDown,
       state,
       siteStyle,
-      changeRange,
       toggleFilterPopup,
       renderNumber,
       queryLog,
@@ -423,6 +435,7 @@ export default {
       changeCheckbox,
       confirm,
       datePickerConfirm,
+      changeTab,
     };
   },
 };
@@ -589,6 +602,20 @@ export default {
 
   &-mr-0 {
     @apply mr-0;
+  }
+}
+
+.time-tab {
+  flex: 1 0 308px;
+  width: 308px;
+  margin-right: 20px;
+
+  ::v-deep(.d-tabs-mobile-box) {
+    justify-content: space-between !important;
+
+    .d-tabs-mobile-title {
+      margin-right: 0 !important;
+    }
   }
 }
 </style>
