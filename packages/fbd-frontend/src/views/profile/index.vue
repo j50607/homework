@@ -348,6 +348,7 @@ export default {
   &-header {
     top: 0;
     left: 0;
+    z-index: 1;
 
     @apply h-h-h p-3 flex items-center justify-between mb-7 fixed w-full;
 

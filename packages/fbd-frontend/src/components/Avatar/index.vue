@@ -9,10 +9,6 @@
     >
     <div class="vip">
       <img
-        class="diamond"
-        :src="$requireSafe('profile/diamond.png')"
-      >
-      <img
         class="level-img"
         :src="$requireSafe(`profile/v${vipLevel}.svg`)"
       >
@@ -132,24 +128,15 @@ export default {
 
 .vip {
   bottom: -3px;
-  width: 37px;
-  height: 13px;
-  border: 0.5px solid #fff;
+  width: 42px;
+  height: 14px;
   border-radius: 6px;
-  background: #000b24b3;
 
-  @apply absolute flex items-center justify-center;
-
-  .diamond {
-    top: -6px;
-    left: -10px;
-    transform: translateZ(0);
-
-    @apply absolute w-4 h-4 z-10;
-  }
+  @apply absolute;
 
   .level-img {
-    height: 12px;
+    width: 42px;
+    height: 14px;
     transform: translateZ(0);
 
     @apply h-full;
