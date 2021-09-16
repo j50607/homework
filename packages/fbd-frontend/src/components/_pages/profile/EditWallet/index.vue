@@ -78,7 +78,7 @@
       >
         <!-- 主网类型 -->
         <a-form-item
-          class="main-input"
+          class="main-input w-full"
           name="chainType"
           :label="$t('views_profile_chainType')"
         >
@@ -89,7 +89,7 @@
         </a-form-item>
         <!-- 钱包地址 -->
         <a-form-item
-          class="main-input"
+          class="main-input w-full"
           name="walletAddress"
           :label="$t('views_profile_wallet_walletAddress')"
         >
@@ -310,9 +310,12 @@ export default {
 }
 
 ::v-deep(.ant-form-item-label) {
+  width: 100%;
   padding: 0;
 
   > label {
+    width: 100%;
+    color: #4d5772;
     font-size: 12px;
   }
 }

@@ -22,7 +22,7 @@
             :key="index"
             @click="tabCallback(index)"
           >
-            <div class="d-tabs-mobile-title-text">
+            <div class="d-tabs-mobile-title-text text-sm">
               {{ item.label }}
             </div>
 

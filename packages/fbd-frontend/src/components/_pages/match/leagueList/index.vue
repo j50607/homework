@@ -356,6 +356,10 @@ export default {
   right: 0;
   bottom: 60px;
   left: 0;
+
+  ::v-deep(.scroll-content) {
+    transform: translateX(0) translateY(-10px) translateZ(1px);
+  }
 }
 
 .league-list {

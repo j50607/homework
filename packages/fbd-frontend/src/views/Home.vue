@@ -229,14 +229,14 @@ export default {
 }
 
 .title {
-  @apply flex items-center font-bold;
+  @apply flex items-center font-bold text-sm;
 
   margin: 12px 0;
 
   img {
-    width: 14px;
-    height: 14px;
-    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
   }
 }
 
