@@ -30,7 +30,10 @@
       </div>
     </div>
 
-    <div class="betrecord-container">
+    <div
+      class="betrecord-container"
+      :style="`height: calc(100% - var(--range-list-height) - ${sumPanelHeight}px);`"
+    >
       <d-scroll
         v-if="state.betRecordData?.length"
         ref="scroll"
@@ -48,31 +51,39 @@
             class="betrecord-item"
           >
             <div class="betrecord-item-piece">
-              <div class="betrecord-text betrecord-text">
-                {{ dayjs(item.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
+              <div class="betrecord-row">
+                <div class="betrecord-text betrecord-text">
+                  {{ dayjs(item.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
+                </div>
               </div>
             </div>
 
             <div class="betrecord-item-piece betrecord-item-piece-multi">
-              <div class="betrecord-text betrecord-text-lg">
-                {{ $t('views_betRecord_item_label6') }}
-              </div>
-              <div class="betrecord-text betrecord-text-sm">
-                {{ $t('views_betRecord_item_label5') }}
-              </div>
-
-              <div class="betrecord-text betrecord-text-lg">
-                {{ Number(renderGameInfo(item, 'matchTime')) && dayjs(Number(renderGameInfo(item, 'matchTime'))).format('YYYY-MM-DD HH:mm:ss') }}{{ Number(renderGameInfo(item, 'matchTime')) && `(${timeZone})` }}
-              </div>
-              <div
-                class="betrecord-text betrecord-text-sm"
-                :class="renderIsWinningStyle(item)"
-              >
-                {{ renderStatus(item) }}
+              <div class="betrecord-row betrecord-bottom-gap">
+                <div class="betrecord-text betrecord-text-lg">
+                  {{ $t('views_betRecord_item_label6') }}
+                </div>
+                <div class="betrecord-text betrecord-text-sm">
+                  {{ $t('views_betRecord_item_label5') }}
+                </div>
               </div>
 
-              <div class="betrecord-text betrecord-text-xl betrecord-text-em">
-                {{ `${renderGameInfo(item, 'homeTeamName')} V.S. ${renderGameInfo(item, 'awayTeamName')}` }}
+              <div class="betrecord-row betrecord-bottom-gap">
+                <div class="betrecord-text betrecord-text-lg">
+                  {{ Number(renderGameInfo(item, 'matchTime')) && dayjs(Number(renderGameInfo(item, 'matchTime'))).format('YYYY-MM-DD HH:mm:ss') }}{{ Number(renderGameInfo(item, 'matchTime')) && `(${timeZone})` }}
+                </div>
+                <div
+                  class="betrecord-text betrecord-text-sm"
+                  :class="renderIsWinningStyle(item)"
+                >
+                  {{ renderStatus(item) }}
+                </div>
+              </div>
+
+              <div class="betrecord-row">
+                <div class="betrecord-text betrecord-text-xl betrecord-text-em">
+                  {{ `${renderGameInfo(item, 'homeTeamName')} V.S. ${renderGameInfo(item, 'awayTeamName')}` }}
+                </div>
               </div>
             </div>
 
@@ -80,43 +91,51 @@
               v-show="item.isShowDetails"
               class="betrecord-item-piece betrecord-item-piece-multi"
             >
-              <div class="betrecord-text betrecord-text-sm">
-                {{ $t('views_betRecord_item_label1') }}
-              </div>
-              <div class="betrecord-text betrecord-text-lg">
-                {{ item?.realAmount }}
-              </div>
-
-              <div class="betrecord-text betrecord-text-sm">
-                {{ $t('views_betRecord_item_label2') }}
-              </div>
-              <div class="betrecord-text betrecord-text-lg betrecord-item-option">
-                <span>
-                  {{ renderGameInfo(item, 'playTypeMName') }}
-                </span>
-                <span>
-                  {{ renderGameInfo(item, 'optionName') }}
-                </span>
-                <span class="betrecord-item-option-em">
-                  {{ `@${fmtPayRate(item?.payRate)}` }}
-                </span>
+              <div class="betrecord-row betrecord-bottom-gap">
+                <div class="betrecord-text betrecord-text-sm">
+                  {{ $t('views_betRecord_item_label1') }}
+                </div>
+                <div class="betrecord-text betrecord-text-lg">
+                  {{ numWithCommas(item?.realAmount) }}
+                </div>
               </div>
 
-              <div class="betrecord-text betrecord-text-sm">
-                {{ $t('views_betRecord_item_label3') }}
-              </div>
-              <div class="betrecord-text betrecord-text-lg">
-                {{ renderChargeFee(item?.fee) }}
+              <div class="betrecord-row betrecord-bottom-gap">
+                <div class="betrecord-text betrecord-text-sm">
+                  {{ $t('views_betRecord_item_label2') }}
+                </div>
+                <div class="betrecord-text betrecord-text-lg betrecord-item-option">
+                  <span>
+                    {{ renderGameInfo(item, 'playTypeMName') }}
+                  </span>
+                  <span>
+                    {{ renderGameInfo(item, 'optionName') }}
+                  </span>
+                  <span class="betrecord-item-option-em">
+                    {{ `@${fmtPayRate(item?.payRate)}` }}
+                  </span>
+                </div>
               </div>
 
-              <div class="betrecord-text betrecord-text-sm">
-                {{ $t('views_betRecord_item_label4') }}
+              <div class="betrecord-row betrecord-bottom-gap">
+                <div class="betrecord-text betrecord-text-sm">
+                  {{ $t('views_betRecord_item_label3') }}
+                </div>
+                <div class="betrecord-text betrecord-text-lg">
+                  {{ renderChargeFee(item?.fee) }}
+                </div>
               </div>
-              <div
-                class="betrecord-text betrecord-text-lg"
-                :class="renderNumberStyle(item.status)"
-              >
-                {{ renderNumber(item?.estimateProfit) }}
+
+              <div class="betrecord-row">
+                <div class="betrecord-text betrecord-text-sm">
+                  {{ $t('views_betRecord_item_label4') }}
+                </div>
+                <div
+                  class="betrecord-text betrecord-text-lg"
+                  :class="renderNumberStyle(item.status)"
+                >
+                  {{ renderNumber(item?.estimateProfit) }}
+                </div>
               </div>
             </div>
 
@@ -146,50 +165,69 @@
         </figure>
       </template>
     </div>
-    <div class="betrecord-item-piece-multi betrecord-sum">
-      <div class="betrecord-text betrecord-text-em betrecord-text-xl">
-        <span>
-          {{ $t('views_betRecord_sum_label1') }}
-        </span>
-        <span>
-          {{ state.sumData.totalBetAmount }}
-        </span>
+    <div
+      class="betrecord-item-piece-multi betrecord-sum cursor-pointer"
+      @click="toggleSumPanel"
+    >
+      <div
+        class="betrecord-row justify-between"
+        :class="{ 'betrecord-bottom-gap-lg': state.isShowSum }"
+      >
+        <div class="betrecord-text betrecord-text-em betrecord-text-xl">
+          <span>
+            {{ $t('views_betRecord_sum_label1') }}
+          </span>
+          <span>
+            {{ numWithCommas(state.sumData.totalBetAmount) }}
+          </span>
+        </div>
+
+        <CaretUpOutlined v-show="!state.isShowSum" />
+        <CaretDownOutlined v-show="state.isShowSum" />
       </div>
 
-      <div class="betrecord-text betrecord-text-md">
-        <span>
-          {{ $t('views_betRecord_sum_label2') }}
-        </span>
-        <span>
-          {{ state.sumData.countSettled }}
-        </span>
-      </div>
+      <div
+        v-show="state.isShowSum"
+        class="betrecord-panel"
+        :class="{ 'betrecord-panel-active': state.isShowSum }"
+      >
+        <div class="betrecord-row">
+          <div class="betrecord-text betrecord-text-md">
+            {{ $t('views_betRecord_sum_label2') }}
+          </div>
 
-      <div class="betrecord-text betrecord-text-md">
-        <span>
-          {{ $t('views_betRecord_sum_label4') }}
-        </span>
-        <span>
-          {{ state.sumData.totalProfit }}
-        </span>
-      </div>
+          <div class="betrecord-text betrecord-text-md">
+            {{ $t('views_betRecord_sum_label4') }}
+          </div>
+        </div>
 
-      <div class="betrecord-text betrecord-text-md">
-        <span>
-          {{ $t('views_betRecord_sum_label3') }}
-        </span>
-        <span>
-          {{ state.sumData.countUnsettled }}
-        </span>
-      </div>
+        <div class="betrecord-row betrecord-bottom-gap">
+          <div class="betrecord-text betrecord-text-md">
+            {{ state.sumData.countSettled }}
+          </div>
+          <div class="betrecord-text betrecord-text-md">
+            {{ numWithCommas(state.sumData.totalProfit) }}
+          </div>
+        </div>
 
-      <div class="betrecord-text betrecord-text-md">
-        <span>
-          {{ $t('views_betRecord_sum_label5') }}
-        </span>
-        <span>
-          {{ state.sumData.totalEstimateProfit }}
-        </span>
+        <div class="betrecord-row">
+          <div class="betrecord-text betrecord-text-md">
+            {{ $t('views_betRecord_sum_label3') }}
+          </div>
+
+          <div class="betrecord-text betrecord-text-md">
+            {{ $t('views_betRecord_sum_label5') }}
+          </div>
+        </div>
+
+        <div class="betrecord-row betrecord-bottom-gap">
+          <div class="betrecord-text betrecord-text-md">
+            {{ state.sumData.countUnsettled }}
+          </div>
+          <div class="betrecord-text betrecord-text-md">
+            {{ numWithCommas(state.sumData.totalEstimateProfit) }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -248,7 +286,7 @@ import NP from 'number-precision';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import {
-  timeZoneUnit, isNumber, fmtPayRate,
+  timeZoneUnit, isNumber, fmtPayRate, numWithCommas,
 } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
 import DScroll from '@/components/DScroll';
@@ -307,6 +345,7 @@ export default {
         isLastPage: false,
       },
       isLoading: false,
+      isShowSum: false,
     });
 
     // computed
@@ -314,6 +353,7 @@ export default {
     const siteStyle = computed(() => store.state.info.siteStyle);
     const language = computed(() => store.state.info.language);
     const avatar = computed(() => store.state.user.avatar);
+    const sumPanelHeight = computed(() => (state.isShowSum ? 118 : 36));
 
     // methods
     const renderNumber = (val) => {
@@ -372,6 +412,16 @@ export default {
     const renderChargeFee = (fee) => {
       if (!isNumber(fee)) return '0%';
       return `${NP.times(fee, 100)}%`;
+    };
+
+    const toggleSumPanel = () => {
+      state.isShowSum = !state.isShowSum;
+
+      nextTick(() => {
+        if (scroll.value) {
+          scroll.value.refresh();
+        }
+      });
     };
 
     const toggleFilterPopup = (isShow, isInitTempStatus = true) => {
@@ -516,7 +566,7 @@ export default {
       state,
       scroll,
       siteStyle,
-      // changeRange,
+      sumPanelHeight,
       renderNumber,
       renderNumberStyle,
       renderExpandStatus,
@@ -524,6 +574,7 @@ export default {
       renderIsWinningStyle,
       renderStatus,
       renderChargeFee,
+      toggleSumPanel,
       toggleFilterPopup,
       refreshData,
       loadMoreRecord,
@@ -533,6 +584,7 @@ export default {
       selectDate,
       timeZone,
       fmtPayRate,
+      numWithCommas,
       dayjs,
       avatar,
       goPage,
@@ -553,7 +605,11 @@ export default {
   &-container {
     @apply px-3 pt-4;
 
-    height: calc(100% - var(--range-list-height) - 88px);
+    /* height: calc(100% - var(--range-list-height) - 118px); */
+  }
+
+  &-row {
+    @apply flex items-center justify-between;
   }
 
   &-item {
@@ -571,7 +627,8 @@ export default {
   }
 
   &-item-piece-multi {
-    @apply grid grid-cols-6 gap-1 mb-4;
+    /* @apply grid grid-cols-6 gap-1 mb-4; */
+    @apply mb-4;
   }
 
   &-item-option {
@@ -591,19 +648,23 @@ export default {
   }
 
   &-text-xl {
-    @apply col-span-6;
+    /* @apply col-span-6; */
+    flex: 1 0 0;
   }
 
   &-text-lg {
-    @apply col-span-4;
+    /* @apply col-span-4; */
+    flex: calc(65% - 10px / 2) 0 0;
   }
 
   &-text-md {
-    @apply col-span-3;
+    /* @apply col-span-3; */
+    flex: calc(50% - 10px / 2) 0 0;
   }
 
   &-text-sm {
-    @apply col-span-2;
+    /* @apply col-span-2; */
+    flex: calc(35% - 10px / 2) 0 0;
   }
 
   &-text-em {
@@ -621,9 +682,17 @@ export default {
   }
 
   &-sum {
-    @apply absolute left-0 w-full mb-0 p-3 bg-secondary-content;
+    @apply absolute left-0 w-full mb-0 py-2 px-5 bg-secondary-content;
 
     bottom: var(--footer-height);
+  }
+
+  &-bottom-gap {
+    @apply mb-1;
+  }
+
+  &-bottom-gap-lg {
+    margin-bottom: 8px;
   }
 }
 
@@ -681,6 +750,15 @@ export default {
 
   &-piece .d-btn {
     @apply text-xs;
+  }
+
+  &-panel {
+    height: 0;
+  }
+
+  &-panel-active {
+    height: auto;
+    transition: height 0.5s ease;
   }
 }
 
