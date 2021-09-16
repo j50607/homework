@@ -19,17 +19,13 @@
       </div>
     </div>
 
-    <login
-      v-model:value="showLogin"
+    <component
+      v-model:value="componentBool"
+      :is="componentType"
       :data="state.rowData"
       :validate-code-flag="validateCodeFlag"
       @validateCodeFlag="validateFlag"
       @login="login"
-    />
-
-    <register
-      v-model:value="showRegister"
-      :data="state.rowData"
       @register="register"
     />
 
@@ -90,10 +86,11 @@ export default {
     const regType = ref('');
     const validateText = ref('');
     const agentCode = ref(undefined);
-    const showLogin = ref(false);
-    const showRegister = ref(false);
 
     const validateCodeFlag = ref(false);
+
+    const componentBool = ref(false);
+    const componentType = ref(undefined);
 
     // reactive
     const state = reactive({
@@ -154,16 +151,8 @@ export default {
     );
 
     const inLoginOrRegister = (type) => {
-      switch (type) {
-        case 'login':
-          showLogin.value = true;
-          break;
-        case 'register':
-          showRegister.value = true;
-          break;
-        default:
-          break;
-      }
+      componentType.value = type;
+      componentBool.value = true;
     };
 
     const refreshLoginOrRegister = () => {
@@ -354,11 +343,11 @@ export default {
       agentCode,
       exchangeInfoList,
       s3Base,
-      showLogin,
-      showRegister,
       validateCodeFlag,
       validateFlag,
       sitePrefix,
+      componentType,
+      componentBool,
     };
   },
 };

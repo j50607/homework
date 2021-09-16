@@ -34,7 +34,6 @@
 
                     <a-input
                       v-model:value="state.formState.mainInputValue"
-                      :type="checkRegisterType()"
                       :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_login_enter_user')} ${$t('components_pages_loginAndRegister_loginRegister_register_mandatory')}`"
                       @focus="focusMainInput"
                       @blur="blurMainInput"
@@ -287,7 +286,7 @@
 
                     <a-select v-model:value="state.formState.genderInputValue">
                       <a-select-option
-                        v-for="(item, index) in checkGender()"
+                        v-for="(item, index) in checkGender(state.genderList)"
                         :key="index"
                         :value="item.value"
                       >
@@ -528,7 +527,11 @@ export default {
         },
       ],
 
-      genderList: [],
+      genderList: [
+        { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_male'), value: 0 },
+        { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_female'), value: 1 },
+        { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_noSetting'), value: 2 },
+      ],
 
       formState: {
         mainInputValue: undefined,
@@ -1028,15 +1031,6 @@ export default {
       checkEyeResult.value = seeCheckPassword.value ? 'eye' : 'eye-invisible';
     };
 
-    const checkRegisterType = () => {
-      switch (registerType.value) {
-        case 'ACCOUNT':
-          return 'text';
-        default:
-          return 'text';
-      }
-    };
-
     /**
      * 注册
      */
@@ -1087,20 +1081,11 @@ export default {
       }
     };
 
-    const checkGender = () => {
+    const checkGender = (list) => {
       let result = [];
 
       if (registerSetting.value.registerGender) {
-        state.genderList = [
-          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_male'), value: 0 },
-          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_female'), value: 1 },
-        ];
-      } else {
-        state.genderList = [
-          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_male'), value: 0 },
-          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_female'), value: 1 },
-          { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_noSetting'), value: 2 },
-        ];
+        result = list.splice(2, 1);
       }
 
       result = state.genderList;
@@ -1511,7 +1496,6 @@ export default {
       registerType,
       siteName,
       siteId,
-      checkRegisterType,
       thirdPartyLogin,
       mainInputRef,
       registerSetting,
