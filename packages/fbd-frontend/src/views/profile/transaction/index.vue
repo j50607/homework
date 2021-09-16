@@ -48,72 +48,74 @@
       </div>
     </div>
     <!-- 充提紀錄內容 -->
-    <d-scroll
-      v-if="queryContent?.length"
-      ref="scroll"
-      :pull-up="true"
-      :pull-down="true"
-      :scroll-y="true"
-      :on-scroll="true"
-      @pullingDown="pullingDown()"
-      @pullingUp="loadMoreRecord()"
-    >
-      <div class="card-container">
-        <div
-          class="card is-btn"
-          v-for="(item, index) in queryContent"
-          :key="index"
-          @click="goDetail(item)"
-        >
-          <div class="row">
-            <div class="amount">
-              {{ item?.amount }} USDT
+    <div class="scroll-container">
+      <d-scroll
+        v-if="queryContent?.length"
+        ref="scroll"
+        :pull-up="true"
+        :pull-down="true"
+        :scroll-y="true"
+        :on-scroll="true"
+        @pullingDown="pullingDown()"
+        @pullingUp="loadMoreRecord()"
+      >
+        <div class="card-container">
+          <div
+            class="card is-btn"
+            v-for="(item, index) in queryContent"
+            :key="index"
+            @click="goDetail(item)"
+          >
+            <div class="row">
+              <div class="amount">
+                {{ item?.amount }} USDT
+              </div>
+              <div :class="`status status${item?.status?.id}`">
+                {{ formatStatus(item.status.id) }}
+              </div>
+              <img
+                class="arrow"
+                :src="$requireSafe(`profile/transaction/arrow-grey.svg`)"
+              >
             </div>
-            <div :class="`status status${item?.status?.id}`">
-              {{ formatStatus(item.status.id) }}
+            <div class="row">
+              <div class="row-title">
+                {{ $t('views_profile_transaction_orderNumber') }}
+              </div>
+              <div class="row-content">
+                {{ item.orderNumber }}
+              </div>
             </div>
-            <img
-              class="arrow"
-              :src="$requireSafe(`profile/transaction/arrow-grey.svg`)"
-            >
-          </div>
-          <div class="row">
-            <div class="row-title">
-              {{ $t('views_profile_transaction_orderNumber') }}
+            <div class="row">
+              <div class="row-title">
+                {{ tabType === 'deposit' ? $t('views_profile_transaction_depositTime') : $t('views_profile_transaction_withdrawTime') }}
+              </div>
+              <div class="row-content">
+                {{ formatDate(item?.logAt) }}
+              </div>
             </div>
-            <div class="row-content">
-              {{ item.orderNumber }}
-            </div>
-          </div>
-          <div class="row">
-            <div class="row-title">
-              {{ tabType === 'deposit' ? $t('views_profile_transaction_depositTime') : $t('views_profile_transaction_withdrawTime') }}
-            </div>
-            <div class="row-content">
-              {{ formatDate(item?.logAt) }}
-            </div>
-          </div>
-          <div class="row">
-            <div class="row-title">
-              {{ $t('views_profile_transaction_balance') }}
-            </div>
-            <div class="row-content">
-              {{ item.balance }}
+            <div class="row">
+              <div class="row-title">
+                {{ $t('views_profile_transaction_balance') }}
+              </div>
+              <div class="row-content">
+                {{ item.balance }}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </d-scroll>
-    <div
-      v-else
-      class="empty"
-    >
-      <img
-        class="empty-icon"
-        :src="$requireSafe(`profile/transaction/empty.svg`)"
+      </d-scroll>
+      <div
+        v-else
+        class="empty"
       >
-      <div class="empty-text">
-        {{ $t('views_profile_transaction_empty') }}
+        <img
+          class="empty-icon"
+          :src="$requireSafe(`profile/transaction/empty.svg`)"
+        >
+        <div class="empty-text">
+          {{ $t('views_profile_transaction_empty') }}
+        </div>
       </div>
     </div>
   </div>
@@ -450,12 +452,7 @@ export default {
 
 <style lang="postcss" scoped>
 .transaction {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  @apply pt-h-h text-normal absolute;
+  @apply pt-h-h text-normal h-full;
 
   .tab {
     font-size: 14px;
@@ -522,10 +519,18 @@ export default {
     }
   }
 
+  .scroll-container {
+    position: absolute;
+    top: calc(40px + var(--header-height));
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
   .card-container {
     font-size: 12px;
 
-    @apply px-3 py-6;
+    @apply px-3 py-4;
 
     .card {
       border-radius: 5px;
