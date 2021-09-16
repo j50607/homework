@@ -47,7 +47,7 @@
 
     <!-- 選擇聯盟 -->
     <div
-      class="all-league-list overflow-auto flex flex-col h-full flex-nowrap pt-10 pb-20"
+      class="all-league-list overflow-auto h-full flex-nowrap pt-10 pb-20"
       v-else
     >
       <!-- 全選跟反選 -->
@@ -76,7 +76,7 @@
         </div>
       </div>
       <div
-        class="league-list mx-3  my-1 p-3 rounded flex justify-start items-center cursor-pointer"
+        class="league-list mx-3  my-2 p-3 rounded flex justify-start items-center cursor-pointer"
         v-for="(item,index) in state.leagueList"
         :key="index"
         @click="selectLeague(item,index)"
@@ -347,6 +347,7 @@ export default {
 }
 
 .league-list {
+  /* min-height: 60px; */
   border: 0.3px solid #fffbf2;
   background-image: url('~@/assets/img/profile/match/league-switch-bg.png');
   background-repeat: no-repeat;
@@ -411,5 +412,10 @@ export default {
       }
     }
   }
+}
+
+.all-league-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
 }
 </style>

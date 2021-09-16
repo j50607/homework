@@ -265,7 +265,7 @@ export default {
       if (code === 200) {
         window.$vue.$message.success(t('views_profile_logoutSuccess'));
         store.commit('CLEAR');
-        router.replace('/loginAndRegister');
+        router.replace('/');
       }
     };
 
