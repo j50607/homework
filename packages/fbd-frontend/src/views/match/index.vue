@@ -1,5 +1,8 @@
 <template>
-  <div class="market pt-h-h pb-f-h relative h-full">
+  <locale
+    v-slot="{locale}"
+    class="market pt-h-h pb-f-h relative h-full"
+  >
     <d-header-row
       :right-components="state.switchLeague ? undefined : 'Service'"
       :title="state.switchLeague ?$t('views_market_switchLeague') : $t('views_market_title')"
@@ -28,10 +31,10 @@
       v-model:activeKey="state.currentKey"
       :default-key="state.tabIndex"
       :tab-list="state.tabList"
+      :class="locale"
       @change="changeTab"
       class="game-tab text-white"
       v-if="!state.switchLeague"
-      :tab-position="'center'"
     >
       <template #content>
         <league-list
@@ -129,7 +132,7 @@
         alt=""
       >
     </div>
-  </div>
+  </locale>
   <d-footer-row />
 </template>
 
@@ -141,6 +144,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import { useStore } from 'vuex';
+import Locale from '@/components/Locale';
 
 import LeagueList from '@/components/_pages/match/leagueList';
 import SportApi from '@/assets/js/api/sportApi.js';
@@ -149,6 +153,7 @@ import { isArray } from '@/assets/js/utils/utils';
 export default {
   components: {
     LeagueList,
+    Locale,
   },
   setup() {
     // use
@@ -374,6 +379,36 @@ export default {
   border-radius: 3px;
   color: #f3ac0a;
   background: #fff;
+}
+
+.game-tab {
+  ::v-deep(.d-tabs-mobile-box) {
+    justify-content: space-between !important;
+
+    .d-tabs-mobile-title {
+      margin-right: 0 !important;
+    }
+  }
+
+  &.zh_cn {
+    ::v-deep(.d-tabs-mobile-box) {
+      justify-content: center !important;
+
+      .d-tabs-mobile-title {
+        margin-right: 16px !important;
+      }
+    }
+  }
+
+  &.zh_tw {
+    ::v-deep(.d-tabs-mobile-box) {
+      justify-content: center !important;
+
+      .d-tabs-mobile-title {
+        margin-right: 16px !important;
+      }
+    }
+  }
 }
 
 </style>

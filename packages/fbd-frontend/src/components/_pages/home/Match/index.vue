@@ -14,7 +14,7 @@
           </div>
           <div class="team-info mb-1">
             <img
-              :src="require('@/assets/img/locale/zh_cn.svg')"
+              :src="data.homeTeamLogo? `${s3Base}/${data.homeTeamLogo}`: $requireSafe('icon/default-team.svg')"
               alt=""
             >
             <div>{{ data.homeTeamName }}</div>
@@ -24,7 +24,7 @@
           </div>
           <div class="team-info mt-1">
             <img
-              :src="require('@/assets/img/locale/zh_cn.svg')"
+              :src="data.awayTeamLogo? `${s3Base}/${data.awayTeamLogo}`: $requireSafe('icon/default-team.svg')"
               alt=""
             >
             <div>{{ data.awayTeamName }}</div>
@@ -90,12 +90,15 @@ export default {
     },
   },
   setup(props) {
+    // inject
     const validator = inject('$validator');
+    // computed
     const timeZoneUnit = computed(() => validator.value?.timeZoneUnit);
-
+    const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
     // 下注是否截止
     const isEnded = computed(() => dayjs().valueOf() > props.data.matchTime);
 
+    // methods
     const amoutnFormat = (num) => {
       let result = (num || 0).toString();
       result = result.length > 6 ? `${result.substring(0, result.length - 6)}M` : result;
@@ -113,6 +116,7 @@ export default {
       timeZoneUnit,
       finish,
       isEnded,
+      s3Base,
     };
   },
 };

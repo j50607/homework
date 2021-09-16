@@ -27,7 +27,7 @@
           <div class="game-compet text-xs text-normal">
             <div class="team1 flex mb-1 items-center">
               <img
-                :src="$requireSafe('icon/icon-vn.svg')"
+                :src="item.homeTeamLogo? `${s3Base}/${item.homeTeamLogo}`: $requireSafe('icon/default-team.svg')"
                 alt=""
                 class="mr-1 w-3.5 h-3.5"
               >
@@ -38,7 +38,7 @@
             </div>
             <div class="team2 flex">
               <img
-                :src="$requireSafe('icon/icon-th.svg')"
+                :src="item.awayTeamLogo? `${s3Base}/${item.awayTeamLogo}`: $requireSafe('icon/default-team.svg')"
                 alt=""
                 class="mr-1 w-3.5 h-3.5"
               >
@@ -190,6 +190,7 @@ export default {
 
     // computed
     const timeZoneUnitTxt = computed(() => validator.value?.timeZoneUnit);
+    const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
 
     // methods
     const getGameSummary = async (params) => {
@@ -343,6 +344,7 @@ export default {
       onFinish,
       deadLine,
       jsutChangeTabShow,
+      s3Base,
     };
   },
 };
