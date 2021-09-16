@@ -38,7 +38,7 @@
           >
             <div class="finance-details-item-piece finance-details-item-piece-multi">
               <div class="finance-details-text finance-details-text-lg">
-                {{ item.type.text }}
+                {{ item.type.id !== 7 ? item.type.text : $t('views_finance_popup_profit') }}
               </div>
 
               <div
@@ -247,6 +247,7 @@ export default {
         { label: window.$vue.$t('views_finance_popup_poundage'), value: [32, 36] },
         { label: window.$vue.$t('views_finance_popup_wallet_account_change'), value: [12, 13, 31, 51, 52] },
         { label: window.$vue.$t('views_finance_popup_transfer_record'), value: [46, 47, 49, 50] },
+        { label: window.$vue.$t('views_finance_popup_profit'), value: [7] },
         { label: window.$vue.$t('views_finance_popup_other'), value: [53, 54] },
       ],
       checkResult: [],
