@@ -76,6 +76,7 @@
         {{ $t('views_notFound_backToHome') }}
       </d-button>
       <d-button
+        v-if="serviceUrl"
         block
         class="mt-2"
         :border="true"
@@ -153,7 +154,7 @@ export default {
     };
 
     const goService = () => {
-      window.location = serviceUrl.value;
+      window.open(serviceUrl.value);
     };
 
     const goProfile = () => {
@@ -172,6 +173,7 @@ export default {
       depositList,
       withdrawList,
       state,
+      serviceUrl,
     };
   },
 };
