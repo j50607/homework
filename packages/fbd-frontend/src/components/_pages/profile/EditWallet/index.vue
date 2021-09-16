@@ -76,6 +76,17 @@
         :model="state.formState"
         :rules="rules"
       >
+        <!-- 主网类型 -->
+        <a-form-item
+          class="main-input"
+          name="chainType"
+          :label="$t('views_profile_chainType')"
+        >
+          <a-input
+            v-model:value="state.formState.chainType"
+            :placeholder="$t('views_profile_wallet_placeholder1')"
+          />
+        </a-form-item>
         <!-- 钱包地址 -->
         <a-form-item
           class="main-input"
@@ -86,17 +97,6 @@
             v-model:value="state.formState.walletAddress"
             maxlength="100"
             :placeholder="$t('views_profile_wallet_placeholder2')"
-          />
-        </a-form-item>
-        <!-- 主网类型 -->
-        <a-form-item
-          class="main-input"
-          name="chainType"
-          :label="$t('views_profile_chainType')"
-        >
-          <a-input
-            v-model:value="state.formState.chainType"
-            :placeholder="$t('views_profile_wallet_placeholder1')"
           />
         </a-form-item>
         <d-button
@@ -318,6 +318,6 @@ export default {
 }
 
 ::v-deep(.ant-form-item) {
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
 }
 </style>
