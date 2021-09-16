@@ -144,12 +144,77 @@ const mutations = {
     state.timeSetting = timeSetting;
     // switchSetting data
     state.switchSetting = switchSetting;
-    // registerSetting data
-    state.registerSetting = registerSetting;
     // swipeVerification
     state.swipeVerification = swipeVerification;
 
-    // depositAccountExtends data
+    // registerSetting data
+    if (registerSetting) {
+      let registerObj = {};
+      const {
+        fixedLotteryCommissionRatio,
+        imAppRegisterSwitch,
+        immediatelyGenerateAgentCode,
+        loginViaFB,
+        loginViaGoogle,
+        loginViaLine,
+        loginViaZalo,
+        registerAgentCode,
+        registerBirthday,
+        registerEmail,
+        registerGender,
+        registerLine,
+        registerNickname,
+        registerQQ,
+        registerRealName,
+        registerTel,
+        registerWechat,
+        registerZalo,
+        showAgentCode,
+        showBirthday,
+        showEmail,
+        showGender,
+        showLine,
+        showNickname,
+        showQQ,
+        showRealName,
+        showTel,
+        showWechat,
+        showZalo,
+      } = registerSetting;
+
+      registerObj = {
+        fixedLotteryCommissionRatio,
+        imAppRegisterSwitch,
+        immediatelyGenerateAgentCode,
+        loginViaFB,
+        loginViaGoogle,
+        loginViaLine,
+        loginViaZalo,
+        registerAgentCode,
+        registerBirthday,
+        registerEmail,
+        registerGender,
+        registerLine,
+        registerNickname,
+        registerQQ,
+        registerRealName,
+        registerTel,
+        registerWechat,
+        registerZalo,
+        showAgentCode,
+        showBirthday,
+        showEmail,
+        showGender,
+        showLine,
+        showNickname,
+        showQQ,
+        showRealName,
+        showTel,
+        showWechat,
+        showZalo,
+      };
+      state.registerSetting = registerObj;
+    }
     if (depositAccountExtends) {
       let depositAccountObj = {};
       const {
