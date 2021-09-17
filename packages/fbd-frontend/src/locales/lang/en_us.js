@@ -135,6 +135,7 @@ const lang = {
   views_betRecord_item_label4: 'Estimated Profit',
   views_betRecord_item_label5: 'Status',
   views_betRecord_item_label6: 'Race Names',
+  views_betRecord_item_label7: 'Item Name',
   views_betRecord_item_action1: 'Show more details',
   views_betRecord_item_action2: 'Show fewer details',
   views_bankcard_nextStep2: 'Confirm',

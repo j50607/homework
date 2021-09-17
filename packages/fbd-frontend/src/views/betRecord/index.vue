@@ -102,11 +102,20 @@
 
               <div class="betrecord-row betrecord-bottom-gap">
                 <div class="betrecord-text betrecord-text-sm">
+                  {{ $t('views_betRecord_item_label7') }}
+                </div>
+                <div class="betrecord-text betrecord-text-lg">
+                  {{ renderGameInfo(item, 'playTypeMName') }}
+                </div>
+              </div>
+
+              <div class="betrecord-row betrecord-bottom-gap">
+                <div class="betrecord-text betrecord-text-sm">
                   {{ $t('views_betRecord_item_label2') }}
                 </div>
                 <div class="betrecord-text betrecord-text-lg betrecord-item-option">
                   <span>
-                    {{ renderGameInfo(item, 'playTypeMName') }}
+                    {{ renderGameInfo(item, 'playTypeSName') }}
                   </span>
                   <span>
                     {{ renderGameInfo(item, 'optionName') }}
@@ -604,8 +613,6 @@ export default {
 
   &-container {
     @apply px-3 pt-4;
-
-    /* height: calc(100% - var(--range-list-height) - 118px); */
   }
 
   &-row {
@@ -627,7 +634,6 @@ export default {
   }
 
   &-item-piece-multi {
-    /* @apply grid grid-cols-6 gap-1 mb-4; */
     @apply mb-4;
   }
 
@@ -648,22 +654,18 @@ export default {
   }
 
   &-text-xl {
-    /* @apply col-span-6; */
     flex: 1 0 0;
   }
 
   &-text-lg {
-    /* @apply col-span-4; */
     flex: calc(65% - 10px / 2) 0 0;
   }
 
   &-text-md {
-    /* @apply col-span-3; */
     flex: calc(50% - 10px / 2) 0 0;
   }
 
   &-text-sm {
-    /* @apply col-span-2; */
     flex: calc(35% - 10px / 2) 0 0;
   }
 
@@ -775,10 +777,6 @@ export default {
   &:last-of-type {
     border-bottom: 1px solid #f2f2f2;
   }
-
-  /* > span {
-    padding: 0;
-  } */
 }
 
 ::v-deep(.ant-radio-group) {

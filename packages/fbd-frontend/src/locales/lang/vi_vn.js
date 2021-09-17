@@ -135,6 +135,7 @@ const lang = {
   views_betRecord_item_label4: 'Kỳ vọng lợi nhuận',
   views_betRecord_item_label5: 'Trạng thái',
   views_betRecord_item_label6: 'Tên trận đấu',
+  views_betRecord_item_label7: 'Tên dự án',
   views_betRecord_item_action1: 'Mở rộng chi tiết',
   views_betRecord_item_action2: 'Chi tiết thu về',
   views_bankcard_nextStep2: 'Xác nhận ',
