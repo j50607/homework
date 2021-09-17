@@ -608,17 +608,12 @@ export default {
 
     const registerRealName = computed(() => store.state.info.registerSetting.registerRealName);
     const realNameValidate = async (rule, value) => {
-      const regCantSing = /[`~!@#$^&%*()=|{}':;',[\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？0-9]/;
-
       const regCantFull = /[\uFF00-\uFFFF]/g;
 
       if (registerRealName.value) {
         if (!value || !value.trim()) {
           realNameBool.value = false;
           return Promise.reject(new Error(t('error8')));
-        } if (regCantSing.test(value)) {
-          realNameBool.value = false;
-          return Promise.reject(new Error(t('error9')));
         } if (regCantFull.test(value)) {
           realNameBool.value = false;
           return Promise.reject(new Error(t('error10')));

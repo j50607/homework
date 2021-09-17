@@ -288,11 +288,6 @@ class Base {
       return this._getResult(false, emptyMessage);
     }
 
-    const symbolMessage = window.$vue.$t('common_errorSpecialSymbolNickName');
-    if (!this._validateSpecialSymbol(nickName, symbolMessage, toast)) {
-      return this._getResult(false, symbolMessage);
-    }
-
     if (nickName.length > 8) {
       const lengthMessage = window.$vue.$t('common_errorLenNickName');
       if (toast) {
@@ -318,11 +313,6 @@ class Base {
     const fullWidthMessage = window.$vue.$t('common_errorNoFullWidthRealName');
     if (!this._validateFullWidth(name, fullWidthMessage, toast)) {
       return this._getResult(false, fullWidthMessage);
-    }
-
-    const symbolMessage = window.$vue.$t('common_errorSpecialSymbolName');
-    if (!this._validateSpecialSymbolWithNum1(name, symbolMessage, toast)) {
-      return this._getResult(false, symbolMessage);
     }
 
     if (name.length > this.nameLen) {
