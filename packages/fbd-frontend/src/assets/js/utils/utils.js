@@ -415,7 +415,7 @@ export const timeZoneUnit = () => {
     vi_vn: 'ICT', // GMT+7
     th_th: 'ICT', // GMT+7
     ja_jp: 'JST', // GMT+9
-    en_us: 'EST', // 美國站統一用美東時間 GMT-5
+    en_us: 'PST', // 美國站統一用美東時間 GMT-8
     hi_in: 'IST', // GMT+5.5
     ko_kr: 'KST', // GMT+9
     es_mx: 'WET', // GMT+0
