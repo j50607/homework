@@ -265,6 +265,7 @@ const lang = {
   views_profile_userinfo_wechat: 'WeChat',
   views_profile_userinfo_mailbox: 'Email',
   views_profile_userinfo_line: 'LINE',
+  views_profile_userinfo_zalo: 'Zalo',
   views_profile_userinfo_setting: 'Settings',
   views_profile_userinfo_modifyLoginPassword: 'Change Login Password',
   views_profile_userinfo_modifyWithdrawPassword: 'Change Cash Withdrawal Password',

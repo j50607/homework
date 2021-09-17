@@ -23,6 +23,7 @@ const initialState = () => ({
   name: undefined,
   email: undefined,
   line: undefined,
+  zalo: undefined,
   qqAccount: undefined,
   wechat: undefined,
   // 是否有提現密碼

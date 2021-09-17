@@ -278,6 +278,7 @@ export default {
       { label: t('views_profile_userinfo_wechat'), redirect: '/profile/userinfo/setContact', value: 'wechat' },
       { label: t('views_profile_userinfo_mailbox'), redirect: '/profile/userinfo/setContact', value: 'email' },
       { label: t('views_profile_userinfo_line'), redirect: '/profile/userinfo/setContact', value: 'line' },
+      { label: t('views_profile_userinfo_zalo'), redirect: '/profile/userinfo/setContact', value: 'zalo' },
     ]);
 
     const modifyList = computed(() => [
@@ -315,6 +316,7 @@ export default {
           'phone',
           'email',
           'line',
+          'zalo',
           'qqAccount',
           'wechat',
         ],
@@ -335,6 +337,7 @@ export default {
           phone: data.phone,
           email: data.email,
           line: data.line,
+          zalo: data.zalo,
           qqAccount: data.qqAccount,
           wechat: data.wechat,
         });
@@ -387,6 +390,7 @@ export default {
         case 'wechat':
         case 'email':
         case 'line':
+        case 'zalo':
           router.push({ path: item.redirect, query: { type: item.value } });
           break;
         case 'modifyWithdrawPassword':
@@ -463,6 +467,8 @@ export default {
           return registerSetting.value.showEmail;
         case 'line':
           return registerSetting.value.showLine;
+        case 'zalo':
+          return registerSetting.value.showZalo;
         default:
           return true;
       }

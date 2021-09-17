@@ -249,6 +249,7 @@ const lang = {
   views_profile_userinfo_wechat: 'Wechat',
   views_profile_userinfo_mailbox: 'Email',
   views_profile_userinfo_line: 'LINE',
+  views_profile_userinfo_zalo: 'Zalo',
   views_profile_userinfo_setting: 'Cài đặt',
   views_profile_userinfo_modifyLoginPassword: 'Sửa đổi mật khẩu đăng nhập',
   views_profile_userinfo_modifyWithdrawPassword: 'Sửa đổi mật khẩu rút tiền',

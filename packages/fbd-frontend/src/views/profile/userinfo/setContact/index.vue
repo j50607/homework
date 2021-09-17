@@ -98,6 +98,8 @@ export default {
           return t('views_profile_userinfo_mailbox');
         case 'line':
           return t('views_profile_userinfo_line');
+        case 'zalo':
+          return t('views_profile_userinfo_zalo');
         default:
           return '';
       }
@@ -119,6 +121,9 @@ export default {
             break;
           case 'line':
             validateResult = validator.value.validateLine(state.form.account);
+            break;
+          case 'zalo':
+            validateResult = validator.value.validateZalo(state.form.account);
             break;
           default:
             break;

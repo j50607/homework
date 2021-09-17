@@ -265,6 +265,7 @@ const lang = {
   views_profile_userinfo_wechat: '微信',
   views_profile_userinfo_mailbox: '邮箱',
   views_profile_userinfo_line: 'LINE',
+  views_profile_userinfo_zalo: 'Zalo',
   views_profile_userinfo_setting: '设置',
   views_profile_userinfo_modifyLoginPassword: '修改登录密码',
   views_profile_userinfo_modifyWithdrawPassword: '修改提现密码',
