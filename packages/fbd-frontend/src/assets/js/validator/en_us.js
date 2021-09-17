@@ -1,9 +1,9 @@
 import Base from './base';
 
-class ZhCn extends Base {
+class EnUs extends Base {
   constructor() {
-    super(11, [1, 20], 50, '¥', 'en_us', [13, 19], 20, 20, 'EST');
+    super(15, [1, 20], 50, '$', 'en_us', [13, 19], 20, 20, 'EST');
   }
 }
 
-export default ZhCn;
+export default EnUs;
