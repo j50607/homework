@@ -33,7 +33,7 @@
               >
               {{ item.homeTeamName }}
             </div>
-            <div class="vs mb-1 pl-8">
+            <div class="vs mb-1">
               vs
             </div>
             <div class="team2 flex">
