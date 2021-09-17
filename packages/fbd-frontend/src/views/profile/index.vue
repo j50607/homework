@@ -309,9 +309,9 @@ export default {
     const checkServiceList = (list) => {
       let result = [];
 
-      if (!serviceUrl.value) {
-        const serviceIndex = list.findIndex((e) => e.redirect === 'service');
+      const serviceIndex = list.findIndex((e) => e.redirect === 'service');
 
+      if (!serviceUrl.value && serviceIndex > 0) {
         result = list.splice(serviceIndex, 1);
       } else {
         result = list;
