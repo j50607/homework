@@ -42,6 +42,7 @@
     :data="list"
     :selected-key="selectedKey"
     :modal-title="$t('views_home_matchNews')"
+    accordion
     id-key="annId"
     title-key="title"
     content-key="content"

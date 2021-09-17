@@ -11,6 +11,7 @@
           <a-collapse
             v-model:activeKey="activeKey"
             class="announcement"
+            :accordion="accordion"
           >
             <a-collapse-panel
               v-for="(item, index) in data"
@@ -97,6 +98,13 @@ export default {
     selectedKey: {
       type: Number,
       default: 1,
+    },
+    /**
+     * 手風琴模式
+     */
+    accordion: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:value'],
