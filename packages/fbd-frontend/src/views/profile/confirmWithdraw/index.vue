@@ -38,10 +38,9 @@
 </template>
 
 <script>
-import { computed, reactive } from 'vue';
+import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import dayjs from 'dayjs';
 import FinanceApi from '@/assets/js/api/financeApi';
 
@@ -50,7 +49,6 @@ export default {
     const { t } = useI18n();
     const route = useRoute();
     const router = useRouter();
-    const store = useStore();
 
     const list = [
       {
@@ -97,15 +95,13 @@ export default {
       loading: false,
     });
 
-    const account = computed(() => store.state.user.account);
-
     const applyWithdrawal = async () => {
       state.loading = true;
 
       const { code, data } = await FinanceApi.applyWithdrawal({
-        bankName: state.accountName,
+        bankName: state.bankName,
         amount: +state.amount,
-        accountName: account.value,
+        accountName: state.accountName,
         bankcardId: state.bankcardId,
         accountId: state.accountId,
         force: true,
@@ -117,7 +113,7 @@ export default {
       if (code === 200) {
         const params = {
           accountId: data.accountId,
-          accountName: data.bank,
+          accountName: data.accountName,
           orderNumber: data.orderNumber,
           processAt: dayjs(data.processAt).format('YYYY-MM-DD HH:mm:ss'),
           amount: state.amount,

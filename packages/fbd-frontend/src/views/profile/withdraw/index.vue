@@ -280,6 +280,7 @@ export default {
             forceCharge: forceCharge.value,
             amount: state.form.amount,
             withdrawBalance: withdrawBalance.value,
+            bankName: state.selectedItem.bankName,
             accountName: state.selectedItem.accountName,
             accountId: state.selectedItem.accountId,
             bankcardId: state.selectedItem.bankId,
