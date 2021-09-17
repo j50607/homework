@@ -241,6 +241,28 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
+  // 若有帶語言參數顯示該語言
+  const langQuery = to.query.lang;
+  if (langQuery) {
+    let formatLang;
+    switch (langQuery) {
+      case 'vi_vn':
+        formatLang = 'vi_vn';
+        break;
+      case 'zh_cn':
+        formatLang = 'zh_cn';
+        break;
+      case 'en_us':
+        formatLang = 'en_us';
+        break;
+      default:
+        formatLang = 'en_us';
+    }
+    Cookie.remove('language');
+    window.$vue.$i18n.locale = formatLang;
+    store.commit('SET_LOCALE', { lang: formatLang });
+  }
+
   const hasToken = Cookie.get('_tianyin_token');
   const isLogin = store.state.user?.isLogin;
   const transToSub = store.state.user?.transToSub;
@@ -270,10 +292,6 @@ router.beforeEach((to) => {
     }
   }
   return true;
-});
-
-router.afterEach(() => {
-  window.scrollTo(0, 0);
 });
 
 export default router;

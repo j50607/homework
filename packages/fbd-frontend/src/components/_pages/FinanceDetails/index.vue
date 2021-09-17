@@ -611,10 +611,8 @@ export default {
   margin-right: 20px;
 
   ::v-deep(.d-tabs-mobile-box) {
-    justify-content: space-between !important;
-
     .d-tabs-mobile-title {
-      margin-right: 0 !important;
+      margin-right: 8px !important;
     }
   }
 }
