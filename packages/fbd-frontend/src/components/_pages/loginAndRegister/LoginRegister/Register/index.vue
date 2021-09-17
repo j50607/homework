@@ -209,12 +209,14 @@
                       <img :src="$requireSafe('icon/phone.svg')">
                     </div>
 
-                    <a-input
+                    <a-input-number
                       v-model:value="state.formState.phoneInputValue"
-                      :type="'number'"
+                      v-all-number
+                      :maxlength="20"
                       :placeholder="$t('components_pages_loginAndRegister_loginRegister_register_phone_placeholder')"
                       @focus="focusPhoneInput"
                       @blur="blurPhoneInput"
+                      @keydown="checkKey"
                     />
                   </a-input-group>
                 </a-form-item>
@@ -1009,7 +1011,7 @@ export default {
 
     // methods
     const checkInputValue = () => {
-      if (isAccountBool.value || isPasswordBool.value || isConfirmPasswordBool.value || isAgentCodeBool.value || isRealNameBool.value || isNicknameBool.value || isPhoneBool.value || isEmailBool.value || isBirthdayBool.value || isGenderBool.value || isQQBool.value || isWechatBool.value || isLineBool.value || isZaloBool.value) {
+      if (isAccountBool.value && isPasswordBool.value && isConfirmPasswordBool.value && isAgentCodeBool.value && isRealNameBool.value && isNicknameBool.value && isPhoneBool.value && isEmailBool.value && isBirthdayBool.value && isGenderBool.value && isQQBool.value && isWechatBool.value && isLineBool.value && isZaloBool.value) {
         return true;
       }
 
@@ -1260,6 +1262,15 @@ export default {
       if (val) {
         focusGenderBool.value = false;
       }
+    };
+
+    const checkKey = (e) => {
+      const { key } = e;
+      if (key === 'e' || key === '-' || key === '+') {
+        e.returnValue = false;
+        return false;
+      }
+      return true;
     };
 
     const checkFocus = (type) => {
@@ -1563,6 +1574,7 @@ export default {
       confirmBirthday,
       checkSiteDomain,
       agentCodeReadonly,
+      checkKey,
     };
   },
 };
@@ -1631,7 +1643,8 @@ export default {
             background: #fff;
           }
 
-          &::v-deep(.ant-input) {
+          &::v-deep(.ant-input),
+          &::v-deep(.ant-input-number) {
             height: 30px;
             padding: 0 !important;
             border: none !important;
