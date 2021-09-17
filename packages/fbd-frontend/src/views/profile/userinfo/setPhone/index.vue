@@ -50,18 +50,18 @@
                   type="primary"
                   class="verify is-btn"
                   :loading="loading"
-                  :disabled="!state.form.phone || loading || state.form.phone.length !== (validator && validator.phoneLen) || countdowning"
+                  :disabled="!state.form.phone || loading || state.form.phone.length !== (validator && validator.phoneLen) || countdowning && smsResendSec> 0"
                   @click="getVerificationCode"
                 >
                   <span class="count-down-timer">
                     <a-statistic-countdown
-                      v-if="countdowning"
+                      v-if="countdowning && smsResendSec> 0"
                       format="ss"
                       :value="Date.now() + 1000 * smsResendSec"
                       value-style="color: #fff; font-size: 14px; margin-right:5px;"
                       @finish="countdowning = false"
                     />
-                    <span v-if="countdowning">
+                    <span v-if="countdowning && smsResendSec> 0">
                       {{ $t('views_profile_userinfo_setPhone_sec') }}
                     </span>
                     <span v-else>

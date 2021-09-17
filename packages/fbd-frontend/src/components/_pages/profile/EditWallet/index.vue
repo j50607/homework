@@ -47,18 +47,18 @@
             <a-button
               type="primary"
               class="verify is-btn"
-              :disabled="state.countdowning"
+              :disabled="state.countdowning && smsResendSec> 0"
               @click="getVerificationCode"
             >
               <span class="count-down-timer">
                 <a-statistic-countdown
-                  v-if="state.countdowning"
+                  v-if="state.countdowning && smsResendSec> 0"
                   format="ss"
                   :value="Date.now() + 1000 * smsResendSec"
                   value-style="color: #fff; font-size: 14px; margin-right:5px;"
                   @finish="state.countdowning = false"
                 />
-                <span v-if="state.countdowning">
+                <span v-if="state.countdowning && smsResendSec> 0">
                   {{ $t('views_profile_userinfo_setPhone_sec') }}
                 </span>
                 <span v-else>
@@ -103,7 +103,7 @@
           type="primary"
           block
           class="mt-8"
-          :disabled="!state.formState.walletAddress || !state.formState.chainType || (smsVerifySwitch && (!state.isClickSms || !verifyCode))"
+          :disabled="!state.formState.walletAddress || !state.formState.chainType || (smsVerifySwitch && (!state.isClickSms || !state.verifyCode))"
           @click="submit"
         >
           {{ $t('common_confirm') }}
