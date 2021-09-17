@@ -4,6 +4,7 @@
     :style="`justify-content:${leftPos || middlePos || rightPos}`"
   >
     <img
+      v-if="serviceUrl"
       class="is-btn"
       @click="goService"
       :src="$requireSafe('header/icon-service-white.svg')"

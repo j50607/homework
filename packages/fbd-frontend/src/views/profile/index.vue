@@ -126,7 +126,7 @@
     <div class="redirect mb-6">
       <div
         class="redirect-item is-btn"
-        v-for="(item, index) in redirectListBottom"
+        v-for="(item, index) in checkServiceList(redirectListBottom)"
         :key="index"
         @click="goPage(item.redirect)"
       >
@@ -306,6 +306,20 @@ export default {
       }
     };
 
+    const checkServiceList = (list) => {
+      let result = [];
+
+      if (!serviceUrl.value) {
+        const serviceIndex = list.findIndex((e) => e.redirect === 'service');
+
+        result = list.splice(serviceIndex, 1);
+      } else {
+        result = list;
+      }
+
+      return result;
+    };
+
     // hooks
     onBeforeMount(async () => {
       getUserPartialInfo();
@@ -334,6 +348,7 @@ export default {
       usersLockBalance,
       displayLanguageSwitch,
       transToSub,
+      checkServiceList,
     };
   },
 };
