@@ -130,6 +130,7 @@ import {
 } from 'vue';
 import dayjs from 'dayjs';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import SportApi from '@/assets/js/api/sportApi.js';
 import { isArray } from '@/assets/js/utils/utils';
 
@@ -155,6 +156,7 @@ export default {
 
     // use
     const router = useRouter();
+    const { t } = useI18n();
 
     // ref
     const scroll = ref(null);
@@ -273,6 +275,7 @@ export default {
         selectedGameDetail.value = selectedItem;
       } else {
         if (selectedItem.showCountDown === false) {
+          window.$vue.$message.info(t('views_betting_info_deadlineClosed'));
           return;
         }
         router.push({

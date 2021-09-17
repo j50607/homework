@@ -103,6 +103,7 @@ import { useStore } from 'vuex';
 import * as R from 'ramda';
 import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
+import { useI18n } from 'vue-i18n';
 import Match from '@/components/_pages/home/Match';
 import MatchNews from '@/components/_pages/home/MatchNews';
 import Promotion from '@/components/_pages/home/Promotion';
@@ -123,6 +124,7 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
+    const { t } = useI18n();
 
     const state = reactive({
       marqueeList: [],
@@ -185,6 +187,7 @@ export default {
 
     const goBet = (item) => {
       if (item.matchTime < dayjs().valueOf()) {
+        window.$vue.$message.info(t('views_betting_info_deadlineClosed'));
         return;
       }
 
