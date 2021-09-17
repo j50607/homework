@@ -274,6 +274,11 @@ export default {
           } else if (e.rel === 'manifest') {
             link.rel = 'manifest';
             link.href = `${manifestURL}`;
+          } else if (e.rel === 'apple-touch-startup-image') {
+            link.rel = e.rel;
+            link.media = e.media;
+            link.type = e.type;
+            link.href = e.href;
           }
         }
         head.appendChild(link);
