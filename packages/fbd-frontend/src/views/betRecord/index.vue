@@ -113,7 +113,7 @@
                 <div class="betrecord-text betrecord-text-sm">
                   {{ $t('views_betRecord_item_label2') }}
                 </div>
-                <div class="betrecord-text betrecord-text-lg betrecord-item-option">
+                <div class="betrecord-text betrecord-text-lg betrecord-item-option text-primary">
                   <span>
                     {{ renderGameInfo(item, 'playTypeSName') }}
                   </span>
@@ -641,12 +641,8 @@ export default {
     @apply flex items-center;
 
     span + span {
-      @apply ml-1;
+      @apply ml-2;
     }
-  }
-
-  &-item-option-em {
-    @apply text-primary;
   }
 
   &-text {

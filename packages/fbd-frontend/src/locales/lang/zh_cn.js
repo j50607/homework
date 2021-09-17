@@ -136,7 +136,7 @@ const lang = {
   views_betRecord_item_label4: '预估获利',
   views_betRecord_item_label5: '状态',
   views_betRecord_item_label6: '赛事名',
-  views_betRecord_item_label7: '项目名称',
+  views_betRecord_item_label7: '项目',
   views_betRecord_item_action1: '展开详情',
   views_betRecord_item_action2: '收回详情',
   views_bankcard_nextStep2: '确认',

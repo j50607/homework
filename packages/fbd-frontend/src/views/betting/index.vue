@@ -47,7 +47,7 @@
         <!-- name -->
         <div class="betting-team-row mb-1">
           <!-- H -->
-          <div class="betting-team-container px-betting-team-container betting-team-text-container">
+          <div class="betting-team-container px-betting-team-container betting-team-text-container ml-2 mr-8">
             <div
               class="betting-team-name betting-info-text betting-info-text-em"
               :class="{ 'betting-info-text-em-xs': !isChinese }"
@@ -56,7 +56,7 @@
             </div>
           </div>
           <!-- A -->
-          <div class="betting-team-container px-betting-team-container betting-team-text-container">
+          <div class="betting-team-container px-betting-team-container betting-team-text-container mr-2 ml-8">
             <div
               class="betting-team-name betting-info-text betting-info-text-em"
               :class="{ 'betting-info-text-em-xs': !isChinese }"
@@ -977,7 +977,7 @@ export default {
   }
 
   &-team-container {
-    @apply mx-3;
+    /* @apply mx-6; */
 
     width: 148px;
     max-width: 148px;
@@ -1002,8 +1002,8 @@ export default {
   &-team-logo {
     @apply mt-1 mb-2 mx-auto;
 
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
 
     img {
       @apply w-full h-full object-contain object-center;

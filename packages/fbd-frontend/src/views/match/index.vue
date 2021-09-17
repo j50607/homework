@@ -95,7 +95,7 @@
           <img
             :src="item.logoPath? `${s3Base}/${item.logoPath}`: $requireSafe('icon/default-league.svg')"
             alt=""
-            class="mr-2 w-8 h-8 object-contain"
+            class="league-img mr-2 object-contain"
           >
           <div class="league-text-content flex-1 text-sm">
             <div class="league-title mb-2 text-primary">
@@ -417,5 +417,10 @@ export default {
 .all-league-list {
   display: -webkit-box;
   display: -ms-flexbox;
+}
+
+.league-img {
+  width: 32px;
+  height: 32px;
 }
 </style>
