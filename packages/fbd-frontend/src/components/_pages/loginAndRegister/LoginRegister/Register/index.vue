@@ -419,6 +419,7 @@
       class="date-picker"
       v-model:visible="showBirthdayPickerBool"
       :min-date="1901"
+      :not-show-today="true"
       @confirm="confirmBirthday"
     />
   </div>
@@ -528,8 +529,8 @@ export default {
       ],
 
       genderList: [
-        { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_male'), value: 0 },
-        { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_female'), value: 1 },
+        { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_male'), value: 1 },
+        { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_female'), value: 0 },
         { label: window.$vue.$t('components_pages_loginAndRegister_loginRegister_register_gender_noSetting'), value: 2 },
       ],
 

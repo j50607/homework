@@ -56,6 +56,10 @@ export default {
       type: String,
       default: '/',
     },
+    notShowToday: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:value', 'change'],
   setup(props, { emit }) {
@@ -110,7 +114,7 @@ export default {
       const dateArr = [];
       const count = dayjs(`${state.valueArr[0]}/${state.valueArr[1]}`).daysInMonth();
       if (+state.valueArr[1] === +moment(new Date()).format('MM')) {
-        for (let i = 1; i <= +moment(new Date()).format('DD'); i++) {
+        for (let i = 1; i <= (props.notShowToday ? (+moment(new Date()).format('DD') - 1) : (+moment(new Date()).format('DD'))); i++) {
           dateArr.push(i);
         }
       } else {

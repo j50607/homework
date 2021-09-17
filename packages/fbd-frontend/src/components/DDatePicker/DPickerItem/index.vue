@@ -173,6 +173,8 @@ export default {
   li {
     height: 35px;
     overflow: hidden;
+    color: #4d5771;
+    font-size: 16px;
     line-height: 35px;
     text-align: center;
 

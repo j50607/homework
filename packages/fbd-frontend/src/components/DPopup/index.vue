@@ -233,6 +233,7 @@ $border-radius: 8px;
   font-weight: bold;
 
   .title {
+    color: #4d5772;
     font-weight: 700;
     font-size: 14px;
   }

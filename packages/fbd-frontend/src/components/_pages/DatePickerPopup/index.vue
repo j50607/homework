@@ -49,6 +49,7 @@
         :min-date="minDate"
         :max-date="maxDate"
         :format="format"
+        :not-show-today="notShowToday"
         @change="change"
       />
     </transition>
@@ -97,6 +98,10 @@ export default {
       default: false,
     },
     useSelect: {
+      type: Boolean,
+      default: false,
+    },
+    notShowToday: {
       type: Boolean,
       default: false,
     },
