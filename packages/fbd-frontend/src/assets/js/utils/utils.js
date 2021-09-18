@@ -479,7 +479,7 @@ export const numWithCommas = (amount) => {
 
   const integerStr = Math.trunc(num).toString();
   const decimalStr = num.toString()?.split('.')[1] ?? '';
-  const integerStrWithCommas = integerStr.replace(/.(?=(?:.{3})+$)/g, '$&,');
+  const integerStrWithCommas = integerStr.replace(/\B(?=(?:\d{3})+$)/g, '$&,');
   const point = decimalStr ? '.' : '';
   return `${integerStrWithCommas}${point}${decimalStr}`;
 };
