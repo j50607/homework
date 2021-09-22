@@ -325,6 +325,7 @@ const lang = {
   views_finance_popup_poundage: 'Fees',
   views_finance_popup_wallet_account_change: 'Wallet changing',
   views_finance_popup_transfer_record: 'Transfer record',
+  views_finance_popup_order: 'Place an order',
   views_finance_popup_other: 'Others',
   views_profile_wallet_addSuccess: 'Wallet has been added successfully',
   views_finance: 'Account details',

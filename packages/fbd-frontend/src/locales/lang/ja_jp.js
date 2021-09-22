@@ -100,6 +100,7 @@ const lang = {
   views_finance_popup_poundage: '手续费',
   views_finance_popup_wallet_account_change: '钱包变帐',
   views_finance_popup_transfer_record: '转账记录',
+  views_finance_popup_order: '下单',
   views_finance_popup_other: '其他',
   views_finance: '账务明细',
   views_finance_balance: '余额',

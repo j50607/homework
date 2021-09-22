@@ -327,6 +327,7 @@ const lang = {
   views_finance_popup_wallet_account_change: 'Túi tiền đổi khoản',
   views_finance_popup_transfer_record: 'Lịch sử chuyển khoản',
   views_finance_popup_profit: 'Lợi nhuận',
+  views_finance_popup_order: 'Đặt hàng',
   views_finance_popup_other: 'khác',
   views_profile_wallet_addSuccess: 'Đã thêm túi tiền thành công',
   views_finance: 'Chi tiết kết toán',

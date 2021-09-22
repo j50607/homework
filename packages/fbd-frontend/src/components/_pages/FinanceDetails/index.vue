@@ -247,6 +247,7 @@ export default {
         { label: window.$vue.$t('views_finance_popup_wallet_account_change'), value: [12, 13, 31, 51, 52] },
         { label: window.$vue.$t('views_finance_popup_transfer_record'), value: [46, 47, 49, 50] },
         { label: window.$vue.$t('views_finance_popup_profit'), value: [7] },
+        { label: window.$vue.$t('views_finance_popup_order'), value: [6] },
         { label: window.$vue.$t('views_finance_popup_other'), value: [53, 54] },
       ],
       checkResult: [],
