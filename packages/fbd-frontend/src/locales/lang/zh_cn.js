@@ -247,6 +247,10 @@ const lang = {
   views_profile_transfer_table_title_money: '金额',
   views_profile_transfer_noWithdrawCode: '尚未绑定钱包\n 页面将跳转至绑定钱包',
   views_profile_transfer_transfer_disable: '功能未开启',
+  views_profile_promotion_allActivity: '全部活动',
+  views_profile_promotion_passedActivity: '过往活动',
+  views_profile_promotion_noData: '暂无活动',
+
   // newend
   views_profile_depositHandling: '入款进行中',
   views_profile_userinfo_title: '个人资料',

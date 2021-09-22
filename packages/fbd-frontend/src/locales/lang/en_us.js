@@ -247,6 +247,10 @@ const lang = {
   views_profile_transfer_table_title_money: 'Amount',
   views_profile_transfer_noWithdrawCode: 'You haven’t bound your wallet,\n the page jumps to the wallet binding',
   views_profile_transfer_transfer_disable: 'The function is not turned on',
+  views_profile_promotion_allActivity: '全部活动',
+  views_profile_promotion_passedActivity: '过往活动',
+  views_profile_promotion_noData: '暂无活动',
+
   // newend
   views_profile_depositHandling: 'Processing Deposits',
   views_profile_userinfo_title: 'Personal Info',

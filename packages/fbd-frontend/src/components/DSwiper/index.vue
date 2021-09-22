@@ -11,7 +11,7 @@
     <swiper-slide
       v-for="item in imgList"
       :key="item.img"
-      @click="goLink(item.link)"
+      @click="!homePromotion? goLink(item) : goPromotion(item)"
     >
       <img
         v-if="localImg"
@@ -46,6 +46,8 @@ import 'swiper/swiper-bundle.css';
 import {
   ref, onMounted, onBeforeUnmount, computed, inject,
 } from 'vue';
+
+import { useRouter } from 'vue-router';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -83,8 +85,14 @@ export default {
         };
       },
     },
+    homePromotion: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
+    // use
+    const router = useRouter();
     let vSwiper = null;
     let timer = null;
     // ref
@@ -114,10 +122,29 @@ export default {
       }, 50);
     };
 
-    const goLink = (link) => {
-      if (!link) return;
+    const goLink = (item) => {
+      if (item.linkType === 0) {
+        router.push({
+          name: 'Promotion',
+          params: {
+            activityId: item.link,
+          },
+        });
+      } else {
+        if (!item.link) return;
+        window.location = item.link;
+      }
+    };
 
-      window.location = link;
+    const goPromotion = (item) => {
+      router.push({
+        name: 'Promotion',
+        params: {
+          titleImg: item.activityImgUrl,
+          contentImg: item.contentImgUrl,
+          actUrl: item.activityUrl,
+        },
+      });
     };
 
     // hooks
@@ -137,6 +164,7 @@ export default {
       swiperLoop,
       goLink,
       clientMode,
+      goPromotion,
     };
   },
 };

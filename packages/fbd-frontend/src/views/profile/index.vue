@@ -274,7 +274,6 @@ export default {
         case '/profile/report':
         case '/profile/vip':
         case '/profile/share':
-        case '/profile/promotion':
         case '/profile/verify':
           window.$vue.$message.info(t('common_comingSoon'));
           break;

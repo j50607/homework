@@ -82,17 +82,21 @@ class SystemApi extends API {
 
   /**
    * 取得優惠活動
-   * @param {NUmber} activityId - 活動ID
+   * @param {Number} activityId - 活動ID
    * @param {Boolean} simplify - 簡化輸出(default = true)
    * @param {String} start - 活動開始時間
+   * @param {Number} type - 活動種類
    */
-  static async getActivityList({ activityId, simplify, dateTimeStart } = {}) {
+  static async getActivityList({
+    type, activityId, simplify, dateTimeStart,
+  } = {}) {
     const params = {
       activityId,
       simplify,
       displaySwitch: true,
       status: true,
       dateTimeStart,
+      type,
     };
 
     const result = await this.callAxios('POST', '/api/activity/detail/get', params, undefined, false);
@@ -144,6 +148,15 @@ class SystemApi extends API {
     };
 
     return this.callAxios('POST', '/site/domain/check', params, undefined, false);
+  }
+
+  /**
+   * 取得活動种类清单
+   */
+  static async getActivityTypeList() {
+    const result = await this.callAxios('POST', '/api/activity/type-list/get', undefined, undefined, false);
+
+    return result;
   }
 }
 

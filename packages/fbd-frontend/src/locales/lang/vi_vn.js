@@ -214,6 +214,10 @@ const lang = {
   views_profile_noWallet: 'chưa liên kết túi tiền',
   views_profile_goBind: 'túi tiền liên kết hiện tại',
   views_profile_deposit: 'Nạp tiền',
+  views_profile_promotion_allActivity: '全部活动',
+  views_profile_promotion_passedActivity: '过往活动',
+  views_profile_promotion_noData: '暂无活动',
+
   // newstart
   views_profile_deposit_cryptoChannel: 'Kênh thanh toán tiền điện tử',
   views_profile_deposit_checkTeaching: 'kiểm tra giáo trình',

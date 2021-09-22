@@ -15,6 +15,7 @@
       :img-list="list"
       :delay="5000"
       :local-img="false"
+      :home-promotion="true"
     />
   </div>
 </template>
@@ -26,7 +27,7 @@ import {
 import dayjs from 'dayjs';
 import * as R from 'ramda';
 import SystemApi from '@/assets/js/api/systemApi';
-import { isValidUrl } from '@/assets/js/utils/utils';
+// import { isValidUrl } from '@/assets/js/utils/utils';
 
 export default {
   setup() {
@@ -54,7 +55,9 @@ export default {
 
     const mappingActivity = (arr) => arr.map((item) => ({
       img: `${s3Base.value}/${item.mobileActivityImg || item.activityImg}`,
-      link: isValidUrl(item.activityUrl) ? item.activityUrl : '',
+      contentImgUrl: item.mobileActivityContentImg,
+      activityImgUrl: item.mobileActivityImg,
+      activityUrl: item.activityUrl,
     }));
 
     onMounted(async () => {

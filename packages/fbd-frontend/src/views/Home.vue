@@ -152,6 +152,7 @@ export default {
 
     const mappingCarousel = (arr) => arr.map((item) => ({
       img: `${s3Base.value}/${item.mobile || item.pc}`,
+      linkType: item.linkType,
       link: isValidUrl(item.link) ? item.link : '',
     }));
 
