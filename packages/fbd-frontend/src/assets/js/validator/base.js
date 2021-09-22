@@ -559,6 +559,38 @@ class Base {
   }
 
   /**
+   * whatsapp验证
+   * @param {String} whatsApp - whatsApp
+   * @param {Boolean} toast - 是否显示错误讯息
+   */
+   validateWhatsApp(whatsApp, toast = false) {
+    const emptyMessage = window.$vue.$t('common_errorEmptyWhatsApp');
+    if (!this._validateEmpty(whatsApp, emptyMessage, toast)) {
+      return this._getResult(false, emptyMessage);
+    }
+
+    const fullWidthMessage = window.$vue.$t('common_errorNoFullWidthWhatsApp');
+    if (!this._validateFullWidth(whatsApp, fullWidthMessage, toast)) {
+      return this._getResult(false, fullWidthMessage);
+    }
+
+    const formatMessage = window.$vue.$t('common_errorFormat');
+    if (!this._validateChinese(whatsApp, formatMessage, toast)) {
+      return this._getResult(false, formatMessage);
+    }
+
+    const lengthMessage = window.$vue.$t('common_errorLength');
+    if (whatsApp.length > 30) {
+      if (toast) {
+        this._showToast(lengthMessage);
+      }
+      return this._getResult(false, lengthMessage);
+    }
+
+    return this._getResult(true);
+  }
+
+  /**
    * wechat验证
    * @param {String} wechat - wechat
    * @param {Boolean} toast - 是否显示错误讯息

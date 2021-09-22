@@ -39,6 +39,8 @@ const lang = {
   common_errorNoFullWidthWechat: 'Wechat account cannot contain full-width characters',
   common_errorEmptyQq: 'Please enter you QQ account',
   common_errorNoFullWidthQq: 'QQ account cannot contain full-width characters',
+  common_errorEmptyWhatsApp: '请输入WhatsApp账号',
+  common_errorNoFullWidthWhatsApp: 'WhatsApp账号不可包含全形字元',
   common_errorEmptyEmail: 'Please enter your email',
   common_errorEmptyPhone: 'Please enter your mobile number',
   common_errorEmptyRealName: 'Please enter your real name',
@@ -277,6 +279,7 @@ const lang = {
   views_profile_userinfo_mailbox: 'Email',
   views_profile_userinfo_line: 'LINE',
   views_profile_userinfo_zalo: 'Zalo',
+  views_profile_userinfo_whatsapp: 'WhatsApp',
   views_profile_userinfo_setting: 'Settings',
   views_profile_userinfo_modifyLoginPassword: 'Change Login Password',
   views_profile_userinfo_modifyWithdrawPassword: 'Change Cash Withdrawal Password',
@@ -417,6 +420,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_line: 'Line',
   components_pages_loginAndRegister_loginRegister_register_line_placeholder: 'Please enter your Line account number',
   components_pages_loginAndRegister_loginRegister_register_zalo: 'Zalo',
+  components_pages_loginAndRegister_loginRegister_register_whatsApp: 'WhatsApp',
+  components_pages_loginAndRegister_loginRegister_register_whatsApp_placeholder: '请输入WhatsApp号',
   components_pages_loginAndRegister_loginRegister_register_zalo_placeholder: 'Please enter your Zalo account number',
   components_pages_loginAndRegister_loginRegister_register_birthday: 'Birthday',
   components_pages_loginAndRegister_loginRegister_register_birthday_placeholder: 'Please enter the birthday',
@@ -543,6 +548,10 @@ const lang = {
   error37: 'Wallet address does not contain special characters or punctuation',
   error38: 'Wallet address cannot contain any Chinese characters',
   error39: 'The length of the wallet address must be less than 100 characters',
+  error40: '请输入whatsApp账号',
+  error41: 'whatsApp账号不可包含全形字元',
+  error42: 'whatsApp 字数过长',
+  error43: 'whatsApp账号不包含特殊字符或标点符号',
 };
 
 export default {

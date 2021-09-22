@@ -348,6 +348,32 @@
                   </a-input-group>
                 </a-form-item>
 
+                <!--whatsapp-->
+                <a-form-item
+                  v-if="registerSetting.showWhatsApp"
+                  class="main-input"
+                  name="whatsappInputValue"
+                  :label="$t('components_pages_loginAndRegister_loginRegister_register_whatsApp')"
+                >
+                  <a-input-group
+                    compact
+                    class="main-input"
+                    :class="[checkFocus('whatsApp')]"
+                  >
+                    <div class="input-icon">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/whatsapp.svg`)">
+                    </div>
+
+                    <a-input
+                      v-model:value="state.formState.whatsappInputValue"
+                      :type="'text'"
+                      :placeholder="$t('components_pages_loginAndRegister_loginRegister_register_whatsApp_placeholder')"
+                      @focus="focusWhatsappInput"
+                      @blur="blurWhatsappInput"
+                    />
+                  </a-input-group>
+                </a-form-item>
+
                 <a-form-item
                   v-if="registerSetting.showLine"
                   class="main-input"
@@ -480,6 +506,7 @@ export default {
     const phoneBool = ref(false);
     const qqBool = ref(false);
     const weixinBool = ref(false);
+    const whatsappBool = ref(false);
     const emailBool = ref(false);
     const lineBool = ref(false);
     const zaloBool = ref(false);
@@ -495,6 +522,7 @@ export default {
     const focusPhoneBool = ref(false);
     const focusQQBool = ref(false);
     const focusWeixinBool = ref(false);
+    const focusWhatsappBool = ref(false);
     const focusEmailBool = ref(false);
     const focusLineBool = ref(false);
     const focusZaloBool = ref(false);
@@ -547,6 +575,7 @@ export default {
         emailInputValue: undefined,
         qqInputValue: undefined,
         weixinInputValue: undefined,
+        whatsappInputValue: undefined,
         lineInputValue: undefined,
         zaloInputValue: undefined,
         birthdayInputValue: undefined,
@@ -755,6 +784,32 @@ export default {
       return Promise.resolve();
     };
 
+    const registerWhatsApp = computed(() => store.state.info.registerSetting.registerWhatsApp);
+    const WhatsAppValidate = async (rule, value) => {
+      const regCantContainChinese = /[`~!@#$^&*()=|{}':;',[\]<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]/;
+
+      const regCantContainFull = /[\uFF00-\uFFFF]/g;
+
+      if (registerWhatsApp.value) {
+        if (!value || !value.trim()) {
+          whatsappBool.value = false;
+          return Promise.reject(new Error(t('error40')));
+        } if (regCantContainChinese.test(value)) {
+          whatsappBool.value = false;
+          return Promise.reject(new Error(t('error41')));
+        } if (regCantContainFull.test(value)) {
+          whatsappBool.value = false;
+          return Promise.reject(new Error(t('error42')));
+        } if (value.length > 20) {
+          whatsappBool.value = false;
+          return Promise.reject(new Error(t('error43')));
+        }
+      }
+
+      whatsappBool.value = true;
+      return Promise.resolve();
+    };
+
     const registerLine = computed(() => store.state.info.registerSetting.registerLine);
     const lineValidate = async (rule, value) => {
       const regCantContainChinese = /[`~!@#$^&*()=|{}':;',[\]<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]/;
@@ -874,6 +929,7 @@ export default {
       emailInputValue: [{ required: registerEmail.value, validator: emailValidate, trigger: 'change' }],
       qqInputValue: [{ required: registerQQ.value, validator: qqValidate, trigger: 'change' }],
       weixinInputValue: [{ required: registerWechat.value, validator: weixinValidate, trigger: 'change' }],
+      whatsappInputValue: [{ required: registerWhatsApp.value, validator: WhatsAppValidate, trigger: 'change' }],
       lineInputValue: [{ required: registerLine.value, validator: lineValidate, trigger: 'change' }],
       zaloInputValue: [{ required: registerZalo.value, validator: zaloValidate, trigger: 'change' }],
       birthdayInputValue: [{ required: registerBirthday.value, validator: birthdayValidate, trigger: 'change' }],
@@ -1002,6 +1058,16 @@ export default {
       return true;
     });
 
+    const isWhatsappBool = computed(() => {
+      if (registerWhatsApp.value) {
+        if (whatsappBool.value && state.formState.whatsappInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
     const isLineBool = computed(() => {
       if (registerLine.value) {
         if (lineBool.value && state.formState.lineInputValue) {
@@ -1023,7 +1089,7 @@ export default {
     });
 
     const checkInputValue = computed(() => {
-      if (isAccountBool.value && isPasswordBool.value && isConfirmPasswordBool.value && isAgentCodeBool.value && isRealNameBool.value && isNicknameBool.value && isPhoneBool.value && isEmailBool.value && isBirthdayBool.value && isGenderBool.value && isQQBool.value && isWechatBool.value && isLineBool.value && isZaloBool.value) {
+      if (isAccountBool.value && isPasswordBool.value && isConfirmPasswordBool.value && isAgentCodeBool.value && isRealNameBool.value && isNicknameBool.value && isPhoneBool.value && isEmailBool.value && isBirthdayBool.value && isGenderBool.value && isQQBool.value && isWechatBool.value && isWhatsappBool.value && isLineBool.value && isZaloBool.value) {
         return true;
       }
 
@@ -1216,6 +1282,18 @@ export default {
       }
     };
 
+    const focusWhatsappInput = (val) => {
+      if (val && val.type === 'focus') {
+        focusWhatsappBool.value = true;
+      }
+    };
+
+    const blurWhatsappInput = (val) => {
+      if (val) {
+        focusWhatsappBool.value = false;
+      }
+    };
+
     const focusEmailInput = (val) => {
       if (val && val.type === 'focus') {
         focusEmailBool.value = true;
@@ -1385,6 +1463,18 @@ export default {
             result = 'blur-input';
           }
           break;
+        case 'whatsApp':
+          if (focusWhatsappBool.value && !whatsappBool.value) {
+            result = 'has-error';
+          } else if (focusWhatsappBool.value) {
+            result = 'focus-input';
+          } else if (!whatsappBool.value) {
+            focusWhatsappBool.value = false;
+            result = 'has-error';
+          } else {
+            result = 'blur-input';
+          }
+          break;
         case 'weixin':
           if (focusWeixinBool.value && !weixinBool.value) {
             result = 'has-error';
@@ -1474,6 +1564,7 @@ export default {
       focusPhoneBool.value = false;
       focusQQBool.value = false;
       focusWeixinBool.value = false;
+      focusWhatsappBool.value = false;
       focusEmailBool.value = false;
       focusLineBool.value = false;
       focusZaloBool.value = false;
@@ -1489,6 +1580,7 @@ export default {
       phoneBool.value = true;
       qqBool.value = true;
       weixinBool.value = true;
+      whatsappBool.value = true;
       emailBool.value = true;
       lineBool.value = true;
       zaloBool.value = true;
@@ -1553,6 +1645,7 @@ export default {
       focusPhoneBool,
       focusQQBool,
       focusWeixinBool,
+      focusWhatsappBool,
       focusRealNameInput,
       blurRealNameInput,
       focusNicknameInput,
@@ -1563,6 +1656,8 @@ export default {
       blurQQInput,
       focusWeixinInput,
       blurWeixinInput,
+      focusWhatsappInput,
+      blurWhatsappInput,
       registerRef,
       emailBool,
       focusEmailBool,

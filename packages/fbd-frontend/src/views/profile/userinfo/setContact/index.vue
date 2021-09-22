@@ -105,6 +105,8 @@ export default {
           return t('views_profile_userinfo_line');
         case 'zalo':
           return t('views_profile_userinfo_zalo');
+        case 'whatsApp':
+          return t('views_profile_userinfo_whatsapp');
         default:
           return '';
       }
@@ -129,6 +131,9 @@ export default {
             break;
           case 'zalo':
             validateResult = validator.value.validateZalo(state.form.account);
+            break;
+          case 'whatsApp':
+            validateResult = validator.value.validateWhatsApp(state.form.account);
             break;
           default:
             break;

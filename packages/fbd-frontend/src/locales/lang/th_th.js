@@ -38,6 +38,8 @@ const lang = {
   common_errorNoFullWidthWechat: 'บัญชี WeChat ไม่สามารถมีอักขระแบบเต็ม',
   common_errorEmptyQq: 'โปรดป้อนบัญชี QQ ของคุณ',
   common_errorNoFullWidthQq: 'บัญชี QQ ไม่สามารถมีอักขระแบบเต็ม',
+  common_errorEmptyWhatsApp: '请输入WhatsApp账号',
+  common_errorNoFullWidthWhatsApp: 'WhatsApp账号不可包含全形字元',
   common_errorEmptyEmail: 'กรุณากรอกอีเมล์',
   common_errorEmptyPhone: 'กรุณากรอกหมายเลขโทรศัพท์',
   common_errorEmptyRealName: 'กรุณากรอกชื่อจริงของท่าน',
@@ -164,6 +166,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_line_placeholder: '请输入Line',
   components_pages_loginAndRegister_loginRegister_register_zalo: 'Zalo',
   components_pages_loginAndRegister_loginRegister_register_zalo_placeholder: '请输入Zalo',
+  components_pages_loginAndRegister_loginRegister_register_whatsApp: 'WhatsApp',
+  components_pages_loginAndRegister_loginRegister_register_whatsApp_placeholder: '请输入WhatsApp号',
   components_pages_loginAndRegister_loginRegister_register_birthday: '生日',
   components_pages_loginAndRegister_loginRegister_register_birthday_placeholder: '请输入生日',
   components_pages_loginAndRegister_loginRegister_register_gender: '性别',
@@ -234,6 +238,10 @@ const lang = {
   error37: '钱包地址不可包含特殊字元或标点符号',
   error38: '钱包地址不可包含中文',
   error39: '钱包地址必须小于100字元',
+  error40: '请输入whatsApp账号',
+  error41: 'whatsApp账号不可包含全形字元',
+  error42: 'whatsApp 字数过长',
+  error43: 'whatsApp账号不包含特殊字符或标点符号',
 };
 
 export default {

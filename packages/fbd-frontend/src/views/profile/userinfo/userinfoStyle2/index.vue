@@ -279,6 +279,7 @@ export default {
       { label: t('views_profile_userinfo_wechat'), redirect: '/profile/userinfo/setContact', value: 'wechat' },
       { label: t('views_profile_userinfo_mailbox'), redirect: '/profile/userinfo/setContact', value: 'email' },
       { label: t('views_profile_userinfo_line'), redirect: '/profile/userinfo/setContact', value: 'line' },
+      { label: t('views_profile_userinfo_whatsapp'), redirect: '/profile/userinfo/setContact', value: 'whatsApp' },
       { label: t('views_profile_userinfo_zalo'), redirect: '/profile/userinfo/setContact', value: 'zalo' },
     ]);
 
@@ -320,6 +321,7 @@ export default {
           'zalo',
           'qqAccount',
           'wechat',
+          'whatsApp',
         ],
       };
       const { code, data } = await MemberApi.getUserPartialInfo(params);
@@ -341,6 +343,7 @@ export default {
           zalo: data.zalo,
           qqAccount: data.qqAccount,
           wechat: data.wechat,
+          whatsapp: data.whatsApp,
         });
       }
     };
@@ -392,6 +395,7 @@ export default {
         case 'email':
         case 'line':
         case 'zalo':
+        case 'whatsApp':
           router.push({ path: item.redirect, query: { type: item.value } });
           break;
         case 'modifyWithdrawPassword':
@@ -470,6 +474,8 @@ export default {
           return registerSetting.value.showLine;
         case 'zalo':
           return registerSetting.value.showZalo;
+        case 'whatsApp':
+          return registerSetting.value.showWhatsApp;
         default:
           return true;
       }

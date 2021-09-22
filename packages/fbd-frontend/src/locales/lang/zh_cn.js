@@ -39,6 +39,8 @@ const lang = {
   common_errorNoFullWidthWechat: '微信账号不可包含全形字元',
   common_errorEmptyQq: '请输入QQ账号',
   common_errorNoFullWidthQq: 'QQ账号不可包含全形字元',
+  common_errorEmptyWhatsApp: '请输入WhatsApp账号',
+  common_errorNoFullWidthWhatsApp: 'WhatsApp账号不可包含全形字元',
   common_errorEmptyEmail: '请输入Email',
   common_errorEmptyPhone: '请输入手机号码',
   common_errorEmptyRealName: '请输入真实姓名',
@@ -279,6 +281,7 @@ const lang = {
   views_profile_userinfo_mailbox: '邮箱',
   views_profile_userinfo_line: 'LINE',
   views_profile_userinfo_zalo: 'Zalo',
+  views_profile_userinfo_whatsapp: 'WhatsApp',
   views_profile_userinfo_setting: '设置',
   views_profile_userinfo_modifyLoginPassword: '修改登录密码',
   views_profile_userinfo_modifyWithdrawPassword: '修改提现密码',
@@ -421,6 +424,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_line_placeholder: '请输入Line',
   components_pages_loginAndRegister_loginRegister_register_zalo: 'Zalo',
   components_pages_loginAndRegister_loginRegister_register_zalo_placeholder: '请输入Zalo',
+  components_pages_loginAndRegister_loginRegister_register_whatsApp: 'WhatsApp',
+  components_pages_loginAndRegister_loginRegister_register_whatsApp_placeholder: '请输入WhatsApp号',
   components_pages_loginAndRegister_loginRegister_register_birthday: '生日',
   components_pages_loginAndRegister_loginRegister_register_birthday_placeholder: '请输入生日',
   components_pages_loginAndRegister_loginRegister_register_gender: '性别',
@@ -548,6 +553,10 @@ const lang = {
   error37: '钱包地址不可包含特殊字元或标点符号',
   error38: '钱包地址不可包含中文',
   error39: '钱包地址必须小于100字元',
+  error40: '请输入whatsApp账号',
+  error41: 'whatsApp账号不可包含全形字元',
+  error42: 'whatsApp 字数过长',
+  error43: 'whatsApp账号不包含特殊字符或标点符号',
 };
 
 export default {
