@@ -553,6 +553,9 @@ const lang = {
   error41: 'whatsApp账号不可包含全形字元',
   error42: 'whatsApp 字数过长',
   error43: 'whatsApp账号不包含特殊字符或标点符号',
+  error44: '6-12 chữ và số',
+  error45: 'Tài khoản không chứa các ký tự đặc biệt hoặc dấu chấm câu',
+  error46: 'Tài khoản không được chứa các ký tự có độ rộng đầy đủ',
 };
 
 export default {

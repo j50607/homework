@@ -553,6 +553,9 @@ const lang = {
   error41: 'whatsApp账号不可包含全形字元',
   error42: 'whatsApp 字数过长',
   error43: 'whatsApp账号不包含特殊字符或标点符号',
+  error44: '6-12 alphanumerics',
+  error45: 'Account does not contain special characters or punctuation marks',
+  error46: 'Account cannot contain full-width characters',
 };
 
 export default {

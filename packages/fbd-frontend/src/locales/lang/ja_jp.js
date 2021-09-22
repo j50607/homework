@@ -242,6 +242,9 @@ const lang = {
   error41: 'whatsApp账号不可包含全形字元',
   error42: 'whatsApp 字数过长',
   error43: 'whatsApp账号不包含特殊字符或标点符号',
+  error44: '6〜12文字の英数字',
+  error45: 'アカウントに特殊文字または句読点が含まれていません',
+  error46: 'アカウントに全幅文字を含めることはできません',
 };
 
 export default {

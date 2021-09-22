@@ -590,11 +590,30 @@ export default {
     const accountValidate = async (rule, value) => {
       value = value?.toString();
 
+      const regSymbol = /[`~!@#$^&%*()=|{}':;',[\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？/+/]/;
+
+      const regFullWords = /[\u4E00-\u9FA5]+/;
+
       switch (registerType.value) {
         case 'ACCOUNT':
-          if (!value || value === '') {
+          if (!value || value === '' || !value.trim()) {
             accountBool.value = false;
             return Promise.reject(new Error(t('error1')));
+          }
+
+          if (regSymbol.test(value)) {
+            accountBool.value = false;
+            return Promise.reject(new Error(t('error46')));
+          }
+
+          if (regFullWords.test(value)) {
+            accountBool.value = false;
+            return Promise.reject(new Error(t('error45')));
+          }
+
+          if (value.length < 6 || value.length > 12) {
+            accountBool.value = false;
+            return Promise.reject(new Error(t('error44')));
           }
 
           accountBool.value = true;
