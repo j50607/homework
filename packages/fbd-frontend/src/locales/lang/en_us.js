@@ -371,7 +371,7 @@ const lang = {
   components_dSelectDateModal_sevenDays3: 'Within 7 Days',
   components_dSelectDateModal_custom: 'Customized',
   components_dSelectDateModal_custom2: 'Customized',
-  components_scroll_allLoaded: 'All loaded',
+  components_scroll_allLoaded: 'Loaded',
   components_scroll_pullUpLoading: 'Loading…',
   components_scroll_pullDownLoading: 'Refreshing',
   components_scroll_continuePullUp: 'Continue to pull up and load',
