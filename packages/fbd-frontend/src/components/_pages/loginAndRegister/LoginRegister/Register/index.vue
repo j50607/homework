@@ -608,15 +608,32 @@ export default {
 
     const registerRealName = computed(() => store.state.info.registerSetting.registerRealName);
     const realNameValidate = async (rule, value) => {
-      const regCantFull = /[\uFF00-\uFFFF]/g;
+      // const regCantFull = /[\uFF00-\uFFFF]/g;
 
       if (registerRealName.value) {
         if (!value || !value.trim()) {
           realNameBool.value = false;
           return Promise.reject(new Error(t('error8')));
-        } if (regCantFull.test(value)) {
+        }
+        // if (regCantFull.test(value)) {
+        //   realNameBool.value = false;
+        //   return Promise.reject(new Error(t('error10')));
+        // }
+        if (value.length > 50) {
           realNameBool.value = false;
-          return Promise.reject(new Error(t('error10')));
+          return Promise.reject(new Error(t('error11')));
+        }
+      } else if (!registerRealName.value) { // 不是必填但有输值时阻挡
+        if (value) {
+          if (value.length > 0 && !value.trim()) {
+            realNameBool.value = false;
+            return Promise.reject(new Error(t('error8')));
+          }
+
+          if (value.length > 50) {
+            realNameBool.value = false;
+            return Promise.reject(new Error(t('error11')));
+          }
         }
       }
 

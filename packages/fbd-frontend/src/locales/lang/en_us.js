@@ -463,7 +463,7 @@ const lang = {
   error8: 'Please enter your real name',
   error9: 'Real name cannot contain special characters or punctuation marks and numbers',
   error10: 'Real name cannot contain full-width characters',
-  error11: 'Real name must be in English and no more than 50 characters',
+  error11: 'Real name must be no more than 50 characters',
   error12: 'Please enter a nickname',
   error13: 'Nickname can only enter 1-8 Chinese characters and English numbers',
   error14: 'The length of the nickname must be less than 8 characters',

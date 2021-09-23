@@ -464,7 +464,7 @@ const lang = {
   error8: 'vui lòng nhập tên thật',
   error9: 'tên thật không thể chứa  chữ đặc biệt hoặc ký tự với số',
   error10: 'tên thật không thể chứa bao gồm kí tự',
-  error11: 'tên thật bắt buộc là tiếng anh và không vượt quá 50 chữ',
+  error11: 'tên thật không được vượt quá 50 ký tự',
   error12: 'vui lòng nhập nickname',
   error13: 'nickname chỉ được nhập 1-8 chữ và số',
   error14: 'độ dài nickname bắt buộc phải dưới 8 chữ số',

@@ -56,7 +56,7 @@
 
 <script>
 import {
-  ref, reactive, computed, inject,
+  ref, reactive, computed,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -71,7 +71,7 @@ export default {
     const store = useStore();
 
     // inject
-    const validator = inject('$validator');
+    // const validator = inject('$validator');
 
     // ref
     const formRef = ref(null);
@@ -84,8 +84,20 @@ export default {
       },
     });
 
+    const realNameValidate = async (rule, value) => {
+      if (!value || !value.trim()) {
+        loading.value = false;
+        return Promise.reject(new Error(t('error8')));
+      }
+      if (value.length > 50) {
+        loading.value = false;
+        return Promise.reject(new Error(t('error11')));
+      }
+      return Promise.resolve();
+    };
+
     const rules = {
-      realName: [{ required: true, message: t('common_errorNoEmpty'), trigger: ['change', 'blur'] }],
+      realName: [{ required: true, validator: realNameValidate, trigger: ['change', 'blur'] }],
     };
 
     // computed
@@ -94,31 +106,33 @@ export default {
     const account = computed(() => store.state.user.account);
 
     // methods
-    const submit = async () => {
-      loading.value = true;
-      if (state.form.realName) {
-        let validateResult = true;
+    const submit = () => {
+      formRef.value.validate().then(async () => {
+        loading.value = true;
+        // if (state.form.realName) {
+        //   let validateResult = true;
 
-        validateResult = validator.value.validateName(state.form.realName);
-        if (!validateResult.result) {
-          window.$vue.$message.error(validateResult.errorMsg);
-          loading.value = false;
-          return;
+        //   validateResult = validator.value.validateName(state.form.realName);
+        //   if (!validateResult.result) {
+        //     window.$vue.$message.error(validateResult.errorMsg);
+        //     loading.value = false;
+        //     return;
+        //   }
+        // }
+        const params = {
+          name: state.form.realName,
+        };
+        const res = await MemberApi.updateMember(account.value, params);
+        loading.value = false;
+        if (res.code === 200) {
+          store.commit('SET_NAME', res.data.name);
+          window.$vue.$message.success(t('common_modifySuccess'));
+          state.form.realName = '';
+          router.back();
+        } else {
+          window.$vue.$message.error(res.message);
         }
-      }
-      const params = {
-        name: state.form.realName,
-      };
-      const res = await MemberApi.updateMember(account.value, params);
-      loading.value = false;
-      if (res.code === 200) {
-        store.commit('SET_NAME', res.data.name);
-        window.$vue.$message.success(t('common_modifySuccess'));
-        state.form.realName = '';
-        router.back();
-      } else {
-        window.$vue.$message.error(res.message);
-      }
+      });
     };
 
     return {
