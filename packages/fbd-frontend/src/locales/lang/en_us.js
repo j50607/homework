@@ -422,7 +422,7 @@ const lang = {
   components_pages_match_record_full_and_half: 'Full / Half',
   components_pages_match_record_dialog_title: 'Match Results',
   components_pages_match_noData: 'No match for now',
-  components_pages_profile_transaction: 'Withdrawal',
+  components_pages_profile_transaction: 'Transaction',
   components_footer_home: 'Home Page',
   components_footer_match: 'Market',
   components_footer_record: 'Records',
