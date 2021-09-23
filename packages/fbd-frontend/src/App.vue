@@ -54,7 +54,9 @@ export default {
         const key = item[0];
         const value = item[1];
         const keyName = key.split('').map((char) => (/[A-Z]/.test(char) ? `-${char.toLowerCase()}` : char));
-        rootStyle.setProperty(`--${keyName.join('')}`, value[siteStyle.value]);
+        if (value[siteStyle.value]) {
+          rootStyle.setProperty(`--${keyName.join('')}`, value[siteStyle.value]);
+        }
       });
     };
     const createCssVars = () => {
@@ -348,5 +350,7 @@ export default {
 <style lang="postcss">
 #app {
   @apply h-full bg-fixed text-normal bg-layout;
+
+  transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86) 0s;
 }
 </style>

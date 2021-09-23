@@ -1,7 +1,8 @@
 <template>
   <div class="h-full">
     <d-header-row
-      left-components="UserAvatar"
+      right-components="UserAvatar"
+      use-sidebar
     >
       <template #left>
         <div class="flex items-center">
@@ -27,24 +28,6 @@
           :src="$requireSafe(`site/${sitePrefix}/logo.svg`)"
           alt=""
         >
-      </template>
-      <template #right>
-        <div class="flex items-center justify-end">
-          <img
-            v-if="!isLogin"
-            class="icon-size is-btn"
-            :src="require('@/assets/img/header/style2/login.svg')"
-            alt=""
-            @click="goPage('/loginAndRegister')"
-          >
-          <img
-            v-else
-            class="avatar w-4 h-4 rounded-full is-btn"
-            :src="$requireSafe(`avatar/${avatar && avatar.system ? avatar.system : 0 }.png`)"
-            alt=""
-            @click="goPage('/profile/userInfo')"
-          >
-        </div>
       </template>
     </d-header-row>
     <div class="flex flex-col h-full pt-12 pb-10">

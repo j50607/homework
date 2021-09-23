@@ -44,12 +44,18 @@
       :is="rightComponents"
       :title="title"
       :right-pos="rightPos"
+      :show-sidebar="useSidebar"
+      @showSidebar="showSidebar = true"
     />
   </div>
+  <sidebar
+    v-if="useSidebar"
+    v-model:value="showSidebar"
+  />
 </template>
 
 <script>
-import { computed, defineAsyncComponent } from 'vue';
+import { computed, defineAsyncComponent, ref } from 'vue';
 
 export default {
   // 動態加載組件
@@ -61,6 +67,7 @@ export default {
     Profile: defineAsyncComponent(() => import('@/components/DHeaderRow/Profile' /* webpackChunkName: "Profile" */)),
     Register: defineAsyncComponent(() => import('@/components/DHeaderRow/Register' /* webpackChunkName: "Register" */)),
     UserAvatar: defineAsyncComponent(() => import('@/components/DHeaderRow/UserAvatar' /* webpackChunkName: "UserAvatar" */)),
+    Sidebar: defineAsyncComponent(() => import('@/components/Sidebar' /* webpackChunkName: "Sidebar" */)),
   },
   props: {
     leftComponents: {
@@ -125,9 +132,14 @@ export default {
       type: String,
       default: 'white',
     },
+    useSidebar: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { slots }) {
     // ref
+    const showSidebar = ref(false);
     // computed
     const hasLeftSlot = computed(() => {
       if (slots.left) {
@@ -153,6 +165,7 @@ export default {
       hasLeftSlot,
       hasMiddleSlot,
       hasRightSlot,
+      showSidebar,
     };
   },
 };

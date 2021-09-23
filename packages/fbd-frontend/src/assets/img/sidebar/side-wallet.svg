@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_61822" data-name="Rectangle 61822" width="24" height="24" fill="#ffb83d" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="我的_钱包管理" clip-path="url(#clip-path)">
+    <g id="noun_Purse_1614242" transform="translate(1 2.926)">
+      <g id="Group_37979" data-name="Group 37979" transform="translate(0)">
+        <path id="Path_49632" data-name="Path 49632" d="M11.65,969.362a1.1,1.1,0,1,0,0,2.2H28.7v-2.2ZM10,971.914v14.223a1.372,1.372,0,0,0,1.375,1.375h19.25A1.372,1.372,0,0,0,32,986.137v-2.475H23.475a1.384,1.384,0,0,1-1.375-1.375v-4.4a1.384,1.384,0,0,1,1.375-1.375H32v-2.475a1.372,1.372,0,0,0-1.375-1.375l-19.233-.017a2.2,2.2,0,0,1-1.392-.73Zm13.475,5.7a.263.263,0,0,0-.275.275v4.4a.263.263,0,0,0,.275.275H32v-4.95Zm2.75,1.65a.821.821,0,1,1-.584.24.825.825,0,0,1,.584-.24Z" transform="translate(-10 -969.362)" fill="#ffb83d"/>
+      </g>
+    </g>
+  </g>
+</svg>
