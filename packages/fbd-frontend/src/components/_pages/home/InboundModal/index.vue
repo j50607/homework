@@ -124,8 +124,8 @@ export default {
     });
 
     watch(() => activeKey.value, (val) => {
-      if (val?.[1] && !readAnnouncement.value.includes(val?.[1])) {
-        store.commit('SET_READ_ANNOUNCEMENT', val?.[1]);
+      if (val && !readAnnouncement.value?.includes(val)) {
+        store.commit('SET_READ_ANNOUNCEMENT', val);
       }
     });
 
