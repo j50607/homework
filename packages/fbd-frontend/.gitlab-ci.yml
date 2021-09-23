@@ -38,20 +38,11 @@ stages:
   npm run build:prod
 
 .build_redirect_script: &build_redirect_script |
-  sed -i "s/^const redirectType =.*/const redirectType = \"$REDIRECT_TYPE\";/g" ./redirect/ports/index.js
-  sed -i "s/^const redirectSecond =.*/const redirectSecond = $REDIRECT_SECOND;/g" ./redirect/ports/index.js
-  sed -i "s/^const redirectRangeMin =.*/const redirectRangeMin = $REDIRECT_RANGE_MIN;/g" ./redirect/ports/index.js
-  sed -i "s/^const redirectRangeMax =.*/const redirectRangeMax = $REDIRECT_RANGE_MAX;/g" ./redirect/ports/index.js
-  sed -i "s/^const redirectPorts =.*/const redirectPorts = $REDIRECT_PORTS;/g" ./redirect/ports/index.js
   cd redirect/ && npm install
   mkdir -p ./output/403/
   mkdir -p ./output/500/
-  mkdir -p ./output/agents/
-  mkdir -p ./output/ports/
   cp ./403/* ./output/403/
   cp ./500/* ./output/500/
-  cp ./agents/* ./output/agents/
-  cp ./ports/* ./output/ports/
   sed -i "s/\.\//\/403\//g" ./output/403/index.html
   sed -i "s/\.\//\/403\//g" ./output/403/index.js
   sed -i "s/\.\//\/500\//g" ./output/500/index.html
@@ -60,8 +51,6 @@ stages:
   npx uglifyjs ./output/403/index.js --output ./output/403/index.js
   npx babel ./output/500/index.js --out-file ./output/500/index.js
   npx uglifyjs ./output/500/index.js --output ./output/500/index.js
-  npx babel ./output/ports/index.js --out-file ./output/ports/index.js
-  npx uglifyjs ./output/ports/index.js --output ./output/ports/index.js
   cd ..
 
 .deploy_script: &deploy_script |
