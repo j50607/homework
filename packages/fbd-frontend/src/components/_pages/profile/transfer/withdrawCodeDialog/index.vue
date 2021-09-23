@@ -38,7 +38,8 @@
         <div class="forget-withdraw-code mt-10 flex items-center justify-center mb-4">
           <span class="mr-2 text-normal">{{ $t('components_withdrawCodeDialog_forgetPassword') }}</span>
           <span
-            class="blue"
+            v-if="serviceUrl"
+            class="blue is-btn"
             @click="contactService()"
           >{{ $t('components_withdrawCodeDialog_contactService') }}</span>
         </div>
@@ -154,6 +155,7 @@ export default {
       contactService,
       submitCode,
       cancel,
+      serviceUrl,
     };
   },
 };
