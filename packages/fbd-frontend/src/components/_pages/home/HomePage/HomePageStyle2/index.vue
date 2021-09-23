@@ -65,7 +65,7 @@
             :data="item"
             @click="goBet(item)"
           />
-          <promotion />
+          <!-- <promotion /> -->
         </div>
       </div>
       <d-footer-row />
@@ -97,7 +97,7 @@ import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
 import Match from '@/components/_pages/home/Match';
 import MatchNews from '@/components/_pages/home/MatchNews';
-import Promotion from '@/components/_pages/home/Promotion';
+// import Promotion from '@/components/_pages/home/Promotion';
 import Marquee from '@/components/_pages/home/Marquee';
 import SystemApi from '@/assets/js/api/systemApi';
 import InboundModal from '@/components/_pages/home/InboundModal';
@@ -107,7 +107,7 @@ export default {
   components: {
     Match,
     MatchNews,
-    Promotion,
+    // Promotion,
     Marquee,
     InboundModal,
   },
