@@ -7,7 +7,16 @@
     <d-header-row
       :title="$t('views_profile_walletManagement')"
       :right-components="!showSuccess ? 'Service' : undefined"
-    />
+    >
+      <template #left>
+        <img
+          class="go-back"
+          :src="require('@/assets/img/header/icon-left-white.svg')"
+          alt=""
+          @click="back"
+        >
+      </template>
+    </d-header-row>
     <div class="h-full pt-h-h pl-3 pr-3 text-sm">
       <div
         v-if="showSuccess"
@@ -316,6 +325,14 @@ export default {
       state.showEditWallet = false;
     };
 
+    const back = () => {
+      if (smsVerifySwitch.value && phone.value && route.params.showEditWallet) {
+        router.replace('/profile');
+      } else {
+        router.back();
+      }
+    };
+
     const confirmWallet = async (address, type, smsCode) => {
       state.walletAddress = address;
       state.chainType = type;
@@ -351,6 +368,7 @@ export default {
       phone,
       ...toRefs(state),
       handlerConfirm,
+      back,
     };
   },
 };
