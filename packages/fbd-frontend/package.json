@@ -8,6 +8,7 @@
     "build:prod": "vue-cli-service build --mode prod",
     "build:stage": "vue-cli-service build --mode staging",
     "build:test": "vue-cli-service build --mode staging",
+    "redirect": "rsync -av --delete redirect/output/* dist/redirect/",
     "dev": "vue-cli-service serve --mode runtime --port 4001"
   },
   "dependencies": {
