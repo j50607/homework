@@ -205,7 +205,7 @@
                         alt=""
                       >
                     </div>
-                    <span class="relative">{{ getSportScore(item?.option, 'renderData') }}</span>
+                    <span class="relative">{{ getSportScore(item?.option) }}</span>
                   </div>
                   <div class="betting-text-sm betting-percent">
                     {{ fmtPayRate(item?.payRate ?? 0) }}
@@ -227,7 +227,7 @@
                     v-show="item?.isFulled"
                     class="betting-text-sm betting-score betting-overlay-text"
                   >
-                    {{ getSportScore(item?.option, 'renderData') }}
+                    {{ getSportScore(item?.option) }}
                   </div>
                   <div class="betting-text-sm betting-overlay-text">
                     {{ renderMaintainText(item) }}
@@ -342,7 +342,7 @@
         {{ $t('views_betting_main_popup_option') }}
       </div>
       <div class="popup-text popup-row">
-        {{ state.currentGameData?.playTypeMName }} {{ state.currentGameData?.playTypeSName }} {{ getSportScore(state.currentBetItem?.option, 'renderData') }}
+        {{ state.currentGameData?.playTypeMName }} {{ state.currentGameData?.playTypeSName }} {{ getSportScore(state.currentBetItem?.option) }}
       </div>
     </div>
 

@@ -425,16 +425,15 @@ export const timeZoneUnit = () => {
 };
 
 /**
- * 轉換主客比分
+ * 轉換主客比分，回传结果字串
  * @param {number} num
- * @param {string} type - 選擇回傳資料的型式(rowData 回傳陣列 [主, 客]，renderData 回傳比分 '主 : 客')
  */
-export const getSportScore = (num, type = 'renderData') => {
-  if (!isNumber(num)) return [];
+export const getSportScore = (num) => {
+  if (!isNumber(num)) return '';
+  if (num === -1) return `${window.$vue.$t('views_betting_main_type2')}/${window.$vue.$t('views_betting_statistic_popup_others')}`;
   const base = 100000;
   const scoreH = Math.floor(num / base);
   const scoreA = num % base;
-  if (type === 'rowData') return [scoreH, scoreA];
   if (scoreH === 10000 && scoreH > scoreA) return `${window.$vue.$t('views_betting_statistic_popup_others')}(H)`;
   if (scoreA === 10000 && scoreA > scoreH) return `${window.$vue.$t('views_betting_statistic_popup_others')}(A)`;
   if (scoreA === 10000 && scoreA === scoreH) return `${window.$vue.$t('views_betting_statistic_popup_others')}(D)`;
