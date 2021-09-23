@@ -40,7 +40,7 @@
             >
               {{ $t('components_match_betAmount') }}
               <div class="font-bold italic">
-                {{ amoutnFormat(data.totalBetAmount) }}
+                {{ amoutnFormat(data.totalBetAmount + data.totalVirtualBet || 0) }}
               </div>
             </div>
           </div>

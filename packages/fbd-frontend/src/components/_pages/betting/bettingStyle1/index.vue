@@ -296,7 +296,7 @@
               :style="`width: ${renderProgress(item?.percentage || 0)}%`"
             />
             <div class="popup-digit">
-              {{ numWithCommas(item?.amount || 0) }}
+              {{ numWithCommas(item?.totalBetAmount) }}
             </div>
           </div>
         </div>
@@ -377,7 +377,7 @@
         v-for="(item, idx) in state.amountList"
         :key="`amountList${idx}`"
         class="popup-amount is-btn"
-        :class="{ 'popup-amount-active': handlePopupActive(item.val) }"
+        :class="{ 'popup-amount-active': state.currentQuickAmount === item.val }"
         v-text="item.txt"
         @click="quickSelect(item.val)"
       />
@@ -788,19 +788,34 @@ export default {
 
     const handleGameSum = () => {
       const total = isArray(state.caculateLogData) ? state.caculateLogData.reduce((acc, item) => acc + (item?.amount || 0), 0) : 0;
-      state.gameSum.sum = total ?? 0;
+      const virtualTotal = isArray(state.currentGameData.betOptionList) ? state.currentGameData.betOptionList.reduce((acc, item) => acc + (item?.virtualBet || 0), 0) : 0;
+
+      state.gameSum.sum = (total + virtualTotal) ?? 0;
       state.gameSum.optionList = JSON.parse(JSON.stringify(state.caculateLogData));
+      const hasVirtualAmoutBetOption = state.currentGameData.betOptionList.filter((item) => item.virtualBet);
 
-      if (!isArray(state.gameSum.optionList)) return;
+      if (!state.gameSum.optionList.length) {
+        state.gameSum.optionList = hasVirtualAmoutBetOption;
+      } else {
+        state.gameSum.optionList.forEach((item, index, arr) => {
+          hasVirtualAmoutBetOption.forEach((virtualItem) => {
+            if (item.option === virtualItem.option) {
+              item.virtualBet = virtualItem.virtualBet;
+            } else if (!arr.find((items) => items.option === virtualItem.option)) {
+              arr.push(virtualItem);
+            }
+          });
+        });
+      }
+
       state.gameSum.optionList.forEach((item) => {
-        item.percentage = item.limitAmount ? NP.times(NP.divide((item.amount || 0), item.limitAmount), 100) : 0;
+        // 總投注量 = 實際投注量+虛擬投注量
+        const totalBetAmount = NP.plus(item.amount || 0, item.virtualBet || 0);
+        // 總可投注量 = 可交易量 + 虛擬投注量
+        const totalLimitAmount = NP.plus(item.limitAmount, item.virtualBet || 0);
+        item.percentage = item.limitAmount ? NP.times(NP.divide(totalBetAmount, totalLimitAmount), 100) : 0;
+        item.totalBetAmount = totalBetAmount;
       });
-
-      // 若 api 不慎回傳重複 option 的資料，則濾除重複的 option 僅保留第一筆
-      state.gameSum.optionList = state.gameSum.optionList.reduce((acc, item) => {
-        const notRepeat = acc.findIndex((row) => row.option === item.option) === -1;
-        return notRepeat ? [...acc, item] : acc;
-      }, []);
     };
 
     const handleDataMapping = () => {
@@ -825,8 +840,8 @@ export default {
       state.betOptionData = await getBetOption();
       [state.caculateLogData, state.bettingConfig] = await Promise.all([getCaculateLog(), getBettingConfig()]);
 
-      handleDataMapping();
       asyncGameData();
+      handleDataMapping();
       state.isLoading = false;
     };
 
