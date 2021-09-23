@@ -307,7 +307,7 @@ const lang = {
   views_profile_userinfo_modifyLoginPassword_oldPassword: 'Previous Login Password',
   views_profile_userinfo_modifyLoginPassword_pleaseEnterOldPassword: 'Please enter your previous password',
   views_profile_userinfo_modifyLoginPassword_newPassword: 'New Login Password',
-  views_profile_userinfo_modifyLoginPassword_pleaseEnterNewPassword: 'Please choose a 6-12 digits combination of English letters and numbers as your new password',
+  views_profile_userinfo_modifyLoginPassword_pleaseEnterNewPassword: 'Please enter your new password',
   views_profile_userinfo_modifyLoginPassword_confirmNewPassword: 'Confirm New Login Password',
   views_profile_userinfo_modifyLoginPassword_confirmNewPasswordAgain: 'Please enter your new password again',
   views_profile_userinfo_modifyWithdrawPassword_title: 'Change Cash Withdrawal Password',

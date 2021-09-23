@@ -18,7 +18,7 @@
           :key="index"
           class="row flex justify-between pt-1 pb-1 "
         >
-          <div class="flex-1 break-all">
+          <div class="flex-1 break-all whitespace-nowrap">
             {{ item.name }}
           </div>
           <div class="flex-1 break-all text-right">
