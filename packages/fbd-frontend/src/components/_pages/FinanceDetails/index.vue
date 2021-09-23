@@ -259,7 +259,7 @@ export default {
     });
 
     // computed
-    const siteStyle = computed(() => store.state.info.siteStyle);
+    const siteStyle = computed(() => store.getters.siteStyle);
     const account = computed(() => store.state.user.account);
 
     // methods

@@ -359,7 +359,7 @@ export default {
 
     // computed
     const timeZone = computed(() => timeZoneUnit());
-    const siteStyle = computed(() => store.state.info.siteStyle);
+    const siteStyle = computed(() => store.getters.siteStyle);
     const language = computed(() => store.state.info.language);
     const avatar = computed(() => store.state.user.avatar);
     const sumPanelHeight = computed(() => (state.isShowSum ? 118 : 36));

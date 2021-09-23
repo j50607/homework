@@ -21,76 +21,6 @@
   }
 }
 
-.ant-modal {
-  .ant-modal-close-x {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ant-modal-content,
-  .ant-modal-header {
-    border: none;
-    border-radius: 15px;
-    background-color: $dialog-color;
-  }
-
-  .ant-modal-header {
-    padding-top: 15px;
-    text-align: center !important;
-  }
-
-  .ant-modal-title {
-    color: var(--font-color);
-    font-weight: 600;
-    font-size: 14px;
-  }
-
-  .ant-modal-footer {
-    border: none;
-    color: #fff;
-    text-align: center;
-
-    > div {
-      display: flex;
-      justify-content: center;
-    }
-
-    .ant-btn {
-      order: 1;
-      width: 80px;
-      margin-left: 0.5rem;
-      color: #000;
-      background-color: #dfdfdf;
-    }
-
-    .ant-btn-primary {
-      order: 2;
-      color: #fff;
-      background: $btn-primary-bg;
-    }
-  }
-
-  .ant-form-item-label > label {
-    color: rgba(216, 216, 216, 0.85);
-  }
-
-  .ant-modal-body {
-    padding: 10px 15px 15px;
-    color: #fff;
-  }
-
-  .ant-btn-primary {
-    border: none;
-    background: $btn-primary-bg;
-  }
-
-  .ant-btn-primary[disabled] {
-    color: #fff;
-    opacity: 0.6;
-  }
-}
-
 .ant-btn-primary[disabled] {
   &:hover {
     color: #fff !important;
@@ -266,4 +196,8 @@
 
 .ant-radio {
   color: var(--font-color);
+}
+
+.ant-collapse-header, .ant-collapse-content {
+  background-color: var(--dialog-color);
 }

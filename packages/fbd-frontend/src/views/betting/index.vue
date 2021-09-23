@@ -538,7 +538,7 @@ export default {
     });
 
     // computed
-    const siteStyle = computed(() => store.state.info.siteStyle);
+    const siteStyle = computed(() => store.getters.siteStyle);
     const timeZone = computed(() => timeZoneUnit());
     const language = computed(() => store.state.info.language);
     const isChinese = computed(() => language.value === 'zh_cn' || language.value === 'zh_tw');

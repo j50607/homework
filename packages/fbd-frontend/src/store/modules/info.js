@@ -54,8 +54,6 @@ const initialState = () => ({
 
   // 验证开关
   swipeVerification: false,
-
-  siteStyle: window._jsvar.siteStyle || 1,
 });
 
 const state = () => (initialState());
@@ -312,9 +310,6 @@ const mutations = {
   SET_VERSION(state, value) {
     state.systemVersion = value;
   },
-  SET_SITE_STYLE(state, value) {
-    state.siteStyle = value;
-  },
 };
 
 const actions = {
@@ -334,7 +329,6 @@ const actions = {
       });
     }
     cacheDataLocked = true;
-    // const syncSystemConfig = async () => {
     if (!lastUpdatedTime || (+new Date() - lastUpdatedTime > 60 * 1000)) {
       const res = await SystemApi.getSystemConfig();
       if (res.code === 200) {
@@ -347,8 +341,13 @@ const actions = {
   },
 };
 
+const getters = {
+  siteStyle: () => window?._jsvar?.siteStyle || 1,
+};
+
 export default {
   state,
   mutations,
   actions,
+  getters,
 };

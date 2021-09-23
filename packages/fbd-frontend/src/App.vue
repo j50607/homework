@@ -40,7 +40,7 @@ export default {
     // computed
     const site = computed(() => store.state.info.siteInfo);
     const siteName = computed(() => store.state.info.siteInfo.name);
-    const siteStyle = computed(() => store.state.info.siteStyle);
+    const siteStyle = computed(() => store.getters.siteStyle);
 
     document.title = `Welcome to ${siteName.value}`;
     // methods
@@ -289,10 +289,6 @@ export default {
       store.commit('SET_LOCALE', { lang: window._jsvar?.siteLocale });
     };
 
-    const setSiteStyle = () => {
-      store.commit('SET_SITE_STYLE', window._jsvar?.siteStyle || 1);
-    };
-
     // provide
     provide('$validator', $validator);
     provide('$clientMode', () => state.clientMode);
@@ -301,7 +297,6 @@ export default {
     onBeforeMount(async () => {
       checkSite();
       setLocale();
-      setSiteStyle();
       createCssVars();
 
       // 不加 nextTick 的話，在此時 vue instance 尚未掛到 window.$vue 上

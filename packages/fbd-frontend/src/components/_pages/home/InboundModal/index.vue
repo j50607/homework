@@ -124,8 +124,8 @@ export default {
     });
 
     watch(() => activeKey.value, (val) => {
-      if (val[1] && !readAnnouncement.value.includes(val[1])) {
-        store.commit('SET_READ_ANNOUNCEMENT', val[1]);
+      if (val?.[1] && !readAnnouncement.value.includes(val?.[1])) {
+        store.commit('SET_READ_ANNOUNCEMENT', val?.[1]);
       }
     });
 
@@ -167,7 +167,7 @@ export default {
 
     span {
       display: block;
-      color: #333;
+      color: var(--font-color);
       white-space: normal;
       word-wrap: normal;
       word-break: break-word;
@@ -195,7 +195,7 @@ export default {
 
     .title {
       margin-right: 30px;
-      color: #333;
+      color: var(--font-color);
       font-weight: 600;
       word-break: break-word;
     }
