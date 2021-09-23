@@ -119,8 +119,8 @@ const lang = {
   views_betting_main_popup_profit: 'Profit',
   views_betting_main_popup_charge: 'Fees',
   views_betting_main_popup_expectedProfit: 'Expected Profit',
-  views_betting_main_popup_btnAction: 'Place a bet',
-  views_betting_main_popup_btnAction2: 'Acquire data update',
+  views_betting_main_popup_btnAction: 'Place a Bet',
+  views_betting_main_popup_btnAction2: 'Acquire Data Update',
   views_betting_main_popup_dollars: '¥',
   views_betting_main_popup_notify1: 'The amount of the bet must be between {minBet} ~ {maxBet}',
   views_betting_main_popup_notify2: 'The amount of the bet must not be greater than {limitAmount}',
@@ -169,7 +169,7 @@ const lang = {
   views_profile_promotion: 'Special Discount Event',
   views_profile_verify: 'Certified',
   views_profile_service: 'Customer Service',
-  views_profile_logout: 'Sign out',
+  views_profile_logout: 'Sign Out',
   views_profile_logoutSuccess: 'You have signed out',
   views_profile_selectAvatar: 'Choose your Portrait',
   views_profile_newestMessage: 'Latest News',
@@ -215,7 +215,7 @@ const lang = {
   views_profile_time: 'Time',
   views_profile_chooseWallet: 'Select your Wallet',
   views_profile_noWallet: 'You don’t have a bound wallet',
-  views_profile_goBind: 'Bound a Wallet Now',
+  views_profile_goBind: 'Bound a Wallet',
   views_profile_deposit: 'Recharge',
 
   // newstart

@@ -412,7 +412,13 @@
         =
       </div>
       <div class="popup-text popup-text-expect popup-preview-item">
-        {{ numWithCommas(renderExpectProfit(state.currentBetItem?.payRate)) }}{{ $t('views_betting_main_popup_dollars') }}
+        <d-locale
+          class="popup-text popup-text-expect popup-preview-item"
+          v-slot="{ locale }"
+        >
+          {{ numWithCommas(renderExpectProfit(state.currentBetItem?.payRate)) }}
+          <span v-if="locale === 'zh_cn'">{{ $t('views_betting_main_popup_dollars') }}</span>
+        </d-locale>
       </div>
     </div>
 
