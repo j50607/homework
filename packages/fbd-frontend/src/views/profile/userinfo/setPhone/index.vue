@@ -196,7 +196,7 @@ export default {
         if (isFromWallet.value) {
           router.push({ name: 'profile-wallet', params: { showEditWallet: true } });
         } else {
-          router.push('/profile/userinfo');
+          router.back();
         }
       } else {
         window.$vue.$message.error(res.message);

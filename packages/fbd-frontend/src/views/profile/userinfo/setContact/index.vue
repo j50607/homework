@@ -148,7 +148,7 @@ export default {
       if (res.code === 200) {
         store.commit('SET_USER_INFO', params);
         window.$vue.$message.success(t('common_modifySuccess'));
-        router.push('/profile/userinfo');
+        router.back();
       } else {
         window.$vue.$message.error(res.message);
       }

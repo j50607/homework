@@ -146,7 +146,7 @@ export default {
         store.commit('SET_TRACE_COUNT', res.data.traceCount);
         window.$vue.$message.success(t('common_modifySuccess'));
         state.form.newNickName = '';
-        router.push('/profile/userinfo');
+        router.back();
       } else {
         window.$vue.$message.error(res.message);
       }
