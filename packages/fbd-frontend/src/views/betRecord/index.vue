@@ -92,11 +92,23 @@
               class="betrecord-item-piece betrecord-item-piece-multi"
             >
               <div class="betrecord-row betrecord-bottom-gap">
-                <div class="betrecord-text betrecord-text-sm">
-                  {{ $t('views_betRecord_item_label1') }}
-                </div>
-                <div class="betrecord-text betrecord-text-lg">
-                  {{ numWithCommas(item?.realAmount) }}
+                <div
+                  class="betrecord-text betrecord-text-sm"
+                  v-text="$t('views_betRecord_betNo')"
+                />
+                <div
+                  class="betrecord-text betrecord-text-lg flex"
+                >
+                  <div
+                    class="mr-2"
+                    v-text="item.betNo"
+                  />
+                  <img
+                    :src="require('@/assets/img/icon/copy-btn.svg')"
+                    alt="copy"
+                    class="copy is-btn"
+                    @click="copyByText(item?.betNo)"
+                  >
                 </div>
               </div>
 
@@ -128,6 +140,15 @@
 
               <div class="betrecord-row betrecord-bottom-gap">
                 <div class="betrecord-text betrecord-text-sm">
+                  {{ $t('views_betRecord_item_label1') }}
+                </div>
+                <div class="betrecord-text betrecord-text-lg">
+                  {{ numWithCommas(item?.realAmount) }}
+                </div>
+              </div>
+
+              <div class="betrecord-row betrecord-bottom-gap">
+                <div class="betrecord-text betrecord-text-sm">
                   {{ $t('views_betRecord_item_label3') }}
                 </div>
                 <div class="betrecord-text betrecord-text-lg">
@@ -135,7 +156,7 @@
                 </div>
               </div>
 
-              <div class="betrecord-row">
+              <div class="betrecord-row betrecord-bottom-gap4">
                 <div class="betrecord-text betrecord-text-sm">
                   {{ $t('views_betRecord_item_label4') }}
                 </div>
@@ -145,6 +166,14 @@
                 >
                   {{ renderNumber(item?.estimateProfit) }}
                 </div>
+              </div>
+
+              <div class="betrecord-row">
+                <div
+                  class="betrecord-text-game-details"
+                  v-text="$t('views_betRecord_gameDetail')"
+                  @click="openGameDetails(item)"
+                />
               </div>
             </div>
 
@@ -281,6 +310,19 @@
     @confirm="selectDate"
   />
 
+  <!-- 賽事結果彈窗 -->
+  <d-dialog
+    v-model:visible="showGameDetail"
+    :footer="null"
+    :title="$t('components_pages_match_record_dialog_title')"
+    :width="'90%'"
+    v-if="showGameDetail"
+  >
+    <template #body>
+      <game-detail :selected-game-detail="selectedGameDetail" />
+    </template>
+  </d-dialog>
+
   <d-footer-row />
 </template>
 
@@ -295,11 +337,12 @@ import NP from 'number-precision';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import {
-  timeZoneUnit, isNumber, fmtPayRate, numWithCommas,
+  timeZoneUnit, isNumber, fmtPayRate, numWithCommas, copyByText,
 } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
 import DScroll from '@/components/DScroll';
 import DatePickerPopup from '@/components/_pages/DatePickerPopup';
+import GameDetail from '@/components/_pages/match/leagueList/GameDetail';
 
 export default {
   components: {
@@ -307,6 +350,7 @@ export default {
     CaretDownOutlined,
     DScroll,
     DatePickerPopup,
+    GameDetail,
   },
   setup() {
     // use
@@ -316,6 +360,8 @@ export default {
 
     // ref
     const scroll = ref(null);
+    const showGameDetail = ref(false);
+    const selectedGameDetail = ref(undefined);
 
     // reactive
     const state = reactive({
@@ -574,6 +620,41 @@ export default {
       await getData();
     };
 
+    const openGameDetails = async (item) => {
+      const { code, data } = await SportApi.getGameDetail({
+        issueNo: item.issueNo,
+      });
+
+      if (code === 200) {
+        const detail = {};
+
+        const {
+          leagueName,
+          homeTeamName,
+          awayTeamName,
+          matchTime,
+          homeTeamScore,
+          awayTeamScore,
+          homeTeamHalfScore,
+          awayTeamHalfScore,
+        } = data;
+
+        if (data) {
+          detail.leagueName = leagueName;
+          detail.homeTeamName = homeTeamName;
+          detail.awayTeamName = awayTeamName;
+          detail.matchTime = matchTime;
+          detail.homeTeamScore = homeTeamScore;
+          detail.awayTeamScore = awayTeamScore;
+          detail.homeTeamHalfScore = homeTeamHalfScore;
+          detail.awayTeamHalfScore = awayTeamHalfScore;
+        }
+
+        selectedGameDetail.value = detail;
+        showGameDetail.value = true;
+      }
+    };
+
     const init = async () => {
       await getData();
     };
@@ -610,6 +691,10 @@ export default {
       avatar,
       goPage,
       changeTab,
+      openGameDetails,
+      selectedGameDetail,
+      showGameDetail,
+      copyByText,
     };
   },
 };
@@ -697,8 +782,18 @@ export default {
     bottom: var(--footer-height);
   }
 
+  &-text-game-details {
+    color: #0e88f5;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   &-bottom-gap {
     @apply mb-1;
+  }
+
+  &-bottom-gap4 {
+    @apply mb-4;
   }
 
   &-bottom-gap-lg {
@@ -815,5 +910,10 @@ export default {
       margin-right: 8px !important;
     }
   }
+}
+
+.copy {
+  width: 18px;
+  height: 18px;
 }
 </style>

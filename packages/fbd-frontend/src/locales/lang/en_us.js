@@ -151,6 +151,8 @@ const lang = {
   views_betRecord_filterPopup_status2: 'Settled',
   views_betRecord_filterPopup_status3: 'The order has been delete',
   views_betRecord_filterPopup_status4: 'Draw',
+  views_betRecord_betNo: 'Order number',
+  views_betRecord_gameDetail: 'Event details',
   views_profile_title: 'Profile',
   views_profile_balance: 'Balance',
   views_profile_lockWallet: 'Holding amount',

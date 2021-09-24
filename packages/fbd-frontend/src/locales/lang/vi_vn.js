@@ -152,6 +152,8 @@ const lang = {
   views_betRecord_filterPopup_status2: 'Đã kết toán',
   views_betRecord_filterPopup_status3: 'Đã hủy đơn',
   views_betRecord_filterPopup_status4: 'Ván hoà',
+  views_betRecord_betNo: 'số thứ tự',
+  views_betRecord_gameDetail: 'Chi tiết sự kiện',
   views_profile_title: 'Của tôi',
   views_profile_balance: 'Số dư',
   views_profile_lockWallet: 'Móc khóa túi tiền',

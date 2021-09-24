@@ -106,20 +106,7 @@
       v-if="showGameDetail"
     >
       <template #body>
-        <div class="text-center text-xs text-normal">
-          <p class="mb-1">
-            {{ selectedGameDetail.leagueName }}
-          </p>
-          <p class="mb-1">
-            {{ selectedGameDetail.homeTeamName }} &nbsp;&nbsp;vs&nbsp;&nbsp; {{ selectedGameDetail.awayTeamName }}
-          </p>
-          <p class="mb-4">
-            {{ formatTime(selectedGameDetail.matchTime) }}({{ timeZoneUnitTxt }})
-          </p>
-          <p class="text-primary">
-            {{ $t('components_pages_match_record_full_and_half') }} &nbsp;&nbsp;&nbsp; {{ selectedGameDetail.homeTeamScore }}:{{ selectedGameDetail.awayTeamScore }} / {{ selectedGameDetail.homeTeamHalfScore }}:{{ selectedGameDetail.awayTeamHalfScore }}
-          </p>
-        </div>
+        <game-detail :selected-game-detail="selectedGameDetail" />
       </template>
     </d-dialog>
   </div>
@@ -133,9 +120,9 @@ import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import SportApi from '@/assets/js/api/sportApi.js';
 import { isArray } from '@/assets/js/utils/utils';
+import GameDetail from '@/components/_pages/match/leagueList/GameDetail';
 
 export default {
-
   props: {
     searchLeagueList: {
       type: Array,
@@ -149,6 +136,9 @@ export default {
       type: String,
       default: '',
     },
+  },
+  components: {
+    GameDetail,
   },
   setup(props) {
     // inject
