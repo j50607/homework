@@ -15,7 +15,10 @@
     >
       <div class="set-area">
         <!-- 手機號碼 -->
-        <div class="set-area-title">
+        <div
+          class="set-area-title"
+          :class="`style${siteStyle}`"
+        >
           {{ $t('views_profile_userinfo_setPhone_title') }}:
         </div>
         <a-form-item
@@ -26,12 +29,14 @@
             v-model:value="state.form.phone"
             :maxlength="validator && validator.phoneLen"
             :placeholder="$t('views_profile_userinfo_setPhone_pleaseEnterPhoneNumber')"
+            :class="`style${siteStyle}`"
           />
         </a-form-item>
         <!-- 手機驗證碼 -->
         <template v-if="smsVerifySwitch">
           <div
             class="set-area-title"
+            :class="`style${siteStyle}`"
           >
             {{ $t('views_profile_userinfo_setPhone_verifyPhoneNumber') }}:
           </div>
@@ -44,6 +49,7 @@
               v-positive-places="6"
               type="number"
               :placeholder="$t('views_profile_userinfo_setPhone_pleaseEnterVerifyPhoneNumber')"
+              :class="`style${siteStyle}`"
             >
               <template #suffix>
                 <a-button
@@ -76,6 +82,7 @@
         <!-- 登入密碼 -->
         <div
           class="set-area-title"
+          :class="`style${siteStyle}`"
         >
           {{ $t('views_profile_userinfo_setPhone_loginPassword') }}:
         </div>
@@ -86,6 +93,7 @@
           <a-input
             v-model:value="state.form.password"
             :placeholder="$t('views_profile_userinfo_setPhone_pleaseEnterLoginPassword')"
+            :class="`style${siteStyle}`"
           />
         </a-form-item>
         <!-- 確認按鈕 -->
@@ -147,6 +155,7 @@ export default {
     };
 
     // computed
+    const siteStyle = computed(() => store.getters.siteStyle);
     const nickName = computed(() => store.state.user.nickName);
     const smsResendSec = computed(() => store.state.info.timeSetting.smsResendSec);
     const smsVerifySwitch = computed(() => store.state.info.switchSetting.smsVerifySwitch);
@@ -215,6 +224,7 @@ export default {
       getVerificationCode,
       smsVerifySwitch,
       smsResendSec,
+      siteStyle,
     };
   },
 };
@@ -232,6 +242,26 @@ export default {
     .ant-input {
       color: #4d5772 !important;
       background-color: #fff !important;
+
+      &.style2 {
+        border: 1px solid var(--input-bg) !important;
+        color: var(--input-font-color) !important;
+        background-color: var(--input-bg) !important;
+      }
+    }
+
+    .ant-input-affix-wrapper {
+      &.style2 {
+        border: 1px solid var(--input-bg) !important;
+        color: var(--input-font-color) !important;
+        background-color: var(--input-bg) !important;
+
+        ::v-deep(.ant-input) {
+          border: 1px solid var(--input-bg) !important;
+          color: var(--input-font-color) !important;
+          background-color: var(--input-bg) !important;
+        }
+      }
     }
 
     &-title {
@@ -239,6 +269,10 @@ export default {
       font-size: 14px;
 
       @apply mb-2;
+
+      &.style2 {
+        color: #fff;
+      }
     }
 
     .verify-row {

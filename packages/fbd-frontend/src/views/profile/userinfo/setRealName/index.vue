@@ -15,7 +15,10 @@
     >
       <div class="set-area">
         <!-- 真實姓名 -->
-        <div class="set-area-title">
+        <div
+          class="set-area-title"
+          :class="`style${siteStyle}`"
+        >
           {{ $t('views_profile_userinfo_realName') }}:
         </div>
         <a-form-item
@@ -25,6 +28,7 @@
           <a-input
             v-model:value="state.form.realName"
             :placeholder="$t('views_profile_userinfo_setNickName_pleaseEnterRealName')"
+            :class="`style${siteStyle}`"
           />
         </a-form-item>
         <!-- 修改警告 -->
@@ -140,6 +144,12 @@ export default {
     .ant-input {
       color: #4d5772 !important;
       background-color: #fff !important;
+
+      &.style2 {
+        border: 1px solid var(--input-bg) !important;
+        color: var(--input-font-color) !important;
+        background-color: var(--input-bg) !important;
+      }
     }
 
     &-title {
@@ -147,6 +157,10 @@ export default {
       font-size: 14px;
 
       @apply mb-2;
+
+      &.style2 {
+        color: #fff;
+      }
     }
 
     &-warning {

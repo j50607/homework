@@ -522,7 +522,7 @@ export default {
 
 <style lang="postcss" scoped>
 .userinfo {
-  @apply bg-layout bg-no-repeat bg-contain pt-h-h px-3;
+  @apply bg-layout bg-no-repeat bg-contain pt-h-h px-3 overflow-auto;
 
   .user {
     color: #fff;

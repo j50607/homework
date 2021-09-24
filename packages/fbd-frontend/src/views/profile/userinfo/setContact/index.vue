@@ -15,7 +15,10 @@
     >
       <div class="set-area">
         <!-- 社交軟體帳號 -->
-        <div class="set-area-title">
+        <div
+          class="set-area-title"
+          :class="`style${siteStyle}`"
+        >
           {{ $t('views_profile_userinfo_setContact_account', {type: getType}) }}:
         </div>
         <a-form-item
@@ -25,6 +28,7 @@
           <a-input
             v-model:value="state.form.account"
             :placeholder="$t('views_profile_userinfo_setContact_pleaseEnterAccount', {type: getType})"
+            :class="`style${siteStyle}`"
           />
         </a-form-item>
         <!-- 確認按鈕 -->
@@ -79,6 +83,7 @@ export default {
     };
 
     // computed
+    const siteStyle = computed(() => store.getters.siteStyle);
     const account = computed(() => store.state.user.account);
     const user = computed(() => store.state.user);
 
@@ -161,6 +166,7 @@ export default {
       submit,
       rules,
       getType,
+      siteStyle,
     };
   },
 };
@@ -176,6 +182,12 @@ export default {
     .ant-input {
       color: #4d5772 !important;
       background-color: #fff !important;
+
+      &.style2 {
+        border: 1px solid var(--input-bg) !important;
+        color: var(--input-font-color) !important;
+        background-color: var(--input-bg) !important;
+      }
     }
 
     &-title {
@@ -183,6 +195,10 @@ export default {
       font-size: 14px;
 
       @apply mb-2;
+
+      &.style2 {
+        color: #fff;
+      }
     }
   }
 }
