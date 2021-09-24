@@ -134,7 +134,7 @@ const lang = {
   views_betRecord_item_label3: 'Fees',
   views_betRecord_item_label4: 'Estimated Profit',
   views_betRecord_item_label5: 'Status',
-  views_betRecord_item_label6: 'Match Names',
+  views_betRecord_item_label6: 'Match Name',
   views_betRecord_item_label7: 'Item Name',
   views_betRecord_item_action1: 'Show more details',
   views_betRecord_item_action2: 'Show fewer details',
