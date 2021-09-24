@@ -371,7 +371,7 @@
         v-for="(item, idx) in state.amountList"
         :key="`amountList${idx}`"
         class="popup-amount is-btn"
-        :class="{ 'popup-amount-active': state.currentQuickAmount === item.val }"
+        :class="{ 'popup-amount-active': handlePopupActive(item.val) }"
         v-text="item.txt"
         @click="quickSelect(item.val)"
       />
@@ -717,6 +717,16 @@ export default {
       state.currentQuickAmount = val;
     };
 
+    const handlePopupActive = (val) => {
+      if (state.currentQuickAmount === val) {
+        return true;
+      } if (state.betAmount === val || state.currentQuickAmount) {
+        state.currentQuickAmount = undefined;
+        return true;
+      }
+      return false;
+    };
+
     const handleBetting = async () => {
       state.isLoading = true;
       state.isBettingProcessing = true;
@@ -914,6 +924,7 @@ export default {
       handleBettingCountdownEnded,
       handleBetting,
       quickSelect,
+      handlePopupActive,
       renderExpectProfit,
       isBettingNotAllowed,
       refreshData,
