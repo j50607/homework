@@ -1,5 +1,8 @@
 <template>
-  <div class="d-tabs">
+  <div
+    class="d-tabs"
+    :class="`style${siteStyle}`"
+  >
     <div
       class="d-tabs-mobile"
     >
@@ -63,6 +66,7 @@
 import {
   computed, ref, onMounted,
 } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   emits: ['change', 'buttonCallback', 'update:activeKey'],
@@ -115,6 +119,9 @@ export default {
     },
   },
   setup(props, { emit }) {
+    // use
+    const store = useStore();
+
     // ref
     const tabIndex = ref(0);
     const oldNumber = ref(0);
@@ -139,6 +146,8 @@ export default {
     const lastItemOffsetLeft = computed(() => Math.ceil(document.getElementsByClassName('d-tabs-mobile-title')[props.tabList.length - 1].offsetLeft));
 
     const lookWidth = computed(() => Math.ceil(tabsItemRef.value.clientWidth));
+
+    const siteStyle = computed(() => store.getters.siteStyle);
 
     // methods
     const isMobile = () => {
@@ -251,6 +260,7 @@ export default {
       checkSize,
       boxRef,
       tabsItemOffsetLeft,
+      siteStyle,
     };
   },
 };
@@ -376,6 +386,26 @@ export default {
 
   .d-tabs-mobile-content {
     width: 100%;
+  }
+}
+
+.style2 {
+  .d-tabs-mobile {
+    color: #fff;
+
+    .d-tabs-mobile-area {
+      .d-tabs-mobile-title {
+        &.active-text {
+          color: #fff;
+        }
+
+        .d-tabs-mobile-active-line {
+          &.active-bg {
+            background: #ffb83d;
+          }
+        }
+      }
+    }
   }
 }
 </style>

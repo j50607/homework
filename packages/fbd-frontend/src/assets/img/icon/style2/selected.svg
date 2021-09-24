@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62315" data-name="Rectangle 62315" width="14.4" height="14.4" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="联盟选择_已选" transform="translate(-3496 -690.5)">
+    <g id="Group_39427" data-name="Group 39427" transform="translate(3500.8 695.3)">
+      <g id="Group_39365" data-name="Group 39365" clip-path="url(#clip-path)">
+        <g id="Mask_Group_592" data-name="Mask Group 592" transform="translate(0.6 2.14)">
+          <g id="noun_Check_1635223" data-name="noun Check 1635223">
+            <g id="Group_38228" data-name="Group 38228">
+              <path id="Path_51092" data-name="Path 51092" d="M174.274-416.285l1.467-1.906,3.813,3.225,6.16-6.892,1.76,1.613-7.773,8.507Z" transform="translate(-174.274 421.858)" fill="#fff"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+    <g id="Group_40012" data-name="Group 40012" transform="translate(3496 690.5)">
+      <g id="Path_51413" data-name="Path 51413">
+        <path id="Path_51419" data-name="Path 51419" d="M179.074-431.111a12,12,0,0,1,12,12,12,12,0,0,1-12,12,12,12,0,0,1-12-12A12,12,0,0,1,179.074-431.111Z" transform="translate(-167.074 431.111)" fill="none"/>
+        <path id="Path_51420" data-name="Path 51420" d="M179.074-429.611a10.431,10.431,0,0,0-7.424,3.075,10.431,10.431,0,0,0-3.076,7.425,10.429,10.429,0,0,0,3.076,7.424,10.429,10.429,0,0,0,7.424,3.076,10.43,10.43,0,0,0,7.425-3.076,10.431,10.431,0,0,0,3.075-7.424,10.433,10.433,0,0,0-3.075-7.425,10.433,10.433,0,0,0-7.425-3.075m0-1.5a12,12,0,0,1,12,12,12,12,0,0,1-12,12,12,12,0,0,1-12-12A12,12,0,0,1,179.074-431.111Z" transform="translate(-167.074 431.111)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -147,10 +147,22 @@ export default {
     .team {
       background: #21304e;
 
-      @apply flex items-center px-10 py-2 w-full justify-between;
+      @apply flex px-10 py-2 w-full justify-between;
 
       &-info {
+        flex: 0 0 30%;
+
         @apply flex flex-col items-center justify-between;
+
+        .club {
+          text-align: center;
+
+          @apply h-full flex items-center;
+        }
+      }
+
+      .vs {
+        @apply flex items-center;
       }
     }
   }

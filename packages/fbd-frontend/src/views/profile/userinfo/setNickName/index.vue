@@ -15,19 +15,24 @@
     >
       <div class="set-area">
         <!-- 目前暱稱 -->
-        <div class="set-area-title">
+        <div
+          class="set-area-title"
+          :class="`style${siteStyle}`"
+        >
           {{ $t('views_profile_userinfo_setNickName_currentNickName') }}:
         </div>
         <a-form-item class="mb-4">
           <a-input
             v-model:value="nickName"
             disabled
+            :class="`style${siteStyle}`"
           />
         </a-form-item>
         <!-- 新暱稱 -->
         <div
           v-if="traceCount?.nickname < 2"
           class="set-area-title"
+          :class="`style${siteStyle}`"
         >
           {{ $t('views_profile_userinfo_setNickName_newNickName') }}:
         </div>
@@ -39,6 +44,7 @@
           <a-input
             v-model:value="state.form.newNickName"
             :placeholder="$t('views_profile_userinfo_setNickName_pleaseEnterNewNickName')"
+            :class="`style${siteStyle}`"
           />
         </a-form-item>
         <!-- 修改次數警告 -->
@@ -181,6 +187,12 @@ export default {
     .ant-input {
       color: #4d5772 !important;
       background-color: #fff !important;
+
+      &.style2 {
+        border: 1px solid var(--input-bg) !important;
+        color: var(--input-font-color) !important;
+        background-color: var(--input-bg) !important;
+      }
     }
 
     &-title {
@@ -188,6 +200,10 @@ export default {
       font-size: 14px;
 
       @apply mb-2;
+
+      &.style2 {
+        color: #fff;
+      }
     }
 
     &-warning {
