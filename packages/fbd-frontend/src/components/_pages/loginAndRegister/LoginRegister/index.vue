@@ -495,7 +495,6 @@ export default {
       &.style2 {
         border: 1px solid #ffb83d !important;
         color: #fff !important;
-        font-weight: 600;
         background: #ffb83d4d !important;
       }
     }

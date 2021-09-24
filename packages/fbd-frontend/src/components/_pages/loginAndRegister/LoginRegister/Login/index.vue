@@ -125,6 +125,7 @@
                   block
                   :disabled="!checkInputValue"
                   @click="login()"
+                  @keyup.enter="login"
                 >
                   <div
                     class="login-button"
@@ -452,17 +453,6 @@ export default {
       authKeyBool.value = true;
     };
 
-    /**
-     * 点击回车键
-     */
-    const clickEnter = (event) => {
-      // if (!checkFormResult()) return;
-
-      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-        login();
-      }
-    };
-
     const checkInputValue = computed(() => {
       let result = false;
 
@@ -501,12 +491,9 @@ export default {
       checkRemeberAccountImage();
 
       state.formState.mainInputValue = lastAccount;
-
-      document.addEventListener('keydown', clickEnter);
     });
 
     onUnmounted(() => {
-      document.removeEventListener('keydown', clickEnter);
       clearInterval(verificationInterval.value);
     });
 
@@ -543,7 +530,6 @@ export default {
       rememberAccountBool,
       rememberCheckbox,
       checkRemeberAccountImage,
-      clickEnter,
       loginVerifyNumberSwitch,
       hideModal,
       isModalShow,
