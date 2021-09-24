@@ -30,6 +30,7 @@
         <!-- 修改警告 -->
         <div
           class="set-area-warning"
+          :class="`style${siteStyle}`"
         >
           {{ $t('views_profile_userinfo_setRealName_warning') }}
         </div>
@@ -84,6 +85,7 @@ export default {
     };
 
     // computed
+    const siteStyle = computed(() => store.getters.siteStyle);
     const serviceUrl = computed(() => store.state.info.serviceUrl);
     const account = computed(() => store.state.user.account);
 
@@ -122,6 +124,7 @@ export default {
       serviceUrl,
       submit,
       rules,
+      siteStyle,
     };
   },
 };
@@ -154,6 +157,10 @@ export default {
 
       .service {
         color: #0e88f5;
+      }
+
+      &.style2 {
+        color: #ff5a5a;
       }
     }
   }

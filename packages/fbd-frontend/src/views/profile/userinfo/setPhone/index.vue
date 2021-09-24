@@ -241,17 +241,6 @@ export default {
       @apply mb-2;
     }
 
-    &-warning {
-      color: #f00;
-      font-size: 14px;
-
-      @apply mb-2;
-
-      .service {
-        color: #0e88f5;
-      }
-    }
-
     .verify-row {
       ::v-deep(.ant-input) {
         padding-right: 75px;

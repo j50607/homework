@@ -7,7 +7,10 @@
       class="avatar-img"
       :src="$requireSafe(`avatar/${avatarInfo && avatarInfo.system ? avatarInfo.system : 0 }.png`)"
     >
-    <div class="vip">
+    <div
+      v-if="showVip"
+      class="vip"
+    >
       <img
         class="level-img"
         :src="$requireSafe(`profile/v${vipLevel}.svg`)"
@@ -56,6 +59,10 @@ export default {
     vipLevel: {
       type: Number,
       default: 1,
+    },
+    showVip: {
+      type: Boolean,
+      default: true,
     },
   },
   setup(props) {

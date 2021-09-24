@@ -17,7 +17,10 @@
       >
         <div class="set-area">
           <!-- 舊登入密碼 -->
-          <div class="set-area-title">
+          <div
+            class="set-area-title"
+            :class="`style${siteStyle}`"
+          >
             {{ $t('views_profile_userinfo_modifyLoginPassword_oldPassword') }}:
           </div>
           <a-form-item
@@ -28,10 +31,14 @@
               v-model:value="state.form.oldPassword"
               :maxlength="12"
               :placeholder="$t('views_profile_userinfo_modifyLoginPassword_pleaseEnterOldPassword')"
+              :class="`style${siteStyle}`"
             />
           </a-form-item>
           <!-- 新登入密碼 -->
-          <div class="set-area-title">
+          <div
+            class="set-area-title"
+            :class="`style${siteStyle}`"
+          >
             {{ $t('views_profile_userinfo_modifyLoginPassword_newPassword') }}:
           </div>
           <a-form-item
@@ -42,10 +49,14 @@
               v-model:value="state.form.newPassword"
               :maxlength="12"
               :placeholder="$t('views_profile_userinfo_modifyLoginPassword_pleaseEnterNewPassword')"
+              :class="`style${siteStyle}`"
             />
           </a-form-item>
           <!-- 確認新登入密碼 -->
-          <div class="set-area-title">
+          <div
+            class="set-area-title"
+            :class="`style${siteStyle}`"
+          >
             {{ $t('views_profile_userinfo_modifyLoginPassword_confirmNewPassword') }}:
           </div>
           <a-form-item
@@ -56,6 +67,7 @@
               v-model:value="state.form.confirmNewPassword"
               :maxlength="12"
               :placeholder="$t('views_profile_userinfo_modifyLoginPassword_confirmNewPasswordAgain')"
+              :class="`style${siteStyle}`"
             />
           </a-form-item>
           <!-- 確認按鈕 -->
@@ -96,7 +108,7 @@
 
 <script>
 import {
-  ref, reactive, inject,
+  ref, reactive, inject, computed,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -133,6 +145,9 @@ export default {
       newPassword: [{ required: true, message: t('common_errorNoEmpty'), trigger: ['change', 'blur'] }],
       confirmNewPassword: [{ required: true, message: t('common_errorNoEmpty'), trigger: ['change', 'blur'] }],
     };
+
+    // computed
+    const siteStyle = computed(() => store.getters.siteStyle);
 
     // methods
     const relogin = async () => {
@@ -186,6 +201,7 @@ export default {
       rules,
       step,
       relogin,
+      siteStyle,
     };
   },
 };
@@ -201,6 +217,12 @@ export default {
     .ant-input {
       color: #4d5772 !important;
       background-color: #fff !important;
+
+      &.style2 {
+        border: 1px solid var(--input-bg) !important;
+        color: var(--input-font-color) !important;
+        background-color: var(--input-bg) !important;
+      }
     }
 
     &-title {
@@ -208,16 +230,9 @@ export default {
       font-size: 14px;
 
       @apply mb-2;
-    }
 
-    &-warning {
-      color: #f00;
-      font-size: 14px;
-
-      @apply mb-2;
-
-      .service {
-        color: #0e88f5;
+      &.style2 {
+        color: #fff;
       }
     }
   }
