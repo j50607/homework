@@ -465,10 +465,22 @@ export default {
     };
 
     const getBetOrderStatistic = async () => {
+      let status = [];
+
+      if (state.tempSelectedStatus === 'all') {
+        status = [1, 2, 5, 6];
+      } else if (state.tempSelectedStatus === 2) {
+        status = [2];
+      } else if (state.tempSelectedStatus === 1) {
+        status = [1];
+      }
+
       const params = {
         start: state.currentRangeObj.start,
         end: state.currentRangeObj.end,
+        status,
       };
+
       const { code, data } = await SportApi.getBetOrderStatistic(params) || {};
       if (code !== 200) return {};
       return data;

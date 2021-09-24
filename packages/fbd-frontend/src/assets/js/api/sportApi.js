@@ -67,11 +67,12 @@ class SportApi extends API {
   * 賽事注單統計
   */
   static async getBetOrderStatistic({
-    start, end,
+    start, end, status,
   }) {
     const params = {
       start,
       end,
+      status,
     };
     const result = await this.callAxios('POST', '/frontend/sport-game/view/bet/order/statistic', params, null, true);
     return result;
