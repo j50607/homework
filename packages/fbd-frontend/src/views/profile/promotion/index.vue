@@ -40,6 +40,7 @@
           <img
             :src="`${s3Base}/${item.mobileActivityImg}`"
             alt=""
+            class="activity-img object-cover"
           >
           <div class="check-detail flex text-xs items-center justify-start absolute bottom-0 right-0 text-right py-1">
             <div class="text mr-1 text-normal">
@@ -110,7 +111,7 @@ export default {
     const state = reactive({
       currentKey: 0,
       tabIndex: 0,
-      tabList: [{ label: t('views_profile_promotion_allActivity') }, { label: t('views_profile_promotion_passedActivity') }],
+      tabList: [{ label: t('views_profile_promotion_allActivity') }],
       activityList: [],
       typeId: undefined,
       showActivityDetail: false,
@@ -132,7 +133,7 @@ export default {
           item.label = item.typeName;
           return item;
         });
-        state.tabList = [...state.tabList, ...tabList];
+        state.tabList = [...state.tabList, ...tabList, { label: t('views_profile_promotion_passedActivity') }];
       }
     };
 
@@ -143,7 +144,7 @@ export default {
       });
       if (res.code === 200) {
         // 過往活動
-        if (state.tabIndex === 1) {
+        if (state.tabIndex === state.tabList.length - 1) {
           const filterActitivyList = res.data.filter((item) => dayjs(item.dateTimeEnd).valueOf() < dayjs().valueOf());
           state.activityList = filterActitivyList;
         } else {
@@ -154,18 +155,13 @@ export default {
     };
 
     const changeTab = (index) => {
-      if (index > 1) {
-        state.typeId = state.tabList[index].type;
-      } else {
-        state.typeId = undefined;
-      }
-
+      state.typeId = state.tabList[index].type;
       state.tabIndex = index;
       getActivityList();
     };
 
     const showDetail = (item) => {
-      if (state.tabIndex !== 1) {
+      if (state.tabIndex !== state.tabList.length - 1) {
         state.showActivityDetail = true;
         state.contentImgUrl = item.mobileActivityContentImg;
         state.activityImgUrl = item.mobileActivityImg;
@@ -226,11 +222,16 @@ export default {
   .activity-list {
     background: transparent linear-gradient(180deg, #ecf2f8 0%, #fff 100%);
     box-shadow: 0 2px 4px #4d57721a;
+
+    .activity-img {
+      width: 100%;
+      height: 125px;
+    }
   }
 
   .check-detail {
-    width: 95px;
-    height: 38px;
+    min-width: 95px;
+    min-height: 38px;
     padding-left: 18px;
     background-image: url('~@/assets/img/profile/promotion/label-bg.svg');
     background-repeat: no-repeat;
