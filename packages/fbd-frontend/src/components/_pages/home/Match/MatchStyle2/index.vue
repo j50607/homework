@@ -10,7 +10,7 @@
       <div class="card-row">
         <div class="sale">
           <span class="mr-2">
-            {{ $t('銷售量') }}
+            {{ $t('components_match_saleAmount') }}
           </span>
           <span class="positive">
             {{ amoutnFormat(data.totalBetAmount) }}

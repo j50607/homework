@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62261" data-name="Rectangle 62261" width="24" height="24" transform="translate(-105 -2612)" fill="#ffb83d" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="footer_记录_选中" transform="translate(105 2612)" clip-path="url(#clip-path)">
+    <g id="Group_39241" data-name="Group 39241" transform="translate(-104 -2610.198)">
+      <g id="Group_39240" data-name="Group 39240" transform="translate(0 4.2)">
+        <path id="Path_51359" data-name="Path 51359" d="M1153.44,18.932V4h-2.54a1.47,1.47,0,0,0-1.4,1.531V18.8a1.471,1.471,0,0,0,1.4,1.531h3.94A1.4,1.4,0,0,1,1153.44,18.932Z" transform="translate(-1149.5 -4)" fill="#ffb83d"/>
+      </g>
+      <path id="Path_51360" data-name="Path 51360" d="M1170.454-.5H1156.2a1.4,1.4,0,0,0-1.4,1.4V18.631a1.4,1.4,0,0,0,1.4,1.4h14.258a1.4,1.4,0,0,0,1.4-1.4V.9A1.4,1.4,0,0,0,1170.454-.5Zm-2.884,10.868h-8.49a.7.7,0,1,1,0-1.4h8.49a.7.7,0,1,1,0,1.4Zm0-4.472h-8.49a.7.7,0,1,1,0-1.4h8.49a.7.7,0,1,1,0,1.4Z" transform="translate(-1149.854 0.5)" fill="#ffb83d"/>
+    </g>
+  </g>
+</svg>

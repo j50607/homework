@@ -433,6 +433,7 @@ const lang = {
   components_footer_finance: '账务',
   components_footer_profile: '我的',
   components_match_betAmount: '总销量',
+  components_match_saleAmount: '销售量',
   components_datepicker_chooseDate: '选择日期',
   components_datepicker_dateRange: '开始时间不得大于结束时间',
   components_transferDialog_title: '转账',

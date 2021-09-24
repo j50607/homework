@@ -30,8 +30,8 @@
 .ant-input {
   border: 1px solid $border-color !important;
   border-radius: 3px !important;
-  color: #000 !important;
-  background-color: $input-bg-color !important;
+  color: var(--input-font-color) !important;
+  background-color: var(--input-bg) !important;
 
   &:focus {
     border: 1px solid $primary-color !important;
@@ -44,7 +44,7 @@
   }
 
   &::placeholder {
-    color: #bdbdbd !important;
+    color: var(--input-placeholder-color) !important;
   }
 }
 
@@ -57,13 +57,27 @@
 }
 
 .ant-input-number-input {
+  padding: 0;
+  font-size: 14px;
+
   &::placeholder {
-    color: var(--border-color);
+    color: var(--input-placeholder-color);
   }
 }
 
 .ant-input-number-handler-wrap {
   display: none;
+}
+
+.ant-input-group {
+  border: 1px solid var(--input-bg) !important;
+  background-color: var(--input-bg);
+}
+
+.ant-form-item-label {
+  label {
+    color: var(--label-color) !important;
+  }
 }
 
 .has-error {
@@ -94,7 +108,8 @@
   align-items: center;
   height: 32px !important;
   border-radius: 5px !important;
-  background: #fff !important;
+  color: var(--input-font-color) !important;
+  background-color: var(--input-bg) !important;
 }
 
 .ant-select-item {

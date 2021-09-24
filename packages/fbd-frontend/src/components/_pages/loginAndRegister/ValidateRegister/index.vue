@@ -3,7 +3,7 @@
     <div class="area">
       <div class="validate-title">
         <div class="validate-title-img">
-          <img :src="$requireSafe('icon/mail.svg')">
+          <img :src="$requireSafe(`icon/style${siteStyle}/mail.svg`)">
         </div>
         <div
           v-text="$t('components_pages_loginAndRegister_loginRegister_index_validateTitle', { value: text })"
@@ -76,7 +76,8 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { useStore } from 'vuex';
 
 import DCountdown from '@/components/DCountdown';
 
@@ -104,9 +105,14 @@ export default {
   },
   emits: ['register'],
   setup(props, { emit }) {
+    // use
+    const store = useStore();
     // ref
     const focus = ref(false);
     const validateNumber = ref('');
+
+    // computed
+    const siteStyle = computed(() => store.getters.siteStyle);
 
     // watch
     watch(() => validateNumber.value, (value) => {
@@ -126,6 +132,7 @@ export default {
       focus,
       validateNumber,
       submit,
+      siteStyle,
     };
   },
 };

@@ -27,7 +27,7 @@
                   :class="[checkFocus('account')]"
                 >
                   <div class="input-icon">
-                    <img :src="$requireSafe('icon/user-account.svg')">
+                    <img :src="$requireSafe(`icon/style${siteStyle}/user-account.svg`)">
                   </div>
 
                   <a-input
@@ -51,7 +51,7 @@
                   :class="[checkFocus('password')]"
                 >
                   <div class="input-icon">
-                    <img :src="$requireSafe('icon/password-lock.svg')">
+                    <img :src="$requireSafe(`icon/style${siteStyle}/password-lock.svg`)">
                   </div>
 
                   <a-input
@@ -66,7 +66,7 @@
                     <img
                       class="eye is-btn"
                       @click="seeToPassword()"
-                      :src="require(`@/assets/img/icon/${eyeResult}.svg`)"
+                      :src="$requireSafe(`icon/style${siteStyle}/${eyeResult}.svg`)"
                       alt="eye"
                     >
                   </div>
@@ -85,7 +85,7 @@
                   :class="[checkFocus('validate')]"
                 >
                   <div class="input-icon">
-                    <img :src="$requireSafe('icon/validate.svg')">
+                    <img :src="$requireSafe(`icon/style${siteStyle}/validate.svg`)">
                   </div>
 
                   <a-input
@@ -120,17 +120,17 @@
               </div>
 
               <a-form-item>
-                <a-button
-                  class="login-button-area"
-                  :class="[{'success' : checkInputValue()}]"
-                  :disabled="!checkInputValue()"
+                <d-button
+                  type="primary"
+                  block
+                  :disabled="!checkInputValue"
                   @click="login()"
                 >
                   <div
                     class="login-button"
                     v-text="$t('components_pages_loginAndRegister_loginRegister_login')"
                   />
-                </a-button>
+                </d-button>
               </a-form-item>
             </a-form>
           </div>
@@ -261,6 +261,7 @@ export default {
     });
 
     // computed
+    const siteStyle = computed(() => store.getters.siteStyle);
     const siteName = computed(() => store.state.info.siteInfo.name);
     const serviceUrl = computed(() => store.state.info.serviceUrl);
     const isModalShow = computed({
@@ -462,7 +463,7 @@ export default {
       }
     };
 
-    const checkInputValue = () => {
+    const checkInputValue = computed(() => {
       let result = false;
 
       const {
@@ -482,7 +483,7 @@ export default {
       }
 
       return result;
-    };
+    });
 
     onMounted(async () => {
       const rememberBool = window.localStorage.getItem('isRememberBool');
@@ -550,6 +551,7 @@ export default {
       blurValidateInput,
       serviceUrl,
       checkInputValue,
+      siteStyle,
     };
   },
 };
@@ -574,8 +576,10 @@ export default {
 
           &.ant-input-group {
             height: 40px;
+            border: 1px solid var(--input-bg);
             border-radius: 5px;
             background: #fff;
+            background-color: var(--input-bg);
           }
 
           &::v-deep(.ant-input) {
@@ -600,7 +604,6 @@ export default {
             border-radius: 0.1875rem !important;
             color: #333 !important;
             font-size: 0.875rem !important;
-            background-color: #fff;
             background-color: transparent !important;
 
             .text {
@@ -622,8 +625,10 @@ export default {
 
           &.ant-input-group {
             height: 40px;
+            border: 1px solid var(--input-bg);
             border-radius: 5px;
             background: #fff;
+            background-color: var(--input-bg);
           }
 
           &::v-deep(.ant-input) {
@@ -645,7 +650,7 @@ export default {
           &.ant-input-group {
             height: 40px;
             border-radius: 5px;
-            background: #fff;
+            background-color: var(--input-bg);
           }
 
           &::v-deep(.ant-input) {
@@ -686,27 +691,6 @@ export default {
           color: #f53838;
         }
 
-        .login-button-area {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 40px;
-          border-radius: 5px;
-          color: #fff;
-          background: linear-gradient(#f3ac0a 0%, #b58007 100%);
-          opacity: 0.5;
-
-          &.success {
-            background: linear-gradient(#f3ac0a 0%, #b58007 100%);
-            opacity: 1;
-          }
-
-          .login-button {
-            text-align: center;
-          }
-        }
-
         .protocol-prompt {
           display: flex;
           align-items: center;
@@ -729,11 +713,10 @@ export default {
         width: 100%;
         height: 38px;
         padding: 0 0.5rem;
-        border: 1px solid #f0f0f0 !important;
+        border: 1px solid var(--input-bg);
         border-radius: 5px !important;
-        color: #333 !important;
         font-size: 14px !important;
-        background: #fff !important;
+        background-color: var(--input-bg) !important;
 
         &:focus {
           border: 1px solid $button-color !important;
@@ -847,10 +830,6 @@ export default {
 
 ::v-deep(.ant-form-item-label) {
   padding-bottom: 0;
-
-  label {
-    color: #4d5772 !important;
-  }
 
   label::before {
     display: none !important;

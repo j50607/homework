@@ -29,7 +29,7 @@
                     :class="[checkFocus('account')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/user-account.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/user-account.svg`)">
                     </div>
 
                     <a-input
@@ -52,7 +52,7 @@
                     :class="[checkFocus('password')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/password-lock.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/password-lock.svg`)">
                     </div>
 
                     <a-input
@@ -67,7 +67,7 @@
                       <img
                         class="eye is-btn"
                         @click="seeToPassword()"
-                        :src="require(`@/assets/img/icon/${eyeResult}.svg`)"
+                        :src="$requireSafe(`icon/style${siteStyle}/${eyeResult}.svg`)"
                         alt="eye"
                       >
                     </div>
@@ -85,7 +85,7 @@
                     :class="[checkFocus('checkPassword')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/password-lock.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/password-lock.svg`)">
                     </div>
 
                     <a-input
@@ -101,7 +101,7 @@
                       <img
                         class="eye is-btn"
                         @click="seeToCheckPassword()"
-                        :src="require(`@/assets/img/icon/${checkEyeResult}.svg`)"
+                        :src="$requireSafe(`icon/style${siteStyle}/${checkEyeResult}.svg`)"
                         alt="eye"
                       >
                     </div>
@@ -121,7 +121,7 @@
                     <div class="input-icon">
                       <img
                         :class="{'has-agent-code' : agentCode}"
-                        :src="require('@/assets/img/icon/paper-airplane.svg')"
+                        :src="$requireSafe(`icon/style${siteStyle}/paper-airplane.svg`)"
                       >
                     </div>
 
@@ -156,7 +156,7 @@
                     :class="[checkFocus('realName')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/user-account.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/user-account.svg`)">
                     </div>
 
                     <a-input
@@ -181,7 +181,7 @@
                     :class="[checkFocus('nickname')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/user-account.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/user-account.svg`)">
                     </div>
 
                     <a-input
@@ -206,7 +206,7 @@
                     :class="[checkFocus('phone')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/phone.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/phone.svg`)">
                     </div>
 
                     <a-input-number
@@ -233,7 +233,7 @@
                     :class="[checkFocus('email')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/mail.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/mail.svg`)">
                     </div>
 
                     <a-input
@@ -258,7 +258,7 @@
                     @click.capture="showBirthdayPickerBool = true"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/birthday.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/birthday.svg`)">
                     </div>
 
                     <a-input
@@ -283,7 +283,7 @@
                     :class="[checkFocus('gender')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/gender.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/gender.svg`)">
                     </div>
 
                     <a-select v-model:value="state.formState.genderInputValue">
@@ -310,7 +310,7 @@
                     :class="[checkFocus('qq')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/qq.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/qq.svg`)">
                     </div>
 
                     <a-input
@@ -335,7 +335,7 @@
                     :class="[checkFocus('weixin')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/wechat.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/wechat.svg`)">
                     </div>
 
                     <a-input
@@ -360,7 +360,7 @@
                     :class="[checkFocus('line')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/line.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/line.svg`)">
                     </div>
 
                     <a-input
@@ -385,7 +385,7 @@
                     :class="[checkFocus('zalo')]"
                   >
                     <div class="input-icon">
-                      <img :src="$requireSafe('icon/zalo.svg')">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/zalo.svg`)">
                     </div>
 
                     <a-input
@@ -399,17 +399,17 @@
                 </a-form-item>
 
                 <a-form-item>
-                  <a-button
-                    class="register-button-area"
-                    :class="[{'success' : checkInputValue()}]"
-                    :disabled="!checkInputValue()"
+                  <d-button
+                    type="primary"
+                    block
+                    :disabled="!checkInputValue"
                     @click="register()"
                   >
                     <div
                       class="register-button"
                       v-text="$t('components_pages_loginAndRegister_loginRegister_register')"
                     />
-                  </a-button>
+                  </d-button>
                 </a-form-item>
               </a-form>
             </div>
@@ -817,6 +817,7 @@ export default {
     };
 
     // computed
+    const siteStyle = computed(() => store.getters.siteStyle);
     const siteName = computed(() => store.state.info.siteInfo.name);
     const siteId = computed(() => store.state.info.siteId);
     const registerSetting = computed(() => store.state.info.registerSetting);
@@ -1004,15 +1005,14 @@ export default {
       return true;
     });
 
-    // methods
-    const checkInputValue = () => {
+    const checkInputValue = computed(() => {
       if (isAccountBool.value && isPasswordBool.value && isConfirmPasswordBool.value && isAgentCodeBool.value && isRealNameBool.value && isNicknameBool.value && isPhoneBool.value && isEmailBool.value && isBirthdayBool.value && isGenderBool.value && isQQBool.value && isWechatBool.value && isLineBool.value && isZaloBool.value) {
         return true;
       }
 
       return false;
-    };
-
+    });
+    // methods
     const hideModal = () => {
       emit('cancel', false);
     };
@@ -1570,6 +1570,7 @@ export default {
       checkSiteDomain,
       agentCodeReadonly,
       checkKey,
+      siteStyle,
     };
   },
 };
@@ -1635,7 +1636,6 @@ export default {
           &.ant-input-group {
             height: 40px;
             border-radius: 5px;
-            background: #fff;
           }
 
           &::v-deep(.ant-input),
@@ -1671,7 +1671,6 @@ export default {
             border-radius: 0.1875rem !important;
             color: #333 !important;
             font-size: 0.875rem !important;
-            background-color: #fff;
             background-color: transparent !important;
 
             .text {
@@ -1687,18 +1686,12 @@ export default {
           }
 
           &.agent-code.ant-input-group {
-            background: #fff;
-
             &.has-agent-code {
-              background: #dadada !important;
-            }
-
-            .ant-input {
-              background: #fff !important;
+              background-color: var(--input-bg) !important;
             }
 
             .ant-input.has-agent-code {
-              background: #dadada !important;
+              background-color: var(--input-bg) !important;
             }
 
             img.has-agent-code {
@@ -1714,7 +1707,6 @@ export default {
           &.ant-input-group {
             height: 40px;
             border-radius: 5px;
-            background: #fff;
           }
 
           &::v-deep(.ant-input) {
@@ -1736,7 +1728,6 @@ export default {
           &.ant-input-group {
             height: 40px;
             border-radius: 5px;
-            background: #fff;
           }
 
           &::v-deep(.ant-input) {
@@ -1796,11 +1787,8 @@ export default {
         width: 100%;
         height: 38px;
         padding: 0 0.5rem;
-        border: 1px solid #f0f0f0 !important;
         border-radius: 5px !important;
-        color: #333 !important;
         font-size: 14px !important;
-        background: #fff !important;
 
         &:focus {
           border: 1px solid $button-color !important;
@@ -1853,7 +1841,9 @@ export default {
 }
 
 .blur-input {
-  border: 1px solid #f2f2f2;
+  border: 1px solid var(--input-bg) !important;
+  border-radius: 5px;
+  background-color: var(--input-bg);
 }
 
 .focus-input {
@@ -1866,10 +1856,6 @@ export default {
 
 ::v-deep(.ant-form-item-label) {
   padding-bottom: 0;
-
-  label {
-    color: #4d5772 !important;
-  }
 }
 
 ::v-deep(.ant-modal-close-x) {

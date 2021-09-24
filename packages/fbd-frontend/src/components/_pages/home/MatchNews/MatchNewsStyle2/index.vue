@@ -21,7 +21,7 @@
         </div>
         <div class="detail">
           <img
-            :src="$requireSafe('home/icon-arrow-right.svg')"
+            :src="$requireSafe('icon/style2/arrow.svg')"
             alt=""
             class="w-2"
           >

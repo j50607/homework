@@ -13,7 +13,7 @@ class stylesheet {
       // 主漸層色
       btnPrimaryBg: {
         1: 'linear-gradient(180deg, #f3ac0a 0%, #B58007 100%)',
-        2: '#142340',
+        2: '#FFB83D',
       },
       headerPrimaryBg: {
         1: 'linear-gradient(180deg, #f3ac0a 0%, #B58007 100%)',
@@ -83,12 +83,12 @@ class stylesheet {
       // 主按鈕文字顏色
       primaryBtnColor: {
         1: '#fff',
-        2: '#fff',
+        2: '#081024',
       },
       // 次按鈕文字顏色
       secondaryBtnColor: {
         1: '#7a5605',
-        2: '#7a5605',
+        2: '#FFFFFF',
       },
       // 维护、未开放遮罩背景色
       maintainBg: {
@@ -100,7 +100,19 @@ class stylesheet {
         2: '#f2f2f2',
       },
       inputBg: {
-        1: '#fff',
+        1: '#f5f5f5',
+        2: '#142340',
+      },
+      inputFontColor: {
+        1: '#333',
+        2: '#fff',
+      },
+      inputPlaceholderColor: {
+        1: '#bdbdbd',
+        2: '#374E7B',
+      },
+      labelColor: {
+        1: '#4d5772',
         2: '#fff',
       },
       dialogColor: {

@@ -7,14 +7,19 @@
       :right-components="'Service'"
       :left-components="'GoBack'"
       :bg-color="'transparent'"
-    />
-
+    >
+      <template #right>
+        <div class="service">
+          <img
+            v-if="serviceUrl"
+            class="is-btn"
+            @click="goService"
+            :src="$requireSafe(`header/style${siteStyle}/icon-service.svg`)"
+          >
+        </div>
+      </template>
+    </d-header-row>
     <login-register />
-
-    <!-- <d-language-modal
-      v-model:isShow="state.isLanguageModalShow"
-      @cancel="toggleLanguageModal"
-    /> -->
   </div>
 </template>
 
@@ -22,12 +27,10 @@
 import { ref, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import LoginRegister from '@/components/_pages/loginAndRegister/LoginRegister';
-// import DLanguageModal from '@/components/DLanguageModal';
 
 export default {
   components: {
     LoginRegister,
-    // DLanguageModal,
   },
   setup() {
     // use
@@ -50,6 +53,7 @@ export default {
     });
 
     // computed
+    const siteStyle = computed(() => store.getters.siteStyle);
     const serviceUrl = computed(() => store.state.info.serviceUrl);
     const storeLanguage = computed(() => store.state.info.language);
 
@@ -64,6 +68,7 @@ export default {
       serviceUrl,
       storeLanguage,
       toggleLanguageModal,
+      siteStyle,
     };
   },
 };
@@ -84,9 +89,8 @@ export default {
   .service {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 100%;
-    padding: 15px;
 
     .service-img {
       width: 24px;

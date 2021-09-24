@@ -12,7 +12,7 @@
   </div>
   <div
     v-else
-    class="avatar"
+    class="avatar is-btn"
   >
     <img
       :src="$requireSafe(`avatar/${avatar && avatar.system ? avatar.system : 0 }.png`)"

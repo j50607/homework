@@ -2,6 +2,7 @@
   <locale
     v-slot="{ locale }"
     class="login-register"
+    :class="`style${siteStyle}`"
   >
     <div
       class="login-box-title"
@@ -31,16 +32,23 @@
 
     <div class="welcome">
       <div class="go-where">
-        <div
-          class="go-where-text is-btn"
-          v-text="$t('components_pages_loginAndRegister_loginRegister_login')"
+        <d-button
+          type="primary"
+          block
+          class="go-where-text"
           @click="inLoginOrRegister('login')"
-        />
-        <div
-          class="go-where-text is-btn border-style"
-          v-text="$t('components_pages_loginAndRegister_loginRegister_register_new_user')"
+        >
+          {{ $t('components_pages_loginAndRegister_loginRegister_login') }}
+        </d-button>
+        <d-button
+          type="primary"
+          block
+          class="go-where-text border-style"
+          :class="`style${siteStyle}`"
           @click="inLoginOrRegister('register')"
-        />
+        >
+          {{ $t('components_pages_loginAndRegister_loginRegister_register_new_user') }}
+        </d-button>
       </div>
 
       <quick-login />
@@ -103,6 +111,7 @@ export default {
     const store = useStore();
 
     // computed
+    const siteStyle = computed(() => store.getters.siteStyle);
     const isLogin = computed(() => store.state.user.isLogin);
     const sitePrefix = computed(() => store.state.info.siteInfo.prefix);
     const exchangeInfoList = computed(() => store.state.exchange.exchangeInfoList.filter((e) => e.showNavigation));
@@ -348,6 +357,7 @@ export default {
       sitePrefix,
       componentType,
       componentBool,
+      siteStyle,
     };
   },
 };
@@ -364,6 +374,10 @@ export default {
   padding: 0 30px;
   color: #333;
   font-size: 0.875rem;
+
+  &.style2 {
+    background: transparent linear-gradient(180deg, #fff0 0%, #374e7b4f 80%, #ffb83d 140%);
+  }
 }
 
 .login-box-title {
@@ -468,15 +482,28 @@ export default {
       height: 40px;
       margin-bottom: 1rem;
       border-radius: 50px;
-      color: #fff;
       font-size: 1rem;
-      background: linear-gradient(#f3ac0a 0%, #b58007 100%);
+
+      &:hover {
+        filter: brightness(1.05);
+      }
+
+      &:active {
+        filter: brightness(1.15);
+      }
+
+      &.style2 {
+        border: 1px solid #ffb83d !important;
+        color: #fff !important;
+        font-weight: 600;
+        background: #ffb83d4d !important;
+      }
     }
   }
 }
 
 .border-style {
-  border: 1px solid #7a5605;
+  border: 1px solid #7a5605 !important;
   color: #7a5605 !important;
   background: #f9fcffcc !important;
 }

@@ -1,6 +1,6 @@
 @mixin button-color($color, $bg, $border: transparent) {
   border: 1px solid $border;
-  color: var(--custom-color, $color);
+  color: var(--primary-btn-color);
   background: var(--custom-bg, $bg);
 
   $custom: var(--custom-bg, $bg);

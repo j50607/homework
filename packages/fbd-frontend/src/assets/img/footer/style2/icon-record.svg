@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62259" data-name="Rectangle 62259" width="24" height="24" transform="translate(2172 596)" fill="#fff4d9" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="footer_记录" transform="translate(-2172 -596)" clip-path="url(#clip-path)">
+    <g id="Group_39232" data-name="Group 39232" transform="translate(2173 597.663)">
+      <path id="Path_51347" data-name="Path 51347" d="M-784.141,65.3h-12.812a2.379,2.379,0,0,0-2.371,2.37v1.4h-2.082a2.437,2.437,0,0,0-2.364,2.488V83.476a2.441,2.441,0,0,0,2.371,2.494h17.258a2.376,2.376,0,0,0,2.371-2.37V67.668A2.376,2.376,0,0,0-784.141,65.3Zm-18.3,6.252a1.11,1.11,0,0,1,1.05-1.152h2.064V83.6a1.453,1.453,0,0,0,.042.336,2.328,2.328,0,0,0,.219.706h-2.32a1.11,1.11,0,0,1-1.054-1.16ZM-798,83.6V67.668a1.047,1.047,0,0,1,1.045-1.044h12.81a1.045,1.045,0,0,1,1.045,1.044V83.6a1.044,1.044,0,0,1-1.045,1.043h-12.812A1.046,1.046,0,0,1-798,83.6Z" transform="translate(803.771 -65.297)" fill="#fff4d9"/>
+      <path id="Path_51348" data-name="Path 51348" d="M-787.287,74.093h-7.63a.845.845,0,0,0-.844.843.845.845,0,0,0,.844.844h7.63a.844.844,0,0,0,.842-.844A.843.843,0,0,0-787.287,74.093Z" transform="translate(804.326 -64.687)" fill="#fff4d9"/>
+      <path id="Path_51349" data-name="Path 51349" d="M-787.287,70.335h-7.63a.844.844,0,0,0-.844.843.845.845,0,0,0,.844.844h7.63a.844.844,0,0,0,.842-.844A.843.843,0,0,0-787.287,70.335Z" transform="translate(804.326 -64.948)" fill="#fff4d9"/>
+    </g>
+  </g>
+</svg>

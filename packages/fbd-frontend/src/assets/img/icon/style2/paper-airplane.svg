@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_56050" data-name="Rectangle 56050" width="24" height="24" transform="translate(30 273)" fill="#6c82ac"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_55046" data-name="Rectangle 55046" width="24" height="24" fill="#6c82ac"/>
+    </clipPath>
+  </defs>
+  <g id="注册_邀请码" transform="translate(-30 -273)" clip-path="url(#clip-path)">
+    <g id="邀请码" transform="translate(30 273)" clip-path="url(#clip-path-2)">
+      <g id="Mask_Group_265" data-name="Mask Group 265">
+        <g id="Artboard_2" data-name="Artboard – 2" clip-path="url(#clip-path-2)">
+          <path id="Icon_ionic-ios-send" data-name="Icon ionic-ios-send" d="M25.054,3.8,11.311,9.791l-7.285,3.18a.482.482,0,0,0,.017.876l5.69,3.214a.921.921,0,0,0,1.052-.1L22,7.291c.075-.063.254-.184.321-.121s-.041.247-.1.321l-9.7,10.93a.921.921,0,0,0-.09,1.095l3.718,5.964a.482.482,0,0,0,.87-.012l8.695-21.03a.482.482,0,0,0-.647-.635Z" transform="translate(-2.753 -2.751)" fill="#6c82ac"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

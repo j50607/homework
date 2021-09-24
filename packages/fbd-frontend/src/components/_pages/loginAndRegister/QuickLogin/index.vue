@@ -3,7 +3,10 @@
     v-if="hasQuickLogin()"
     class="quick-login"
   >
-    <div class="quick-text">
+    <div
+      class="quick-text"
+      :class="`style${siteStyle}`"
+    >
       <span>{{ $t('components_quick_login_text') }}</span>
     </div>
 
@@ -107,6 +110,7 @@ export default {
     const thirdPartySetting = computed(() => store.state.info.thirdPartySetting);
     const language = computed(() => store.state.info.language);
     const agentCode = computed(() => store.state.user.agentCode);
+    const siteStyle = computed(() => store.getters.siteStyle);
 
     // methods
     const openThirdParty = (tag) => {
@@ -212,6 +216,7 @@ export default {
       thirdPartySetting,
       getSocialCode,
       thirdPartyLogin,
+      siteStyle,
     };
   },
 };
@@ -229,6 +234,10 @@ export default {
     align-items: center;
     justify-content: center;
     margin-top: 30px;
+
+    &.style2 {
+      color: #fff;
+    }
   }
 
   .quick-login-area {
