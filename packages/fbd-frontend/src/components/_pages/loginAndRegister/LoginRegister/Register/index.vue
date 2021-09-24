@@ -34,7 +34,7 @@
 
                     <a-input
                       v-model:value="state.formState.mainInputValue"
-                      :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_login_enter_user')} ${$t('components_pages_loginAndRegister_loginRegister_register_mandatory')}`"
+                      :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_login_enter_user')}`"
                       @focus="focusMainInput"
                       @blur="blurMainInput"
                     />
@@ -58,7 +58,7 @@
                     <a-input
                       v-model:value="state.formState.passwordInputValue"
                       :type="seePassword ? 'text' : 'password'"
-                      :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_login_enter_password')} ${$t('components_pages_loginAndRegister_loginRegister_register_mandatory')}`"
+                      :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_login_enter_password')}`"
                       @focus="focusPasswordInput"
                       @blur="blurPasswordInput"
                     />
@@ -92,7 +92,7 @@
                       v-model:value="state.formState.checkPasswordInputValue"
                       :type="seeCheckPassword? 'text' : 'password'"
                       :readonly="agentCodeReadonly"
-                      :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_register_password_again')} ${$t('components_pages_loginAndRegister_loginRegister_register_mandatory')}`"
+                      :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_register_password_again')}`"
                       @focus="focusCheckPasswordInput"
                       @blur="blurCheckPasswordInput"
                     />
@@ -550,7 +550,7 @@ export default {
         lineInputValue: undefined,
         zaloInputValue: undefined,
         birthdayInputValue: undefined,
-        genderInputValue: 0,
+        genderInputValue: 2,
       },
     });
 
@@ -1644,6 +1644,11 @@ export default {
             padding: 0 !important;
             border: none !important;
             box-shadow: none !important;
+          }
+
+          &::v-deep(.ant-input-number-input) {
+            padding: 0;
+            font-size: 0.875rem;
           }
 
           &::v-deep(.ant-select-selector) {
