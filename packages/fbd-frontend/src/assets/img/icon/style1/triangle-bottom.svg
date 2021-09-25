@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_61536" data-name="Rectangle 61536" width="24" height="24" transform="translate(-0.278 -0.127)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-箭頭-下">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="箭頭-下" clip-path="url(#clip-箭頭-下)">
+    <g id="Mask_Group_81" data-name="Mask Group 81" transform="translate(0.278 0.127)" clip-path="url(#clip-path)">
+      <g id="Group_36683" data-name="Group 36683" transform="translate(3.722 6.873)">
+        <path id="Polygon_9" data-name="Polygon 9" d="M8,0l8,10H0Z" transform="translate(16 11) rotate(180)" fill="#333"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -20,7 +20,7 @@
 
 <script>
 import {
-  reactive, toRefs, ref, onMounted, computed, nextTick, watch,
+  reactive, toRefs, ref, computed, nextTick, watch, onBeforeMount,
 } from 'vue';
 import dayjs from 'dayjs';
 import DPickerItem from './DPickerItem';
@@ -80,10 +80,6 @@ export default {
       set: (val) => emit('update:value', val),
     });
 
-    watch(() => props.value, (val) => {
-      state.valueArr = dayjs(val).format(`YYYY${props.format}MM${props.format}DD`).split(props.format);
-    }, { immediate: true });
-
     const getDisplayHeight = () => {
       const li = groupRef.value.querySelector('li');
       if (li) {
@@ -130,10 +126,16 @@ export default {
       return dateArr;
     };
 
+    watch(() => props.value, (val) => {
+      nextTick(() => {
+        state.valueArr = dayjs(val).format(`YYYY${props.format}MM${props.format}DD`).split(props.format).map((item) => +item);
+        state.data[2].value = generateDay();
+      });
+    }, { immediate: true });
+
     const initData = () => {
       const year = generateYear();
       const month = generateMonth();
-      const day = generateDay();
 
       return [
         {
@@ -143,23 +145,22 @@ export default {
           value: month,
         },
         {
-          value: day,
+          value: [],
         },
       ];
     };
 
     const change = (val, index) => {
-      state.valueArr[index] = val;
+      state.valueArr[index] = +val;
       currentDate.value = state.valueArr.join(props.format);
 
       if (index === 1) {
-        state.data[2].value = generateDay();
         state.data[1].value = generateMonth();
       }
       emit('change', currentDate.value);
     };
 
-    onMounted(() => {
+    onBeforeMount(() => {
       state.data = initData();
       nextTick(() => {
         getDisplayHeight();

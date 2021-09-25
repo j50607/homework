@@ -30,7 +30,7 @@
         :class="{'on': dateType === 'start'}"
         @click="selectDate('start')"
       >
-        {{ dayjs(startDate).format('YYYY/MM/DD') }}
+        {{ dayjs(startDate).format(`YYYY${format}MM${format}DD`) }}
       </div>
       <span class="text-gray-400">一</span>
       <div
@@ -38,7 +38,7 @@
         :class="{'on': dateType === 'end'}"
         @click="selectDate('end')"
       >
-        {{ dayjs(ednDate).format('YYYY/MM/DD') }}
+        {{ dayjs(endDate).format(`YYYY${format}MM${format}DD`) }}
       </div>
     </div>
     <transition name="fade">
@@ -145,6 +145,7 @@ export default {
     });
 
     const changeDate = (item, index) => {
+      state.dateType = 'start';
       state.selectIndex = index;
 
       const dateMap = {
@@ -154,14 +155,43 @@ export default {
       };
 
       state.currentDate = dateMap[item.value] || dayjs().format(format);
+
       nextTick(() => {
         state.startDate = state.currentDate;
-        state.endDate = item.value === 'yesterday' ? dayjs().subtract(1, 'day').format(format) : dayjs().format(format);
+        state.endDate = item.value === 'yesterday' ? dayjs().subtract(1, 'day').endOf('day').format(format) : dayjs().endOf().format(format);
       });
     };
 
     const selectDate = (type) => {
       state.dateType = type;
+
+      if (type === 'start') {
+        state.currentDate = dayjs(state.startDate).format(format);
+      } else if (type === 'end') {
+        state.currentDate = dayjs(state.endDate).format(format);
+      }
+    };
+
+    /**
+     * 判断选中日期并给予或移除按钮颜色
+     */
+    const selectedDays = () => {
+      const start = dayjs(state.startDate).startOf('day').format(format);
+      const end = dayjs(state.endDate).startOf('day').format(format);
+
+      const today = dayjs().startOf('day').format(format);
+      const yesterday = dayjs().startOf('day').subtract(1, 'day').format(format);
+      const week = dayjs().startOf('day').subtract(6, 'days').format(format);
+
+      if (start === today && end === today) {
+        state.selectIndex = 0;
+      } else if (start === yesterday && end === yesterday) {
+        state.selectIndex = 1;
+      } else if (start === week && end === today) {
+        state.selectIndex = 2;
+      } else {
+        state.selectIndex = -1;
+      }
     };
 
     const change = (val) => {
@@ -170,6 +200,8 @@ export default {
       } else {
         state.endDate = val;
       }
+
+      selectedDays();
     };
 
     const validateDate = () => {
@@ -185,8 +217,8 @@ export default {
 
       const time = dayjs().format('HH:mm:ss');
       emit('confirm', {
-        startDate: dayjs(`${state.startDate} ${time}`).format('YYYY/MM/DD HH:mm:ss'),
-        endDate: dayjs(state.endDate).format('YYYY/MM/DD HH:mm:ss'),
+        startDate: dayjs(`${dayjs(state.startDate).format(`YYYY${props.format}MM${props.format}DD`)} ${time}`).format(format),
+        endDate: dayjs(state.endDate).format(format),
       });
 
       show.value = false;
@@ -218,6 +250,7 @@ export default {
   min-width: 68px;
   height: 26px;
   margin-right: 10px;
+  padding: 0 5px;
   border: 1px solid #bdbdbd;
   border-radius: 20px;
   color: var(--font-color);

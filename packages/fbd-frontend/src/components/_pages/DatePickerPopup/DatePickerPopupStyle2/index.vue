@@ -66,7 +66,7 @@
 
 <script>
 import {
-  computed, nextTick, reactive, toRefs, watch,
+  computed, reactive, toRefs, watch,
 } from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
@@ -145,6 +145,7 @@ export default {
     });
 
     const changeDate = (item, index) => {
+      state.dateType = 'start';
       state.selectIndex = index;
 
       const dateMap = {
@@ -154,14 +155,41 @@ export default {
       };
 
       state.currentDate = dateMap[item.value] || dayjs().format(format);
-      nextTick(() => {
-        state.startDate = state.currentDate;
-        state.endDate = item.value === 'yesterday' ? dayjs().subtract(1, 'day').format(format) : dayjs().format(format);
-      });
+
+      state.startDate = state.currentDate;
+      state.endDate = item.value === 'yesterday' ? dayjs().subtract(1, 'day').endOf('day').format(format) : dayjs().endOf().format(format);
     };
 
     const selectDate = (type) => {
       state.dateType = type;
+
+      if (type === 'start') {
+        state.currentDate = dayjs(state.startDate).format(format);
+      } else if (type === 'end') {
+        state.currentDate = dayjs(state.endDate).format(format);
+      }
+    };
+
+    /**
+     * 判断选中日期并给予或移除按钮颜色
+     */
+    const selectedDays = () => {
+      const start = dayjs(state.startDate).format(format);
+      const end = dayjs(state.endDate).format(format);
+
+      const today = dayjs().format(format);
+      const yesterday = dayjs().subtract(1, 'day').format(format);
+      const week = dayjs().subtract(7, 'day').format(format);
+
+      if (start === today && end === today) {
+        state.selectIndex = 0;
+      } else if (start === yesterday && end === yesterday) {
+        state.selectIndex = 1;
+      } else if (start === week && end === today) {
+        state.selectIndex = 2;
+      } else {
+        state.selectIndex = -1;
+      }
     };
 
     const change = (val) => {
@@ -170,6 +198,8 @@ export default {
       } else {
         state.endDate = val;
       }
+
+      selectedDays();
     };
 
     const validateDate = () => {

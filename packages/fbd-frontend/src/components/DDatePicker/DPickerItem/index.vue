@@ -31,7 +31,7 @@
 
 <script>
 import {
-  computed, reactive, toRefs, watch,
+  computed, nextTick, reactive, toRefs, watch,
 } from 'vue';
 import dayjs from 'dayjs';
 
@@ -128,7 +128,15 @@ export default {
     };
 
     watch([() => props.height, () => props.value], () => {
-      moveTo();
+      nextTick(() => {
+        moveTo();
+      });
+    });
+
+    watch(() => props.data, () => {
+      if (props.index === 2) {
+        moveTo();
+      }
     });
 
     const onTouchStart = (event) => {
