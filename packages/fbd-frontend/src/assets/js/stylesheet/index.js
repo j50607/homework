@@ -123,6 +123,10 @@ class stylesheet {
         1: '15px',
         2: '5px',
       },
+      selectBg: {
+        1: '#ecf2f8',
+        2: '#142340',
+      },
     };
 
     return result;

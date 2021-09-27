@@ -221,7 +221,7 @@
     :use-select="false"
     :min-date="1901"
     :max-date="2021"
-    not-show-today="true"
+    not-show-today
     @confirm="datePickerConfirm"
   />
 </template>

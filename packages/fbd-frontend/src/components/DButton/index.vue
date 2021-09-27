@@ -6,7 +6,9 @@
       {'disabled': disabled},
       {'loading': loading},
       {'block': block},
-      {'border-none': !border}
+      {'border-none': !border},
+      {'round': round},
+      `style${siteStyle}`
     ]"
     :style="{'--custom-bg': color, '--custom-color': textColor}"
     @click="click"
@@ -20,7 +22,8 @@
 
 <script>
 import { LoadingOutlined } from '@ant-design/icons-vue';
-// import { reactive } from 'vue';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
 
 export default {
 
@@ -77,8 +80,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    round: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
+    const store = useStore();
+    const siteStyle = computed(() => store.getters.siteStyle);
     const click = () => {
       if (props.disabled || props.loading) {
         return;
@@ -87,6 +96,7 @@ export default {
     };
     return {
       click,
+      siteStyle,
     };
   },
 };
@@ -125,6 +135,14 @@ export default {
 
   &.border-none {
     border: none;
+  }
+
+  &.round {
+    border-radius: 20px;
+  }
+
+  &.style2 {
+    border-radius: 20px;
   }
 }
 </style>

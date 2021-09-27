@@ -1,7 +1,8 @@
 <template>
   <d-header-row
     :title="state.currentGameData?.leagueName || ''"
-    right-components="service"
+    right-components="UserAvatar"
+    use-sidebar
   />
 
   <div class="betting">
@@ -83,7 +84,7 @@
         <div class="betting-time-item betting-info-text text-date">
           {{ renderDate(state.currentGameData?.matchTIme) }}
         </div>
-        <div class="betting-time-item betting-time-item-em betting-info-text text-date">
+        <div class="betting-time-item betting-info-text text-date">
           {{ renderTime(state.currentGameData?.matchTIme) }}
         </div>
         <div class="betting-time-item betting-info-text text-date">
@@ -315,15 +316,14 @@
   <d-popup
     v-model:value="state.isBettingPopupShow"
     position="bottom"
-    :round="true"
     :title="$t('views_betting_main_popup_title')"
     :duration="state.popupDuration"
   >
     <div class="popup-piece">
-      <div class="popup-text popup-row">
+      <div class="popup-text popup-row league">
         {{ state.currentGameData?.leagueName }}
       </div>
-      <div class="popup-text popup-row">
+      <div class="popup-text popup-row time">
         {{ dayjs(state.currentGameData?.matchTIme).format('YYYY-MM-DD HH:mm') }}({{ timeZone }})
       </div>
       <div class="popup-text popup-text-em popup-row">
@@ -415,6 +415,7 @@
         v-show="state.isHandlePolling"
         type="primary"
         :block="true"
+        round
         :disabled="lockBettingBtn"
         @click="handleBetting"
       >
@@ -425,6 +426,7 @@
         type="primary"
         :block="true"
         :disabled="false"
+        round
         @click="refreshData"
       >
         {{ $t('views_betting_main_popup_btnAction2') }}
@@ -1044,7 +1046,7 @@ export default {
   }
 
   &-deadline {
-    @apply mt-1;
+    @apply mt-2;
   }
 
   &-deadline-text {
@@ -1093,7 +1095,7 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 20px 40px 0 38px;
-    font-weight: 100;
+    font-weight: 300;
   }
 
   &-list {
@@ -1127,7 +1129,7 @@ export default {
   }
 
   &-overlay {
-    @apply absolute top-0 left-0 flex flex-col justify-end w-full h-full py-5 rounded-3 bg-maintain;
+    @apply absolute top-0 left-0 flex flex-col justify-end w-full h-full rounded-3 bg-maintain z-10;
 
     .betting-score {
       @apply pt-0 pb-1;
@@ -1135,7 +1137,7 @@ export default {
   }
 
   &-overlay-text {
-    @apply text-white;
+    @apply flex items-center justify-center text-white h-full;
   }
 
   &-tab {
@@ -1196,7 +1198,7 @@ export default {
   }
 
   &-text-em {
-    @apply text-primary;
+    @apply text-normal;
   }
 
   &-text-amount {
@@ -1213,6 +1215,18 @@ export default {
 
   &-piece {
     @apply mb-3;
+
+    .d-btn {
+      font-size: 12px;
+    }
+
+    .league {
+      color: #ffb83d;
+    }
+
+    .time {
+      color: #fff4d9;
+    }
   }
 
   &-row {
@@ -1230,16 +1244,19 @@ export default {
   }
 
   &-amount {
-    @apply border border-solid border-border rounded-3 text-border text-center text-xs;
+    @apply rounded-3 text-center text-xs;
 
     flex: calc(25% - 8px * (4 - 1) / 4) 0 0;
     margin-bottom: 8px;
     padding: 8px 0;
+    border: 1px solid #6c82ac;
 
     &-active,
     &:hover,
     &:focus {
       @apply text-normal bg-secondary-content;
+
+      background: #374e7b;
     }
   }
 
@@ -1296,6 +1313,12 @@ export default {
 
     margin-right: 9px;
     transform: scale(0.625);
+  }
+
+  &-input {
+    padding: 0 10px;
+    border: none;
+    color: #fff;
   }
 
   &-input-error {

@@ -1,6 +1,7 @@
 <template>
   <div
     class="relative"
+    :style="{'--stroke-color': strokeColor}"
     @click="refresh"
   >
     <svg
@@ -90,6 +91,7 @@ export default {
   setup(props, { emit }) {
     // ref
     const countdown = ref(props.time);
+    const strokeColor = ref('#4aee91');
     let timer = null;
     let timer2 = null;
 
@@ -111,6 +113,12 @@ export default {
 
       timer = setInterval(() => {
         progress.value -= 1;
+
+        if (progress.value / dashArray.value <= 0.5) {
+          strokeColor.value = '#ff5a5a';
+        } else {
+          strokeColor.value = '#4aee91';
+        }
       }, countTime.value);
     };
 
@@ -161,6 +169,7 @@ export default {
       init,
       refresh,
       countdown,
+      strokeColor,
     };
   },
 };
@@ -174,8 +183,8 @@ export default {
 }
 
 .inner {
-  transition: stroke-dashoffset 0.3s ease-in-out;
-  stroke: #4aee91;
+  transition: all 0.3s ease-in-out;
+  stroke: var(--stroke-color);
   stroke-width: 2px;
 }
 

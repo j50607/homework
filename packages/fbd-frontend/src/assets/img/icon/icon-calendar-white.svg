@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62305" data-name="Rectangle 62305" width="24" height="24" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="时间选择" clip-path="url(#clip-path)">
+    <g id="calendar" transform="translate(1 1)">
+      <path id="Path_51404" data-name="Path 51404" d="M19.479,62.835H2.521A2.523,2.523,0,0,1,0,60.314V45.189a2.523,2.523,0,0,1,2.521-2.521H19.479A2.523,2.523,0,0,1,22,45.189V60.314A2.523,2.523,0,0,1,19.479,62.835ZM2.521,44.043a1.147,1.147,0,0,0-1.146,1.146V60.314A1.148,1.148,0,0,0,2.521,61.46H19.479a1.147,1.147,0,0,0,1.146-1.146V45.189a1.147,1.147,0,0,0-1.146-1.146Zm0,0" transform="translate(0 -40.835)" fill="#fff"/>
+      <path id="Path_51405" data-name="Path 51405" d="M21.313,172.043H.688a.687.687,0,1,1,0-1.375H21.313a.687.687,0,1,1,0,1.375Zm0,0" transform="translate(0 -163.335)" fill="#fff"/>
+      <path id="Path_51406" data-name="Path 51406" d="M107.355,5.5a.688.688,0,0,1-.687-.687V.688a.687.687,0,1,1,1.375,0V4.813A.688.688,0,0,1,107.355,5.5Zm0,0" transform="translate(-102.085)" fill="#fff"/>
+      <path id="Path_51407" data-name="Path 51407" d="M374.02,5.5a.688.688,0,0,1-.688-.687V.688a.688.688,0,0,1,1.375,0V4.813A.688.688,0,0,1,374.02,5.5Zm0,0" transform="translate(-357.29)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

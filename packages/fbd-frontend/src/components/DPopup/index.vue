@@ -174,7 +174,7 @@ $border-radius: 8px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  background-color: #fff;
+  background-color: var(--dialog-color);
 
   &-center {
     top: 50%;
@@ -233,7 +233,7 @@ $border-radius: 8px;
   font-weight: bold;
 
   .title {
-    color: #4d5772;
+    color: var(--font-color);
     font-weight: 700;
     font-size: 14px;
   }
@@ -242,6 +242,7 @@ $border-radius: 8px;
 .d-popup-content {
   padding: 5px 15px;
   overflow-y: auto;
+  background: var(--dialog-color);
 }
 
 .anticon-close {

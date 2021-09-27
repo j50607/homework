@@ -10,6 +10,10 @@
     @mouseup="onTouchEnd"
     @mouseleave="onTouchEnd"
   >
+    <div
+      v-if="mask"
+      class="mask"
+    />
     <ul
       class="picker-li"
       :style="transformStyle"
@@ -59,6 +63,10 @@ export default {
     value: {
       type: [String, Number],
       default: '',
+    },
+    mask: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['change'],
@@ -184,6 +192,17 @@ export default {
   width: 100%;
   overflow: hidden;
   user-select: none;
+
+  .mask {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    background: #fff;
+    background: #374e7b;
+    transform: translateY(-50%);
+  }
 
   li {
     height: 35px;

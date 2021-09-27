@@ -16,7 +16,12 @@
             <div class="font-bold mb-1">
               {{ userInfo.name }}
             </div>
-            <div>VIP{{ userInfo.vipLevel }}</div>
+            <div
+              class="logout"
+              @click="logout"
+            >
+              {{ $t('views_profile_logout') }}
+            </div>
           </div>
         </div>
         <div class="balance-content">
@@ -50,17 +55,6 @@
               alt=""
             >
             <span>{{ item.name }}</span>
-          </div>
-          <div
-            class="menu-item is-btn"
-            @click="logout"
-          >
-            <img
-              class="h-4 w-4 mr-4"
-              :src="require(`@/assets/img/sidebar/side-logout.svg`)"
-              alt=""
-            >
-            <span>{{ $t('views_profile_logout') }}</span>
           </div>
         </div>
       </div>
@@ -175,11 +169,11 @@ export default {
   ::v-deep(.d-popup) {
     width: 260px;
     height: 100%;
-    background: var(--layout-bg);
     transform: translateX(260px);
 
     .d-popup-content {
       padding: 0;
+      background: var(--layout-bg);
     }
   }
 
@@ -195,6 +189,18 @@ export default {
       margin-right: 10px;
       border: 2px solid #f3ac0a;
       border-radius: 50%;
+    }
+
+    .logout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 64px;
+      height: 26px;
+      border: 1px solid #6c82ac;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
     }
   }
 
@@ -214,13 +220,13 @@ export default {
 
     &:first-child {
       padding-top: 20px;
-      border-top: 1px solid #21304e;
+      border-top: 1px solid #1d3158;
     }
 
     &:nth-child(4n):not(:last-child) {
       margin-bottom: 10px;
       padding-bottom: 20px;
-      border-bottom: 1px solid #21304e;
+      border-bottom: 1px solid #1d3158;
     }
   }
 }

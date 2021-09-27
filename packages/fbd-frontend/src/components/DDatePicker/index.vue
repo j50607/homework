@@ -12,6 +12,7 @@
       :height="liHeight"
       :visible-count="visibleCount"
       :value="valueArr[index] ? valueArr[index] : ''"
+      :mask="mask"
       @change="change"
     />
   </div>
@@ -22,7 +23,6 @@ import {
   reactive, toRefs, ref, onMounted, computed, nextTick, watch,
 } from 'vue';
 import dayjs from 'dayjs';
-import * as moment from 'moment';
 import DPickerItem from './DPickerItem';
 
 export default {
@@ -60,6 +60,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    mask: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:value', 'change'],
   setup(props, { emit }) {
@@ -89,8 +93,8 @@ export default {
 
     const generateMonth = () => {
       const dateArr = [];
-      if (+state.valueArr[0] === +moment(new Date()).format('YYYY')) {
-        for (let i = 1; i <= +moment(new Date()).format('MM'); i++) {
+      if (+state.valueArr[0] === dayjs().get('year')) {
+        for (let i = 1; i <= dayjs().get('month') + 1; i++) {
           dateArr.push(i);
         }
       } else {
@@ -113,8 +117,8 @@ export default {
     const generateDay = () => {
       const dateArr = [];
       const count = dayjs(`${state.valueArr[0]}/${state.valueArr[1]}`).daysInMonth();
-      if (+state.valueArr[1] === +moment(new Date()).format('MM')) {
-        for (let i = 1; i <= (props.notShowToday ? (+moment(new Date()).format('DD') - 1) : (+moment(new Date()).format('DD'))); i++) {
+      if (+state.valueArr[1] === dayjs().get('month') + 1 && +state.valueArr[0] === dayjs().get('year')) {
+        for (let i = 1; i <= (props.notShowToday ? (dayjs().subtract(1, 'day').get('date')) : (dayjs().get('date'))); i++) {
           dateArr.push(i);
         }
       } else {

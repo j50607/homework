@@ -62,7 +62,7 @@
     <img
       class="arrow"
       :class="{'on': show}"
-      :src="require('@/assets/img/icon/triangle-bottom.svg')"
+      :src="$requireSafe(`icon/style${siteStyle}/triangle-bottom.svg`)"
       alt=""
     >
   </div>
@@ -77,6 +77,7 @@
 import {
   computed, reactive, ref, toRefs, watch,
 } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   props: {
@@ -97,6 +98,8 @@ export default {
   },
   emits: ['update:value'],
   setup(props, { emit, slots }) {
+    const store = useStore();
+
     const select = ref(null);
 
     const state = reactive({
@@ -106,6 +109,7 @@ export default {
 
     const hasDropdownSlot = computed(() => slots.dropdown);
     const hasEmptySlot = computed(() => slots.empty);
+    const siteStyle = computed(() => store.getters.siteStyle);
     const selectedItem = computed({
       get: () => props.value,
       set: (val) => emit('update:value', val),
@@ -133,6 +137,7 @@ export default {
       selectedItem,
       hasDropdownSlot,
       hasEmptySlot,
+      siteStyle,
       ...toRefs(state),
     };
   },
@@ -147,7 +152,7 @@ export default {
   padding: 7px 10px;
   border: 1px solid #bcc0cb;
   border-radius: 3px;
-  background: #ecf2f8;
+  background: var(--select-bg);
   cursor: pointer;
 
   .arrow {
@@ -170,7 +175,7 @@ export default {
     max-height: 135px;
     border-radius: 3px;
     overflow-y: auto;
-    background: #ecf2f8;
+    background: var(--select-bg);
 
     .d-select-item {
       padding: 5.5px 10px;
