@@ -174,28 +174,35 @@
       />
     </div>
   </d-popup>
+  <transaction-detail
+    v-if="showTransactionDetail"
+    :info-out="propInfo"
+    :type="tabType"
+    @close="closeTransactionDetail"
+  />
 </template>
 
 <script>
 import {
-  ref, reactive, toRefs, onBeforeMount, nextTick, watch,
+  ref, reactive, toRefs, onBeforeMount, nextTick,
 } from 'vue';
 import * as R from 'ramda';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
+// import { useRoute } from 'vue-router';
 import FinanceApi from '@/assets/js/api/financeApi';
 import DatePickerPopup from '@/components/_pages/DatePickerPopup';
+import TransactionDetail from '@/components/_pages/profile/transaction/TransactionDetail';
 
 export default {
   components: {
     DatePickerPopup,
+    TransactionDetail,
   },
   setup() {
     // use
     const { t } = useI18n();
-    const router = useRouter();
-    const route = useRoute();
+    // const route = useRoute();
 
     // ref
     const scroll = ref(null);
@@ -233,6 +240,9 @@ export default {
         { label: window.$vue.$t('views_profile_transaction_fail'), value: [2, 3, 5] },
         { label: window.$vue.$t('views_profile_transaction_auditing'), value: [0, 4, 6, 7] },
       ],
+      deepCheckList: [],
+      propInfo: {},
+      showTransactionDetail: false,
     });
 
     const params = reactive({
@@ -272,7 +282,7 @@ export default {
     };
 
     const changeCheckbox = (list) => {
-      if (list.length === state.typeList.length) {
+      if (list?.length === state.typeList?.length) {
         state.checkResult = [];
         state.allCheck = true;
         state.typeResult = state.checkResult;
@@ -377,7 +387,12 @@ export default {
     };
 
     const goDetail = (info) => {
-      router.push({ name: 'transactionDetail', params: { info: JSON.stringify(info), type: state.tabType } });
+      state.propInfo = JSON.stringify(info);
+      state.showTransactionDetail = true;
+    };
+
+    const closeTransactionDetail = () => {
+      state.showTransactionDetail = false;
     };
 
     // 發 request 時紀錄篩選的狀態
@@ -410,16 +425,16 @@ export default {
     };
 
     // watch
-    watch(() => route, (val) => {
-      const type = val?.params?.type;
-      if (type) {
-        state.tabType = type;
-        state.queryContent = [];
-        params.pageIndex = 1;
-        params.isLastPage = false;
-        params.type = searchType[state.tabType];
-      }
-    }, { immediate: true });
+    // watch(() => route, (val) => {
+    //   const type = val?.params?.type;
+    //   if (type) {
+    //     state.tabType = type;
+    //     state.queryContent = [];
+    //     params.pageIndex = 1;
+    //     params.isLastPage = false;
+    //     params.type = searchType[state.tabType];
+    //   }
+    // }, { immediate: true });
 
     // hooks
     onBeforeMount(() => {
@@ -430,6 +445,7 @@ export default {
       scroll,
       showCalendar,
       showFilter,
+      closeTransactionDetail,
       ...toRefs(state),
       changeTab,
       handleFilterDialog,
