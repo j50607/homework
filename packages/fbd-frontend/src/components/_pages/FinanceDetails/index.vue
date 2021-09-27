@@ -253,9 +253,10 @@ export default {
       checkResult: [],
       typeResult: [],
       allCheck: true,
-
       showDateModalBool: false,
       isLastPage: false,
+      customStartDay: '',
+      customEndDay: '',
     });
 
     // computed
@@ -360,6 +361,8 @@ export default {
 
     const datePickerConfirm = ({ startDate, endDate }) => {
       state.financeRecordPageIndex = 1;
+      state.customStartDay = startDate;
+      state.customEndDay = endDate;
       queryLog(startDate, endDate);
     };
 
@@ -410,7 +413,7 @@ export default {
     };
 
     const confirm = () => {
-      queryLog();
+      queryLog(state.customStartDay, state.customEndDay);
       init();
 
       state.isFilterPopupShow = false;
