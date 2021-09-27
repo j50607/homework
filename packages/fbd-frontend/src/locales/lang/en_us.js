@@ -108,7 +108,7 @@ const lang = {
   views_betting_main_totalAmount: 'Total Volume',
   views_betting_main_closed: 'Not available for now',
   views_betting_main_fulled: 'The betting limit has been reached',
-  views_betting_main_handleBettingText: 'Processing Bets',
+  views_betting_main_handleBettingText: 'Success',
   views_betting_main_availableAmount: 'Tradable Volume',
   views_betting_main_popup_title: 'Betting Details',
   views_betting_main_popup_option: 'Betting Options',
