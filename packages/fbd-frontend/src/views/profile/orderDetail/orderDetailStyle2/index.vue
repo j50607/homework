@@ -40,7 +40,6 @@
               </div>
               <div
                 class="flex-1 break-all text-right"
-                :style="{color: `${item.color ? 'var(--primary-color)' : ''}`}"
               >
                 {{ state?.deposit?.[item?.value] }}
               </div>

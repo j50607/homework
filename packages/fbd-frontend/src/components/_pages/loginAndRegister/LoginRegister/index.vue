@@ -44,7 +44,7 @@
           type="primary"
           block
           class="go-where-text border-style"
-          :class="`style${siteStyle}`"
+          :class="`style${siteStyle}-color`"
           @click="inLoginOrRegister('register')"
         >
           {{ $t('components_pages_loginAndRegister_loginRegister_register_new_user') }}
@@ -492,7 +492,7 @@ export default {
         filter: brightness(1.15);
       }
 
-      &.style2 {
+      &.style2-color {
         border: 1px solid #ffb83d !important;
         color: #fff !important;
         background: #ffb83d4d !important;
