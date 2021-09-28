@@ -1,172 +1,30 @@
 <template>
-  <d-loading :loading="state.loading" />
-  <div class="h-full">
-    <d-header-row
-      :title="$t('views_profile_withdraw')"
-      right-components="service"
-    />
-    <div class="h-full pt-h-h pl-3 pr-3">
-      <div class="confirm-wrapper">
-        <div class="font-bold text-center">
-          {{ $t('views_profile_confirmOrder') }}
-        </div>
-        <div class="mb-4 text-xs text-center">
-          {{ $t('views_profile_orderNotice') }}
-        </div>
-        <div
-          v-for="(item, index) in list"
-          :key="index"
-          class="row flex justify-between pt-1 pb-1 "
-        >
-          <div class="flex-1 break-all">
-            {{ item.name }}
-          </div>
-          <div class="flex-1 break-all text-right">
-            {{ state[item.value] }}
-          </div>
-        </div>
-      </div>
-      <d-button
-        type="primary"
-        block
-        @click="submit"
-      >
-        {{ $t('common_confirm') }}
-      </d-button>
-    </div>
-  </div>
+  <component :is="confirmWithdrawStyle" />
 </template>
 
 <script>
-import { reactive } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
-import dayjs from 'dayjs';
-import FinanceApi from '@/assets/js/api/financeApi';
+import { computed, defineAsyncComponent } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
+  components: {
+    ConfirmWithdrawStyle1: defineAsyncComponent(() => import('@/views/profile/confirmWithdraw/confirmWithdrawStyle1')),
+    ConfirmWithdrawStyle2: defineAsyncComponent(() => import('@/views/profile/confirmWithdraw/confirmWithdrawStyle2')),
+  },
   setup() {
-    const { t } = useI18n();
-    const route = useRoute();
-    const router = useRouter();
+    const store = useStore();
+    const siteStyle = computed(() => store.getters.siteStyle);
 
-    const list = [
-      {
-        name: t('views_profile_charge'), value: 'charge',
-      },
-      {
-        name: t('views_profile_forceCharge'), value: 'forceCharge',
-      },
-      {
-        name: t('views_profile_withdrawAmount'), value: 'amount',
-      },
-      {
-        name: t('views_profile_totalAmount'), value: 'totalAmount',
-      },
-      {
-        name: t('views_profile_realAmount'), value: 'withdrawBalance',
-      },
-      {
-        name: t('views_profile_chainType'), value: 'accountName',
-      },
-      {
-        name: t('views_profile_walletAddress'), value: 'accountId',
-      },
-    ];
-
-    const state = reactive({
-      // 一般提现手续费
-      charge: '',
-      // 强制提现手续费
-      forceCharge: '',
-      // 提现金额
-      amount: '',
-      // 总金额
-      totalAmount: '',
-      // 提现后用户余额
-      withdrawBalance: '',
-      // 主网类型
-      accountName: '',
-      // 钱包地址
-      accountId: '',
-      // 錢包ID
-      bankcardId: '',
-      withdrawCode: '',
-      loading: false,
+    const confirmWithdrawStyle = computed(() => {
+      switch (siteStyle.value) {
+        default:
+          return `ConfirmWithdrawStyle${siteStyle.value}`;
+      }
     });
 
-    const applyWithdrawal = async () => {
-      state.loading = true;
-
-      const { code, data } = await FinanceApi.applyWithdrawal({
-        bankName: state.bankName,
-        amount: +state.amount,
-        accountName: state.accountName,
-        bankcardId: state.bankcardId,
-        accountId: state.accountId,
-        force: true,
-        withdrawalCode: state.withdrawCode,
-      });
-
-      state.loading = false;
-
-      if (code === 200) {
-        const params = {
-          accountId: data.accountId,
-          accountName: data.accountName,
-          orderNumber: data.orderNumber,
-          processAt: dayjs(data.processAt).format('YYYY-MM-DD HH:mm:ss'),
-          amount: state.amount,
-        };
-        router.push({
-          path: '/profile/orderDetail',
-          query: {
-            type: 'withdraw',
-            withdraw: JSON.stringify(params),
-          },
-        });
-      }
-    };
-
-    const initData = () => {
-      Object.entries(route.query).forEach(([key, value]) => {
-        state[key] = value;
-      });
-    };
-
-    const submit = () => {
-      applyWithdrawal();
-    };
-
-    initData();
-
     return {
-      list,
-      submit,
-      state,
+      confirmWithdrawStyle,
     };
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.confirm-wrapper {
-  margin: 20px 0;
-  padding: 20px 20px 10px;
-  border-radius: 3px;
-  font-size: 14px;
-  background: #fff;
-  box-shadow: 0 2px 4px #4d57721a;
-}
-
-.row {
-  &:nth-child(7) {
-    padding-bottom: 15px;
-    border-bottom: 1px solid #f2f2f2;
-  }
-
-  &:nth-child(8) {
-    padding-top: 15px;
-  }
-}
-</style>

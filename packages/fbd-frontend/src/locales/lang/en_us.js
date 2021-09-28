@@ -80,6 +80,7 @@ const lang = {
   common_modifyContactService: ' Please contact our online customer service in need of making changes',
   common_noData: 'No data available',
   common_day: 'Day',
+  common_date: 'Day',
   common_week: 'Week',
   common_month: 'Month',
   common_delete: 'Delete',

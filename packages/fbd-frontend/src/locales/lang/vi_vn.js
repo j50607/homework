@@ -80,6 +80,7 @@ const lang = {
   common_modifyContactService: 'Nếu bạn cần sửa đổi, vui lòng liên hệ với cskh trực tuyến"',
   common_noData: 'Không có thông tin',
   common_day: 'Ngày',
+  common_date: 'Ngày',
   common_week: 'Tuần',
   common_month: 'Tháng',
   common_delete: 'Xóa bỏ',

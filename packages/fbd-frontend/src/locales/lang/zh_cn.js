@@ -80,6 +80,7 @@ const lang = {
   common_modifyContactService: ' 若需修改请联系在线客服',
   common_noData: '暂无资料',
   common_day: '天',
+  common_date: '日',
   common_week: '周',
   common_month: '月',
   common_delete: '删除',

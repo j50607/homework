@@ -2,6 +2,7 @@
   <div
     ref="select"
     class="d-select"
+    :class="`style${siteStyle}`"
     @click="showDropdown"
   >
     <div
@@ -202,4 +203,24 @@ export default {
   display: none;
 }
 
+.style2 {
+  &.d-select {
+    border: none;
+    background: #21304e;
+
+    .d-select-dropdown {
+      background: #21304e;
+
+      .d-select-item {
+        &:hover {
+          background: #374e7b;
+        }
+      }
+    }
+
+    ::v-deep(.text-primary) {
+      color: #ffb83d;
+    }
+  }
+}
 </style>
