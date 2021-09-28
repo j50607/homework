@@ -293,7 +293,7 @@
           <div class="popup-bar">
             <div
               class="popup-progress"
-              :style="`width: ${item?.percentage}%`"
+              :style="`width: ${renderProgress(item?.percentage || 0)}%`"
             />
             <div class="popup-digit">
               {{ numWithCommas(item?.amount || 0) }}
@@ -658,6 +658,9 @@ export default {
       return t('views_betting_main_fulled');
     };
 
+    // 投注量明細 progress bar 最小值 render 5%
+    const renderProgress = (percentage) => (percentage < 5 ? 5 : percentage);
+
     const convertRate = (num) => {
       if (!isNumber(num)) return '0%';
       return `${NP.times(num, 100)}%`;
@@ -926,6 +929,7 @@ export default {
       renderDate,
       renderTime,
       renderMaintainText,
+      renderProgress,
       convertRate,
       handleBettingCountdownEnded,
       handleBetting,
@@ -1093,7 +1097,7 @@ export default {
   }
 
   &-list {
-    @apply flex flex-wrap justify-between mt-3;
+    @apply flex flex-wrap mt-3;
   }
 
   &-item {
@@ -1102,6 +1106,10 @@ export default {
     flex: calc(33.33% - 10px * (3 - 1) / 3) 0 0;
     margin-bottom: 23px;
     box-shadow: 0 2px 4px #4d57721a;
+
+    &:not(:nth-child(3n)) {
+      margin-right: 10px;
+    }
   }
 
   &-item-loading {
