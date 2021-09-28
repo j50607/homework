@@ -516,7 +516,7 @@ export default {
       if (state.tempSelectedStatus === 'all') {
         status = [1, 2, 5, 6];
       } else if (state.tempSelectedStatus === 2) {
-        status = [2];
+        status = [2, 6];
       } else if (state.tempSelectedStatus === 1) {
         status = [1];
       }
