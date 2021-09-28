@@ -21,7 +21,7 @@
     >
       <div class="flex mb-2 w-full items-center">
         <div class="title">
-          {{ item.title }}
+          {{ wordProcessing(item.title) }}
         </div>
         <div class="detail">
           <img
@@ -33,7 +33,7 @@
       </div>
       <div
         class="content text-ellipsis"
-        v-html="item.content"
+        v-html="wordProcessing(item.content)"
       />
     </div>
   </div>
@@ -80,12 +80,42 @@ export default {
       state.selectedKey = item.annId;
     };
 
+    /**
+     * 文字处理
+     */
+    const wordProcessing = (text) => {
+      let result = '';
+
+      const { locale } = window.$vue.$i18n;
+
+      if (text) {
+        if (text && text.startsWith('{') && text.endsWith('}')) {
+          const obj = JSON.parse(text);
+
+          if (obj[locale]) {
+            result = obj[locale].toString();
+          } else if (locale === 'zh_tw') {
+            result = obj.zh_cn.toString();
+          } else if (obj.en_us) {
+            result = obj.en_us.toString();
+          } else if (obj.zh_cn) {
+            result = obj.zh_cn.toString();
+          }
+        } else {
+          result = text;
+        }
+      }
+
+      return result;
+    };
+
     onMounted(async () => {
       state.list = await getAnnouncement();
     });
     return {
       ...toRefs(state),
       showAnnouncement,
+      wordProcessing,
     };
   },
 };

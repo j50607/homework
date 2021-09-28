@@ -28,7 +28,7 @@
                     :class="{'is-read': readAnnouncement.includes(String(item[idKey]))}"
                   />
                   <span class="title">
-                    {{ item[titleKey] || '' }}
+                    {{ wordProcessing(item[titleKey]) || '' }}
                   </span>
                   <span class="time">
                     {{ item[timeKey] ? formatTime(item[timeKey]) : '' }}
@@ -36,7 +36,7 @@
                 </div>
               </template>
               <div class="announcement-content">
-                <span v-html="item[contentKey] || ''" />
+                <span v-html="wordProcessing(item[contentKey]) || ''" />
                 <img
                   v-if="item[imgKey]"
                   class="announcement-img"
@@ -134,12 +134,42 @@ export default {
     // methods
     const formatTime = (time) => moment(time).format('YYYY/MM/DD');
 
+    /**
+     * 文字处理
+     */
+    const wordProcessing = (text) => {
+      let result = '';
+
+      const { locale } = window.$vue.$i18n;
+
+      if (text) {
+        if (text && text.startsWith('{') && text.endsWith('}')) {
+          const obj = JSON.parse(text);
+
+          if (obj[locale]) {
+            result = obj[locale].toString();
+          } else if (locale === 'zh_tw') {
+            result = obj.zh_cn.toString();
+          } else if (obj.en_us) {
+            result = obj.en_us.toString();
+          } else if (obj.zh_cn) {
+            result = obj.zh_cn.toString();
+          }
+        } else {
+          result = text;
+        }
+      }
+
+      return result;
+    };
+
     return {
       showDialog,
       formatTime,
       activeKey,
       s3Base,
       readAnnouncement,
+      wordProcessing,
     };
   },
 

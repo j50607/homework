@@ -20,7 +20,7 @@
             v-for="(item, index) in marqueeMessage"
             :key="index"
             class="marquee-text text-xs"
-            v-html="item.replace(/<br \/>/gi, '')"
+            v-html="wordProcessing(item).replace(/<br \/>/gi, '')"
           />
         </div>
       </div>
@@ -78,6 +78,35 @@ export default {
       emit('click');
     };
 
+    /**
+     * 文字处理
+     */
+    const wordProcessing = (text) => {
+      let result = '';
+
+      const { locale } = window.$vue.$i18n;
+
+      if (text) {
+        if (text && text.startsWith('{') && text.endsWith('}')) {
+          const obj = JSON.parse(text);
+
+          if (obj[locale]) {
+            result = obj[locale].toString();
+          } else if (locale === 'zh_tw') {
+            result = obj.zh_cn.toString();
+          } else if (obj.en_us) {
+            result = obj.en_us.toString();
+          } else if (obj.zh_cn) {
+            result = obj.zh_cn.toString();
+          }
+        } else {
+          result = text;
+        }
+      }
+
+      return result;
+    };
+
     // hooks
     onBeforeUnmount(() => {
       marquee.value.removeEventListener('transitionend', reset);
@@ -89,6 +118,7 @@ export default {
       handleClick,
       marquee,
       marqueeWrap,
+      wordProcessing,
     };
   },
 };
