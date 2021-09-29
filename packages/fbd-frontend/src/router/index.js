@@ -243,6 +243,16 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/profile/vip',
+    name: 'Vip',
+    component: () => import(/* webpackChunkName: "Transaction" */ '@/views/profile/vip'),
+    meta: {
+      title: 'Vip',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = createRouter({

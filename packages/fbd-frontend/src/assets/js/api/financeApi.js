@@ -130,5 +130,18 @@ class FinanceApi extends Api {
     const reuslt = await this.callAxios('POST', '/finance/withdraw-water/caculate', null, null, true, false, undefined, 30000);
     return reuslt;
   }
+
+  /**
+   * 取得自助返水數據
+   */
+  static async getSelfRebate() {
+    const reuslt = await this.callAxios('POST', '/finance/manual/self-rebate/get', null, null, true, false, undefined);
+    return reuslt;
+  }
+
+  static async receiveSelfRebateProfit() {
+    const reuslt = await this.callAxios('POST', '/finance/manual/self-rebate/add', null, null, true, false, undefined);
+    return reuslt;
+  }
 }
 export default FinanceApi;

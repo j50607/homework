@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62691" data-name="Rectangle 62691" width="24" height="24" transform="translate(9282 2549)" fill="#4d5772" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-VIP_時間">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="VIP_時間" clip-path="url(#clip-VIP_時間)">
+    <g id="Mask_Group_862" data-name="Mask Group 862" transform="translate(-9282 -2549)" clip-path="url(#clip-path)">
+      <g id="noun_Time_2844337" transform="translate(9283 2550)">
+        <g id="Group_39937" data-name="Group 39937" transform="translate(0 0)">
+          <path id="Path_51890" data-name="Path 51890" d="M12,23A11,11,0,1,1,23,12,11,11,0,0,1,12,23Zm0-2a9,9,0,1,0-9-9A9,9,0,0,0,12,21Zm0-8.618,3.447,1.724a1,1,0,0,1-.894,1.789l-4-2A1,1,0,0,1,10,13V7a1,1,0,1,1,2,0Z" transform="translate(-1 -1)" fill="#4d5772"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

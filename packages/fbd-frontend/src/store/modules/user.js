@@ -33,6 +33,10 @@ const initialState = () => ({
   transToSub: undefined,
   // 已讀最新信息
   readAnnouncement: [],
+  levelStatus: {},
+  nextVipLevelRule: {},
+  nowVipLevelRule: {},
+  remedyAmount: undefined,
 });
 
 const state = () => (initialState());
@@ -43,6 +47,11 @@ const mutations = {
       state[key] = value[key];
     });
     state.isLogin = true;
+  },
+  SET_VIP_USER_INFO(state, value) {
+    Object.keys(value).forEach((key) => {
+      state[key] = value[key];
+    });
   },
   SET_TOKEN(state, value) {
     state.token = value;

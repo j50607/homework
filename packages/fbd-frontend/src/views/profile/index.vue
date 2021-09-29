@@ -70,19 +70,7 @@
           >
         </div>
       </div>
-      <!-- VIP -->
-      <div
-        class="rank is-btn"
-        @click="goPage('/profile/vip')"
-      >
-        <div>
-          VIP Coming Soon...
-        </div>
-        <img
-          class="arrow-brown"
-          :src="$requireSafe('profile/arrow-brown.svg')"
-        >
-      </div>
+
       <!-- 充提及錢包 -->
       <div class="btn-area">
         <div
@@ -101,7 +89,36 @@
         </div>
       </div>
     </div>
-    <div class="line" />
+
+    <!-- VIP -->
+    <div
+      class="vip-area is-btn redirect"
+      @click="goPage('/profile/vip')"
+    >
+      <div class="vip-level">
+        {{ $t('views_profile_vip_current_level') }}:{{ `VIP${nowVipLevelRule.level}` }}
+        <img
+          class="arrow-brown"
+          :src="$requireSafe('profile/arrow-brown.svg')"
+        >
+      </div>
+      <div class="line" />
+      <div class="vip-area-info">
+        <div class="bet-limit">
+          <p>{{ $t('views_profile_vip_betLimit') }}</p>
+          <p>{{ nowVipLevelRule.singleGameBetLimit }} / {{ nowVipLevelRule.singleDayBetLimit }}</p>
+        </div>
+
+        <div class="return-profit">
+          <p>{{ $t('components_pages_components_vip_bet_return_profit') }}</p>
+          <p>{{ nowVipLevelRule.rebateRate }}%</p>
+        </div>
+        <div class="envelop">
+          <p>{{ $t('components_pages_components_vip_bet_evenlop') }}</p>
+          <p>{{ nowVipLevelRule.remedyRate }}%</p>
+        </div>
+      </div>
+    </div>
     <!-- 轉導頁面列表 -->
     <div class="redirect mb-3">
       <div
@@ -163,6 +180,7 @@ import DLocaleImage from '@/components/DLocaleImage';
 import DLanguageModal from '@/components/DLanguageModal';
 import Avatar from '@/components/Avatar';
 import MemberApi from '@/assets/js/api/memberApi';
+import SportApi from '@/assets/js/api/sportApi';
 
 export default {
   components: {
@@ -225,6 +243,7 @@ export default {
     const balance = computed(() => store.state.user.balance);
     const usersLockBalance = computed(() => store.state.user.usersLockBalance);
     const displayLanguageSwitch = computed(() => store.state.info.switchSetting.displayLanguageSwitch);
+    const nowVipLevelRule = computed(() => store.state.user.nowVipLevelRule);
 
     // methods
     const toggleLanguageModal = (val) => {
@@ -256,6 +275,18 @@ export default {
       }
     };
 
+    const getVipLevelInfo = async () => {
+      const { code, data } = await SportApi.getVipLevelInfo();
+      if (code === 200) {
+        store.commit('SET_VIP_USER_INFO', {
+          levelStatus: data.levelStatus,
+          nextVipLevelRule: data.nextVipLevelRule,
+          nowVipLevelRule: data.nowVipLevelRule,
+          remedyAmount: data.remedyAmount,
+        });
+      }
+    };
+
     const toggleEye = () => {
       showBalance.value = !showBalance.value;
     };
@@ -272,7 +303,6 @@ export default {
     const goPage = (page) => {
       switch (page) {
         case '/profile/report':
-        case '/profile/vip':
         case '/profile/share':
         case '/profile/verify':
           window.$vue.$message.info(t('common_comingSoon'));
@@ -322,6 +352,7 @@ export default {
     // hooks
     onBeforeMount(async () => {
       getUserPartialInfo();
+      getVipLevelInfo();
       window.addEventListener('scroll', changeHeaderColor);
     });
 
@@ -348,6 +379,7 @@ export default {
       displayLanguageSwitch,
       transToSub,
       checkServiceList,
+      nowVipLevelRule,
     };
   },
 };
@@ -432,20 +464,6 @@ export default {
       }
     }
 
-    .rank {
-      border-radius: 5px;
-      color: #4d5772;
-      font-size: 12px;
-      background-color: #fff;
-      box-shadow: 0 2px 4px #4d57721a;
-
-      @apply flex justify-between items-center py-1 px-3 mb-5;
-
-      .arrow-brown {
-        @apply w-2 h-2;
-      }
-    }
-
     .btn-area {
       @apply flex;
 
@@ -466,11 +484,45 @@ export default {
     }
   }
 
+  .vip-area {
+    border-radius: 5px;
+    color: #4d5772;
+    font-size: 12px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px #4d57721a;
+
+    @apply py-2 px-3 mb-3 mt-4;
+
+    .vip-level {
+      @apply font-bold flex justify-between items-center;
+    }
+
+    .arrow-brown {
+      @apply w-2 h-2;
+    }
+
+    &-info {
+      div {
+        @apply flex mb-2;
+
+        p {
+          &:last-child {
+            @apply ml-auto text-secondary font-bold;
+          }
+        }
+
+        &:last-child {
+          @apply mb-0;
+        }
+      }
+    }
+  }
+
   .line {
     height: 2px;
     background-color: #f2f2f2;
 
-    @apply w-full mt-3 mb-4;
+    @apply w-full mt-2 mb-2;
   }
 
   .redirect {

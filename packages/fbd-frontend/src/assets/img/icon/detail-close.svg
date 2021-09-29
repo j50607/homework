@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62120" data-name="Rectangle 62120" width="24" height="24" fill="#4d5772" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-紀錄_收回詳情">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="紀錄_收回詳情" clip-path="url(#clip-紀錄_收回詳情)">
+    <g id="下拉选单" clip-path="url(#clip-path)">
+      <path id="Path_51235" data-name="Path 51235" d="M681.05,1654.289l10.448,10.7c.386.4.15,1.144-.36,1.144h-20.9c-.51,0-.746-.749-.36-1.144l10.448-10.7A.488.488,0,0,1,681.05,1654.289Z" transform="translate(-668.689 -1648.13)" fill="#4d5772"/>
+    </g>
+  </g>
+</svg>

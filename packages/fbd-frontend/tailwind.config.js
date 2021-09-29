@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       colors: {
         primary: 'var(--primary-color)',
+        secondary: 'var(--secondary-color)',
         normal: 'var(--font-color)',
         active: 'var(--font-active-color)',
         link: 'var(--link-color)',

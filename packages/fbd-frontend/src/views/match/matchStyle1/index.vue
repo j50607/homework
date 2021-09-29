@@ -41,6 +41,7 @@
           :search-league-list="state.seachLeagueList"
           :league-list-params="LeagueListParams"
           :time-filter="state.timeFilter"
+          v-if="state.seachLeagueList.length"
         />
       </template>
     </d-tabs>

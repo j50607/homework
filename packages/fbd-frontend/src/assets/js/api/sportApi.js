@@ -126,6 +126,30 @@ class SportApi extends API {
     const result = await this.callAxios('POST', '/frontend/sport-game/game-detail/get', params, null, true);
     return result;
   }
+
+  /**
+   * 取得用戶VIP訊息
+   */
+  static async getVipLevelInfo() {
+    const result = await this.callAxios('POST', '/frontend/sport-game/vip-level-info/get', {}, null, true);
+    return result;
+  }
+
+  /**
+   * 取得VIP階級設定
+   */
+  static async getVipLevelRule() {
+    const result = await this.callAxios('POST', '/frontend/sport-game/vip-level-rule/get', {}, null, true);
+    return result;
+  }
+
+  /**
+   * 負利紅包查詢
+   */
+  static async getRemedyLog() {
+    const result = await this.callAxios('POST', '/frontend/remedy/log/get', {}, null, true);
+    return result;
+  }
 }
 
 export default SportApi;
