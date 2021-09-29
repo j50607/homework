@@ -58,7 +58,7 @@
           name="amount"
         >
           <a-input
-            v-six-decimal-places
+            v-positive-places
             v-model:value="form.amount"
             :placeholder="$t('views_profile_withdrawAmountPlaceholder')"
             class="text-xs"
@@ -208,7 +208,7 @@ export default {
     const forceCharge = computed(() => {
       if (!state.info.chargeFees || freeWithdrawCount.value || state.isWaterEnough) return 0;
 
-      return NP.times(NP.divide(withdarwHandlingFee.value, 100), +state.form.amount);
+      return Math.floor((NP.times(NP.divide(withdarwHandlingFee.value, 100), +state.form.amount)) * 100) / 100;
     });
 
     // 实际到账 提现金额 - 一般手续费 - 强制手续费
