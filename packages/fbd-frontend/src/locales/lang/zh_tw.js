@@ -95,7 +95,7 @@ const lang = {
   views_finance_popup_user_deposit: '充值記錄',
   views_finance_popup_user_withdraw: '提現記錄',
   views_finance_popup_event_gift: '活動贈送',
-  views_finance_popup_return_water_record: '返水記錄',
+  views_finance_popup_return_water_record: '返利記錄',
   views_finance_popup_rebate_record: '返點記錄',
   views_finance_popup_poundage: '手續費',
   views_finance_popup_wallet_account_change: '錢包變帳',

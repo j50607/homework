@@ -54,7 +54,7 @@
               {{ $t('components_pages_components_vip_bet_evenlop') }}
             </p>
             <p class="number">
-              {{ item.remedyRate }}%
+              {{ formatRemedyRate(item.remedyRate) }}%
             </p>
           </div>
         </div>
@@ -97,10 +97,12 @@
 <script>
 import { onBeforeMount, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
+import NP from 'number-precision';
 import SportApi from '@/assets/js/api/sportApi';
 import { isArray } from '@/assets/js/utils/utils';
 
 export default {
+  emits: ['checkRecord'],
   setup() {
     // use
     const store = useStore();
@@ -123,6 +125,7 @@ export default {
         }
       }
     };
+    const formatRemedyRate = (remedyRate) => NP.times(remedyRate || 0, 100);
 
     const handlerShowDialog = (item, index) => {
       if (index === 0) {
@@ -140,6 +143,7 @@ export default {
       state,
       nowVipLevelRule,
       handlerShowDialog,
+      formatRemedyRate,
     };
   },
 };

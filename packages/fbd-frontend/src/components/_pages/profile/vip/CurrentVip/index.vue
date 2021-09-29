@@ -41,7 +41,7 @@
               :style="`width: ${deadLineBetSumPercentage}%`"
             />
             <div class="progress-text text-white text-xs absolute top-0">
-              {{ levelStatus.deadlineBetSum }} / {{ nowVipLevelRule.upgradeProtectLevelStandard }}
+              {{ levelStatus.deadlineBetSum || 0 }} / {{ nowVipLevelRule.upgradeProtectLevelStandard }}
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@
             {{ $t('components_pages_components_vip_bet_return_profit') }}
           </p>
           <p class="text-secondary font-bold">
-            {{ nowVipLevelRule.rebateRate }}%
+            {{ nowVipLevelRule.rebateRate || 0 }}%
           </p>
         </div>
         <div class="bet w-1/2 text-xs">
@@ -82,7 +82,7 @@
             {{ $t('components_pages_components_vip_bet_evenlop') }}
           </p>
           <p class="text-secondary font-bold">
-            {{ nowVipLevelRule.remedyRate }}%
+            {{ nowVipLevelRule.remedyRate || 0 }}%
           </p>
         </div>
       </div>
@@ -166,7 +166,7 @@
           />
 
           <div class="progress-text text-white text-xs absolute top-0">
-            {{ levelStatus.deadlineBetSum }} / {{ nextVipLevelRule.upgradeProtectLevelStandard }}
+            {{ levelStatus.deadlineBetSum || 0 }} / {{ nextVipLevelRule.upgradeProtectLevelStandard }}
           </div>
         </div>
       </div>
@@ -194,7 +194,7 @@
           />
 
           <div class="progress-text text-white text-xs absolute top-0">
-            {{ levelStatus.depositTotal }} / {{ nextVipLevelRule.upgradeDepositStandard }}
+            {{ levelStatus.depositTotal || 0 }} / {{ nextVipLevelRule.upgradeDepositStandard }}
           </div>
         </div>
       </div>
@@ -222,7 +222,7 @@
             :style="`width: ${nextLevelTotalBetSumPercentage}%`"
           />
           <div class="progress-text text-white text-xs absolute top-0">
-            {{ levelStatus.betSum }} / {{ nextVipLevelRule.upgradeBetStandard }}
+            {{ levelStatus.betSum || 0 }} / {{ nextVipLevelRule.upgradeBetStandard }}
           </div>
         </div>
       </div>
@@ -413,7 +413,7 @@
             <p
               v-html="$t('components_pages_components_vip_detailDailog_description4', {
                 deadLine:deadLineTime,
-                alreadyBetSum:levelStatus.deadlineBetSum})"
+                alreadyBetSum:levelStatus.deadlineBetSum || 0})"
             />
           </div>
           <div
@@ -422,7 +422,7 @@
           >
             <p
               class="mb-1 leading-loose"
-              v-html="$t('components_pages_components_vip_detailDailog_description5', {depositSum: (nextVipLevelRule.upgradeDepositStandard - levelStatus.depositTotal) >= 0 ? nextVipLevelRule.upgradeDepositStandard - levelStatus.depositTotal: 0, level:nowVipLevelRule.level+1}) "
+              v-html="$t('components_pages_components_vip_detailDailog_description5', {depositSum: NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal) >= 0 ? NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal): 0, level:nowVipLevelRule.level + 1}) "
             />
           </div>
           <div
@@ -431,7 +431,7 @@
           >
             <p
               class="mb-1 leading-loose"
-              v-html="$t('components_pages_components_vip_detailDailog_description6', {betSum: (nextVipLevelRule.upgradeBetStandard - levelStatus.betSum) >= 0 ? nextVipLevelRule.upgradeBetStandard - levelStatus.betSum: 0, level:nowVipLevelRule.level+1}) "
+              v-html="$t('components_pages_components_vip_detailDailog_description6', {betSum: NP.minus(nextVipLevelRule.upgradeBetStandard, levelStatus.betSum) >= 0 ? NP.minus(nextVipLevelRule.upgradeBetStandard, levelStatus.betSum): 0, level:nowVipLevelRule.level + 1}) "
             />
           </div>
           <div
@@ -483,13 +483,13 @@
             <div class="mb-2">
               <p v-if="nowVipLevelRule.remedyRate === nextVipLevelRule.remedyRate">
                 {{ $t('components_pages_components_vip_envelopHold') }}
-                <span class="text-secondary">{{ nextVipLevelRule.remedyRate }}%</span>
+                <span class="text-secondary">{{ formatRemedyRate(nextVipLevelRule.remedyRate) }}%</span>
               </p>
               <p else>
                 {{ $t('components_pages_components_vip_bet_evenlop') }}
-                <span class="text-secondary">{{ nowVipLevelRule.remedyRate }}%</span>
+                <span class="text-secondary">{{ formatRemedyRate(nowVipLevelRule.remedyRate) }}%</span>
                 <span class="px-2">=></span>
-                <span class="text-secondary">{{ nextVipLevelRule.remedyRate }}%</span>
+                <span class="text-secondary">{{ formatRemedyRate(nextVipLevelRule.remedyRate) }}%</span>
               </p>
             </div>
           </div>
@@ -532,7 +532,7 @@ export default {
     const remedyAmount = computed(() => store.state.user.remedyAmount);
 
     const deadLineBetSumPercentage = computed(() => {
-      const realPercentage = NP.divide(levelStatus.value.deadlineBetSum, NP.divide(nowVipLevelRule.value.upgradeProtectLevelStandard, 100));
+      const realPercentage = NP.divide(levelStatus.value.deadlineBetSum || 0, NP.divide(nowVipLevelRule.value.upgradeProtectLevelStandard || 0, 100));
       if (realPercentage && realPercentage < 5) {
         return 5;
       }
@@ -540,21 +540,21 @@ export default {
     });
 
     const nextLevelBetSumPercentage = computed(() => {
-      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.deadlineBetSum, NP.divide(nextVipLevelRule.value.upgradeProtectLevelStandard, 100));
+      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.deadlineBetSum || 0, NP.divide(nextVipLevelRule.value.upgradeProtectLevelStandard || 0, 100));
       if (realNextLevelBetSumPercentage && realNextLevelBetSumPercentage < 3) {
         return 3;
       }
       return realNextLevelBetSumPercentage;
     });
     const nextLevelDepositSumPercentage = computed(() => {
-      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.depositTotal, NP.divide(nextVipLevelRule.value.upgradeDepositStandard, 100));
+      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.depositTotal || 0, NP.divide(nextVipLevelRule.value.upgradeDepositStandard || 0, 100));
       if (realNextLevelBetSumPercentage && realNextLevelBetSumPercentage < 3) {
         return 3;
       }
       return realNextLevelBetSumPercentage;
     });
     const nextLevelTotalBetSumPercentage = computed(() => {
-      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.betSum, NP.divide(nextVipLevelRule.value.upgradeBetStandard, 100));
+      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.betSum || 0, NP.divide(nextVipLevelRule.value.upgradeBetStandard || 0, 100));
       if (realNextLevelBetSumPercentage && realNextLevelBetSumPercentage < 3) {
         return 3;
       }
@@ -624,6 +624,8 @@ export default {
       emit('checkRecord', type);
     };
 
+    const formatRemedyRate = (remedyRate) => NP.times(remedyRate || 0, 100);
+
     // hooks
     onBeforeMount(async () => {
       await getSelfRebate();
@@ -646,6 +648,8 @@ export default {
       openDetail,
       handlerShowDialog,
       handlerReceive,
+      formatRemedyRate,
+      NP,
     };
   },
 
