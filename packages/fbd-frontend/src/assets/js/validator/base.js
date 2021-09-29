@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 class Base {
-  constructor(phoneLen = 11, bankcardLenArr = [15, 20], nameLen = 16, currency = '￥', locale, phoneBeginning = [13, 19], bankNameLen = 20, personalIdLen = 20, timeZoneUnit = 'CST') {
+  constructor(phoneLen = 11, bankcardLenArr = [15, 20], nameLen = 16, currency = '￥', locale, phoneBeginning = [13, 19], bankNameLen = 20, personalIdLen = 20, timeZoneUnit = 'PST') {
     // phone
     this.phoneLen = phoneLen;
 
