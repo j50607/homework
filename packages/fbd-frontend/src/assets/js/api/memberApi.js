@@ -380,6 +380,24 @@ class MemberApi extends API {
     const result = await this.callAxios('POST', '/member/bind-phone/verify', params, null, true);
     return result;
   }
+
+  /**
+     * 取得返点设定状态
+     */
+  static async getAgentSetting(params) {
+    const result = await this.callAxios('POST', '/agent/commission-rate-setting/get', params, null, true);
+
+    return result;
+  }
+
+  /**
+     * 设定返点代理比例
+     */
+  static async setAgentSetting(params) {
+    const result = await this.callAxios('POST', '/agent/commission-rate-setting/set', params, null, true);
+
+    return result;
+  }
 }
 
 export default MemberApi;

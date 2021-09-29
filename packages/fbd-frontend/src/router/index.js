@@ -104,6 +104,16 @@ const routes = [
     },
   },
   {
+    path: '/profile/share',
+    name: 'share',
+    component: () => import(/* webpackChunkName: "Profile" */ '@/views/profile/share'),
+    meta: {
+      title: 'Share',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/betRecord',
     name: 'bet-record',
     component: () => import(/* webpackChunkName: "BetRecord" */ '@/views/betRecord'),

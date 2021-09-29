@@ -197,6 +197,7 @@ $border-radius: 8px;
   flex-direction: column;
   overflow-y: auto;
   background-color: var(--dialog-color);
+  overscroll-behavior: contain;
 
   &-center {
     top: 50%;

@@ -166,6 +166,12 @@ class SystemApi extends API {
 
     return result;
   }
+
+  static getAccountSiteAgentDomain(account) {
+    const params = {};
+
+    return this.callAxios('POST', `/site/domain/agent/${account}`, params, undefined, true);
+  }
 }
 
 export default SystemApi;

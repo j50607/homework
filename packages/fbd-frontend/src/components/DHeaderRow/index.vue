@@ -17,6 +17,7 @@
       :left-pos="leftPos"
       :to-first-step="toFirstStep"
       :icon-color="iconColor"
+      @openInfo="openInfo"
     />
     <div
       v-if="hasMiddleSlot"
@@ -46,6 +47,7 @@
       :right-pos="rightPos"
       :show-sidebar="useSidebar"
       @showSidebar="showSidebar = true"
+      @openInfo="openInfo"
     />
   </div>
   <sidebar
@@ -68,6 +70,7 @@ export default {
     Register: defineAsyncComponent(() => import('@/components/DHeaderRow/Register' /* webpackChunkName: "Register" */)),
     UserAvatar: defineAsyncComponent(() => import('@/components/DHeaderRow/UserAvatar' /* webpackChunkName: "UserAvatar" */)),
     Sidebar: defineAsyncComponent(() => import('@/components/Sidebar' /* webpackChunkName: "Sidebar" */)),
+    Info: defineAsyncComponent(() => import('@/components/DHeaderRow/Info' /* webpackChunkName: "Info" */)),
   },
   props: {
     leftComponents: {
@@ -137,7 +140,8 @@ export default {
       default: false,
     },
   },
-  setup(props, { slots }) {
+  emits: ['openInfo'],
+  setup(props, { emit, slots }) {
     // ref
     const showSidebar = ref(false);
     // computed
@@ -160,12 +164,17 @@ export default {
       return false;
     });
 
+    const openInfo = () => {
+      emit('openInfo');
+    };
+
     // methods
     return {
       hasLeftSlot,
       hasMiddleSlot,
       hasRightSlot,
       showSidebar,
+      openInfo,
     };
   },
 };

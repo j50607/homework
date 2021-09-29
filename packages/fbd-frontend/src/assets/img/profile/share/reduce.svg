@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62554" data-name="Rectangle 62554" width="24" height="24" transform="translate(181 345)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="減少" transform="translate(-181 -345)" clip-path="url(#clip-path)">
+    <circle id="Ellipse_6212" data-name="Ellipse 6212" cx="11" cy="11" r="11" transform="translate(182 346)" fill="#fff"/>
+    <path id="Icon_awesome-minus-circle" data-name="Icon awesome-minus-circle" d="M11.563.563a11,11,0,1,0,11,11A11,11,0,0,0,11.563.563ZM5.708,13.337a.534.534,0,0,1-.532-.532V10.321a.534.534,0,0,1,.532-.532h11.71a.534.534,0,0,1,.532.532V12.8a.534.534,0,0,1-.532.532Z" transform="translate(181.438 345.403)" fill="#0e88f5"/>
+  </g>
+</svg>
