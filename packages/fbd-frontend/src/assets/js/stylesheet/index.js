@@ -127,6 +127,21 @@ class stylesheet {
         1: '#ecf2f8',
         2: '#142340',
       },
+      // checkbox active 底色
+      checkboxActiveBg: {
+        1: '#1890ff',
+        2: '#FFB83D',
+      },
+      // checkbox 打勾顏色
+      checkboxCheckColor: {
+        1: '#fff',
+        2: '#21304E',
+      },
+      // checkbox 邊框
+      checkboxBorderColor: {
+        1: '#f2f2f2',
+        2: '#374E7B',
+      },
     };
 
     return result;

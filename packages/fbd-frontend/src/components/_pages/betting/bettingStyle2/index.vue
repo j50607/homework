@@ -18,6 +18,7 @@
             <div class="betting-team-logo betting-info-text">
               <img
                 v-if="state.currentGameData?.homeTeamLogo"
+                :class="{ 'rounded-full': state.currentGameData?.homeTeamLogo }"
                 :src="`${s3Base}/${state.currentGameData?.homeTeamLogo}`"
               >
               <img
@@ -31,6 +32,7 @@
             <div class="betting-team-logo betting-info-text">
               <img
                 v-if="state.currentGameData?.awayTeamLogo"
+                :class="{ 'rounded-full': state.currentGameData?.awayTeamLogo }"
                 :src="`${s3Base}/${state.currentGameData?.awayTeamLogo}`"
               >
               <img

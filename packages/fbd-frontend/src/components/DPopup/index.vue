@@ -29,6 +29,12 @@
           :style="{ color: closeIconColor }"
           @click="close"
         />
+
+        <div
+          v-if="hasHeaderDivider"
+          class="d-popup-header-divider"
+          :style="{ width: headerDividerWidth, height: headerDividerHeight, background: headerDividerColor }"
+        />
       </div>
       <div
         class="d-popup-content"
@@ -121,6 +127,22 @@ export default {
     customContentPadding: {
       type: String,
       default: '5px 15px;',
+    },
+    hasHeaderDivider: {
+      type: Boolean,
+      default: false,
+    },
+    headerDividerColor: {
+      type: String,
+      default: 'var(--border-color)',
+    },
+    headerDividerWidth: {
+      type: String,
+      default: '100%',
+    },
+    headerDividerHeight: {
+      type: String,
+      default: '1px',
     },
   },
   components: {
@@ -236,6 +258,13 @@ $border-radius: 8px;
     color: var(--font-color);
     font-weight: 700;
     font-size: 14px;
+  }
+
+  &-divider {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
   }
 }
 

@@ -34,6 +34,7 @@
         <div class="team-info">
           <img
             class="w-4 h-4 mb-1"
+            :class="{ 'rounded-full': data?.homeTeamLogo }"
             :src="data.homeTeamLogo? `${s3Base}/${data.homeTeamLogo}`: $requireSafe('icon/default-team.svg')"
             alt=""
           >
@@ -48,7 +49,8 @@
         <div class="team-info">
           <img
             class="w-4 h-4 mb-1"
-            :src="data.awayTeamLogo? `${s3Base}/${data.awayTeamLogo}`: $requireSafe('icon/default-team.svg')"
+            :class="{ 'rounded-full': data?.awayTeamLogo }"
+            :src="data.awayTeamLogo ? `${s3Base}/${data.awayTeamLogo}`: $requireSafe('icon/default-team.svg')"
             alt=""
           >
           <div class="club">
