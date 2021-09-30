@@ -503,6 +503,7 @@ import { useStore } from 'vuex';
 import { computed, reactive, onBeforeMount } from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
+import NP from 'number-precision';
 import FinanceApi from '@/assets/js/api/financeApi';
 
 export default {
@@ -531,7 +532,7 @@ export default {
     const remedyAmount = computed(() => store.state.user.remedyAmount);
 
     const deadLineBetSumPercentage = computed(() => {
-      const realPercentage = levelStatus.value.deadlineBetSum / (nowVipLevelRule.value.upgradeProtectLevelStandard / 100);
+      const realPercentage = NP.divide(levelStatus.value.deadlineBetSum, NP.divide(nowVipLevelRule.value.upgradeProtectLevelStandard, 100));
       if (realPercentage && realPercentage < 5) {
         return 5;
       }
@@ -539,21 +540,21 @@ export default {
     });
 
     const nextLevelBetSumPercentage = computed(() => {
-      const realNextLevelBetSumPercentage = levelStatus.value.deadlineBetSum / (nextVipLevelRule.value.upgradeProtectLevelStandard / 100);
+      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.deadlineBetSum, NP.divide(nextVipLevelRule.value.upgradeProtectLevelStandard, 100));
       if (realNextLevelBetSumPercentage && realNextLevelBetSumPercentage < 3) {
         return 3;
       }
       return realNextLevelBetSumPercentage;
     });
     const nextLevelDepositSumPercentage = computed(() => {
-      const realNextLevelBetSumPercentage = levelStatus.value.depositTotal / (nextVipLevelRule.value.upgradeDepositStandard / 100);
+      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.depositTotal, NP.divide(nextVipLevelRule.value.upgradeDepositStandard, 100));
       if (realNextLevelBetSumPercentage && realNextLevelBetSumPercentage < 3) {
         return 3;
       }
       return realNextLevelBetSumPercentage;
     });
     const nextLevelTotalBetSumPercentage = computed(() => {
-      const realNextLevelBetSumPercentage = levelStatus.value.betSum / (nextVipLevelRule.value.upgradeBetStandard / 100);
+      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.betSum, NP.divide(nextVipLevelRule.value.upgradeBetStandard, 100));
       if (realNextLevelBetSumPercentage && realNextLevelBetSumPercentage < 3) {
         return 3;
       }
