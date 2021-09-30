@@ -70,7 +70,6 @@ import {
 } from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
-import { convertToCst } from '@/assets/js/utils/utils';
 
 export default {
   props: {
@@ -110,7 +109,7 @@ export default {
   setup(props, { emit }) {
     const { t } = useI18n();
 
-    const format = `YYYY${props.format}MM${props.format}DD`;
+    const format = `YYYY${props.format}MM${props.format}DD HH:mm:ss`;
 
     const state = reactive({
       currentDate: dayjs().format(format),
@@ -151,13 +150,13 @@ export default {
       const dateMap = {
         today: dayjs().format(format),
         yesterday: dayjs().subtract(1, 'day').format(format),
-        week: dayjs().subtract(7, 'day').format(format),
+        week: dayjs().subtract(6, 'day').format(format),
       };
 
       state.currentDate = dateMap[item.value] || dayjs().format(format);
       nextTick(() => {
         state.startDate = state.currentDate;
-        state.endDate = item.value === 'yesterday' ? dayjs().subtract(1, 'day').endOf('day').format(format) : dayjs().endOf().format(format);
+        state.endDate = item.value === 'yesterday' ? dayjs().subtract(1, 'day').format(format) : dayjs().format(format);
       });
     };
 
@@ -184,9 +183,10 @@ export default {
     const confirm = () => {
       if (validateDate()) return;
 
+      const time = dayjs().format('HH:mm:ss');
       emit('confirm', {
-        startDate: convertToCst(`${state.startDate} 00:00:00`),
-        endDate: convertToCst(`${state.endDate} 23:59:59`),
+        startDate: dayjs(`${state.startDate} ${time}`).format('YYYY/MM/DD HH:mm:ss'),
+        endDate: dayjs(state.endDate).format('YYYY/MM/DD HH:mm:ss'),
       });
 
       show.value = false;

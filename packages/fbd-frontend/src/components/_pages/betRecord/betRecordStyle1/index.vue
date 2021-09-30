@@ -374,8 +374,8 @@ export default {
       currentKey: 0,
       tabIndex: 0,
       currentRangeObj: {
-        start: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
-        end: dayjs().endOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
+        start: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+        end: dayjs().format('YYYY/MM/DD HH:mm:ss'),
       },
       currentExpandIdx: undefined,
       isFilterPopupShow: false,
@@ -598,19 +598,16 @@ export default {
       refreshData();
       switch (index) {
         case 0:
-          state.currentRangeObj.start = dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss');
-          state.currentRangeObj.end = dayjs().endOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss');
+          state.currentRangeObj.start = dayjs().format('YYYY/MM/DD HH:mm:ss');
+          state.currentRangeObj.end = dayjs().format('YYYY/MM/DD HH:mm:ss');
           break;
         case 1:
-          state.currentRangeObj.start = dayjs().subtract(1, 'day').startOf('day').tz('Asia/Shanghai')
-            .format('YYYY/MM/DD HH:mm:ss');
-          state.currentRangeObj.end = dayjs().subtract(1, 'day').endOf('day').tz('Asia/Shanghai')
-            .format('YYYY/MM/DD HH:mm:ss');
+          state.currentRangeObj.start = dayjs().subtract(1, 'day').format('YYYY/MM/DD HH:mm:ss');
+          state.currentRangeObj.end = dayjs().subtract(1, 'day').format('YYYY/MM/DD HH:mm:ss');
           break;
         case 2:
-          state.currentRangeObj.start = dayjs().subtract(6, 'day').startOf('day').tz('Asia/Shanghai')
-            .format('YYYY/MM/DD HH:mm:ss');
-          state.currentRangeObj.end = dayjs().endOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss');
+          state.currentRangeObj.start = dayjs().subtract(6, 'day').format('YYYY/MM/DD HH:mm:ss');
+          state.currentRangeObj.end = dayjs().format('YYYY/MM/DD HH:mm:ss');
           break;
         default:
           break;

@@ -161,9 +161,8 @@ export default {
       gameSummaryList: [],
       gameSummaryParams: {
         timeType: 'matchTime',
-        startTime: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
-        endTime: dayjs().add(6, 'day').endOf('day').tz('Asia/Shanghai')
-          .format('YYYY/MM/DD HH:mm:ss'),
+        startTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+        endTime: dayjs().add(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
         pageIndex: 1,
         gameStatus: [0, -5],
         leagueId: props.searchLeagueList,
@@ -171,10 +170,8 @@ export default {
       },
       historyGameSummaryParams: {
         timeType: 'matchTime',
-        startTime: dayjs().subtract(6, 'day').startOf('day').tz('Asia/Shanghai')
-          .format('YYYY/MM/DD HH:mm:ss'),
-        endTime: dayjs().endOf('day').tz('Asia/Shanghai')
-          .format('YYYY/MM/DD HH:mm:ss'),
+        startTime: dayjs().subtract(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
+        endTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
         pageIndex: 1,
         leagueId: props.searchLeagueList,
       },
@@ -185,9 +182,9 @@ export default {
     const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
 
     // methods
-    const getGameSummary = async (params) => {
+    const getGameSummary = async (params, isStartFromStartOfDay = true) => {
       isLoading.value = true;
-      const res = await SportApi.getGameSummary(params);
+      const res = await SportApi.getGameSummary(params, isStartFromStartOfDay);
       if (res.code === 200) {
         if (isArray(res.data.content)) {
           if (res.data.first) {
@@ -238,7 +235,11 @@ export default {
     const pullingDown = async () => {
       if (props.timeFilter !== 'history') {
         state.gameSummaryParams.pageIndex = 1;
-        await getGameSummary(state.gameSummaryParams);
+        if (props.timeFilter === 'all' || props.timeFilter === 'today') {
+          await getGameSummary(state.gameSummaryParams, false);
+        } else {
+          await getGameSummary(state.gameSummaryParams);
+        }
       } else {
         state.historyGameSummaryParams.pageIndex = 1;
         await getGameSummaryRecord(state.historyGameSummaryParams);
@@ -252,7 +253,11 @@ export default {
       jsutChangeTabShow.value = false;
       if (props.timeFilter !== 'history') {
         state.gameSummaryParams.pageIndex += 1;
-        await getGameSummary(state.gameSummaryParams);
+        if (props.timeFilter === 'all' || props.timeFilter === 'today') {
+          await getGameSummary(state.gameSummaryParams, false);
+        } else {
+          await getGameSummary(state.gameSummaryParams);
+        }
       } else {
         state.historyGameSummaryParams.pageIndex += 1;
         await getGameSummaryRecord(state.historyGameSummaryParams);
@@ -302,7 +307,11 @@ export default {
         if (newVal !== 'history') {
           state.gameSummaryParams.startTime = props.leagueListParams.startTime;
           state.gameSummaryParams.endTime = props.leagueListParams.endTime;
-          await getGameSummary(state.gameSummaryParams);
+          if (newVal === 'all' || newVal === 'today') {
+            await getGameSummary(state.gameSummaryParams, false);
+          } else {
+            await getGameSummary(state.gameSummaryParams);
+          }
         } else {
           state.historyGameSummaryParams.startTime = props.leagueListParams.startTime;
           state.historyGameSummaryParams.endTime = props.leagueListParams.endTime;
@@ -316,7 +325,11 @@ export default {
       if (props.timeFilter !== 'history') {
         state.gameSummaryParams.startTime = props.leagueListParams.startTime;
         state.gameSummaryParams.endTime = props.leagueListParams.endTime;
-        await getGameSummary(state.gameSummaryParams);
+        if (props.timeFilter === 'all' || props.timeFilter === 'today') {
+          await getGameSummary(state.gameSummaryParams, false);
+        } else {
+          await getGameSummary(state.gameSummaryParams);
+        }
       } else {
         state.historyGameSummaryParams.startTime = props.leagueListParams.startTime;
         state.historyGameSummaryParams.endTime = props.leagueListParams.endTime;

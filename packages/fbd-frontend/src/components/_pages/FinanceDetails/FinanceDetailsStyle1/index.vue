@@ -179,9 +179,9 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import * as moment from 'moment';
 import * as R from 'ramda';
 import { onMounted } from '@vue/runtime-core';
+import dayjs from 'dayjs';
 import DScroll from '@/components/DScroll';
 import DatePickerPopup from '@/components/_pages/DatePickerPopup';
 import financeApi from '@/assets/js/api/financeApi';
@@ -270,22 +270,22 @@ export default {
       return num;
     };
 
-    const timeConversion = (time) => moment(time).format('YYYY-MM-DD HH:mm:ss');
+    const timeConversion = (time) => dayjs(time).format('YYYY-MM-DD HH:mm:ss');
     const timeJudgment = () => {
       let start;
       let end;
       if (state.currentRange === 'today') {
-        start = moment().format('YYYY/MM/DD 00:00:00');
-        end = moment().format('YYYY/MM/DD 23:59:59');
+        start = dayjs().format('YYYY/MM/DD HH:mm:ss');
+        end = dayjs().format('YYYY/MM/DD HH:mm:ss');
       } else if (state.currentRange === 'yesterday') {
-        start = moment().startOf('day').add(-1, 'days').format('YYYY/MM/DD 00:00:00');
-        end = moment().format('YYYY/MM/DD 00:00:00');
+        start = dayjs().add(-1, 'days').format('YYYY/MM/DD HH:mm:ss');
+        end = dayjs().format('YYYY/MM/DD HH:mm:ss');
       } else if (state.currentRange === 'sevenDays') {
-        start = moment().startOf('day').add(-7, 'days').format('YYYY/MM/DD 00:00:00');
-        end = moment().format('YYYY/MM/DD 23:59:59');
+        start = dayjs().add(-7, 'days').format('YYYY/MM/DD HH:mm:ss');
+        end = dayjs().format('YYYY/MM/DD HH:mm:ss');
       } else if (state.currentRange === 'custom') {
-        start = moment().format('YYYY/MM/DD 00:00:00');
-        end = moment().format('YYYY/MM/DD 23:59:59');
+        start = dayjs().format('YYYY/MM/DD HH:mm:ss');
+        end = dayjs().format('YYYY/MM/DD HH:mm:ss');
       }
 
       return [start, end];

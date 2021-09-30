@@ -530,7 +530,7 @@ export default {
   background-image: url('~@/assets/img/profile/userinfo/bg.png');
   background-position-y: var(--header-height);
 
-  @apply bg-layout bg-no-repeat bg-contain pt-h-h px-3;
+  @apply bg-layout bg-no-repeat bg-contain pt-h-h px-3 overflow-auto;
 
   .user {
     color: #4d5772;

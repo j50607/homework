@@ -81,7 +81,7 @@ export default {
     });
 
     watch(() => props.value, (val) => {
-      state.valueArr = val.split(props.format);
+      state.valueArr = dayjs(val).format(`YYYY${props.format}MM${props.format}DD`).split(props.format);
     }, { immediate: true });
 
     const getDisplayHeight = () => {

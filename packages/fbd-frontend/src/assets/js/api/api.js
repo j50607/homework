@@ -1,5 +1,6 @@
 import axios from 'axios';
-import * as moment from 'moment';
+// import * as moment from 'moment';
+import dayjs from 'dayjs';
 import Cookie from 'js-cookie';
 import { pipe } from '@/assets/js/utils/utils';
 import FetchCompleteEvent from '@/assets/js/api/fetchCompleteEvent';
@@ -110,11 +111,21 @@ const deviceType = () => {
 class Api {
   static TOKEN;
 
-  static async callAxios(method, url, params, contentType, auth, customHeaders, locale, cacheResTime = 0) {
+  static async callAxios(method, url, params, contentType, auth, customHeaders, locale, cacheResTime = 0, startFromStartOfDay = true) {
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
+        if (key === 'start' || key === 'startTime' || key === 'startDate') {
+          if (!startFromStartOfDay) {
+            params[key] = dayjs(value).format('YYYY/MM/DD HH:mm:ss');
+          } else {
+            params[key] = dayjs(value).tz('Asia/Shanghai').startOf('day').format('YYYY/MM/DD HH:mm:ss');
+          }
+        }
+        if (key === 'end' || key === 'endTime' || key === 'endDate') {
+          params[key] = dayjs(value).tz('Asia/Shanghai').endOf('day').format('YYYY/MM/DD HH:mm:ss');
+        }
         if (value && value.toString().includes('23:59:59')) {
-          params[key] = moment(value).add(1, 'second').format('YYYY/MM/DD HH:mm:ss');
+          params[key] = dayjs(value).add(1, 'second').format('YYYY/MM/DD HH:mm:ss');
         }
       });
     }

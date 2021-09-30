@@ -90,16 +90,16 @@ class SportApi extends API {
   /**
   * 取得聯賽清單
   */
-  static async getLeagueSummary(params) {
-    const result = await this.callAxios('POST', '/frontend/sport-game/league-summary/get', params, null, true);
+  static async getLeagueSummary(params, isStartFromStartOfDay = true) {
+    const result = await this.callAxios('POST', '/frontend/sport-game/league-summary/get', params, null, true, null, null, null, isStartFromStartOfDay);
     return result;
   }
 
   /**
   * 取得取得比賽大綱清單
   */
-  static async getGameSummary(params) {
-    const result = await this.callAxios('POST', '/frontend/sport-game/game-summary/get', params, null, true);
+  static async getGameSummary(params, isStartFromStartOfDay = true) {
+    const result = await this.callAxios('POST', '/frontend/sport-game/game-summary/get', params, null, true, null, null, null, isStartFromStartOfDay);
     return result;
   }
 

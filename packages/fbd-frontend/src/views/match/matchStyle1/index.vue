@@ -43,6 +43,19 @@
           :time-filter="state.timeFilter"
           v-if="state.seachLeagueList.length"
         />
+        <div
+          class="no-data text-center my-10"
+          v-else
+        >
+          <img
+            :src="$requireSafe('icon/no-data.svg')"
+            alt=""
+            class="m-auto"
+          >
+          <p class="text-sm text-normal">
+            {{ $t('components_pages_match_noData') }}
+          </p>
+        </div>
       </template>
     </d-tabs>
 
@@ -126,7 +139,7 @@
     <div
       class="switch-league fixed right-0 bottom-20 cursor-pointer py-1.5"
       @click="state.switchLeague = true"
-      v-if="!state.switchLeague"
+      v-if="!state.switchLeague && state.seachLeagueList.length"
     >
       <img
         :src="$requireSafe('icon/switch-league.svg')"
@@ -165,9 +178,8 @@ export default {
     // ref
     const LeagueListParams = ref({
       timeType: 'matchTime',
-      startTime: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
-      endTime: dayjs().add(6, 'day').endOf('day').tz('Asia/Shanghai')
-        .format('YYYY/MM/DD HH:mm:ss'),
+      startTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+      endTime: dayjs().add(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
     });
 
     // reactive
@@ -193,8 +205,8 @@ export default {
     const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
 
     // methods
-    const getLeagueSummary = async (params) => {
-      const res = await SportApi.getLeagueSummary(params);
+    const getLeagueSummary = async (params, isStartFromStartOfDay = true) => {
+      const res = await SportApi.getLeagueSummary(params, isStartFromStartOfDay);
       if (res.code === 200) {
         if (isArray(res.data.leaguesInfo)) {
           const leagueList = res.data.leaguesInfo.map((item) => {
@@ -259,44 +271,40 @@ export default {
         state.timeFilter = 'all';
         LeagueListParams.value = {
           timeType: 'matchTime',
-          startTime: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
-          endTime: dayjs().add(6, 'day').endOf('day').tz('Asia/Shanghai')
-            .format('YYYY/MM/DD HH:mm:ss'),
+          startTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+          endTime: dayjs().add(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
         };
+        await getLeagueSummary(LeagueListParams.value, false);
       // 今日賽事
       } else if (index === 1) {
         state.timeFilter = 'today';
         LeagueListParams.value = {
 
           timeType: 'matchTime',
-          startTime: dayjs().startOf('day').tz('Asia/Shanghai').format('YYYY/MM/DD HH:mm:ss'),
-          endTime: dayjs().endOf('day').tz('Asia/Shanghai')
-            .format('YYYY/MM/DD HH:mm:ss'),
+          startTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+          endTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
         };
+        await getLeagueSummary(LeagueListParams.value, false);
 
       // 明日賽事
       } else if (index === 2) {
         state.timeFilter = 'tomorrow';
         LeagueListParams.value = {
           timeType: 'matchTime',
-          startTime: dayjs().add(1, 'day').startOf('day').tz('Asia/Shanghai')
-            .format('YYYY/MM/DD HH:mm:ss'),
-          endTime: dayjs().add(1, 'day').endOf('day').tz('Asia/Shanghai')
-            .format('YYYY/MM/DD HH:mm:ss'),
+          startTime: dayjs().add(1, 'day').format('YYYY/MM/DD HH:mm:ss'),
+          endTime: dayjs().add(1, 'day').format('YYYY/MM/DD HH:mm:ss'),
         };
+        await getLeagueSummary(LeagueListParams.value);
         // 歷史賽事
       } else if (index === 3) {
         state.timeFilter = 'history';
         LeagueListParams.value = {
           timeType: 'matchTime',
-          startTime: dayjs().subtract(6, 'day').startOf('day').tz('Asia/Shanghai')
-            .format('YYYY/MM/DD HH:mm:ss'),
-          endTime: dayjs().endOf('day').tz('Asia/Shanghai')
-            .format('YYYY/MM/DD HH:mm:ss'),
+          startTime: dayjs().subtract(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
+          endTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
         };
+        await getLeagueSummary(LeagueListParams.value);
       }
-
-      await getLeagueSummary(LeagueListParams.value);
     };
 
     const goBack = () => {
@@ -313,7 +321,7 @@ export default {
 
     // hooks
     onBeforeMount(async () => {
-      await getLeagueSummary(LeagueListParams.value);
+      await getLeagueSummary(LeagueListParams.value, false);
     });
 
     return {

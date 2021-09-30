@@ -78,8 +78,8 @@ export default {
     const getQueryLog = async () => {
       const info = {
         type: [55],
-        start: dayjs().startOf('day').subtract(7, 'day').format('YYYY/MM/DD HH:mm:ss'),
-        end: dayjs().endOf('day').format('YYYY/MM/DD HH:mm:ss'),
+        start: dayjs().subtract(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
+        end: dayjs().format('YYYY/MM/DD HH:mm:ss'),
         pageIndex: state.pageIndex,
         account: account.value,
 
