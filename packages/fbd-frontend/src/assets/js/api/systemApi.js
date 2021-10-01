@@ -8,7 +8,6 @@ class SystemApi extends API {
  */
   static async getSystemVersion() {
     const result = await this.callAxios('POST', '/system/configure/version', undefined, undefined, true);
-
     return result;
   }
 
