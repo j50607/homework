@@ -100,6 +100,7 @@ const lang = {
   views_finance_popup_poundage: '手續費',
   views_finance_popup_wallet_account_change: '錢包變帳',
   views_finance_popup_transfer_record: '轉賬記錄',
+  views_finance_popup_profit: '獲利',
   views_finance_popup_order: '下单',
   views_finance_popup_other: '其他',
   views_finance: '賬務明細',

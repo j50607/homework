@@ -337,7 +337,7 @@ const lang = {
   views_finance_popup_poundage: '手续费',
   views_finance_popup_wallet_account_change: '钱包变帐',
   views_finance_popup_transfer_record: '转账记录',
-  views_finance_popup_profit: '獲利',
+  views_finance_popup_profit: '获利',
   views_finance_popup_order: '下单',
   views_finance_popup_other: '其他',
   views_profile_wallet_addSuccess: '钱包已新增成功',

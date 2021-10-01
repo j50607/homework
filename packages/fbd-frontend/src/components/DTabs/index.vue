@@ -161,7 +161,14 @@ export default {
     const right = () => {
       if (oldNumber.value === newNumber.value) return;
 
-      if (lastItemOffsetLeft.value <= lookWidth.value) return;
+      if (lastItemOffsetLeft.value <= lookWidth.value) {
+        if (!isMobile() && document.body.clientWidth <= 432) {
+          current.value = tabsItemOffsetLeft.value - (boxRef.value.offsetWidth - tabsItemWidth.value) / 2;
+          boxRef.value.scrollLeft = current.value;
+        } else {
+          return;
+        }
+      }
 
       if (lastItemOffsetLeft.value > lookWidth.value && newNumber.value > 1) {
         current.value = tabsItemOffsetLeft.value - (boxRef.value.offsetWidth - tabsItemWidth.value) / 2;
@@ -173,7 +180,7 @@ export default {
     const left = () => {
       if (oldNumber.value === newNumber.value) return;
 
-      if (newNumber.value !== 0 && (newNumber.value > 1 || oldNumber.value > newNumber.value)) {
+      if (oldNumber.value > newNumber.value) {
         const to = tabsItemOffsetLeft.value - (boxRef.value.offsetWidth - tabsItemWidth.value) / 2;
 
         current.value = to - boxRef.value.scrollLeft;
