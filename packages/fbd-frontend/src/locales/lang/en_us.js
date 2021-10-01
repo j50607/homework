@@ -229,7 +229,7 @@ const lang = {
   views_profile_deposit_depositInfo: 'Deposit Details',
   views_profile_deposit_nextStep: 'Next Step',
   views_profile_deposit_amountPlaceholder: 'Please enter your deposit amount',
-  views_profile_deposit_alreadyCompleteTransfer: 'Remittance completed',
+  views_profile_deposit_alreadyCompleteTransfer: 'Remittance Completed',
   views_profile_deposit_generateDepositAddress: 'Generating a recharge address',
   views_profile_deposit_depositAmount: 'Deposit Amount',
   views_profile_deposit_hint: 'Hint',
