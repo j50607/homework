@@ -413,6 +413,10 @@ export default {
     };
 
     const confirm = () => {
+      if (state.currentRange !== 'custom') {
+        state.customStartDay = '';
+        state.customEndDay = '';
+      }
       queryLog(state.customStartDay, state.customEndDay);
       init();
 
