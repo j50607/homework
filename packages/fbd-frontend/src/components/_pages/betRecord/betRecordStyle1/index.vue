@@ -411,6 +411,12 @@ export default {
     const sumPanelHeight = computed(() => (state.isShowSum ? 118 : 36));
 
     // methods
+    const currentStatusNum = (statusNum) => {
+      if (statusNum === 2) {
+        return [2, 6];
+      }
+      return [1];
+    };
     const renderNumber = (val) => {
       const num = Number(val) || 0;
       if (num > 0) return `+${num}`;
@@ -502,7 +508,7 @@ export default {
       const params = {
         start: state.currentRangeObj.start,
         end: state.currentRangeObj.end,
-        status: state.currentStatus === 'all' ? [1, 2, 5] : [state.currentStatus],
+        status: state.currentStatus === 'all' ? [1, 2, 5, 6] : currentStatusNum(state.currentStatus),
         pageIndex: state.pageData.pageIndex,
       };
       const { code, data } = await SportApi.getBetOrderPage(params) || {};
