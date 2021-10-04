@@ -377,7 +377,7 @@
         v-for="(item, idx) in state.amountList"
         :key="`amountList${idx}`"
         class="popup-amount is-btn"
-        :class="{ 'popup-amount-active': state.currentQuickAmount === item.val }"
+        :class="{ 'popup-amount-active': handlePopupActive(item.val) }"
         v-text="item.txt"
         @click="quickSelect(item.val)"
       />
