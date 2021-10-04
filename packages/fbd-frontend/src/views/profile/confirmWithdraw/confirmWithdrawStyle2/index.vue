@@ -18,6 +18,7 @@
           :key="index"
         >
           <div
+            v-if="item.value !== 'withdrawFreeCount' || (item.value === 'withdrawFreeCount' && state.openFreeWithdrawals)"
             class="row flex justify-between pt-1 pb-1 "
           >
             <div class="flex-1 break-all whitespace-nowrap">
@@ -28,7 +29,7 @@
             </div>
           </div>
           <img
-            v-if="index === 4"
+            v-if="index === 5"
             class="w-full"
             :src="$requireSafe(`icon/style2/divide.svg`)"
             alt=""
@@ -61,6 +62,9 @@ export default {
     const router = useRouter();
 
     const list = [
+      {
+        name: t('views_profile_withdrawFreeCount'), value: 'withdrawFreeCount',
+      },
       {
         name: t('views_profile_charge'), value: 'charge',
       },
@@ -101,6 +105,9 @@ export default {
       accountId: '',
       // 錢包ID
       bankcardId: '',
+      // 免费提现次数
+      withdrawFreeCount: '',
+      openFreeWithdrawals: false,
       withdrawCode: '',
       loading: false,
     });
@@ -141,6 +148,7 @@ export default {
     const initData = () => {
       Object.entries(route.query).forEach(([key, value]) => {
         state[key] = value;
+        if (key === 'openFreeWithdrawals') state.openFreeWithdrawals = value === 'true';
       });
     };
 

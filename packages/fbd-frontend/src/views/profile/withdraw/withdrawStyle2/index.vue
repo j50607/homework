@@ -66,10 +66,16 @@
           />
         </a-form-item>
       </a-form>
-      <div class="mb-2">
+      <div
+        v-if="withdrawSettings?.openFreeWithdrawals"
+        class="mb-2"
+      >
         {{ $t('views_profile_withdrawFreeCount') }}：{{ freeWithdrawCount }} {{ $t('common_count') }} / {{ intervalMap[withdrawSettings?.withdrawCaculateInterval] }}
       </div>
-      <div class="mb-2">
+      <div
+        v-if="withdrawSettings?.openFreeWithdrawals"
+        class="mb-2"
+      >
         {{ $t('views_profile_charge') }}：{{ charge }}
       </div>
       <d-button
@@ -285,6 +291,8 @@ export default {
             bankcardId: state.selectedItem.bankId,
             totalAmount: totalAmount.value,
             withdrawCode: state.withdrawCode,
+            withdrawFreeCount: `${freeWithdrawCount.value} ${t('common_count')} / ${intervalMap[withdrawSettings.value.withdrawCaculateInterval]}`,
+            openFreeWithdrawals: withdrawSettings.value.openFreeWithdrawals,
           },
         });
       }

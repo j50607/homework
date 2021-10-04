@@ -18,10 +18,16 @@
           :key="index"
           class="row flex justify-between pt-1 pb-1 "
         >
-          <div class="flex-1 break-all whitespace-nowrap">
+          <div
+            v-if="item.value !== 'withdrawFreeCount' || (item.value === 'withdrawFreeCount' && state.openFreeWithdrawals)"
+            class="flex-1 break-all whitespace-nowrap"
+          >
             {{ item.name }}
           </div>
-          <div class="flex-1 break-all text-right">
+          <div
+            v-if="item.value !== 'withdrawFreeCount' || (item.value === 'withdrawFreeCount' && state.openFreeWithdrawals)"
+            class="flex-1 break-all text-right"
+          >
             {{ state[item.value] }}
           </div>
         </div>
@@ -51,6 +57,9 @@ export default {
     const router = useRouter();
 
     const list = [
+      {
+        name: t('views_profile_withdrawFreeCount'), value: 'withdrawFreeCount',
+      },
       {
         name: t('views_profile_charge'), value: 'charge',
       },
@@ -91,6 +100,9 @@ export default {
       accountId: '',
       // 錢包ID
       bankcardId: '',
+      // 免费提现次数
+      withdrawFreeCount: '',
+      openFreeWithdrawals: false,
       withdrawCode: '',
       loading: false,
     });
@@ -131,6 +143,7 @@ export default {
     const initData = () => {
       Object.entries(route.query).forEach(([key, value]) => {
         state[key] = value;
+        if (key === 'openFreeWithdrawals') state.openFreeWithdrawals = value === 'true';
       });
     };
 
@@ -160,12 +173,12 @@ export default {
 }
 
 .row {
-  &:nth-child(7) {
+  &:nth-child(8) {
     padding-bottom: 15px;
     border-bottom: 1px solid #f2f2f2;
   }
 
-  &:nth-child(8) {
+  &:nth-child(9) {
     padding-top: 15px;
   }
 }
