@@ -180,7 +180,7 @@ const lang = {
   views_market_switchLeague_select_all: 'Select all',
   views_market_switchLeague_select_not: 'Invert selection',
   views_match_tablist_all: 'All Matches',
-  views_match_tablist_today: 'Today’s Matches',
+  views_match_tablist_today: 'Today',
   views_match_tablist_tomorrow: 'Tomorrow',
   views_match_tablist_record: 'History',
   views_market_switchLeague_list_openCount: 'You have initiated {num} games.',
