@@ -1,0 +1,86 @@
+# Patterns to ignore when building packages.
+# This supports shell glob matching, relative path matching, and
+# negation (prefixed with !). Only one pattern per line.
+.DS_Store
+
+# Common VCS dirs
+.git/
+.gitignore
+.gitattributes
+
+.bzr/
+.bzrignore
+.hg/
+.hgignore
+.svn/
+
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*.orig
+*~
+
+# Various IDEs
+.project
+.idea/
+*.tmproj
+.vscode/
+
+# Docker
+.dockerignore
+
+# Helm
+.helmignore
+*.tgz
+templates/
+Chart.yaml
+values.yaml
+
+# CI
+.gitlab-ci.yml
+.travis.yml
+build.env
+
+# Common config or source code
+*.json
+src/
+
+# Frontend
+public/
+redirect/
+tests/
+*.js
+.browserslistrc
+.editorconfig
+.stylelintignore
+.prettierrc
+.env.*
+*.lock
+
+# Node.js
+node_modules/
+jspm_packages/
+.npm
+
+# Java
+*.jar
+.gradle
+.gradle/
+build/
+ci_settings.xml
+settings.xml
+pom.xml
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# Logs
+logs/
+*.log
+CHANGELOG
+
+# Other
+*.md
+*.config
+LICENSE

@@ -14,6 +14,7 @@ cache:
 stages:
   - deploy
   - build_image
+  - update_image_tag
 
 .before_script: &before_script |
   mkdir -p ~/.ssh
@@ -61,6 +62,29 @@ stages:
     rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE};
   done);
 
+.build_image_script: &build_image_script |
+  docker login -u $DOCKER_SWARM_DEPLOYER_UESRNAME -p $DOCKER_SWARM_DEPLOYER_TOKEN $CI_REGISTRY
+  docker build -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA .
+  docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA
+  docker tag $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:latest
+  docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:latest
+
+# update helm chart image tag
+.update_image_tag: &update_image_tag |
+  mkdir -p ~/.ssh
+  echo "$XANXUS_GITLAB_RUNNER_KEY_TEST_PRIVATE_KEY" > ~/.ssh/id_rsa
+  chmod 700 ~/.ssh/id_rsa
+  cat <<EOT >> ~/.ssh/config
+  Host *
+      StrictHostKeyChecking no
+  EOT
+  git clone -b $CI_COMMIT_REF_NAME git@git.dingyi.io:sre/helm-charts/frontend/$CI_PROJECT_NAME.git
+  cd $CI_PROJECT_NAME
+  sed -i "s/^  tag:.*/  tag: $CI_COMMIT_SHORT_SHA/g" values.yaml
+  git config --global user.email "gitlab-runner@gitlab-runner.com"
+  git config --global user.name "Gitlab Runner"
+  git add . && git diff-index --quiet HEAD || git commit -m "update image tag: $CI_COMMIT_SHORT_SHA" && (git push) || true
+
 deploy_dev:
   image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
   stage: deploy
@@ -91,14 +115,42 @@ deploy_dev:
   only:
     - develop
 
+# DEV BUILD IMAGE JOBS
+# ================================================================================
+dev_build_image:
+  image: registry.dingyi.io/docker-public/docker:19.03.12
+  stage: build_image
+  script:
+    - source build.env
+    - *build_image_script
+  dependencies:
+    - deploy_dev
+  environment:
+    name: $TARGET_ENV
+  only:
+    - develop
+
+# DEV UPDATE HELM CHART IMAGE TAG
+# ================================================================================
+dev_update_image_tag:
+  image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
+  stage: update_image_tag
+  script:
+    - *update_image_tag
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  only:
+    - develop
+
 deploy_test:
   image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
   stage: deploy
   script:
     - *before_script
-    - export TARGET_ENV='test'
+    - echo "TARGET_ENV='test'" >> build.env
     - export TARGET_ENV_FILE='./.env.prod'
     - export TARGET_SERVERS="$TEST_SERVERS"
+    - source build.env
     - echo VUE_APP_MEMBER_BASE = /api/member >> $TARGET_ENV_FILE
     - echo VUE_APP_FINANCE_BASE = /api/finance >> $TARGET_ENV_FILE
     - echo VUE_APP_SPORT_BASE = /api/sport >> $TARGET_ENV_FILE
@@ -109,8 +161,41 @@ deploy_test:
     - *build_redirect_script
     - *build_script
     - *deploy_script
+  artifacts:
+    name: "package"
+    paths:
+      - dist
+      - build.env
+    expire_in: 3min
   environment:
     name: $TARGET_ENV
+  only:
+    - test
+
+# TEST BUILD IMAGE JOBS
+# ================================================================================
+test_build_image:
+  image: registry.dingyi.io/docker-public/docker:19.03.12
+  stage: build_image
+  script:
+    - source build.env
+    - *build_image_script
+  dependencies:
+    - deploy_test
+  environment:
+    name: $TARGET_ENV
+  only:
+    - test
+
+# TEST UPDATE HELM CHART IMAGE TAG
+# ================================================================================
+test_update_image_tag:
+  image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
+  stage: update_image_tag
+  script:
+    - *update_image_tag
+  environment:
+    name: $CI_COMMIT_REF_NAME
   only:
     - test
 
