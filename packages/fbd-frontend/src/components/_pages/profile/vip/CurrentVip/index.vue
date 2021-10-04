@@ -73,16 +73,22 @@
           <p class="mb-1">
             {{ $t('components_pages_components_vip_bet_return_profit') }}
           </p>
-          <p class="text-secondary font-bold">
-            {{ nowVipLevelRule.rebateRate || 0 }}%
+          <p
+            class="text-secondary font-bold"
+            :class="{'profit-disable': !profitEnable.rebateEnable}"
+          >
+            {{ profitEnable.rebateEnable ? `${nowVipLevelRule.rebateRate || 0 }%` : $t('components_pages_components_vip_remedyEnable_false') }}
           </p>
         </div>
         <div class="bet w-1/2 text-xs">
           <p class="mb-1">
             {{ $t('components_pages_components_vip_bet_evenlop') }}
           </p>
-          <p class="text-secondary font-bold">
-            {{ nowVipLevelRule.remedyRate || 0 }}%
+          <p
+            class="text-secondary font-bold"
+            :class="{'profit-disable': !profitEnable.remedyEnable}"
+          >
+            {{ profitEnable.remedyEnable ? `${nowVipLevelRule.remedyRate || 0 }%` : $t('components_pages_components_vip_remedyEnable_false') }}
           </p>
         </div>
       </div>
@@ -508,6 +514,12 @@ import FinanceApi from '@/assets/js/api/financeApi';
 
 export default {
   emits: ['checkRecord'],
+  props: {
+    profitEnable: {
+      type: Object,
+      default: () => {},
+    },
+  },
   setup(props, { emit }) {
     // use
     const store = useStore();
@@ -740,5 +752,10 @@ export default {
 
 .envelop-amount {
   color: #38c522;
+}
+
+.profit-disable {
+  color: #bdbdbd;
+  font-weight: normal;
 }
 </style>

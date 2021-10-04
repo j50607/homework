@@ -510,6 +510,7 @@ const lang = {
   components_pages_components_vip_envelop_detail_amount: '金额',
   components_pages_components_vip_envelop_reveice_record: '领取记录',
   components_pages_components_vip_envelop_reveice_success: '领取成功',
+  components_pages_components_vip_remedyEnable_false: '無法使用',
 
   components_quick_login_text: '或以下列方式继续',
   components_quick_login_success: '成功',

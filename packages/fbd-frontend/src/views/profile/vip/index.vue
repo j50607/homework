@@ -27,6 +27,7 @@
         <component
           :is="state.tabList[state.currentKey].comp"
           @checkRecord="handlerCheckRecord"
+          :profit-enable="profitEnable"
         />
       </template>
     </d-tabs>
@@ -40,7 +41,7 @@
 </template>
 
 <script>
-import { reactive, onBeforeMount } from 'vue';
+import { reactive, onBeforeMount, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -49,6 +50,7 @@ import ReviewVip from '@/components/_pages/profile/vip/ReviewVip';
 import ReturnProfitRecord from '@/components/_pages/profile/vip/ReturnProfitRecord';
 import EnvelopRecord from '@/components/_pages/profile/vip/EnvelopRecord';
 import SportApi from '@/assets/js/api/sportApi';
+import SystemApi from '@/assets/js/api/systemApi';
 
 export default {
   components: {
@@ -73,6 +75,14 @@ export default {
       checkRecordType: '',
     });
 
+    const profitEnable = reactive({
+      remedyEnable: undefined,
+      rebateEnable: undefined,
+    });
+
+    // computed
+    const accountGroupId = computed(() => store.state.user.accountGroup);
+
     // methods
     const getVipLevelInfo = async () => {
       const { code, data } = await SportApi.getVipLevelInfo();
@@ -83,6 +93,14 @@ export default {
           nowVipLevelRule: data.nowVipLevelRule,
           remedyAmount: data.remedyAmount,
         });
+      }
+    };
+
+    const getGroupInfo = async (groupId) => {
+      const res = await SystemApi.getGroupInfo(groupId);
+      if (res.code === 200) {
+        profitEnable.remedyEnable = res.data?.groupSetting?.remedyEnable;
+        profitEnable.rebateEnable = res.data?.groupSetting?.rebateEnable;
       }
     };
 
@@ -102,12 +120,14 @@ export default {
     // hooks
     onBeforeMount(async () => {
       await getVipLevelInfo();
+      await getGroupInfo(accountGroupId.value);
     });
 
     return {
       state,
       handlerCheckRecord,
       goBack,
+      profitEnable,
     };
   },
 };

@@ -157,6 +157,15 @@ class SystemApi extends API {
 
     return result;
   }
+
+  /**
+   * 查詢用戶群組
+   */
+  static async getGroupInfo(groupId) {
+    const result = await this.callAxios('POST', `/system/group/all/${groupId}`, undefined, undefined, false);
+
+    return result;
+  }
 }
 
 export default SystemApi;
