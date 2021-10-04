@@ -268,6 +268,7 @@ export default {
         birthday: formState.birthdayInputValue,
         gender: formState.genderInputValue,
         line: formState.lineInputValue,
+        whatsApp: formState.whatsappInputValue,
         zalo: formState.zaloInputValue,
         registerType: registerType.value,
         authCodeKey: validateNumber,

@@ -238,7 +238,7 @@ const lang = {
   error37: '钱包地址不可包含特殊字元或标点符号',
   error38: '钱包地址不可包含中文',
   error39: '钱包地址必须小于100字元',
-  error40: '请输入whatsApp账号',
+  error40: '请输入WhatsApp账号',
   error41: 'whatsApp账号不可包含全形字元',
   error42: 'whatsApp 字数过长',
   error43: 'whatsApp账号不包含特殊字符或标点符号',
