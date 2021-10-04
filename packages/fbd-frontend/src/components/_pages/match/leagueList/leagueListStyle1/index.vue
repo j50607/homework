@@ -165,7 +165,7 @@ export default {
         endTime: dayjs().add(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
         pageIndex: 1,
         gameStatus: [0, -5],
-        leagueId: props.searchLeagueList,
+        leagueId: props.searchLeagueList.length ? props.searchLeagueList : undefined,
         direction: 1,
       },
       historyGameSummaryParams: {
@@ -173,7 +173,7 @@ export default {
         startTime: dayjs().subtract(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
         endTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
         pageIndex: 1,
-        leagueId: props.searchLeagueList,
+        leagueId: props.searchLeagueList.length ? props.searchLeagueList : undefined,
       },
     });
 

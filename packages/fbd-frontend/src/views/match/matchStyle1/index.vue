@@ -41,21 +41,7 @@
           :search-league-list="state.seachLeagueList"
           :league-list-params="LeagueListParams"
           :time-filter="state.timeFilter"
-          v-if="state.seachLeagueList.length"
         />
-        <div
-          class="no-data text-center my-10"
-          v-else
-        >
-          <img
-            :src="$requireSafe('icon/no-data.svg')"
-            alt=""
-            class="m-auto"
-          >
-          <p class="text-sm text-normal">
-            {{ $t('components_pages_match_noData') }}
-          </p>
-        </div>
       </template>
     </d-tabs>
 
@@ -138,8 +124,8 @@
     <!-- 選擇聯盟按鈕 -->
     <div
       class="switch-league fixed right-0 bottom-20 cursor-pointer py-1.5"
-      @click="state.switchLeague = true"
-      v-if="!state.switchLeague && state.seachLeagueList.length"
+      @click="handlerOpenLeagueList()"
+      v-if="!state.switchLeague && state.leagueList.length > 0"
     >
       <img
         :src="$requireSafe('icon/switch-league.svg')"
@@ -208,9 +194,9 @@ export default {
     const getLeagueSummary = async (params, isStartFromStartOfDay = true) => {
       const res = await SportApi.getLeagueSummary(params, isStartFromStartOfDay);
       if (res.code === 200) {
+        state.seachLeagueList = [];
         if (isArray(res.data.leaguesInfo)) {
           const leagueList = res.data.leaguesInfo.map((item) => {
-            state.seachLeagueList.push(item.leagueId);
             item.selected = true;
             return item;
           });
@@ -306,6 +292,14 @@ export default {
         await getLeagueSummary(LeagueListParams.value);
       }
     };
+    const handlerOpenLeagueList = () => {
+      if (!state.seachLeagueList.length) {
+        state.leagueList.forEach((item) => {
+          state.seachLeagueList.push(item.leagueId);
+        });
+      }
+      state.switchLeague = true;
+    };
 
     const goBack = () => {
       if (state.switchLeague) {
@@ -336,6 +330,7 @@ export default {
       invertSelect,
       confirmSelect,
       s3Base,
+      handlerOpenLeagueList,
     };
   },
 };
