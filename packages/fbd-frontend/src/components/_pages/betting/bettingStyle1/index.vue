@@ -727,7 +727,7 @@ export default {
     };
 
     const quickSelect = (val) => {
-      const result = val === 'all' ? balance.value : val;
+      const result = val === 'all' ? Math.floor(balance.value) : val;
       state.betAmount = result;
       state.currentQuickAmount = val;
     };
