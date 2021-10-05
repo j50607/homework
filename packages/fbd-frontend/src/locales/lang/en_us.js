@@ -217,7 +217,7 @@ const lang = {
   views_profile_time: 'Time',
   views_profile_chooseWallet: 'Select your Wallet',
   views_profile_noWallet: 'You don’t have a bound wallet',
-  views_profile_goBind: 'Bound a Wallet Now',
+  views_profile_goBind: 'Bound a Wallet',
   views_profile_deposit: 'Deposit',
 
   // newstart
