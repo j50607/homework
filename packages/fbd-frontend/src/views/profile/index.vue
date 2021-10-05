@@ -303,7 +303,6 @@ export default {
     const goPage = (page) => {
       switch (page) {
         case '/profile/report':
-        case '/profile/vip':
         case '/profile/verify':
           window.$vue.$message.info(t('common_comingSoon'));
           break;
