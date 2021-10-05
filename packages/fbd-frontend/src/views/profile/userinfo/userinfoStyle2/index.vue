@@ -64,7 +64,10 @@
           class="card-row is-btn"
           @click="goPage(item)"
         >
-          <div class="card-row-title">
+          <div
+            class="card-row-title"
+            :class="{'add-space': item.value !== 'nickName'}"
+          >
             <div>
               {{ item.label }}
             </div>
@@ -75,7 +78,10 @@
               {{ $t('views_profile_userinfo_nickNameHint') }}
             </div>
           </div>
-          <div class="card-row-value">
+          <div
+            class="card-row-value"
+            :class="{'break-content': item.value !== 'nickName'}"
+          >
             <div v-if="getUserValue(item.value)">
               {{ getUserValue(item.value) !== 'wallet' ? getUserValue(item.value) : '' }}
             </div>
@@ -634,6 +640,15 @@ export default {
     font-size: 14px;
 
     @apply mb-2;
+  }
+
+  .add-space {
+    margin-right: 1rem;
+    white-space: nowrap;
+  }
+
+  .break-content {
+    word-break: break-word;
   }
 }
 
