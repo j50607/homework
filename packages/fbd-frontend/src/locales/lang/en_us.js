@@ -219,6 +219,7 @@ const lang = {
   views_profile_noWallet: 'You don’t have a bound wallet',
   views_profile_goBind: 'Bound a Wallet',
   views_profile_deposit: 'Deposit',
+  views_profile_vip_level_dollars: '',
 
   // newstart
   views_profile_deposit_cryptoChannel: 'Virtual Currency Deposit Channel',
@@ -509,7 +510,7 @@ const lang = {
   components_pages_components_vip_envelop_detail_amount: '金额',
   components_pages_components_vip_envelop_reveice_record: '领取记录',
   components_pages_components_vip_envelop_reveice_success: '领取成功',
-  components_pages_components_vip_remedyEnable_false: '無法使用',
+  components_pages_components_vip_remedyEnable_false: '无法使用',
 
   components_pages_profile_share_title: '好友分享',
   components_pages_profile_share_popup_title: '说明',

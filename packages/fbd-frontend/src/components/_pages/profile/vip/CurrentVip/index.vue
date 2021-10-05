@@ -88,7 +88,7 @@
             class="text-secondary font-bold"
             :class="{'profit-disable': !profitEnable.remedyEnable}"
           >
-            {{ profitEnable.remedyEnable ? `${nowVipLevelRule.remedyRate || 0 }%` : $t('components_pages_components_vip_remedyEnable_false') }}
+            {{ profitEnable.remedyEnable ? `${formatRemedyRate(nowVipLevelRule.remedyRate)}%` : $t('components_pages_components_vip_remedyEnable_false') }}
           </p>
         </div>
       </div>
@@ -279,13 +279,13 @@
             {{ $t('components_pages_components_vip_perpare_takeProfit') }}
           </p>
           <p class="amount text-lg">
-            {{ state.returnProfit }}{{ $t('views_betting_main_popup_dollars') }}
+            {{ returnProfit }}{{ $t('views_profile_vip_level_dollars') }}
           </p>
         </div>
         <div class="profit-button ml-auto">
           <d-button
             type="primary"
-            :disabled="state.returnProfit === 0"
+            :disabled="returnProfit === 0"
             @click="handlerReceive()"
           >
             {{ $t('components_pages_components_vip_takeProfit') }}
@@ -345,7 +345,7 @@
       <div class="already-take text-xs mb-2">
         <p>{{ $t('components_pages_components_vip_envelop_alradyTake') }}</p>
         <p class="envelop-amount text-lg">
-          {{ remedyAmount || 0 }}{{ $t('views_betting_main_popup_dollars') }}
+          {{ remedyAmount? remedyAmount.toFixed(2) : '0.00' }}{{ $t('views_profile_vip_level_dollars') }}
         </p>
       </div>
 
@@ -506,18 +506,22 @@
 </template>
 <script>
 import { useStore } from 'vuex';
-import { computed, reactive, onBeforeMount } from 'vue';
+import { computed, reactive } from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
 import NP from 'number-precision';
 import FinanceApi from '@/assets/js/api/financeApi';
 
 export default {
-  emits: ['checkRecord'],
+  emits: ['checkRecord', 'getRebateTotal'],
   props: {
     profitEnable: {
       type: Object,
       default: () => {},
+    },
+    returnProfit: {
+      type: Number,
+      default: 0.00,
     },
   },
   setup(props, { emit }) {
@@ -544,37 +548,44 @@ export default {
     const remedyAmount = computed(() => store.state.user.remedyAmount);
 
     const deadLineBetSumPercentage = computed(() => {
-      const realPercentage = NP.divide(levelStatus.value.deadlineBetSum || 0, NP.divide(nowVipLevelRule.value.upgradeProtectLevelStandard || 0, 100));
+      const realPercentage = NP.times(NP.divide(levelStatus.value.deadlineBetSum || 0, nowVipLevelRule.value.upgradeProtectLevelStandard || 0), 100);
       if (realPercentage && realPercentage < 5) {
         return 5;
+      } if (realPercentage > 100) {
+        return 100;
       }
       return realPercentage;
     });
 
     const nextLevelBetSumPercentage = computed(() => {
-      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.deadlineBetSum || 0, NP.divide(nextVipLevelRule.value.upgradeProtectLevelStandard || 0, 100));
+      const realNextLevelBetSumPercentage = NP.times(NP.divide(levelStatus.value.deadlineBetSum || 0, nextVipLevelRule.value.upgradeProtectLevelStandard || 0), 100);
       if (realNextLevelBetSumPercentage && realNextLevelBetSumPercentage < 3) {
         return 3;
+      } if (realNextLevelBetSumPercentage > 100) {
+        return 100;
       }
       return realNextLevelBetSumPercentage;
     });
     const nextLevelDepositSumPercentage = computed(() => {
-      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.depositTotal || 0, NP.divide(nextVipLevelRule.value.upgradeDepositStandard || 0, 100));
+      const realNextLevelBetSumPercentage = NP.times(NP.divide(levelStatus.value.depositTotal || 0, nextVipLevelRule.value.upgradeDepositStandard || 0), 100);
       if (realNextLevelBetSumPercentage && realNextLevelBetSumPercentage < 3) {
         return 3;
+      } if (realNextLevelBetSumPercentage > 100) {
+        return 100;
       }
       return realNextLevelBetSumPercentage;
     });
     const nextLevelTotalBetSumPercentage = computed(() => {
-      const realNextLevelBetSumPercentage = NP.divide(levelStatus.value.betSum || 0, NP.divide(nextVipLevelRule.value.upgradeBetStandard || 0, 100));
+      const realNextLevelBetSumPercentage = NP.times(NP.divide(levelStatus.value.betSum || 0, nextVipLevelRule.value.upgradeBetStandard || 0), 100);
       if (realNextLevelBetSumPercentage && realNextLevelBetSumPercentage < 3) {
         return 3;
+      } if (realNextLevelBetSumPercentage > 100) {
+        return 100;
       }
       return realNextLevelBetSumPercentage;
     });
 
-    const deadLineTime = computed(() => dayjs(levelStatus.value.deadlineAt).format('DD'));
-
+    const deadLineTime = computed(() => dayjs(dayjs(levelStatus.value.deadlineAt).diff(dayjs(), 'ms')).format('DD'));
     const isFirstBar = computed(() => nextLevelBetSumPercentage.value === 0);
     const isFirstBar2 = computed(() => nextLevelBetSumPercentage.value === 0 && nextLevelDepositSumPercentage.value === 0);
 
@@ -617,18 +628,11 @@ export default {
       }
     };
 
-    const getSelfRebate = async () => {
-      const res = await FinanceApi.getSelfRebate();
-      if (res.code === 200) {
-        state.returnProfit = res.data.total;
-      }
-    };
-
     const handlerReceive = async () => {
       const res = await FinanceApi.receiveSelfRebateProfit();
       if (res.code === 200) {
         window.$vue.$message.success(t('components_pages_components_vip_envelop_reveice_success'));
-        getSelfRebate();
+        emit('getRebateTotal');
       }
     };
 
@@ -637,11 +641,6 @@ export default {
     };
 
     const formatRemedyRate = (remedyRate) => NP.times(remedyRate || 0, 100);
-
-    // hooks
-    onBeforeMount(async () => {
-      await getSelfRebate();
-    });
 
     return {
       nowVipLevelRule,

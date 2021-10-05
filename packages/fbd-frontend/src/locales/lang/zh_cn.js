@@ -261,6 +261,7 @@ const lang = {
   views_profile_vip_current_level: '当前等级',
   views_profile_vip_betLimit: '单场/单日下单上限',
   views_profile_vip_level_review: '等级浏览',
+  views_profile_vip_level_dollars: '元',
 
   // newend
   views_profile_depositHandling: '入款进行中',
@@ -510,7 +511,7 @@ const lang = {
   components_pages_components_vip_envelop_detail_amount: '金额',
   components_pages_components_vip_envelop_reveice_record: '领取记录',
   components_pages_components_vip_envelop_reveice_success: '领取成功',
-  components_pages_components_vip_remedyEnable_false: '無法使用',
+  components_pages_components_vip_remedyEnable_false: '无法使用',
 
   components_quick_login_text: '或以下列方式继续',
   components_quick_login_success: '成功',

@@ -102,7 +102,7 @@ import SportApi from '@/assets/js/api/sportApi';
 import { isArray } from '@/assets/js/utils/utils';
 
 export default {
-  emits: ['checkRecord'],
+  emits: ['checkRecord', 'getRebateTotal'],
   setup() {
     // use
     const store = useStore();

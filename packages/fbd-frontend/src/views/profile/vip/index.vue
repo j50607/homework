@@ -27,7 +27,9 @@
         <component
           :is="state.tabList[state.currentKey].comp"
           @checkRecord="handlerCheckRecord"
+          @getRebateTotal="getSelfRebate()"
           :profit-enable="profitEnable"
+          :return-profit="state.returnProfit"
         />
       </template>
     </d-tabs>
@@ -51,6 +53,7 @@ import ReturnProfitRecord from '@/components/_pages/profile/vip/ReturnProfitReco
 import EnvelopRecord from '@/components/_pages/profile/vip/EnvelopRecord';
 import SportApi from '@/assets/js/api/sportApi';
 import SystemApi from '@/assets/js/api/systemApi';
+import FinanceApi from '@/assets/js/api/financeApi';
 
 export default {
   components: {
@@ -73,6 +76,7 @@ export default {
       vipLevel: undefined,
       showRecord: false,
       checkRecordType: '',
+      returnProfit: 0,
     });
 
     const profitEnable = reactive({
@@ -104,6 +108,15 @@ export default {
       }
     };
 
+    const getSelfRebate = async () => {
+      if (profitEnable.rebateEnable) {
+        const res = await FinanceApi.getSelfRebate();
+        if (res.code === 200) {
+          state.returnProfit = res.data.total.toFixed(2) || 0.00;
+        }
+      }
+    };
+
     const handlerCheckRecord = (type) => {
       state.checkRecordType = type;
       state.showRecord = true;
@@ -121,6 +134,7 @@ export default {
     onBeforeMount(async () => {
       await getVipLevelInfo();
       await getGroupInfo(accountGroupId.value);
+      await getSelfRebate();
     });
 
     return {
@@ -128,6 +142,7 @@ export default {
       handlerCheckRecord,
       goBack,
       profitEnable,
+      getSelfRebate,
     };
   },
 };

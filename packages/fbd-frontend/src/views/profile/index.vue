@@ -115,7 +115,7 @@
         </div>
         <div class="envelop">
           <p>{{ $t('components_pages_components_vip_bet_evenlop') }}</p>
-          <p>{{ nowVipLevelRule.remedyRate }}%</p>
+          <p>{{ formatRemedyRate(nowVipLevelRule.remedyRate) }}%</p>
         </div>
       </div>
     </div>
@@ -176,6 +176,7 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import NP from 'number-precision';
 import DLocaleImage from '@/components/DLocaleImage';
 import DLanguageModal from '@/components/DLanguageModal';
 import Avatar from '@/components/Avatar';
@@ -347,6 +348,7 @@ export default {
 
       return result;
     };
+    const formatRemedyRate = (remedyRate) => NP.times(remedyRate || 0, 100);
 
     // hooks
     onBeforeMount(async () => {
@@ -379,6 +381,7 @@ export default {
       transToSub,
       checkServiceList,
       nowVipLevelRule,
+      formatRemedyRate,
     };
   },
 };
