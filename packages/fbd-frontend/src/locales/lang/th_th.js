@@ -19,6 +19,7 @@ const lang = {
   common_reLogin: 'กรุณาล็อกอินใหม่',
   common_logoutSucceeded: 'ออกระบบสำเร็จ',
   common_notVerify: 'ยังไม่ได้อนุญาต',
+  common_select_language: 'กรุณาเลือกภาษา',
   common_errorSpecialSymbol: 'ต้องไม่มีอักขระพิเศษหรือเครื่องหมายวรรคตอน',
   common_errorNoFullWidth: 'ไม่สามารถมีอักขระแบบเต็ม',
   common_errorFormat: 'รูปแบบผิด',
@@ -220,6 +221,8 @@ const lang = {
   components_pages_profile_share_prompt2: '您还可重新设定比例1次',
   components_pages_profile_share_text1: '自身+好友比例合计为',
   components_pages_profile_share_text2: '自身保留的比例越高，可获得的分享奖金额越多但也会造成 好友可设定的分享比例较低，不利扩散裂变，请谨慎设定您 的分享比例。',
+
+  components_match_saleAmount: 'ปริมาณการขาย',
 
   error1: '请输入账户',
   error2: '6~12 ตัวอักษรและตัวเลข',

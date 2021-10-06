@@ -19,6 +19,7 @@ const lang = {
   common_reLogin: '請重新登錄',
   common_logoutSucceeded: '登出成功',
   common_notVerify: '未經授權',
+  common_select_language: '請選擇語言',
   common_errorSpecialSymbol: '{titleName}不可包含特殊字元或標點符號',
   common_errorNoFullWidth: '{titleName}不可包含全形字元',
   common_errorFormat: '格式錯誤',
@@ -219,6 +220,8 @@ const lang = {
   components_pages_profile_share_prompt2: '您还可重新设定比例1次',
   components_pages_profile_share_text1: '自身+好友比例合计为',
   components_pages_profile_share_text2: '自身保留的比例越高，可获得的分享奖金额越多但也会造成 好友可设定的分享比例较低，不利扩散裂变，请谨慎设定您 的分享比例。',
+
+  components_match_saleAmount: '銷售量',
 
   error1: '請輸入賬戶',
   error2: '6~12位英數字',

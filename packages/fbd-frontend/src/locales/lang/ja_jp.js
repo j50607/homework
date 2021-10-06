@@ -19,6 +19,7 @@ const lang = {
   common_reLogin: '再度ログイン',
   common_logoutSucceeded: 'ログアウトしました',
   common_notVerify: '許可されていません',
+  common_select_language: '言語を選択してください',
   common_errorSpecialSymbol: '{titleName}は特殊文字または記号を含まない',
   common_errorNoFullWidth: '{titleName}は全角文字を含まない',
   common_errorFormat: '{titleName}は全角文字を含まない',
@@ -220,6 +221,8 @@ const lang = {
   components_pages_profile_share_prompt2: '您还可重新设定比例1次',
   components_pages_profile_share_text1: '自身+好友比例合计为',
   components_pages_profile_share_text2: '自身保留的比例越高，可获得的分享奖金额越多但也会造成 好友可设定的分享比例较低，不利扩散裂变，请谨慎设定您 的分享比例。',
+
+  components_match_saleAmount: '販売量',
 
   error1: '请输入账户',
   error2: '6－12桁の英語と数字',
