@@ -66,7 +66,7 @@
 
 <script>
 import {
-  computed, reactive, toRefs, watch,
+  computed, reactive, toRefs,
 } from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
@@ -111,7 +111,7 @@ export default {
 
     const format = `YYYY${props.format}MM${props.format}DD HH:mm:ss`;
 
-    const state = reactive({
+    const initialState = () => ({
       currentDate: dayjs().format(format),
       selectIndex: 0,
       quickList: [
@@ -133,15 +133,20 @@ export default {
       dateType: 'start',
     });
 
-    const show = computed({
-      get: () => props.visible,
-      set: (val) => emit('update:visible', val),
-    });
+    const state = reactive(initialState());
 
-    watch(() => show.value, () => {
-      setTimeout(() => {
-        state.selectIndex = 0;
-      }, 800);
+    const resetState = () => {
+      Object.assign(state, initialState());
+    };
+
+    const show = computed({
+      get: () => {
+        if (!props.visible) {
+          resetState();
+        }
+        return props.visible;
+      },
+      set: (val) => emit('update:visible', val),
     });
 
     const changeDate = (item, index) => {
