@@ -1,10 +1,13 @@
 <template>
-  <div class="share">
+  <div
+    class="share"
+    :class="[checkSiteStyle()]"
+  >
     <d-loading :loading="loadingBool" />
     <d-header-row
       bg-color="transparent"
-      text-color="#1F2022"
-      icon-color="black"
+      :text-color="checkHeaderTextColor()"
+      :icon-color="checkStyleColor()"
       :title="$t('components_pages_profile_share_title')"
       right-components="info"
       @openInfo="openInfo"
@@ -25,10 +28,10 @@
               {{ checkFriendsNP }}%
             </div>
             <div class="adjustment-prompt">
-              <div class="prompt-box font-blod">
+              <div class="relative font-blod">
                 <img
                   class="adjustment-amount-border"
-                  :src="$requireSafe('profile/share/friends-border.svg')"
+                  :src="$requireSafe(`profile/share/${checkSiteStyle()}/friends-border.svg`)"
                   alt=""
                 >
                 <div class="adjustment-prompt-amount">
@@ -37,7 +40,7 @@
               </div>
               <img
                 class="adjustment-friends-img"
-                :src="$requireSafe('profile/share/friends.svg')"
+                :src="$requireSafe(`profile/share/${checkSiteStyle()}/friends.svg`)"
                 alt="friends"
               >
               <div
@@ -96,19 +99,19 @@
               {{ `${checkMyselfNP}` }}%
             </div>
             <div class="adjustment-prompt font-blod">
-              <div class="prompt-box">
+              <div class="relative">
                 <img
                   class="adjustment-amount-border"
-                  :src="$requireSafe('profile/share/self-border.svg')"
+                  :src="$requireSafe(`profile/share/${checkSiteStyle()}/self-border.svg`)"
                   alt=""
                 >
                 <div class="adjustment-prompt-amount">
-                  {{ $t('components_pages_profile_share_getMoney', {checkMyselfNP,}) }}
+                  {{ $t('components_pages_profile_share_getMoney', {checkMyselfNP}) }}
                 </div>
               </div>
               <img
                 class="adjustment-myself-img"
-                :src="$requireSafe('profile/share/myself.svg')"
+                :src="$requireSafe(`profile/share/${checkSiteStyle()}/myself.svg`)"
                 alt="myself"
               >
               <div
@@ -121,7 +124,7 @@
                 class="adjustment-number-text"
                 v-text="$t('components_pages_profile_share_available')"
               />
-              <div>100&nbsp;*&nbsp;<span class="blue-text">{{ checkMyselfNP }}%</span></div>
+              <div>100&nbsp;*&nbsp;<span class="text-color">{{ checkMyselfNP }}%</span></div>
             </div>
           </div>
         </div>
@@ -145,7 +148,7 @@
                 @click="copyByText(state.info.agentCode)"
               >
                 <img
-                  :src="$requireSafe('profile/share/copy.svg')"
+                  :src="$requireSafe(`profile/share/${checkSiteStyle()}/copy.svg`)"
                   alt="copy"
                 >
               </div>
@@ -167,7 +170,7 @@
                 @click="copyByText(`${sharedUrl}?a=x&c=${state.info.agentCode}${agentDomain ? `&d=${agentDomain}` : ''}`)"
               >
                 <img
-                  :src="$requireSafe('profile/share/copy.svg')"
+                  :src="$requireSafe(`profile/share/${checkSiteStyle()}/copy.svg`)"
                   alt="copy"
                 >
               </div>
@@ -271,7 +274,7 @@
       class="popup"
     >
       <div class="share-popup">
-        <img :src="$requireSafe(`profile/share/bouns-rules-${storeLanguage}.png`)">
+        <img :src="$requireSafe(`profile/share/${checkSiteStyle()}/bouns-rules-${storeLanguage}.png`)">
       </div>
     </d-popup>
   </div>
@@ -279,16 +282,8 @@
 
 <script>
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons-vue';
-import {
-  ref, onMounted, computed, reactive, watch,
-} from 'vue';
-import NP from 'number-precision';
-import { useStore } from 'vuex';
-import { useI18n } from 'vue-i18n';
-import QRCode from 'qrcode';
 import { copyByText } from '@/assets/js/utils/utils';
-import systemApi from '@/assets/js/api/systemApi';
-import memberApi from '@/assets/js/api/memberApi';
+import useShare from '@/views/profile/share/mixins/useShare';
 
 export default {
   components: {
@@ -296,249 +291,13 @@ export default {
     PlusOutlined,
   },
   setup() {
-    const myselfPersecnt = ref(0);
-    const agentDomain = ref('');
-    const sharelink = ref('www.google.com');
-    const hierarchy = ref('');
-    const common = ref('');
-    const qrCode = ref(undefined);
-    const editMode = ref(false);
-    const showShareInfo = ref(false);
-    const loadingBool = ref(false);
-
-    const state = reactive({
-      info: {
-        show: true,
-        sliderShow: false,
-        status: undefined,
-        agentCode: undefined,
-      },
-
-      amountCommission: {
-        lotteryAmount: 0,
-        platformAmount: 0,
-        totalAmount: 0,
-      },
-
-      lottery: {
-        myPercent: 0,
-        friendPercent: 0,
-      },
-
-      origin: {
-        lotteryPercent: 0,
-        gamePercent: 0,
-      },
-    });
-
-    const store = useStore();
-    const { t } = useI18n();
-
-    // computed
-    const checkMyselfNP = computed(() => NP.round(Number(state.lottery.myPercent), 1));
-    const checkFriendsNP = computed(() => NP.round(Number(state.lottery.friendPercent), 1));
-    const sharedUrl = computed(() => store.state.info.sharedUrl);
-    const showEditBtn = computed(() => state.info.status === 'SET');
-    const canEdit = computed(() => (!editMode.value && state.info.status === 'UNSET') || (editMode.value && state.info.status === 'SET'));
-    const checkEditBtn = computed(() => editMode.value && state.info.status === 'SET');
-    const account = computed(() => store.state.user.account);
-    const storeLanguage = computed(() => store.state.info.language);
-
-    // watch
-    watch(() => myselfPersecnt.value, (value) => {
-      if (String(value).includes('.') && value.length < 3) return;
-
-      if (Number(value) > state.origin.lotteryPercent) {
-        myselfPersecnt.value = state.origin.lotteryPercent;
-        state.lottery.myPercent = state.origin.lotteryPercent;
-        state.lottery.friendPercent = (state.origin.lotteryPercent - Number(value));
-      } else {
-        myselfPersecnt.value = Number(value);
-        state.lottery.myPercent = Number(value);
-        state.lottery.friendPercent = (state.origin.lotteryPercent - Number(value));
-      }
-    });
-
-    // methods
-    const handleReSetting = () => {
-      editMode.value = true;
-    };
-
-    const openInfo = () => {
-      showShareInfo.value = true;
-    };
-
-    /**
-     * url显示限制
-     */
-    const limitUrl = (url) => {
-      // const vm = this;
-      if (url !== undefined && url.length > 45) {
-        const urlLimit = url.substr(0, 45);
-        return `${urlLimit}...`;
-      }
-      return url;
-    };
-
-    const reducePersenct = () => {
-      if (state.lottery.myPercent > 0.1) {
-        Math.floor(state.lottery.myPercent -= 0.1);
-        Math.floor(state.lottery.friendPercent += 0.1);
-        myselfPersecnt.value = checkMyselfNP.value;
-      }
-    };
-
-    const increasePersecnt = () => {
-      if (state.lottery.myPercent < state.origin.lotteryPercent) {
-        state.lottery.myPercent = NP.plus(state.lottery.myPercent, 0.1);
-        Math.floor(state.lottery.friendPercent -= 0.1);
-        myselfPersecnt.value = checkMyselfNP.value;
-      }
-    };
-
-    const getSystemConfig = async () => {
-      const { code, data } = await systemApi.getSystemConfig();
-      if (code === 200 && data) {
-        const {
-          hierarchyCommissionRatio,
-          platformCommissionMode,
-        } = data.commissionSetting;
-
-        hierarchy.value = hierarchyCommissionRatio;
-        common.value = platformCommissionMode;
-
-        store.commit('SET_SYSTEM_CONFIG', data);
-      }
-    };
-
-    /**
-     * 取得返点金额
-     */
-    const getAgentCommission = async () => {
-      const { code, data } = await memberApi.getAgentCommission(true);
-      if (code === 200) {
-        const amountData = data || {};
-
-        const { lottery, platform } = amountData;
-
-        if (lottery.length > 0) {
-          state.amountCommission.lotteryAmount = lottery.reduce((acc, item) => NP.plus(acc, NP.times(NP.divide(NP.minus(item.agentRate, item.childAgentRate), 2000), item.amount)), 0);
-        } else {
-          state.amountCommission.lotteryAmount = 0;
-        }
-        if (platform.length > 0) {
-          state.amountCommission.platformAmount = platform.reduce((acc, item) => NP.plus(acc, NP.times(NP.minus(item.agentRate, item.childAgentRate), item.amount)), 0);
-        } else {
-          state.amountCommission.platformAmount = 0;
-        }
-
-        state.amountCommission.totalAmount = NP.plus(state.amountCommission.lotteryAmount, state.amountCommission.platformAmount);
-      }
-    };
-
-    /**
-     * 取得返点设定状态
-     */
-    const getAgentSetting = async () => {
-      const { code, data } = await memberApi.getAgentSetting();
-      if (code === 200) {
-        const agentData = data;
-
-        state.info.status = agentData.status;
-        state.info.agentCode = agentData.agentCode;
-
-        const options = {
-          margin: 1,
-          errorCorrectionLevel: 'L',
-        };
-
-        const imgUrl = await QRCode.toDataURL(`${sharedUrl.value}?a=x&c=${state.info.agentCode}`, options);
-        qrCode.value = imgUrl;
-
-        state.origin.lotteryPercent = NP.times(agentData.info.lotteryAgentCommissionRate, 100);
-
-        state.lottery.myPercent = state.origin.lotteryPercent;
-
-        state.lottery.friendPercent = NP.times(agentData.info.lotteryChildAgentCommissionRate || 0, 100);
-
-        if (state.info.status === 'SET' || state.info.status === 'SET_REACH_LIMIT') {
-          state.lottery.myPercent = NP.minus(state.origin.lotteryPercent, state.lottery.friendPercent);
-        }
-      }
-    };
-
-    /**
-     * 设定返点代理比例
-     */
-    const setAgentSetting = async () => {
-      const { code, message } = await memberApi.setAgentSetting({
-        lotteryChildAgentCommissionrate: NP.divide(checkFriendsNP.value, 100),
-        platformGameChildAgentCommissionrate: 0,
-      });
-      if (code === 200) {
-        getAgentSetting();
-        window.$vue.$message.success(t('error47'));
-      } else {
-        window.$vue.$message.error(message);
-      }
-    };
-
-    const handleAgent = async () => {
-      await setAgentSetting();
-    };
-
-    /**
-     * 领取金额
-     */
-    const receiveAmount = async () => {
-      if (state.info.sliderShow) {
-        window.$vue.$message.error(t('error48'));
-        return;
-      }
-
-      if (state.amountCommission.totalAmount > 0) {
-        const res = await memberApi.getAgentDraw();
-        if (res.code === 200) {
-          window.$vue.$message.success(t('error49'));
-          await getAgentCommission();
-        } else {
-          window.$vue.$message.error(t('error50'));
-        }
-      } else {
-        window.$vue.$message.error(t('error51'));
-      }
-    };
-
-    /**
-     * 取得自身代理域名
-     */
-    const getAccountSiteAgentDomain = async () => {
-      const { code, data } = await systemApi.getAccountSiteAgentDomain(account.value);
-      if (code === 200 && data) {
-        agentDomain.value = data.dnsName;
-      }
-    };
-
-    onMounted(async () => {
-      loadingBool.value = true;
-      await getAccountSiteAgentDomain();
-      await getSystemConfig();
-      await getAgentCommission();
-      await getAgentSetting();
-      loadingBool.value = false;
-
-      myselfPersecnt.value = checkMyselfNP.value;
-    });
-
-    return {
+    const {
       handleAgent,
       handleReSetting,
-      copyByText,
       reducePersenct,
       increasePersecnt,
       myselfPersecnt,
       checkMyselfNP,
-      // friendsPersecnt,
       checkFriendsNP,
       sharelink,
       openInfo,
@@ -557,6 +316,40 @@ export default {
       agentDomain,
       storeLanguage,
       loadingBool,
+      checkSiteStyle,
+      checkHeaderTextColor,
+      checkStyleColor,
+    } = useShare();
+
+    return {
+      copyByText,
+      handleAgent,
+      handleReSetting,
+      reducePersenct,
+      increasePersecnt,
+      myselfPersecnt,
+      checkMyselfNP,
+      checkFriendsNP,
+      sharelink,
+      openInfo,
+      hierarchy,
+      common,
+      state,
+      receiveAmount,
+      qrCode,
+      showEditBtn,
+      canEdit,
+      editMode,
+      checkEditBtn,
+      limitUrl,
+      showShareInfo,
+      sharedUrl,
+      agentDomain,
+      storeLanguage,
+      loadingBool,
+      checkSiteStyle,
+      checkHeaderTextColor,
+      checkStyleColor,
     };
   },
 };
@@ -567,10 +360,44 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #fff;
-  background-image: url('~@/assets/img/profile/share/bg-white-version.png');
-  background-repeat: no-repeat;
-  background-size: 100%;
+  background: var(--check-share-bg);
+
+  &.style1 {
+    background-image: url('~@/assets/img/profile/share/style1/bg.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+
+    .adjustment-area {
+      box-shadow: 0 1px 3px #b99a524d;
+    }
+
+    .adjustment-enter {
+      ::v-deep(.ant-input) {
+        width: 3.5rem;
+        border: none !important;
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  &.style2 {
+    background-image: url('~@/assets/img/profile/share/style2/bg.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+
+    .adjustment-enter {
+      .self-input {
+        color: #1f2022;
+      }
+
+      ::v-deep(.ant-input) {
+        color: #1f2022 !important;
+        width: 3.5rem;
+        border: none !important;
+        background-color: #fff !important;
+      }
+    }
+  }
 }
 
 ::v-deep(.header-row) {
@@ -583,7 +410,7 @@ export default {
   padding-top: 148px;
   padding-bottom: 120px;
   overflow-y: auto;
-  color: #333;
+  color: var(--check-share-text-color1);
 }
 
 .adjustment-enter {
@@ -610,12 +437,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #f2f2f2;
+    border: 1px solid var(--check-share-text-color5);
     border-radius: 16px;
     box-shadow: inset 1px 1px 2px #4d577240;
     width: 138px;
     height: 32px;
     font-size: 16px;
+    background: var(--check-share-input-bg);
 
     .input {
       position: relative;
@@ -625,16 +453,10 @@ export default {
 
       .symbol {
         position: absolute;
-        right: 13px;
+        right: 10px;
       }
     }
 
-  }
-
-  ::v-deep(.ant-input) {
-    width: 3.5rem;
-    border: none !important;
-    background-color: transparent !important;
   }
 }
 
@@ -643,8 +465,11 @@ export default {
   align-items: flex-start;
   justify-content: center;
   border-radius: 5px;
-  background: #fff;
-  box-shadow: 0 1px 3px #b99a524d;
+  background: var(--check-share-primary);
+
+  .text-color {
+    color: var(--check-share-text-color3);
+  }
 
   .adjustment-item {
     display: flex;
@@ -659,8 +484,8 @@ export default {
       align-items: center;
       justify-content: center;
       margin-bottom: 5px;
-      color: #333;
       font-size: 14px;
+      color: var(--check-share-text-color1);
     }
 
     .adjustment-persecnt {
@@ -720,7 +545,7 @@ export default {
       margin-top: 7px;
       border-radius: 5px;
       font-size: 12px;
-      background: #f2f2f2;
+      background: var(--check-share-text-color5);
 
       &.mt-4 {
         margin-top: 22px;
@@ -747,6 +572,10 @@ export default {
     margin-top: 10px;
     font-size: 12px;
 
+    .agent-code-title {
+      color: var(--check-share-text-color6);
+    }
+
     .agent-code-content {
       display: flex;
       align-items: center;
@@ -755,7 +584,8 @@ export default {
       margin: 5px 0;
       padding: 8px 10px;
       border-radius: 3px;
-      background: #fbfbfb;
+      color: var(--check-share-text-color1);
+      background: var(--check-share-text-color7);
     }
   }
 }
@@ -771,6 +601,7 @@ export default {
   .qr-code-title {
     width: 100%;
     font-size: 12px;
+    color: var(--check-share-text-color6);
   }
 
   .qr-code-img {
@@ -781,7 +612,7 @@ export default {
     margin: 5px 0;
     padding: 8px 10px;
     border-radius: 3px;
-    background: #fbfbfb;
+    background: var(--check-share-text-color7);
   }
 }
 
@@ -803,12 +634,14 @@ export default {
     font-size: 12px;
     background: linear-gradient(180deg, #ffcd5b 0%, #f3ac0a 100%);
     box-shadow: 0 3px 6px #00000029;
+    color: var(--check-share-text-color8);
   }
 
   .btn-prompt {
     margin-top: 10px;
     color: #fc4718;
     font-size: 12px;
+    font-weight: 400;
   }
 }
 
@@ -824,7 +657,7 @@ export default {
     padding: 10px 15px;
     border-radius: 5px;
     font-size: 12px;
-    background: #fbfbfb;
+    background: var(--check-share-text-color7);
 
     .content-text {
       display: flex;
@@ -832,7 +665,7 @@ export default {
 
       .persecnt {
         margin-left: 5px;
-        color: #fc4718;
+        color: var(--check-share-text-color4);
       }
     }
   }
@@ -846,7 +679,7 @@ export default {
   justify-content: center;
   width: 100%;
   height: 68px;
-  background: #fbfbfb;
+  background: var(--check-share-text-color7);
 
   .amount-box {
     display: flex;
@@ -865,7 +698,7 @@ export default {
       background: linear-gradient(180deg, #ffcd5b 0%, #f3ac0a 100%);
 
       &.no-amount {
-        color: #fff;
+        color: var(--check-share-text-color8);
         background: linear-gradient(180deg, #e5e5e5 0%, #bdbdbd 100%);
       }
     }
@@ -874,8 +707,8 @@ export default {
       font-size: 12px;
 
       .amount-value {
-        color: #0e88f5;
         font-size: 18px;
+        color: var(--check-share-text-color3);
 
         &.no-amount {
           color: #E5E5E5;
@@ -885,27 +718,15 @@ export default {
   }
 }
 
-.font-blod {
-  font-weight: bold;
-}
+::v-deep(.popup) {
+  background-color: var(--check-share-bg);
 
-.prompt-box {
-  position: relative;
+  .d-popup-content {
+    background-color: var(--check-share-bg);
+  }
 }
 
 .share-popup {
   max-height: 39rem;
-}
-
-.blue-text {
-  color: #0e88f5;
-}
-
-.text-sm {
-  font-size: 12px;
-}
-
-.overflow-hidden {
-  overflow: hidden;
 }
 </style>

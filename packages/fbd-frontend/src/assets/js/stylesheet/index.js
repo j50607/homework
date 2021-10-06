@@ -142,6 +142,62 @@ class stylesheet {
         1: '#f2f2f2',
         2: '#374E7B',
       },
+
+      // 好友分享页面专用
+      checkShareBg: {
+        1: '#fff',
+        2: '#000',
+      },
+
+      checkSharePrimary: {
+        1: '#fff',
+        2: '#161616',
+      },
+
+      checkShareTextColor1: {
+        1: '#333',
+        2: '#fff',
+      },
+
+      checkShareTextColor2: {
+        1: '#999',
+        2: '#999',
+      },
+
+      checkShareTextColor3: {
+        1: '#0e88f5',
+        2: '#f3ac0a',
+      },
+
+      checkShareTextColor4: {
+        1: '#fc4718',
+        2: '#f3ac0a',
+      },
+
+      checkShareTextColor5: {
+        1: '#f2f2f2',
+        2: '#000',
+      },
+
+      checkShareTextColor6: {
+        1: '#333',
+        2: '#999',
+      },
+
+      checkShareTextColor7: {
+        1: '#fbfbfb',
+        2: '#161616',
+      },
+
+      checkShareTextColor8: {
+        1: '#fff',
+        2: '#333',
+      },
+
+      checkShareInputBg: {
+        1: '#fff',
+        2: '#fff',
+      },
     };
 
     return result;

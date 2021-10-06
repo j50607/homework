@@ -9,7 +9,6 @@ import { useStore } from 'vuex';
 export default {
   components: {
     ShareStyle1: defineAsyncComponent(() => import('@/components/_pages/profile/Share/ShareStyle1')),
-    ShareStyle2: defineAsyncComponent(() => import('@/components/_pages/profile/Share/ShareStyle2')),
   },
   setup() {
     const store = useStore();
@@ -17,6 +16,9 @@ export default {
 
     const shareStyle = computed(() => {
       switch (siteStyle.value) {
+        case 1:
+        case 2:
+          return 'ShareStyle1';
         default:
           return `ShareStyle${siteStyle.value}`;
       }
