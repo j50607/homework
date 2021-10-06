@@ -32,6 +32,7 @@
     >
       <template v-if="state.activityList.length > 0">
         <div
+          :class="{'past-acticity' : state.tabIndex === state.tabList.length - 1 }"
           class="activity-list rounded-5 px-1 py-2 mb-3 relative cursor-pointer"
           v-for="(item, index) in state.activityList"
           :key="index"
@@ -263,5 +264,10 @@ export default {
     img {
       width: 80px;
     }
+  }
+
+  .past-acticity {
+    cursor: default;
+    filter: grayscale(70%);
   }
 </style>
