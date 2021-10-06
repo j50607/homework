@@ -255,7 +255,7 @@ const lang = {
   views_profile_transfer_transfer_disable: 'The function is not turned on',
   views_profile_promotion_allActivity: '全部活动',
   views_profile_promotion_passedActivity: '过往活动',
-  views_profile_promotion_noData: '暂无活动',
+  views_profile_promotion_noData: 'No event',
   views_profile_vip_title: '我的VIP',
   views_profile_vip_current_level: '当前等级',
   views_profile_vip_betLimit: '单场/单日下单上限',
