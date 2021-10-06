@@ -21,7 +21,7 @@
             :src="require('@/assets/img/icon/icon-calendar-white.svg')"
             alt=""
           >
-          {{ dayjs(startDate).format('DD-MM-YYYY') }}
+          {{ dayjs(startDate).format('YYYY-MM-DD') }}
         </div>
         <span class="dash">一</span>
         <div
@@ -33,7 +33,7 @@
             :src="require('@/assets/img/icon/icon-calendar-white.svg')"
             alt=""
           >
-          {{ dayjs(endDate).format('DD-MM-YYYY') }}
+          {{ dayjs(endDate).format('YYYY-MM-DD') }}
         </div>
       </div>
       <transition name="fade">
@@ -279,14 +279,6 @@ export default {
     .on {
       color: #fff;
     }
-  }
-
-  ::v-deep(.picker-item):first-child {
-    order: 3;
-  }
-
-  ::v-deep(.picker-item):nth-child(2) {
-    order: 1;
   }
 }
 
