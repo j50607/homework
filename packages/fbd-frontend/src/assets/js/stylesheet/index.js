@@ -198,8 +198,12 @@ class stylesheet {
         1: '#fff',
         2: '#fff',
       },
+      // 優惠活動底色
+      activityListColor: {
+        1: 'transparent linear-gradient(180deg, #ecf2f8 0%, #fff 100%)',
+        2: '#374E7B',
+      },
     };
-
     return result;
   }
 }

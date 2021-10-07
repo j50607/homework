@@ -43,19 +43,26 @@
             alt=""
             class="activity-img object-cover"
           >
-          <div class="check-detail flex text-xs items-center justify-start absolute bottom-0 right-0 text-right py-1">
+          <div
+            class="check-detail flex text-xs items-center justify-start absolute bottom-0 right-0 text-right py-1"
+            :class="`style${siteStyle}`"
+          >
             <div class="text mr-1 text-normal">
               {{ $t('common_checkDetail') }}
             </div>
 
             <img
-              :src="$requireSafe('icon/icon-market-right.svg')"
+              :src="$requireSafe(`icon/style${siteStyle}/icon-right.svg`)"
               alt=""
               class="check-img"
+              :class="`style${siteStyle}`"
             >
           </div>
 
-          <div class="label absolute -left-1 text-xs text-white flex justify-center">
+          <div
+            class="label absolute -left-1 text-xs text-white flex justify-center"
+            :class="`style${siteStyle}`"
+          >
             <span>
               {{ typeName(item) }}
             </span>
@@ -99,6 +106,7 @@
 import { reactive, onBeforeMount, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 import dayjs from 'dayjs';
 import SystemApi from '@/assets/js/api/systemApi.js';
 
@@ -107,6 +115,7 @@ export default {
     // use
     const router = useRouter();
     const route = useRoute();
+    const store = useStore();
     const { t } = useI18n();
     // reactive
     const state = reactive({
@@ -125,6 +134,7 @@ export default {
 
     // computed
     const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
+    const siteStyle = computed(() => store.getters.siteStyle);
 
     // methods
     const getActivityTypeList = async () => {
@@ -215,13 +225,14 @@ export default {
       goBack,
       typeName,
       handlerActivityUrl,
+      siteStyle,
     };
   },
 };
 </script>
 <style lang="postcss" scoped>
   .activity-list {
-    background: transparent linear-gradient(180deg, #ecf2f8 0%, #fff 100%);
+    background: var(--activity-list-color) 0% 0% no-repeat padding-box;
     box-shadow: 0 2px 4px #4d57721a;
 
     .activity-img {
@@ -238,6 +249,10 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+
+    &.style2 {
+      background-image: url('~@/assets/img/profile/promotion/label-bg-deepblue.svg');
+    }
   }
 
   .label {
@@ -249,6 +264,11 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+
+    &.style2 {
+      color: var(--primary-btn-color);
+      background-image: url('~@/assets/img/profile/promotion/label-bg-Khaki.svg');
+    }
   }
 
   .text {
