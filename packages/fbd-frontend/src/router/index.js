@@ -128,7 +128,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "Betting" */ '@/views/betting'),
     meta: {
       title: 'Betting',
-      // requiresAuth: true,
     },
   },
   {
@@ -188,6 +187,33 @@ const routes = [
       title: 'OrderDetail',
       layout: Layout,
       requiresAuth: true,
+    },
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('@/views/test' /* webpackChunkName: "Test" */),
+    meta: {
+      title: 'Test',
+      // requiresAuth: true,
+    },
+  },
+  {
+    path: '/test2',
+    name: 'test2',
+    component: () => import('@/views/test2' /* webpackChunkName: "Test2" */),
+    meta: {
+      title: 'Test2',
+      // requiresAuth: true,
+    },
+  },
+  {
+    path: '/test3',
+    name: 'test3',
+    component: () => import('@/views/test3' /* webpackChunkName: "Test3" */),
+    meta: {
+      title: 'Test3',
+      // requiresAuth: true,
     },
   },
   {

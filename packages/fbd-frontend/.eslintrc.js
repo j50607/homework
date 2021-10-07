@@ -1,15 +1,19 @@
 module.exports = {
   root: true,
+
   env: {
     node: true,
   },
+
   extends: [
     'plugin:vue/vue3-strongly-recommended',
     '@vue/airbnb',
   ],
+
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@typescript-eslint/parser',
   },
+
   rules: {
     'no-console': 'off',
     'no-debugger': 'off',
@@ -29,4 +33,10 @@ module.exports = {
       allowTaggedTemplates: true,
     }],
   },
+
+  'extends': [
+    'plugin:vue/vue3-strongly-recommended',
+    '@vue/airbnb',
+    '@vue/typescript'
+  ]
 };

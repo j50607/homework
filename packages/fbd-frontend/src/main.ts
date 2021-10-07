@@ -24,4 +24,5 @@ const app = pipe(
   directive,
 )(createApp(App));
 
+// @ts-ignore
 window.$vue = app.use(store).use(router).mount('#app');
