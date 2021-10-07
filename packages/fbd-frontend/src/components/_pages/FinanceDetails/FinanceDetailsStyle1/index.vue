@@ -281,7 +281,8 @@ export default {
         start = dayjs().add(-1, 'days').format('YYYY/MM/DD HH:mm:ss');
         end = dayjs().add(-1, 'days').endOf('days').format('YYYY/MM/DD HH:mm:ss');
       } else if (state.currentRange === 'sevenDays') {
-        start = dayjs().add(-7, 'days').format('YYYY/MM/DD HH:mm:ss');
+        start = dayjs().add(-6, 'days').format('YYYY/MM/DD HH:mm:ss');
+        console.log(start);
         end = dayjs().format('YYYY/MM/DD HH:mm:ss');
       } else if (state.currentRange === 'custom') {
         start = dayjs().format('YYYY/MM/DD HH:mm:ss');

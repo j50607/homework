@@ -263,9 +263,11 @@ export default {
         end = dayjs().format('YYYY/MM/DD HH:mm:ss');
       } else if (state.currentRange === 'yesterday') {
         start = dayjs().add(-1, 'days').format('YYYY/MM/DD HH:mm:ss');
-        end = dayjs().add(-1, 'days').endOf('days').format('YYYY/MM/DD HH:mm:ss');
+        end = dayjs().add(-1, 'days').endOf('day').format('YYYY/MM/DD HH:mm:ss');
+        console.log(start);
+        console.log(end);
       } else if (state.currentRange === 'sevenDays') {
-        start = dayjs().add(-7, 'days').format('YYYY/MM/DD HH:mm:ss');
+        start = dayjs().add(-6, 'days').format('YYYY/MM/DD HH:mm:ss');
         end = dayjs().format('YYYY/MM/DD HH:mm:ss');
       } else if (state.currentRange === 'custom') {
         start = dayjs().format('YYYY/MM/DD HH:mm:ss');
@@ -277,7 +279,9 @@ export default {
 
     const queryLog = async (startDate, endDate) => {
       const start = startDate || timeJudgment()[0];
+      console.log(start);
       const end = endDate || timeJudgment()[1];
+      console.log(end);
 
       const info = {
         type: state.typeResult,

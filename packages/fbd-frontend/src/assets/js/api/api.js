@@ -122,10 +122,8 @@ class Api {
           }
         }
         if (key === 'end' || key === 'endTime' || key === 'endDate') {
-          params[key] = dayjs(value).tz('Asia/Shanghai').endOf('day').format('YYYY/MM/DD HH:mm:ss');
-        }
-        if (value && value.toString().includes('23:59:59')) {
-          params[key] = dayjs(value).add(1, 'second').format('YYYY/MM/DD HH:mm:ss');
+          params[key] = dayjs(value).tz('Asia/Shanghai').endOf('day').add(1, 'second')
+            .format('YYYY/MM/DD HH:mm:ss');
         }
       });
     }
