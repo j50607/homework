@@ -49,7 +49,7 @@
         </template>
       </d-tabs>
       <!-- 選擇聯盟按鈕 -->
-      <div class="filter flex justify-center items-center">
+      <div class="filter-btn flex justify-center items-center">
         <img
           class="is-btn"
           :src="$requireSafe('icon/style2/filter.svg')"
@@ -62,7 +62,7 @@
 
     <!-- 選擇聯盟 -->
     <div
-      class="all-league-list overflow-auto h-full flex-nowrap py-6"
+      class="all-league-list overflow-auto h-full flex-nowrap"
       v-else
     >
       <!-- 全選跟反選 -->
@@ -353,17 +353,12 @@ export default {
 }
 
 .tab-row {
-  ::v-deep(.d-tabs-mobile .d-tabs-mobile-area .d-tabs-mobile-box) {
-    justify-content: space-between !important;
-  }
+  width: 100%;
+  max-width: 100%;
+}
 
-  .game-tab {
-    flex: 0 0 85%;
-  }
-
-  .filter {
-    flex: 0 0 15%;
-  }
+.filter-btn {
+  width: 20px;
 }
 
 .league-list {
@@ -412,6 +407,9 @@ export default {
 }
 
 .game-tab {
+  /* 100% - tab 左右 padding - 联盟按钮宽度 */
+  max-width: calc(100% - 30px - 20px);
+
   ::v-deep(.d-tabs-mobile-box) {
     justify-content: space-start !important;
 
@@ -444,6 +442,9 @@ export default {
 .all-league-list {
   display: -webkit-box;
   display: -ms-flexbox;
+
+  /* .select-aciton 高度 + .select-option 距离 header 高度(上下间距) */
+  padding: calc(36px + (20px * 2)) 0;
 }
 
 .league-img {
