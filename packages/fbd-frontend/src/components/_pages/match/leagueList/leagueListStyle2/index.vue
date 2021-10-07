@@ -27,13 +27,18 @@
           <div class="date">
             {{ formatTime(item.matchTime) }}({{ timeZoneUnitTxt }})
           </div>
-          <a-statistic-countdown
-            v-if="timeFilter !== 'history' && item.showCountDown !== false"
-            title=""
-            :value="deadLine(item, index)"
-            value-style="color: #4d5772; font-size: 12px; margin-left:10px;"
-            @finish="onFinish(item, index)"
-          />
+          <div class="countdown">
+            <a-statistic-countdown
+              v-if="timeFilter !== 'history' && item.showCountDown !== false"
+              title=""
+              :value="deadLine(item, index)"
+              value-style="color: #4d5772; font-size: 12px; margin-left:10px;"
+              @finish="onFinish(item, index)"
+            />
+            <div class="w-2 h-2 ml-1">
+              <img :src="$requireSafe(`icon/style2/arrow.svg`)">
+            </div>
+          </div>
         </div>
         <div class="team">
           <!-- 主隊 -->
@@ -389,10 +394,16 @@ export default {
   }
 
   &-row {
-    @apply flex justify-between items-center my-1 px-2;
+    @apply flex items-center my-1 px-2;
 
     ::v-deep(.ant-statistic-content-value) {
       color: #ff5a5a;
+    }
+
+    .countdown {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
     }
   }
 
