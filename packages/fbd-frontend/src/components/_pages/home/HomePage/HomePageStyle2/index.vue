@@ -72,7 +72,7 @@
 
 <script>
 import {
-  onMounted, reactive, toRefs, computed,
+  onBeforeMount, onMounted, reactive, toRefs, computed,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -84,6 +84,7 @@ import MatchNews from '@/components/_pages/home/MatchNews';
 import Marquee from '@/components/_pages/home/Marquee';
 import SystemApi from '@/assets/js/api/systemApi';
 import InboundModal from '@/components/_pages/home/InboundModal';
+import MemberApi from '@/assets/js/api/memberApi';
 import SportApi from '@/assets/js/api/sportApi';
 
 export default {
@@ -151,6 +152,35 @@ export default {
         },
       });
     };
+
+    const getUserPartialInfo = async () => {
+      const params = {
+        requestInfo: [
+          'account',
+          'avatar',
+          'vipLevel',
+          'balance',
+          'usersLockBalance',
+          'transToSub',
+        ],
+      };
+      const { code, data } = await MemberApi.getUserPartialInfo(params);
+
+      if (code === 200) {
+        store.commit('SET_USER_INFO', {
+          account: data.account,
+          avatar: data.avatar,
+          vipLevel: data.vipLevel,
+          balance: data.balance,
+          usersLockBalance: data.usersLockBalance,
+          transToSub: data.transToSub,
+        });
+      }
+    };
+
+    onBeforeMount(async () => {
+      getUserPartialInfo();
+    });
 
     onMounted(async () => {
       getHomePageData();

@@ -28,6 +28,7 @@ class SiteEnum {
 }
 
 SiteEnum.FBD = new SiteEnum([14, 801], 'mtz', 'mtz', 'en_us');
+SiteEnum.ROWZ = new SiteEnum([802], 'rowz', 'RowZ', 'en_us');
 SiteEnum.DEFAULT = new SiteEnum([0], 'default', 'default', 'default');
 
 export default SiteEnum;

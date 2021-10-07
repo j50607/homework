@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62596" data-name="Rectangle 62596" width="24" height="24" transform="translate(0)" fill="#fff"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_157" data-name="Rectangle 157" width="24" height="24" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="我的_会员互转_搜寻" transform="translate(0)" clip-path="url(#clip-path)">
+    <g id="Mask_Group_32" data-name="Mask Group 32" transform="translate(0)" clip-path="url(#clip-path-2)">
+      <g id="Icon_feather-search" data-name="Icon feather-search" transform="translate(0.516 1.157)">
+        <path id="Path_14" data-name="Path 14" d="M584.974,656.558a9.758,9.758,0,1,1,9.758-9.758A9.758,9.758,0,0,1,584.974,656.558Zm0-17.347a7.589,7.589,0,1,0,7.589,7.589A7.589,7.589,0,0,0,584.974,639.211Z" transform="translate(-575.216 -637.042)" fill="#fff"/>
+        <path id="Path_15" data-name="Path 15" d="M601.492,664.4a1.082,1.082,0,0,1-.766-.317l-4.716-4.716a1.084,1.084,0,0,1,1.533-1.533l4.716,4.715a1.084,1.084,0,0,1-.767,1.851Z" transform="translate(-580.892 -642.718)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

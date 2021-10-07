@@ -79,6 +79,7 @@ const langImgMap = {
 const siteMap = {
   14: 'mtz',
   801: 'mtz',
+  802: 'rowz',
 };
 
 const localeMap = {

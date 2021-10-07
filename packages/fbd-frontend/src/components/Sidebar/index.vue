@@ -94,7 +94,7 @@ export default {
         { name: t('views_profile_personalityProfile'), img: 'side-user', url: '/profile/userinfo' },
         { name: t('views_profile_myReport'), img: 'side-report', url: '/profile/report' },
         { name: t('views_profile_myVip'), img: 'side-vip', url: '/profile/vip' },
-        { name: t('views_profile_memberTransfer'), img: 'side-transfer', url: '' },
+        { name: t('views_profile_memberTransfer'), img: 'side-transfer', url: '/profile/transfer' },
         { name: t('views_profile_verify'), img: 'side-verify', url: '' },
         { name: t('views_profile_share'), img: 'side-share', url: '/profile/share' },
         { name: t('views_profile_promotion'), img: 'side-promotion', url: '/profile/promotion' },
