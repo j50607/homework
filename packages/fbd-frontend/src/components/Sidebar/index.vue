@@ -42,6 +42,40 @@
             @click="toggle"
           >
         </div>
+
+        <!-- vip -->
+        <div class="vip-content">
+          <div class="vip-img mb-2">
+            <img
+              :src="$requireSafe(`profile/vip/v${nowVipLevelRule.level}.svg`)"
+              alt=""
+            >
+          </div>
+          <div class="vip-info text-xs mb-2">
+            <p class="mb-1">
+              {{ $t('views_profile_vip_betLimit') }}
+            </p>
+            <p class="text-active">
+              {{ nowVipLevelRule.singleGameBetLimit }} / {{ nowVipLevelRule.singleDayBetLimit }}
+            </p>
+          </div>
+          <div class="vip-info text-xs mb-2">
+            <p class="mb-1">
+              {{ $t('components_pages_components_vip_bet_return_profit') }}
+            </p>
+            <p class="text-active">
+              {{ nowVipLevelRule.rebateRate }}%
+            </p>
+          </div>
+          <div class="vip-info text-xs">
+            <p class="mb-1">
+              {{ $t('components_pages_components_vip_bet_evenlop') }}
+            </p>
+            <p class="text-active">
+              {{ formatRemedyRate(nowVipLevelRule.remedyRate) }}%
+            </p>
+          </div>
+        </div>
         <div class="menu-list">
           <div
             v-for="(item, index) in menu"
@@ -69,7 +103,9 @@ import {
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import NP from 'number-precision';
 import MemberApi from '@/assets/js/api/memberApi';
+import SportApi from '@/assets/js/api/sportApi';
 
 export default {
   props: {
@@ -101,6 +137,7 @@ export default {
       ],
     });
 
+    // computed
     const userInfo = computed(() => store.state.user);
     const serviceUrl = computed(() => store.state.info.serviceUrl);
 
@@ -115,6 +152,21 @@ export default {
       },
       set: (val) => emit('update:value', val),
     });
+    const vipLevel = computed(() => store.state.user.vipLevel);
+    const nowVipLevelRule = computed(() => store.state.user.nowVipLevelRule);
+
+    // methods
+    const getVipLevelInfo = async () => {
+      const { code, data } = await SportApi.getVipLevelInfo();
+      if (code === 200) {
+        store.commit('SET_VIP_USER_INFO', {
+          levelStatus: data.levelStatus,
+          nextVipLevelRule: data.nextVipLevelRule,
+          nowVipLevelRule: data.nowVipLevelRule,
+          remedyAmount: data.remedyAmount,
+        });
+      }
+    };
 
     const goPage = (url) => {
       if (url === 'service') {
@@ -128,6 +180,8 @@ export default {
       }
       router.push(url);
     };
+
+    const formatRemedyRate = (remedyRate) => NP.times(remedyRate || 0, 100);
 
     const toggle = () => {
       state.showBalance = !state.showBalance;
@@ -143,10 +197,11 @@ export default {
       }
     };
 
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
       if (serviceUrl.value && !state.menu.some((item) => item.url === 'service')) {
         state.menu.push({ name: t('views_profile_service'), img: 'side-service', url: 'service' });
       }
+      await getVipLevelInfo();
     });
 
     onUnmounted(() => {
@@ -159,6 +214,9 @@ export default {
       toggle,
       goPage,
       logout,
+      vipLevel,
+      nowVipLevelRule,
+      formatRemedyRate,
     };
   },
 };
@@ -207,8 +265,13 @@ export default {
   .balance-content {
     display: flex;
     align-items: center;
-    margin-bottom: 70px;
+    margin-bottom: 20px;
     font-size: 12px;
+  }
+
+  .vip-content {
+    padding: 25px 0 20px;
+    border-top: 1px solid #1d3158;
   }
 
   .menu-item {

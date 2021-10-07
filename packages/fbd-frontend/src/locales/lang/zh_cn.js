@@ -261,7 +261,6 @@ const lang = {
   views_profile_vip_current_level: '当前等级',
   views_profile_vip_betLimit: '单场/单日下单上限',
   views_profile_vip_level_review: '等级浏览',
-  views_profile_vip_level_dollars: '元',
 
   // newend
   views_profile_depositHandling: '入款进行中',
@@ -370,6 +369,7 @@ const lang = {
   views_profile_transaction_empty: '暂无资料',
   views_finance_balance: '余额',
   views_profile_transaction_transactionDetail_orderDetail: '订单详情',
+  views_profile_vip_level_dollars: '元',
 
   // Components
   components_common_dialog_confirm: '确认',
@@ -495,12 +495,12 @@ const lang = {
   components_pages_components_vip_envelop_description2: '24小時結算一次，自動發送',
   components_pages_components_vip_envelop_description3: '依照結算時的VIP等級計算負利紅包金額',
   components_pages_components_vip_review_detailDailog: '等級需求',
-  components_pages_components_vip_detailDailog_description: '您30天内须完成 <span class="text-secondary">{betSum}</span> 下单量才能保留等级 <span class="text-secondary">VIP{level}</span>，否则将会被调整至等级 <span class="text-secondary">VIP{preLevel}</span> 。',
+  components_pages_components_vip_detailDailog_description: '您30天内须完成 <span class="text-color">{betSum}</span> 下单量才能保留等级 <span class="text-color">VIP{level}</span>，否则将会被调整至等级 <span class="text-color">VIP{preLevel}</span> 。',
   components_pages_components_vip_detailDailog_description2: '尚余 {deadLine} 天，您已完成 {alreadyBetSum} 下单量。',
-  components_pages_components_vip_detailDailog_description3: '30天内须完成 <span class="text-secondary">{betSum}</span> 下单量才能晋升为等级 <span class="text-secondary">VIP{level}</span>。',
+  components_pages_components_vip_detailDailog_description3: '30天内须完成 <span class="text-color">{betSum}</span> 下单量才能晋升为等级 <span class="text-color">VIP{level}</span>。',
   components_pages_components_vip_detailDailog_description4: '尚余 {deadLine} 天，您已完成 {alreadyBetSum} 下单量。',
-  components_pages_components_vip_detailDailog_description5: '您注册帐号以来的总充值量，剩余 <span class="text-secondary">{depositSum}</span> 即可晋升等级 <span class="text-secondary">VIP{level}</span> 。',
-  components_pages_components_vip_detailDailog_description6: '您注册帐号以来的总下单量，剩余 <span class="text-secondary">{betSum}</span> 即可晋升等级 <span class="text-secondary">VIP{level}</span> 。',
+  components_pages_components_vip_detailDailog_description5: '您注册帐号以来的总充值量，剩余 <span class="text-color">{depositSum}</span> 即可晋升等级 <span class="text-color">VIP{level}</span> 。',
+  components_pages_components_vip_detailDailog_description6: '您注册帐号以来的总下单量，剩余 <span class="text-color">{betSum}</span> 即可晋升等级 <span class="text-color">VIP{level}</span> 。',
   components_pages_components_vip_returnProfit_table_title_time: '领取日期',
   components_pages_components_vip_returnProfit_table_title_money: '领取金额',
   components_pages_components_vip_envelop_detail: '详情',
@@ -512,10 +512,8 @@ const lang = {
   components_pages_components_vip_envelop_reveice_record: '领取记录',
   components_pages_components_vip_envelop_reveice_success: '领取成功',
   components_pages_components_vip_remedyEnable_false: '无法使用',
-
   components_quick_login_text: '或以下列方式继续',
   components_quick_login_success: '成功',
-
   components_pages_profile_share_title: '好友分享',
   components_pages_profile_share_popup_title: '说明',
   components_pages_profile_share_friend: '好友',
@@ -537,6 +535,8 @@ const lang = {
   components_pages_profile_share_prompt2: '您还可重新设定比例1次',
   components_pages_profile_share_text1: '自身+好友比例合计为',
   components_pages_profile_share_text2: '自身保留的比例越高，可获得的分享奖金额越多但也会造成 好友可设定的分享比例较低，不利扩散裂变，请谨慎设定您 的分享比例。',
+  components_pages_components_vip_envelop_reveiced: '已領取',
+
   // Error
   error1: '请输入账户',
   error2: '6~12位英数字',
