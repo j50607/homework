@@ -1299,6 +1299,10 @@ export default {
     & + & {
       margin-top: 16px;
     }
+
+    .popup-text {
+      width: 50px;
+    }
   }
 
   &-bar {
