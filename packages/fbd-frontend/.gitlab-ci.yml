@@ -80,7 +80,7 @@ stages:
   EOT
   git clone -b $CI_COMMIT_REF_NAME git@git.dingyi.io:sre/helm-charts/frontend/$CI_PROJECT_NAME.git
   cd $CI_PROJECT_NAME
-  sed -i "s/^  tag:.*/  tag: $CI_COMMIT_SHORT_SHA/g" values.yaml
+  sed -i "s/^  tag:.*/  tag: \"$CI_COMMIT_SHORT_SHA\"/g" values.yaml
   git config --global user.email "gitlab-runner@gitlab-runner.com"
   git config --global user.name "Gitlab Runner"
   git add . && git diff-index --quiet HEAD || git commit -m "update image tag: $CI_COMMIT_SHORT_SHA" && (git push) || true
