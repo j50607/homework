@@ -104,6 +104,7 @@ export default {
     const router = useRouter();
 
     const depositList = [
+      { name: t('views_profile_orderNumber'), value: 'orderNumber' },
       { name: t('views_profile_currency'), value: 'currency' },
       { name: t('views_profile_depositAmount'), value: 'amount' },
       { name: t('views_profile_handlingFee'), value: 'charge' },

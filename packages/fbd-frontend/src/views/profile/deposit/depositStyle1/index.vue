@@ -331,6 +331,7 @@ export default {
           actualAmount: NP.minus(NP.plus(data.amount, data.bonus), data.charge),
           accountName: state.selectedItem?.holder,
           accountId: data.accountId,
+          orderNumber: data.orderNumber,
         };
         router.push({ path: '/profile/orderDetail', query: { type: 'deposit', deposit: JSON.stringify(query) } });
         handleDepositDialog(false);

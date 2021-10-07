@@ -213,8 +213,8 @@ const lang = {
   views_profile_walletAddress: 'Wallet Address',
   views_home_matchNews: 'Match News',
   views_home_matchHot: 'Popular Matches',
-  views_profile_withdrawHandling: 'Processing Withdrawals',
-  views_profile_orderNumber: 'Betting Number',
+  views_profile_withdrawHandling: 'Processing Withdrawal',
+  views_profile_orderNumber: 'Order Number',
   views_profile_time: 'Time',
   views_profile_chooseWallet: 'Select your Wallet',
   views_profile_noWallet: 'You don’t have a bound wallet',
@@ -263,7 +263,7 @@ const lang = {
   views_profile_vip_level_review: '等级浏览',
 
   // newend
-  views_profile_depositHandling: 'Processing Deposits',
+  views_profile_depositHandling: 'Processing Deposit',
   views_profile_userinfo_title: 'Personal Info',
   views_profile_userinfo_balance: 'Balance',
   views_profile_userinfo_lockWallet: 'Lock my Wallet',
