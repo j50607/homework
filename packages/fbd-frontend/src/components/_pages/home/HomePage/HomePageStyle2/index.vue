@@ -25,7 +25,7 @@
         <!-- LOGO -->
         <img
           class="h-full"
-          :src="$requireSafe(`site/${sitePrefix}/logo.svg`)"
+          :src="$requireSafe(`site/${sitePrefix}/style${siteStyle}/logo.svg`)"
           alt=""
         >
       </template>
@@ -113,6 +113,7 @@ export default {
     const isLogin = computed(() => store.state.user.isLogin);
     const displayLanguageSwitch = computed(() => store.state.info.switchSetting.displayLanguageSwitch);
     const sitePrefix = computed(() => store.state.info.siteInfo.prefix);
+    const siteStyle = computed(() => store.getters.siteStyle);
 
     const getMarquee = async () => {
       const { code, data } = await SystemApi.getMarquee();
@@ -197,6 +198,7 @@ export default {
       displayLanguageSwitch,
       serviceUrl,
       sitePrefix,
+      siteStyle,
       ...toRefs(state),
     };
   },
