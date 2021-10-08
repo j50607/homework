@@ -115,6 +115,7 @@ export default {
     };
 
     const transfer = async () => {
+      console.log('props.transferInfo :>> ', props.transferInfo);
       const params = {
         transferOutAccount: account.value,
         transferInAccount: props.transferInfo.transInAccount,

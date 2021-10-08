@@ -138,6 +138,7 @@ export default {
         } else {
           state.transInAccount = props.transferAccount;
           context.emit('openWithdrawCode', state);
+          console.log('state :>> ', state);
         }
       }
     };
