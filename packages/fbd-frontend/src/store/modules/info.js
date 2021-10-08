@@ -54,6 +54,9 @@ const initialState = () => ({
 
   // 验证开关
   swipeVerification: false,
+
+  // 會員轉帳資訊
+  transferInfo: {},
 });
 
 const state = () => (initialState());
@@ -313,6 +316,9 @@ const mutations = {
   },
   SET_VERSION(state, value) {
     state.systemVersion = value;
+  },
+  SET_TRANSFER_INFO(state, value) {
+    state.transferInfo = value;
   },
 };
 

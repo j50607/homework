@@ -123,9 +123,9 @@
       @cancel="state.showTransferDialog = false"
       @openWithdrawCode="openWithdrawCode"
     />
+    <!-- :transfer-info="state.transferInfo" -->
     <withdraw-code-dialog
       v-model:withdrawCodeIsShow="showWithdrawCodeDialog"
-      :transfer-info="state.transferInfo"
       @cancel="showWithdrawCodeDialog = false"
       @transferSuccess="pullingDown()"
     />
@@ -270,8 +270,8 @@ export default {
     };
 
     const openWithdrawCode = (info) => {
-      console.log('info :>> ', info);
-      state.transferInfo = info;
+      // state.transferInfo = info;
+      store.commit('SET_TRANSFER_INFO', info);
       state.showTransferDialog = false;
       showWithdrawCodeDialog.value = true;
     };

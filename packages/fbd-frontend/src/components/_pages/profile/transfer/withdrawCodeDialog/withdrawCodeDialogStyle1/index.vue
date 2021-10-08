@@ -72,10 +72,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    transferInfo: {
-      type: Object,
-      default: () => {},
-    },
+    // transferInfo: {
+    //   type: Object,
+    //   default: () => {},
+    // },
   },
   emits: ['update:value', 'cancel', 'transferSuccess'],
   setup(props, context) {
@@ -93,6 +93,7 @@ export default {
       set: (val) => context.emit('update:value', val),
     });
     const serviceUrl = computed(() => store.state.info.serviceUrl);
+    const transferInfo = computed(() => store.state.info.transferInfo);
     const account = computed(() => store.state.user.account);
 
     // methods
@@ -115,17 +116,17 @@ export default {
     };
 
     const transfer = async () => {
-      console.log('props.transferInfo :>> ', props.transferInfo);
       const params = {
         transferOutAccount: account.value,
-        transferInAccount: props.transferInfo.transInAccount,
-        amount: props.transferInfo.transferAmount,
+        transferInAccount: transferInfo.value.transInAccount,
+        amount: transferInfo.value.transferAmount,
         authCode: withdrawPwd.value,
-        remark: props.transferInfo.transferRemark,
+        remark: transferInfo.value.transferRemark,
       };
       const { code, message } = await FinanceApi.transfer(params);
       if (code === 200) {
         window.$vue.$message.success(t('components_withdrawCodeDialog_transfer_success'));
+        store.commit('SET_TRANSFER_INFO', {});
         context.emit('transferSuccess');
       } else {
         window.$vue.$message.error(message);
