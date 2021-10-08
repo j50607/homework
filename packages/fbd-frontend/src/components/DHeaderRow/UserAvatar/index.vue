@@ -62,11 +62,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .avatar {
-  width: 20px;
-  height: 20px;
-
   img {
-    height: 100%;
+    width: 20px;
+    height: 20px;
     margin-left: auto;
     border: 1px solid #f3ac0a;
     border-radius: 50%;

@@ -25,7 +25,8 @@
         <!-- LOGO -->
         <img
           class="h-full"
-          :src="$requireSafe(`site/${sitePrefix}/style${siteStyle}/logo.svg`)"
+          :class="sitePrefix"
+          :src="$requireSafe(`site/${sitePrefix}/style2/logo.svg`)"
           alt=""
         >
       </template>
@@ -233,5 +234,10 @@ export default {
 
 .avatar {
   border: 1px solid #f3ac0a;
+}
+
+.rowz {
+  height: 32px;
+  margin-top: -4px;
 }
 </style>

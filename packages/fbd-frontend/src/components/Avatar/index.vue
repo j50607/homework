@@ -26,7 +26,7 @@
     <div class="avatar-container">
       <div
         class="photo is-btn"
-        v-for="(item, index) in 16"
+        v-for="(item, index) in 32"
         :key="`photo${index}`"
         @click="updateAvatar(index)"
       >
