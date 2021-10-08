@@ -1281,7 +1281,9 @@ export default {
   }
 
   &-statistic {
+    max-height: 350px;
     padding: 16px 17px 45px;
+    overflow: hidden scroll;
   }
 
   &-data {
