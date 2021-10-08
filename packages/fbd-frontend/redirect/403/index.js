@@ -82,6 +82,10 @@ const langImgMap = {
     img1: './bg-maintain.png',
     img2: './mtzlogo.svg',
   },
+  en: {
+    img1: './bg-maintain.png',
+    img2: './mtzlogo.svg',
+  },
 };
 
 const siteMap = {
