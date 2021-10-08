@@ -146,7 +146,7 @@ xhr.onload = () => {
         hour12: false,
       });
       const combinationTime = `${years} ${time}`;
-      document.getElementById('time').innerHTML = combinationTime;
+      document.getElementById('time').textContent = combinationTime;
     } else {
       console.error(xhr.statusText);
     }
