@@ -459,7 +459,7 @@ import duration from 'dayjs/plugin/duration';
 import NP from 'number-precision';
 import Cookie from 'js-cookie';
 import {
-  timeZoneUnit, numWithCommas, getSportScore, convertToCst, isNumber, isArray, floorToDigit, fmtPayRate,
+  timeZoneUnit2, numWithCommas, getSportScore, convertToCst, isNumber, isArray, floorToDigit, fmtPayRate,
 } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
 import MemberApi from '@/assets/js/api/memberApi';
@@ -545,7 +545,7 @@ export default {
 
     // computed
     const siteStyle = computed(() => store.getters.siteStyle);
-    const timeZone = computed(() => timeZoneUnit());
+    const timeZone = computed(() => timeZoneUnit2());
     const language = computed(() => store.state.info.language);
     const isChinese = computed(() => language.value === 'zh_cn' || language.value === 'zh_tw');
     // 用户余额
