@@ -140,6 +140,13 @@ xhr.onload = () => {
   if (xhr.readyState === 4) {
     if (xhr.status === 200) {
       document.getElementsByClassName('no-service-bottom')[0].textContent = xhr.responseText;
+
+      const years = new Date().toLocaleDateString();
+      const time = new Date().toLocaleTimeString('en-US', {
+        hour12: false,
+      });
+      const combinationTime = `${years} ${time}`;
+      document.getElementById('time').innerHTML = combinationTime;
     } else {
       console.error(xhr.statusText);
     }
