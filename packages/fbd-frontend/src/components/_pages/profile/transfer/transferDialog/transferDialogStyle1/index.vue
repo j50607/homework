@@ -137,8 +137,8 @@ export default {
           window.$vue.$message.info(t('components_transferDialog_transfer_amount_biggerThanBalance'));
         } else {
           state.transInAccount = props.transferAccount;
-          context.emit('openWithdrawCode', state);
           console.log('state :>> ', state);
+          context.emit('openWithdrawCode', state);
         }
       }
     };

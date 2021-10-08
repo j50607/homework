@@ -270,6 +270,7 @@ export default {
     };
 
     const openWithdrawCode = (info) => {
+      console.log('info :>> ', info);
       state.transferInfo = info;
       state.showTransferDialog = false;
       showWithdrawCodeDialog.value = true;
