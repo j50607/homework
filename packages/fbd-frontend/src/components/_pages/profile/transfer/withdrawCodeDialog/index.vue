@@ -1,5 +1,8 @@
 <template>
-  <component :is="withdrawCodeDialogStyle" />
+  <component
+    :is="withdrawCodeDialogStyle"
+    v-bind="$attrs"
+  />
 </template>
 
 <script>

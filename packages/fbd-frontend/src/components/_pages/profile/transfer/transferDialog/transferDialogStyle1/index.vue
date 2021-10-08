@@ -206,6 +206,7 @@ export default {
     &.cancel {
       border: 1px solid #7a5605;
       border-radius: 3px;
+      color: #7a5605;
     }
   }
 }

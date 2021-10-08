@@ -1,5 +1,8 @@
 <template>
-  <component :is="transferDialogStyle" />
+  <component
+    :is="transferDialogStyle"
+    v-bind="$attrs"
+  />
 </template>
 
 <script>
