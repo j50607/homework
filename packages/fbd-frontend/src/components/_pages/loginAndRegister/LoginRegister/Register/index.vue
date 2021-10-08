@@ -209,7 +209,7 @@
                       <img :src="$requireSafe(`icon/style${siteStyle}/phone.svg`)">
                     </div>
 
-                    <a-input-number
+                    <a-input
                       v-model:value="state.formState.phoneInputValue"
                       v-all-number
                       :maxlength="20"
