@@ -430,7 +430,7 @@ export const timeZoneUnit = () => {
  */
 export const getSportScore = (num) => {
   if (!isNumber(num)) return '';
-  if (num === -1) return `${window.$vue.$t('views_betting_main_type2')}/${window.$vue.$t('views_betting_statistic_popup_others')}`;
+  if (num === -1) return `${window.$vue.$t('views_betting_statistic_popup_others')}`;
   const base = 100000;
   const scoreH = Math.floor(num / base);
   const scoreA = num % base;
