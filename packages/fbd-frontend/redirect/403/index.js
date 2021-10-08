@@ -55,6 +55,14 @@ const langMap = {
     text5: 'ご不便おかけし申し訳ございません',
     text6: '您的IP位置',
   },
+  en: {
+    text1: 'Access denied',
+    text2: 'Due to the restriction of your current region',
+    text3: 'You can not access to the page you are trying to open',
+    text4: 'We can not offer any service at the moment',
+    text5: 'We deeply apologize for the inconvenience',
+    text6: 'Your IP address',
+  },
 };
 
 const langImgMap = {
@@ -87,6 +95,7 @@ const localeMap = {
   vi_vn: 'vn',
   zh_cn: 'zh-CN',
   ja_jp: 'jp',
+  en_us: 'en',
 };
 
 let locale = '';

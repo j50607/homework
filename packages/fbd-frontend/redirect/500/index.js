@@ -40,6 +40,12 @@ const langMap = {
     'time-text1': 'Thời gian bảo trì：',
     service: 'CSKH trực tuyến',
   },
+  en: {
+    text1: 'System upgrading. Please log in again after update.',
+    text2: 'Sorry for your the inconvenience',
+    'time-text1': 'Maintenance time:',
+    service: 'Online Customer service',
+  },
 };
 
 const langImgMap = {
@@ -59,6 +65,10 @@ const langImgMap = {
     img1: './bg-maintain.png',
     img2: './mtzlogo.svg',
   },
+  en: {
+    img1: './bg-maintain.png',
+    img2: './mtzlogo.svg',
+  },
 };
 
 const siteMap = {
@@ -72,6 +82,7 @@ const localeMap = {
   vi_vn: 'vn',
   zh_cn: 'zh-CN',
   ja_jp: 'jp',
+  en_us: 'en',
 };
 
 let siteName = '';
