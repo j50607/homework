@@ -29,7 +29,7 @@ stages:
   sed -i '/VUE_APP_SPORT_BASE =/d' $TARGET_ENV_FILE
   sed -i '/VUE_APP_BASE_CDN_URL =/d' $TARGET_ENV_FILE
   sed -i '/VUE_APP_SOCKET_BASE =/d' $TARGET_ENV_FILE
-  sed -i '/THIRD_PARTY_LOGIN_URL =/d' $TARGET_ENV_FILE
+  sed -i '/VUE_APP_THIRD_PARTY_LOGIN_URL =/d' $TARGET_ENV_FILE
 
 .build_script: &build_script |
   echo "Building..."
@@ -100,7 +100,7 @@ deploy_dev:
     - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
     - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$DEV_CDN_DOMAIN >> $TARGET_ENV_FILE
-    - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
+    - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_redirect_script
     - *build_script
     - *deploy_script
@@ -157,7 +157,7 @@ deploy_test:
     - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
     - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$TEST_CDN_DOMAIN >> $TARGET_ENV_FILE
-    - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
+    - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_redirect_script
     - *build_script
     - *deploy_script
@@ -213,7 +213,7 @@ deploy_stage:
     - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
     - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$STAGE_CDN_DOMAIN >> $TARGET_ENV_FILE
-    - echo THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
+    - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_redirect_script
     - *build_script
     - *deploy_script
@@ -236,7 +236,7 @@ deploy_prod:
     - echo VUE_APP_SYSTEM_BASE = /api/system >> $TARGET_ENV_FILE
     - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$PROD_CDN_DOMAIN >> $TARGET_ENV_FILE
-    - echo THIRD_PARTY_LOGIN_URL = https://sso.sahudfi8y74933ujk.com/ >> $TARGET_ENV_FILE
+    - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.sahudfi8y74933ujk.com/ >> $TARGET_ENV_FILE
     - *build_redirect_script
     - *build_script
     - *deploy_script
