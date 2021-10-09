@@ -1,12 +1,25 @@
 let SOCKET;
 
 let STORE;
-let connectIndex = 0;
+let reconnectCount = 0;
 const url = process.env.VUE_APP_IS_SELF_API === 'true' ? `wss://${window.location.host}/${process.env.VUE_APP_SOCKET_BASE}` : process.env.VUE_APP_SOCKET_BASE;
 
 const TYPE = {
   BET_FAIL: 'bet_fail',
 };
+
+const CLOSE_EVENT_CODE = {
+  NORMAL_CLOSURE: 1000,
+};
+
+const READY_STATE = {
+  CONNECTING: 0,
+  OPEN: 1,
+  CLOSING: 2,
+  CLOSED: 3,
+};
+
+const messageQueue = [];
 
 class FbdSocket {
   static async init() {
@@ -16,18 +29,26 @@ class FbdSocket {
   }
 
   static connectRetry() {
-    connectIndex += 1;
+    reconnectCount += 1;
   }
 
   static onopen() {
-    connectIndex = 0;
+    reconnectCount = 0;
+    messageQueue.forEach((params) => {
+      SOCKET.send(params);
+    });
   }
 
-  static onclose() {
-    FbdSocket.connectRetry();
-    if (connectIndex <= 100) {
-      setTimeout(() => {
-      }, 1000);
+  static onclose(event) {
+    if (event.code !== CLOSE_EVENT_CODE.NORMAL_CLOSURE) {
+      reconnectCount += 1;
+      if (reconnectCount <= 100) {
+        setTimeout(() => {
+          if (SOCKET?.readyState === READY_STATE.CLOSING || SOCKET?.readyState === READY_STATE.CLOSED) {
+            this.connect();
+          }
+        }, 10000);
+      }
     }
   }
 
@@ -39,12 +60,9 @@ class FbdSocket {
   }
 
   static send(data) { // 等待ws连接后才发送message
-    if (SOCKET.readyState !== 1) {
-      const connect = setInterval(() => {
-        SOCKET.send(data);
-        clearInterval(connect);
-      }, 1000);
-    } else if (SOCKET.readyState === 1) {
+    if (!SOCKET || SOCKET.readyState !== READY_STATE.OPEN) {
+      messageQueue.push(data);
+    } else {
       SOCKET.send(data);
     }
   }
