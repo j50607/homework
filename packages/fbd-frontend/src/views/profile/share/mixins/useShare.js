@@ -30,6 +30,7 @@ export default function () {
     amountCommission: {
       lotteryAmount: 0,
       platformAmount: 0,
+      sportAmount: 0,
       totalAmount: 0,
     },
 
@@ -133,7 +134,7 @@ export default function () {
     if (code === 200) {
       const amountData = data || {};
 
-      const { lottery, platform } = amountData;
+      const { lottery, platform, sport } = amountData;
 
       if (lottery.length > 0) {
         state.amountCommission.lotteryAmount = lottery.reduce((acc, item) => NP.plus(acc, NP.times(NP.divide(NP.minus(item.agentRate, item.childAgentRate), 2000), item.amount)), 0);
@@ -146,7 +147,13 @@ export default function () {
         state.amountCommission.platformAmount = 0;
       }
 
-      state.amountCommission.totalAmount = NP.plus(state.amountCommission.lotteryAmount, state.amountCommission.platformAmount);
+      if (sport.length > 0) {
+        state.amountCommission.sportAmount = sport.reduce((acc, item) => NP.plus(acc, NP.times(NP.divide(NP.minus(item.agentRate, item.childAgentRate), 2000), item.amount)), 0);
+      } else {
+        state.amountCommission.sportAmount = 0;
+      }
+
+      state.amountCommission.totalAmount = NP.plus(state.amountCommission.lotteryAmount, state.amountCommission.platformAmount, state.amountCommission.sportAmount);
     }
   };
 

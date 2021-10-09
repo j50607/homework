@@ -354,10 +354,12 @@ export default {
     onBeforeMount(async () => {
       getUserPartialInfo();
       getVipLevelInfo();
+      console.log(1);
       window.addEventListener('scroll', changeHeaderColor);
     });
 
     onBeforeUnmount(() => {
+      console.log(2);
       window.removeEventListener('scroll', changeHeaderColor);
     });
 

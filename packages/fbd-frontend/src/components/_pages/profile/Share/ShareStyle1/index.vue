@@ -391,9 +391,9 @@ export default {
       }
 
       ::v-deep(.ant-input) {
-        color: #1f2022 !important;
         width: 3.5rem;
         border: none !important;
+        color: #1f2022 !important;
         background-color: #fff !important;
       }
     }
@@ -437,13 +437,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--check-share-text-color5);
-    border-radius: 16px;
-    box-shadow: inset 1px 1px 2px #4d577240;
     width: 138px;
     height: 32px;
+    border: 1px solid var(--check-share-text-color5);
+    border-radius: 16px;
     font-size: 16px;
     background: var(--check-share-input-bg);
+    box-shadow: inset 1px 1px 2px #4d577240;
 
     .input {
       position: relative;
@@ -456,7 +456,6 @@ export default {
         right: 10px;
       }
     }
-
   }
 }
 
@@ -484,8 +483,8 @@ export default {
       align-items: center;
       justify-content: center;
       margin-bottom: 5px;
-      font-size: 14px;
       color: var(--check-share-text-color1);
+      font-size: 14px;
     }
 
     .adjustment-persecnt {
@@ -506,9 +505,9 @@ export default {
       .adjustment-prompt-amount {
         position: absolute;
         top: 0;
-        left: 0;
         right: 0;
         bottom: 0;
+        left: 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -555,8 +554,8 @@ export default {
 }
 
 .adjustment-number-text {
+  color: #999;
   font-size: 12px;
-  color: #999999;
 }
 
 .agent-area {
@@ -600,8 +599,8 @@ export default {
 
   .qr-code-title {
     width: 100%;
-    font-size: 12px;
     color: var(--check-share-text-color6);
+    font-size: 12px;
   }
 
   .qr-code-img {
@@ -631,17 +630,17 @@ export default {
     width: 145px;
     height: 32px;
     border-radius: 18px;
+    color: var(--check-share-text-color8);
     font-size: 12px;
     background: linear-gradient(180deg, #ffcd5b 0%, #f3ac0a 100%);
     box-shadow: 0 3px 6px #00000029;
-    color: var(--check-share-text-color8);
   }
 
   .btn-prompt {
     margin-top: 10px;
     color: #fc4718;
-    font-size: 12px;
     font-weight: 400;
+    font-size: 12px;
   }
 }
 
@@ -707,11 +706,11 @@ export default {
       font-size: 12px;
 
       .amount-value {
-        font-size: 18px;
         color: var(--check-share-text-color3);
+        font-size: 18px;
 
         &.no-amount {
-          color: #E5E5E5;
+          color: #e5e5e5;
         }
       }
     }

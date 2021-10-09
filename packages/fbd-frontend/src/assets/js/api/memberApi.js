@@ -398,6 +398,15 @@ class MemberApi extends API {
 
     return result;
   }
+
+  /**
+   * 领取返点金额
+   */
+  static async getAgentDraw() {
+    const result = await this.callAxios('POST', '/agent/commission/draw', undefined, null, true);
+
+    return result;
+  }
 }
 
 export default MemberApi;
