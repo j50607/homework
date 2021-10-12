@@ -397,7 +397,7 @@
           >
             <p
               class="mb-1 leading-loose"
-              v-html="$t('components_pages_components_vip_detailDailog_description5', {depositSum: NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal) >= 0 ? NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal): 0, level:nowVipLevelRule.level + 1}) "
+              v-html="$t('components_pages_components_vip_detailDailog_description5', {betSum: nextVipLevelRule.upgradeProtectLevelStandard, depositSum: NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal) >= 0 ? NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal): 0, level:nowVipLevelRule.level + 1}) "
             />
           </div>
           <div

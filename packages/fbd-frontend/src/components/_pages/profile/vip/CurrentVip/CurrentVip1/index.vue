@@ -109,7 +109,7 @@
           {{ $t('components_pages_components_vip_distance') }} {{ `VIP${nowVipLevelRule.level + 1}` }}
         </p>
         <p
-          class="check text-primary text-xs flex items-center ml-auto cursor-pointer"
+          class="check text-primary text-xs flex items-center ml-auto cursor-pointer vip-check-width"
           @click="handlerShowDialog('privilege')"
         >
           {{ $t('components_pages_components_vip_check') }}
@@ -428,7 +428,7 @@
           >
             <p
               class="mb-1 leading-loose"
-              v-html="$t('components_pages_components_vip_detailDailog_description5', {depositSum: NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal) >= 0 ? NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal): 0, level:nowVipLevelRule.level + 1}) "
+              v-html="$t('components_pages_components_vip_detailDailog_description5', {betSum: nextVipLevelRule.upgradeProtectLevelStandard, depositSum: NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal) >= 0 ? NP.minus(nextVipLevelRule.upgradeDepositStandard, levelStatus.depositTotal): 0, level:nowVipLevelRule.level + 1}) "
             />
           </div>
           <div
@@ -786,5 +786,9 @@ export default {
   ::v-deep(.text-color) {
     color: #f3ac0a;
   }
+}
+
+.vip-check-width {
+  width: 65px;
 }
 </style>
