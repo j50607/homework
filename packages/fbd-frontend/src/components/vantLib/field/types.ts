@@ -1,5 +1,4 @@
-import type { ComputedRef, ComponentPublicInstance } from 'vue';
-import type { FieldProps } from './Field';
+import type { ComputedRef } from 'vue';
 
 export type FieldType =
   | 'tel'
@@ -62,8 +61,6 @@ export type FieldExpose = {
    */
   formValue: ComputedRef<unknown>;
 };
-
-export type FieldInstance = ComponentPublicInstance<FieldProps, FieldExpose>;
 
 declare global {
   interface EventTarget {
