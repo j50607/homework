@@ -251,7 +251,7 @@
             class="amount-value"
             :class="[{'no-amount': state.amountCommission.totalAmount < 0.01}]"
           >
-            {{ state.amountCommission && state.amountCommission.totalAmount.toFixed(2) }}
+            {{ state.amountCommission && floorToDigitTwo(state.amountCommission.totalAmount) }}
           </div>
         </div>
       </div>
@@ -319,6 +319,7 @@ export default {
       checkSiteStyle,
       checkHeaderTextColor,
       checkStyleColor,
+      floorToDigitTwo,
     } = useShare();
 
     return {
@@ -350,6 +351,7 @@ export default {
       checkSiteStyle,
       checkHeaderTextColor,
       checkStyleColor,
+      floorToDigitTwo,
     };
   },
 };

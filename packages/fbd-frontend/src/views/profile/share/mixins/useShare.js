@@ -253,6 +253,23 @@ export default function () {
     }
   };
 
+  /**
+ * 無條件捨去到第 2 位
+ * @param {number} num
+ */
+  const floorToDigitTwo = (num) => {
+    const base = 10 ** 2;
+    const resultAmount = NP.divide(Math.floor(NP.times(num, base)), base);
+    // 遇整數或小數點位數不夠補0
+    if (String(resultAmount).indexOf('.') > -1) {
+      if (String(resultAmount).split('.')[1].length < 2) {
+        return `${String(resultAmount)}0`;
+      }
+      return resultAmount;
+    }
+    return `${resultAmount}.00`;
+  };
+
   const checkStyleColor = () => {
     switch (siteStyle.value) {
       case 1:
@@ -303,5 +320,6 @@ export default function () {
     checkSiteStyle,
     checkHeaderTextColor,
     checkStyleColor,
+    floorToDigitTwo,
   };
 }
