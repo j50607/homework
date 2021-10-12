@@ -1,442 +1,444 @@
 <template>
-  <d-header-row
-    :title="state.currentGameData?.leagueName || ''"
-    right-components="UserAvatar"
-    use-sidebar
-  />
+  <div>
+    <d-header-row
+      :title="state.currentGameData?.leagueName || ''"
+      right-components="UserAvatar"
+      use-sidebar
+    />
 
-  <div class="betting">
-    <d-loading :loading="state.isLoading" />
-    <div class="betting-info">
-      <div class="betting-info-bg" />
+    <div class="betting">
+      <d-loading :loading="state.isLoading" />
+      <div class="betting-info">
+        <div class="betting-info-bg" />
 
-      <div class="betting-info-container">
-        <!-- logo -->
-        <div class="betting-team-row mb-0.5">
-          <!-- H -->
-          <div class="betting-team-container px-betting-team-container">
-            <div class="betting-team-logo betting-info-text">
-              <img
-                v-if="state.currentGameData?.homeTeamLogo"
-                :class="{ 'rounded-full': state.currentGameData?.homeTeamLogo }"
-                :src="`${s3Base}/${state.currentGameData?.homeTeamLogo}`"
-              >
-              <img
-                v-else
-                :src="$requireSafe('icon/default-team.svg')"
-              >
+        <div class="betting-info-container">
+          <!-- logo -->
+          <div class="betting-team-row mb-0.5">
+            <!-- H -->
+            <div class="betting-team-container px-betting-team-container">
+              <div class="betting-team-logo betting-info-text">
+                <img
+                  v-if="state.currentGameData?.homeTeamLogo"
+                  :class="{ 'rounded-full': state.currentGameData?.homeTeamLogo }"
+                  :src="`${s3Base}/${state.currentGameData?.homeTeamLogo}`"
+                >
+                <img
+                  v-else
+                  :src="$requireSafe('icon/default-team.svg')"
+                >
+              </div>
+            </div>
+            <!-- A -->
+            <div class="betting-team-container px-betting-team-container">
+              <div class="betting-team-logo betting-info-text">
+                <img
+                  v-if="state.currentGameData?.awayTeamLogo"
+                  :class="{ 'rounded-full': state.currentGameData?.awayTeamLogo }"
+                  :src="`${s3Base}/${state.currentGameData?.awayTeamLogo}`"
+                >
+                <img
+                  v-else
+                  :src="$requireSafe('icon/default-team.svg')"
+                >
+              </div>
             </div>
           </div>
-          <!-- A -->
-          <div class="betting-team-container px-betting-team-container">
-            <div class="betting-team-logo betting-info-text">
-              <img
-                v-if="state.currentGameData?.awayTeamLogo"
-                :class="{ 'rounded-full': state.currentGameData?.awayTeamLogo }"
-                :src="`${s3Base}/${state.currentGameData?.awayTeamLogo}`"
+
+          <!-- name -->
+          <div class="betting-team-row mb-1">
+            <!-- H -->
+            <div class="betting-team-container px-betting-team-container betting-team-text-container ml-2 mr-8">
+              <div
+                class="betting-team-name betting-info-text betting-info-text-em"
+                :class="{ 'betting-info-text-em-xs': !isChinese }"
               >
-              <img
-                v-else
-                :src="$requireSafe('icon/default-team.svg')"
+                {{ state.currentGameData?.homeTeamName || '' }}{{ state.currentGameData?.homeTeamName && `(${renderHostText})` }}
+              </div>
+            </div>
+            <!-- A -->
+            <div class="betting-team-container px-betting-team-container betting-team-text-container mr-2 ml-8">
+              <div
+                class="betting-team-name betting-info-text betting-info-text-em"
+                :class="{ 'betting-info-text-em-xs': !isChinese }"
               >
+                {{ state.currentGameData?.awayTeamName || '' }}
+              </div>
+            </div>
+          </div>
+
+          <!-- score -->
+          <div class="betting-team-row">
+            <!-- H -->
+            <div class="betting-team-container px-betting-team-container">
+              <div class="betting-team-score betting-info-text betting-info-text-em">
+                {{ 0 }}
+              </div>
+            </div>
+            <!-- A -->
+            <div class="betting-team-container px-betting-team-container">
+              <div class="betting-team-score betting-info-text betting-info-text-em">
+                {{ 0 }}
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- name -->
-        <div class="betting-team-row mb-1">
-          <!-- H -->
-          <div class="betting-team-container px-betting-team-container betting-team-text-container ml-2 mr-8">
-            <div
-              class="betting-team-name betting-info-text betting-info-text-em"
-              :class="{ 'betting-info-text-em-xs': !isChinese }"
-            >
-              {{ state.currentGameData?.homeTeamName || '' }}{{ state.currentGameData?.homeTeamName && `(${renderHostText})` }}
-            </div>
+        <div class="betting-time">
+          <div class="betting-time-item betting-info-text text-date">
+            {{ renderDate(state.currentGameData?.matchTIme) }}
           </div>
-          <!-- A -->
-          <div class="betting-team-container px-betting-team-container betting-team-text-container mr-2 ml-8">
-            <div
-              class="betting-team-name betting-info-text betting-info-text-em"
-              :class="{ 'betting-info-text-em-xs': !isChinese }"
-            >
-              {{ state.currentGameData?.awayTeamName || '' }}
-            </div>
+          <div class="betting-time-item betting-info-text text-date">
+            {{ renderTime(state.currentGameData?.matchTIme) }}
           </div>
-        </div>
+          <div class="betting-time-item betting-info-text text-date">
+            {{ state.currentGameData?.matchTIme && `(${timeZone})` }}
+          </div>
 
-        <!-- score -->
-        <div class="betting-team-row">
-          <!-- H -->
-          <div class="betting-team-container px-betting-team-container">
-            <div class="betting-team-score betting-info-text betting-info-text-em">
-              {{ 0 }}
+          <div class="betting-deadline">
+            <div class="betting-text betting-text-sm betting-deadline-text">
+              {{ !state.isGameClosed ? $t('views_betting_info_deadline') : $t('views_betting_info_deadlineClosed') }}
             </div>
-          </div>
-          <!-- A -->
-          <div class="betting-team-container px-betting-team-container">
-            <div class="betting-team-score betting-info-text betting-info-text-em">
-              {{ 0 }}
-            </div>
+            <a-statistic-countdown
+              v-if="!state.isGameClosed"
+              :value-style="deadlineStyleList"
+              :value="state.bettingDeadline"
+              @finish="handleBettingCountdownEnded"
+            />
           </div>
         </div>
       </div>
 
-      <div class="betting-time">
-        <div class="betting-time-item betting-info-text text-date">
-          {{ renderDate(state.currentGameData?.matchTIme) }}
-        </div>
-        <div class="betting-time-item betting-info-text text-date">
-          {{ renderTime(state.currentGameData?.matchTIme) }}
-        </div>
-        <div class="betting-time-item betting-info-text text-date">
-          {{ state.currentGameData?.matchTIme && `(${timeZone})` }}
+      <div class="betting-main">
+        <div class="betting-tab">
+          <div
+            v-for="(item, idx) in state.betOptionData"
+            :key="`playTypeS[${idx}]`"
+            class="betting-tab-item"
+            :class="{ 'betting-tab-item-active': state.currentPlayTypeS === item.playTypeS }"
+            @click="!state.isBetItemSkeletonShow ? changePlayTypeS(item, true, true) : null"
+          >
+            <span class="betting-tab-text">{{ item?.playTypeSName }}</span>
+          </div>
         </div>
 
-        <div class="betting-deadline">
-          <div class="betting-text betting-text-sm betting-deadline-text">
-            {{ !state.isGameClosed ? $t('views_betting_info_deadline') : $t('views_betting_info_deadlineClosed') }}
-          </div>
-          <a-statistic-countdown
-            v-if="!state.isGameClosed"
-            :value-style="deadlineStyleList"
-            :value="state.bettingDeadline"
-            @finish="handleBettingCountdownEnded"
-          />
+        <div class="betting-main-container">
+          <template v-if="!state.isGameClosed">
+            <div class="betting-sum">
+              <div
+                class="betting-sum-text flex-1 mr-6"
+              >
+                <div
+                  class="betting-text betting-text-wrap"
+                >
+                  <a-skeleton
+                    :loading="state.isBetItemSkeletonShow"
+                    :active="true"
+                    :paragraph="{ 'rows': 1 }"
+                    :title="false"
+                  >
+                    <span class="betting-text-sm">{{ $t('views_betting_statistic_popup_sum') }}</span>
+                  </a-skeleton>
+                </div>
+                <div
+                  class="text-xs mt-1"
+                  :class="{ 'text-win': state.gameSum?.sum > 0 }"
+                >
+                  <a-skeleton
+                    :loading="state.isBetItemSkeletonShow"
+                    :active="true"
+                    :paragraph="{ 'rows': 1 }"
+                    :title="false"
+                  >
+                    {{ numWithCommas(state.gameSum?.sum || 0) }}
+                  </a-skeleton>
+                </div>
+              </div>
+              <div
+                class="flex items-center"
+              >
+                <img
+                  class="betting-text-img"
+                  :src="$requireSafe(`betting/style${siteStyle}/sum.svg`)"
+                  @click="state.isBetItemSkeletonShow ? null : toggleSumPopup(true)"
+                >
+                <a-skeleton
+                  :loading="state.isBetItemSkeletonShow"
+                  :active="true"
+                  :paragraph="false"
+                  :title="false"
+                  :avatar="{ shape: 'circle', size: 24 }"
+                >
+                  <d-progress-bar
+                    v-if="!state.isBetItemSkeletonShow"
+                    :time="15"
+                    :running="state.isHandlePolling"
+                    :has-click-refresh="true"
+                    @seconds="receivedProgressTimer"
+                    @finish="handleProgressEnded"
+                  />
+                </a-skeleton>
+              </div>
+            </div>
+
+            <div class="betting-header">
+              <span>{{ $t('views_betting_score') }}</span>
+              <span>{{ $t('views_betting_main_popup_profit') }}</span>
+              <span>{{ $t('views_betting_main_availableAmount') }}</span>
+            </div>
+            <ul class="betting-list">
+              <li
+                v-for="(item, idx) in state.currentGameData?.betOptionList"
+                :key="`availableAmount[${idx}]`"
+                class="betting-item"
+                :class="{ 'is-btn': !item?.isFulled && item?.payRate && !state.isBetItemSkeletonShow, 'betting-item-loading': state.isBetItemSkeletonShow }"
+                @click="isBettingNotAllowed(item) || state.isBetItemSkeletonShow ? null : toggleBettingPopup(true, item, true)"
+              >
+                <a-skeleton
+                  :loading="state.isBetItemSkeletonShow"
+                  :active="true"
+                  :paragraph="false"
+                  :title="false"
+                  :avatar="{ shape: 'square', size: 33 }"
+                >
+                  <div class="betting-text-sm betting-score">
+                    <span class="text-active">{{ getSportScore(item?.option) }}</span>
+                  </div>
+                  <div class="betting-text-sm betting-percent">
+                    {{ fmtPayRate(item?.payRate ?? 0) }}
+                  </div>
+
+                  <div class="betting-amount">
+                    <div class="betting-text-sm">
+                      {{ item?.leftAmount ?? 0 }}
+                    </div>
+                  </div>
+                  <div
+                    v-show="isBettingNotAllowed(item)"
+                    class="betting-overlay"
+                  >
+                    <div
+                      v-show="item?.isFulled"
+                      class="betting-text-sm betting-score betting-overlay-text"
+                    >
+                      {{ getSportScore(item?.option) }}
+                    </div>
+                    <div class="betting-text-sm betting-overlay-text">
+                      {{ renderMaintainText(item) }}
+                    </div>
+                  </div>
+                  <img
+                    class="arrow"
+                    :src="require('@/assets/img/icon/style2/arrow.svg')"
+                    alt=""
+                  >
+                </a-skeleton>
+              </li>
+            </ul>
+          </template>
+
+          <template v-else>
+            <div class="betting-empty pt-10">
+              <figure class="betting-empty-icon">
+                <img
+                  class="transform rotate-180 w-20 mx-auto mb-4"
+                  :src="$requireSafe(`betting/style${siteStyle}/desc.svg`)"
+                >
+                <figcaption class="betting-empty-info">
+                  <div class="betting-text betting-empty-text mb-2">
+                    {{ $t('views_betting_main_empty') }}
+                  </div>
+                  <div
+                    class="betting-text is-btn betting-empty-link text-xs text-link"
+                    @click="goPage('match')"
+                  >
+                    {{ $t('views_betting_main_back') }}
+                  </div>
+                </figcaption>
+              </figure>
+            </div>
+          </template>
         </div>
       </div>
     </div>
-
-    <div class="betting-main">
-      <div class="betting-tab">
-        <div
-          v-for="(item, idx) in state.betOptionData"
-          :key="`playTypeS[${idx}]`"
-          class="betting-tab-item"
-          :class="{ 'betting-tab-item-active': state.currentPlayTypeS === item.playTypeS }"
-          @click="!state.isBetItemSkeletonShow ? changePlayTypeS(item, true, true) : null"
-        >
-          <span class="betting-tab-text">{{ item?.playTypeSName }}</span>
-        </div>
+    <!-- 交易量明細 -->
+    <d-popup
+      v-model:value="state.isSumPopupShow"
+      position="bottom"
+      :round="true"
+      :title="$t('views_betting_statistic_popup_title')"
+      class="popup"
+      custom-content-padding="0"
+    >
+      <div class="popup-subtitle">
+        <span class="popup-text">
+          {{ $t('views_betting_statistic_popup_sum') }}
+        </span>
+        <span class="popup-text text-positive ml-2">
+          {{ numWithCommas(state.gameSum?.sum || 0) }}
+        </span>
       </div>
 
-      <div class="betting-main-container">
-        <template v-if="!state.isGameClosed">
-          <div class="betting-sum">
-            <div
-              class="betting-sum-text flex-1 mr-6"
-            >
+      <div class="popup-statistic">
+        <template v-if="state.gameSum?.optionList?.length">
+          <div
+            v-for="(item, idx) in state.gameSum?.optionList"
+            :key="`optionList[${idx}]`"
+            class="popup-data"
+          >
+            <div class="popup-text">
+              {{ getSportScore(item?.option) }}
+            </div>
+            <div class="popup-bar">
               <div
-                class="betting-text betting-text-wrap"
-              >
-                <a-skeleton
-                  :loading="state.isBetItemSkeletonShow"
-                  :active="true"
-                  :paragraph="{ 'rows': 1 }"
-                  :title="false"
-                >
-                  <span class="betting-text-sm">{{ $t('views_betting_statistic_popup_sum') }}</span>
-                </a-skeleton>
-              </div>
-              <div
-                class="text-xs mt-1"
-                :class="{ 'text-win': state.gameSum?.sum > 0 }"
-              >
-                <a-skeleton
-                  :loading="state.isBetItemSkeletonShow"
-                  :active="true"
-                  :paragraph="{ 'rows': 1 }"
-                  :title="false"
-                >
-                  {{ numWithCommas(state.gameSum?.sum || 0) }}
-                </a-skeleton>
+                class="popup-progress"
+                :style="`width: ${renderProgress(item?.percentage || 0)}%`"
+              />
+              <div class="popup-digit">
+                {{ numWithCommas(item?.amount || 0) }}
               </div>
             </div>
-            <div
-              class="flex items-center"
-            >
-              <img
-                class="betting-text-img"
-                :src="$requireSafe(`betting/style${siteStyle}/sum.svg`)"
-                @click="state.isBetItemSkeletonShow ? null : toggleSumPopup(true)"
-              >
-              <a-skeleton
-                :loading="state.isBetItemSkeletonShow"
-                :active="true"
-                :paragraph="false"
-                :title="false"
-                :avatar="{ shape: 'circle', size: 24 }"
-              >
-                <d-progress-bar
-                  v-if="!state.isBetItemSkeletonShow"
-                  :time="15"
-                  :running="state.isHandlePolling"
-                  :has-click-refresh="true"
-                  @seconds="receivedProgressTimer"
-                  @finish="handleProgressEnded"
-                />
-              </a-skeleton>
-            </div>
           </div>
-
-          <div class="betting-header">
-            <span>{{ $t('views_betting_score') }}</span>
-            <span>{{ $t('views_betting_main_popup_profit') }}</span>
-            <span>{{ $t('views_betting_main_availableAmount') }}</span>
-          </div>
-          <ul class="betting-list">
-            <li
-              v-for="(item, idx) in state.currentGameData?.betOptionList"
-              :key="`availableAmount[${idx}]`"
-              class="betting-item"
-              :class="{ 'is-btn': !item?.isFulled && item?.payRate && !state.isBetItemSkeletonShow, 'betting-item-loading': state.isBetItemSkeletonShow }"
-              @click="isBettingNotAllowed(item) || state.isBetItemSkeletonShow ? null : toggleBettingPopup(true, item, true)"
-            >
-              <a-skeleton
-                :loading="state.isBetItemSkeletonShow"
-                :active="true"
-                :paragraph="false"
-                :title="false"
-                :avatar="{ shape: 'square', size: 33 }"
-              >
-                <div class="betting-text-sm betting-score">
-                  <span class="text-active">{{ getSportScore(item?.option) }}</span>
-                </div>
-                <div class="betting-text-sm betting-percent">
-                  {{ fmtPayRate(item?.payRate ?? 0) }}
-                </div>
-
-                <div class="betting-amount">
-                  <div class="betting-text-sm">
-                    {{ item?.leftAmount ?? 0 }}
-                  </div>
-                </div>
-                <div
-                  v-show="isBettingNotAllowed(item)"
-                  class="betting-overlay"
-                >
-                  <div
-                    v-show="item?.isFulled"
-                    class="betting-text-sm betting-score betting-overlay-text"
-                  >
-                    {{ getSportScore(item?.option) }}
-                  </div>
-                  <div class="betting-text-sm betting-overlay-text">
-                    {{ renderMaintainText(item) }}
-                  </div>
-                </div>
-                <img
-                  class="arrow"
-                  :src="require('@/assets/img/icon/style2/arrow.svg')"
-                  alt=""
-                >
-              </a-skeleton>
-            </li>
-          </ul>
         </template>
 
         <template v-else>
-          <div class="betting-empty pt-10">
-            <figure class="betting-empty-icon">
-              <img
-                class="transform rotate-180 w-20 mx-auto mb-4"
-                :src="$requireSafe(`betting/style${siteStyle}/desc.svg`)"
-              >
-              <figcaption class="betting-empty-info">
-                <div class="betting-text betting-empty-text mb-2">
-                  {{ $t('views_betting_main_empty') }}
-                </div>
-                <div
-                  class="betting-text is-btn betting-empty-link text-xs text-link"
-                  @click="goPage('match')"
-                >
-                  {{ $t('views_betting_main_back') }}
-                </div>
-              </figcaption>
-            </figure>
-          </div>
+          <figure class="betting-empty-icon">
+            <img
+              class="w-20 mx-auto mb-2"
+              :src="$requireSafe(`betting/style${siteStyle}/no-data.svg`)"
+            >
+            <figcaption class="betting-empty-info">
+              <div class="betting-text betting-empty-text mb-2">
+                {{ $t('common_noData') }}
+              </div>
+            </figcaption>
+          </figure>
         </template>
       </div>
-    </div>
-  </div>
-  <!-- 交易量明細 -->
-  <d-popup
-    v-model:value="state.isSumPopupShow"
-    position="bottom"
-    :round="true"
-    :title="$t('views_betting_statistic_popup_title')"
-    class="popup"
-    custom-content-padding="0"
-  >
-    <div class="popup-subtitle">
-      <span class="popup-text">
-        {{ $t('views_betting_statistic_popup_sum') }}
-      </span>
-      <span class="popup-text text-positive ml-2">
-        {{ numWithCommas(state.gameSum?.sum || 0) }}
-      </span>
-    </div>
+    </d-popup>
+    <!-- 投注 -->
+    <d-popup
+      v-model:value="state.isBettingPopupShow"
+      position="bottom"
+      :title="$t('views_betting_main_popup_title')"
+      :duration="state.popupDuration"
+    >
+      <div class="popup-piece">
+        <div class="popup-text popup-row league">
+          {{ state.currentGameData?.leagueName }}
+        </div>
+        <div class="popup-text popup-row time">
+          {{ dayjs(state.currentGameData?.matchTIme).format('YYYY-MM-DD HH:mm') }}({{ timeZone }})
+        </div>
+        <div class="popup-text popup-text-em popup-row">
+          {{ state.currentGameData?.homeTeamName }} V.S. {{ state.currentGameData?.awayTeamName }}
+        </div>
+      </div>
 
-    <div class="popup-statistic">
-      <template v-if="state.gameSum?.optionList?.length">
-        <div
-          v-for="(item, idx) in state.gameSum?.optionList"
-          :key="`optionList[${idx}]`"
-          class="popup-data"
-        >
+      <div class="popup-piece">
+        <div class="popup-text popup-row">
+          {{ $t('views_betting_main_popup_option') }}
+        </div>
+        <div class="popup-text popup-row">
+          {{ state.currentGameData?.playTypeMName }} {{ state.currentGameData?.playTypeSName }} {{ getSportScore(state.currentBetItem?.option) }}
+        </div>
+      </div>
+
+      <div class="popup-piece">
+        <div class="popup-row popup-expand">
           <div class="popup-text">
-            {{ getSportScore(item?.option) }}
+            {{ $t('views_betting_main_popup_betAmount') }}
           </div>
-          <div class="popup-bar">
-            <div
-              class="popup-progress"
-              :style="`width: ${renderProgress(item?.percentage || 0)}%`"
-            />
-            <div class="popup-digit">
-              {{ numWithCommas(item?.amount || 0) }}
-            </div>
+          <div class="popup-text">
+            {{ $t('views_betting_main_popup_balance') }} {{ numWithCommas(balance) }}
           </div>
         </div>
-      </template>
-
-      <template v-else>
-        <figure class="betting-empty-icon">
-          <img
-            class="w-20 mx-auto mb-2"
-            :src="$requireSafe(`betting/style${siteStyle}/no-data.svg`)"
-          >
-          <figcaption class="betting-empty-info">
-            <div class="betting-text betting-empty-text mb-2">
-              {{ $t('common_noData') }}
-            </div>
-          </figcaption>
-        </figure>
-      </template>
-    </div>
-  </d-popup>
-  <!-- 投注 -->
-  <d-popup
-    v-model:value="state.isBettingPopupShow"
-    position="bottom"
-    :title="$t('views_betting_main_popup_title')"
-    :duration="state.popupDuration"
-  >
-    <div class="popup-piece">
-      <div class="popup-text popup-row league">
-        {{ state.currentGameData?.leagueName }}
-      </div>
-      <div class="popup-text popup-row time">
-        {{ dayjs(state.currentGameData?.matchTIme).format('YYYY-MM-DD HH:mm') }}({{ timeZone }})
-      </div>
-      <div class="popup-text popup-text-em popup-row">
-        {{ state.currentGameData?.homeTeamName }} V.S. {{ state.currentGameData?.awayTeamName }}
-      </div>
-    </div>
-
-    <div class="popup-piece">
-      <div class="popup-text popup-row">
-        {{ $t('views_betting_main_popup_option') }}
-      </div>
-      <div class="popup-text popup-row">
-        {{ state.currentGameData?.playTypeMName }} {{ state.currentGameData?.playTypeSName }} {{ getSportScore(state.currentBetItem?.option) }}
-      </div>
-    </div>
-
-    <div class="popup-piece">
-      <div class="popup-row popup-expand">
-        <div class="popup-text">
-          {{ $t('views_betting_main_popup_betAmount') }}
-        </div>
-        <div class="popup-text">
-          {{ $t('views_betting_main_popup_balance') }} {{ numWithCommas(balance) }}
+        <div class="popup-row">
+          <a-input-number
+            v-model:value="state.betAmount"
+            v-positive-places
+            :placeholder="$t('views_betting_main_popup_betAmountPlaceholder')"
+            class="popup-input"
+            :class="{'popup-input-error': showInputNotify}"
+            @change="state.startNotify = true"
+          />
+          <em
+            v-show="showInputNotify"
+            v-text="renderBetAmountNotify"
+            class="popup-input-notify"
+          />
         </div>
       </div>
-      <div class="popup-row">
-        <a-input-number
-          v-model:value="state.betAmount"
-          v-positive-places
-          :placeholder="$t('views_betting_main_popup_betAmountPlaceholder')"
-          class="popup-input"
-          :class="{'popup-input-error': showInputNotify}"
-          @change="state.startNotify = true"
-        />
-        <em
-          v-show="showInputNotify"
-          v-text="renderBetAmountNotify"
-          class="popup-input-notify"
+
+      <div class="popup-piece popup-grid">
+        <div
+          v-for="(item, idx) in state.amountList"
+          :key="`amountList${idx}`"
+          class="popup-amount is-btn"
+          :class="{ 'popup-amount-active': handlePopupActive(item.val) }"
+          v-text="item.txt"
+          @click="quickSelect(item.val)"
         />
       </div>
-    </div>
 
-    <div class="popup-piece popup-grid">
-      <div
-        v-for="(item, idx) in state.amountList"
-        :key="`amountList${idx}`"
-        class="popup-amount is-btn"
-        :class="{ 'popup-amount-active': handlePopupActive(item.val) }"
-        v-text="item.txt"
-        @click="quickSelect(item.val)"
-      />
-    </div>
+      <div class="popup-piece popup-preview">
+        <div class="popup-preview-prefix" />
+        <div class="popup-text popup-text-profit popup-preview-item">
+          {{ $t('views_betting_main_popup_profit') }}
+        </div>
+        <div class="popup-preview-prefix" />
+        <div class="popup-text popup-preview-item">
+          {{ $t('views_betting_main_popup_charge') }}
+        </div>
+        <div class="popup-preview-prefix" />
+        <div class="popup-text popup-text-expect popup-preview-item">
+          {{ $t('views_betting_main_popup_expectedProfit') }}
+        </div>
+        <div class="popup-text popup-preview-prefix">
+          X
+        </div>
+        <div class="popup-text popup-preview-item">
+          {{ fmtPayRate(state.currentBetItem?.payRate ?? 0) }}
+        </div>
+        <div class="popup-text popup-preview-prefix">
+          -
+        </div>
+        <div class="popup-text popup-preview-item">
+          {{ convertRate(state.bettingConfig?.bettingFee) }}
+        </div>
+        <div class="popup-text popup-preview-prefix">
+          =
+        </div>
+        <div class="popup-text popup-text-expect popup-preview-item">
+          {{ numWithCommas(renderExpectProfit(state.currentBetItem?.payRate)) }}{{ $t('views_betting_main_popup_dollars') }}
+        </div>
+      </div>
 
-    <div class="popup-piece popup-preview">
-      <div class="popup-preview-prefix" />
-      <div class="popup-text popup-text-profit popup-preview-item">
-        {{ $t('views_betting_main_popup_profit') }}
+      <div class="popup-piece">
+        <d-button
+          v-show="state.isHandlePolling"
+          type="primary"
+          :block="true"
+          round
+          :disabled="lockBettingBtn"
+          @click="handleBetting"
+        >
+          {{ $t('views_betting_main_popup_btnAction') }}({{ state.pollingTimer }})
+        </d-button>
+        <d-button
+          v-show="!state.isHandlePolling"
+          type="primary"
+          :block="true"
+          :disabled="false"
+          round
+          @click="refreshData"
+        >
+          {{ $t('views_betting_main_popup_btnAction2') }}
+        </d-button>
       </div>
-      <div class="popup-preview-prefix" />
-      <div class="popup-text popup-preview-item">
-        {{ $t('views_betting_main_popup_charge') }}
-      </div>
-      <div class="popup-preview-prefix" />
-      <div class="popup-text popup-text-expect popup-preview-item">
-        {{ $t('views_betting_main_popup_expectedProfit') }}
-      </div>
-      <div class="popup-text popup-preview-prefix">
-        X
-      </div>
-      <div class="popup-text popup-preview-item">
-        {{ fmtPayRate(state.currentBetItem?.payRate ?? 0) }}
-      </div>
-      <div class="popup-text popup-preview-prefix">
-        -
-      </div>
-      <div class="popup-text popup-preview-item">
-        {{ convertRate(state.bettingConfig?.bettingFee) }}
-      </div>
-      <div class="popup-text popup-preview-prefix">
-        =
-      </div>
-      <div class="popup-text popup-text-expect popup-preview-item">
-        {{ numWithCommas(renderExpectProfit(state.currentBetItem?.payRate)) }}{{ $t('views_betting_main_popup_dollars') }}
-      </div>
-    </div>
+    </d-popup>
 
-    <div class="popup-piece">
-      <d-button
-        v-show="state.isHandlePolling"
-        type="primary"
-        :block="true"
-        round
-        :disabled="lockBettingBtn"
-        @click="handleBetting"
-      >
-        {{ $t('views_betting_main_popup_btnAction') }}({{ state.pollingTimer }})
-      </d-button>
-      <d-button
-        v-show="!state.isHandlePolling"
-        type="primary"
-        :block="true"
-        :disabled="false"
-        round
-        @click="refreshData"
-      >
-        {{ $t('views_betting_main_popup_btnAction2') }}
-      </d-button>
-    </div>
-  </d-popup>
-
-  <d-footer-row />
+    <d-footer-row />
+  </div>
 </template>
 
 <script>
@@ -1360,5 +1362,11 @@ export default {
 
 .text-date {
   color: #fff4d9;
+}
+
+::v-deep(.header) {
+  .middle {
+    flex: 3 0 0;
+  }
 }
 </style>
