@@ -30,7 +30,7 @@
           :vip-level="vipLevel"
         />
         <div class="user-name">
-          {{ account }}
+          {{ nickName }}
         </div>
       </div>
       <!-- 餘額及錢包 -->
@@ -238,6 +238,7 @@ export default {
 
     const serviceUrl = computed(() => store.state.info.serviceUrl);
     const account = computed(() => store.state.user.account);
+    const nickName = computed(() => store.state.user.nickName);
     const transToSub = computed(() => store.state.user.transToSub);
     const avatar = computed(() => store.state.user.avatar);
     const vipLevel = computed(() => store.state.user.vipLevel);
@@ -376,6 +377,7 @@ export default {
       goPage,
       account,
       avatar,
+      nickName,
       vipLevel,
       balance,
       usersLockBalance,

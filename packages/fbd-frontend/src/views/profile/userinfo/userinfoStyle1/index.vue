@@ -13,7 +13,7 @@
         :vip-level="vipLevel"
       />
       <div class="user-name">
-        {{ account }}
+        {{ nickName }}
       </div>
     </div>
     <!-- 餘額及錢包 -->
@@ -294,6 +294,7 @@ export default {
     ]);
 
     const account = computed(() => store.state.user.account);
+    const nickName = computed(() => store.state.user.nickName);
     const avatar = computed(() => store.state.user.avatar);
     const vipLevel = computed(() => store.state.user.vipLevel);
     const balance = computed(() => store.state.user.balance);
@@ -312,6 +313,7 @@ export default {
       const params = {
         requestInfo: [
           'account',
+          'nickName',
           'avatar',
           'vipLevel',
           'balance',
@@ -506,6 +508,7 @@ export default {
       toggleEye,
       goPage,
       account,
+      nickName,
       avatar,
       vipLevel,
       balance,
