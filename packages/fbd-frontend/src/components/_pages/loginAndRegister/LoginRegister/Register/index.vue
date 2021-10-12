@@ -91,7 +91,6 @@
                     <a-input
                       v-model:value="state.formState.checkPasswordInputValue"
                       :type="seeCheckPassword? 'text' : 'password'"
-                      :readonly="agentCodeReadonly"
                       :placeholder="`${$t('components_pages_loginAndRegister_loginRegister_register_password_again')}`"
                       @focus="focusCheckPasswordInput"
                       @blur="blurCheckPasswordInput"
@@ -126,15 +125,9 @@
                     </div>
 
                     <a-input
-                      v-if="agentCode"
-                      :class="{'has-agent-code' : agentCode}"
-                      disabled
-                      :default-value="agentCode"
-                    />
-
-                    <a-input
-                      v-else
                       :placeholder="registerSetting.registerAgentCode ? `${$t('components_pages_loginAndRegister_loginRegister_register_agent_code')} ${$t('components_pages_loginAndRegister_loginRegister_register_mandatory')}` : `${$t('components_pages_loginAndRegister_loginRegister_register_agent_code')}`"
+                      :class="{'has-agent-code' : agentCode}"
+                      :readonly="agentCodeReadonly || agentCode"
                       @focus="focusRecommendInput"
                       @blur="blurRecommendInput"
                       :maxlength="8"
@@ -455,7 +448,7 @@
 
 <script>
 import {
-  ref, reactive, onMounted, computed, watch,
+  ref, reactive, onMounted, computed,
 } from 'vue';
 import * as moment from 'moment';
 import { useStore } from 'vuex';
@@ -468,10 +461,6 @@ import systemApi from '@/assets/js/api/systemApi';
 export default {
   emits: ['login', 'register', 'thirdPartyLogin', 'update:value', 'cancel'],
   props: {
-    agentCode: {
-      type: String,
-      default: undefined,
-    },
     value: {
       type: Boolean,
       default: false,
@@ -913,13 +902,6 @@ export default {
     const siteId = computed(() => store.state.info.siteId);
     const registerSetting = computed(() => store.state.info.registerSetting);
 
-    // watch
-    watch(() => props.agentCode, (val) => {
-      if (val) {
-        state.formState.recommendedPersonInputValue = val;
-      }
-    }, { immediate: true });
-
     // rules
     const rules = reactive({
       mainInputValue: [
@@ -1164,8 +1146,6 @@ export default {
      * 分享好友 => 获取邀请者的邀请码
      */
     const checkSiteDomain = async () => {
-      const c = route.query.c || agentCode.value;
-
       const { code, data } = await systemApi.checkSiteDomain(window.location.hostname);
 
       if (code === 200 && data && String(data).trim() && data !== 'null' && data !== 'undefined') {
@@ -1173,6 +1153,8 @@ export default {
         agentCodeReadonly.value = true;
         store.commit('SET_AGENT_CODE', data);
       }
+
+      const c = agentCode.value || route?.query?.c;
 
       if (!register.agentCodeReadonly && c && String(c).trim() && c !== 'null' && c !== 'undefined') {
         state.formState.recommendedPersonInputValue = c;
@@ -1702,6 +1684,7 @@ export default {
       agentCodeReadonly,
       checkKey,
       siteStyle,
+      agentCode,
     };
   },
 };

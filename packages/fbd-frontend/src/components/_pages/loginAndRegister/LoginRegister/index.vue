@@ -60,7 +60,7 @@
 
 <script>
 import {
-  ref, onMounted, reactive, computed, onBeforeMount,
+  ref, onMounted, reactive, computed, watch, onBeforeMount,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -321,6 +321,13 @@ export default {
       const queryC = route.query?.c;
       agentCode.value = queryC;
     };
+
+    // watch
+    watch(() => route.query, (val) => {
+      if (val?.mode) {
+        inLoginOrRegister(val?.mode);
+      }
+    }, { immediate: true });
 
     onBeforeMount(() => {
       getAgentCode();

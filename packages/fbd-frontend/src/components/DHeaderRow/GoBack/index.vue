@@ -14,7 +14,7 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   props: {
@@ -41,6 +41,7 @@ export default {
   },
   setup(props) {
     const store = useStore();
+    const route = useRoute();
     const router = useRouter();
     // computed
     const prevPage = computed(() => store.state.sessionStorageInfo.prevPage);
@@ -51,6 +52,8 @@ export default {
         router.push({
           name: 'profile-deposit',
         });
+      } else if (route?.query?.a === 'x') {
+        router.push('/');
       } else {
         router.back();
       }

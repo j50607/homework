@@ -9,10 +9,10 @@
 
 <script>
 import {
-  ref, reactive, getCurrentInstance, provide, onMounted, onUnmounted, computed, onBeforeMount, nextTick,
+  ref, reactive, getCurrentInstance, provide, onMounted, onUnmounted, computed, watch, onBeforeMount, nextTick,
 } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import FbdSocket from '@/assets/js/socket/fbdSocket';
 import SystemApi from '@/assets/js/api/systemApi';
 import Stylesheet from '@/assets/js/stylesheet';
@@ -22,6 +22,7 @@ export default {
   setup() {
     // use
     const store = useStore();
+    const route = useRoute();
     const router = useRouter();
     store.commit('SET_SITE_INFO', window._jsvar?.siteId);
 
@@ -291,6 +292,23 @@ export default {
       store.commit('SET_LOCALE', { lang: window._jsvar?.siteLocale });
     };
 
+    /**
+     * 判断route并转导至注册页面
+     */
+    const redirectToRegister = () => {
+      if (route?.query?.a === 'x') {
+        router.push({
+          path: '/loginAndRegister',
+          query: { mode: 'register', a: 'x', c: route?.query?.c },
+        });
+      }
+    };
+
+    // watch
+    watch(() => route.query, () => {
+      redirectToRegister();
+    });
+
     // provide
     provide('$validator', $validator);
     provide('$clientMode', () => state.clientMode);
@@ -300,7 +318,6 @@ export default {
       checkSite();
       setLocale();
       createCssVars();
-
       // 不加 nextTick 的話，在此時 vue instance 尚未掛到 window.$vue 上
       await nextTick();
       getSystemConfig();
