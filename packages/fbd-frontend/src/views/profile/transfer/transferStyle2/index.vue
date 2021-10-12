@@ -28,6 +28,18 @@
             :class="{'cursor-not-allowed':transToSub === 3 || (transToSub === 2 && state.currentKey === 0) }"
           >
         </template>
+        <template
+          #suffix
+          v-if="keyword"
+        >
+          <img
+            class="is-btn delete"
+            :src="$requireSafe('icon/enter-cancel.svg')"
+            alt=""
+            @click="handleSearchDelete()"
+            :class="{'cursor-not-allowed':transToSub === 3 || (transToSub === 2 && state.currentKey === 0) }"
+          >
+        </template>
       </a-input>
     </div>
 
@@ -244,6 +256,15 @@ export default {
       if (keyword.value) {
         state.userInfoOParams.value = keyword.value;
         await getSubUserInfo(state.userInfoOParams);
+      } else {
+        state.userInfoOParams.value = undefined;
+        await getSubUserInfo(state.userInfoOParams);
+      }
+    };
+
+    const handleSearchDelete = () => {
+      if (keyword.value) {
+        keyword.value = '';
       }
     };
 
@@ -306,7 +327,7 @@ export default {
       transferAccount,
       withdrawalCodeSetting,
       handleSearch,
-
+      handleSearchDelete,
     };
   },
 };
@@ -346,6 +367,12 @@ export default {
     .not-allowed {
       cursor: not-allowed;
     }
+  }
+
+  .delete {
+    position: absolute;
+    right: 35px;
+    width: 16px;
   }
 }
 
