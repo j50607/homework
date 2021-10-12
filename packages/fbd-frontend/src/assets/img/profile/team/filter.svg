@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62122" data-name="Rectangle 62122" width="24" height="24" transform="translate(3281 828)" fill="#4d5772" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-紀錄_篩選漏斗">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="紀錄_篩選漏斗" clip-path="url(#clip-紀錄_篩選漏斗)">
+    <g id="Mask_Group_638" data-name="Mask Group 638" transform="translate(-3281 -828)" clip-path="url(#clip-path)">
+      <path id="Icon_awesome-filter" data-name="Icon awesome-filter" d="M20.968,0H1.032A1.032,1.032,0,0,0,.3,1.76L8.25,9.708v8.854a1.031,1.031,0,0,0,.44.845l3.437,2.405a1.032,1.032,0,0,0,1.623-.845V9.708L21.7,1.76A1.032,1.032,0,0,0,20.968,0Z" transform="translate(3282 829)" fill="#4d5772"/>
+    </g>
+  </g>
+</svg>

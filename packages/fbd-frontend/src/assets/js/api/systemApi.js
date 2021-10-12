@@ -172,6 +172,22 @@ class SystemApi extends API {
 
     return this.callAxios('POST', `/site/domain/agent/${account}`, params, undefined, true);
   }
+
+  /**
+   * 取得代理报表(上级)
+   */
+  static async getAgentReport(params) {
+    const result = await this.callAxios('POST', '/frontend/report/agency/superior/get', params, null, true, undefined, null, 30000);
+    return result;
+  }
+
+  /**
+     * 取得代理报表(下级)
+     */
+  static async getSubordinateAgentReport(params) {
+    const result = await this.callAxios('POST', '/frontend/report/agency/subordinate/get', params, null, true, undefined, null, 30000);
+    return result;
+  }
 }
 
 export default SystemApi;

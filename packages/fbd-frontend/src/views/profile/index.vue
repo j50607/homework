@@ -224,6 +224,7 @@ export default {
     const redirectListTop = computed(() => [
       { label: t('views_profile_personalityProfile'), img: 'profile', redirect: '/profile/userinfo' },
       { label: t('views_profile_myReport'), img: 'report', redirect: '/profile/report' },
+      { label: t('views_profile_team'), img: 'team', redirect: '/profile/team' },
       { label: t('views_profile_myVip'), img: 'vip', redirect: '/profile/vip' },
       { label: t('views_profile_memberTransfer'), img: 'transfer', redirect: '/profile/transfer' },
     ]);

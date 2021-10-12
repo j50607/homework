@@ -1,5 +1,5 @@
 import {
-  Button, message, Modal, Collapse, Input, InputNumber, Form, Statistic, Select, Checkbox, Radio, Skeleton,
+  Button, message, Modal, Collapse, Input, InputNumber, Form, Statistic, Select, Checkbox, Radio, Skeleton, Table,
 } from 'ant-design-vue';
 
 const useAntUI = (app) => {
@@ -15,6 +15,7 @@ const useAntUI = (app) => {
   curApp.use(Radio);
   curApp.use(Skeleton);
   curApp.use(Select);
+  curApp.use(Table);
 
   message.config({
     maxCount: 1,

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62923" data-name="Rectangle 62923" width="24" height="24" transform="translate(5744.936 5197.936)" fill="#4d5772" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-代理报表_团队资讯">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="代理报表_团队资讯" clip-path="url(#clip-代理报表_团队资讯)">
+    <g id="Mask_Group_1005" data-name="Mask Group 1005" transform="translate(-5744.936 -5197.936)" clip-path="url(#clip-path)">
+      <g id="Group_40141" data-name="Group 40141" transform="translate(5745.965 5201.204)">
+        <g id="Group_13464" transform="translate(0 6.567)">
+          <path id="Union_109" data-name="Union 109" d="M6.006,7.224H.431A.511.511,0,0,1,0,6.663,3.293,3.293,0,0,1,3.268,4.057,3.264,3.264,0,0,1,6.534,6.63v.1a.513.513,0,0,1-.513.495ZM1.388,1.88a1.88,1.88,0,1,1,1.88,1.88A1.88,1.88,0,0,1,1.388,1.88Z" transform="translate(0)" fill="#4d5772"/>
+        </g>
+        <g id="Group_13464-2" data-name="Group_13464" transform="translate(7.678 10.247)">
+          <path id="Union_110" data-name="Union 110" d="M6.006,7.224H.431A.511.511,0,0,1,0,6.663,3.293,3.293,0,0,1,3.268,4.057,3.264,3.264,0,0,1,6.534,6.63v.1a.513.513,0,0,1-.513.495ZM1.388,1.88a1.88,1.88,0,1,1,1.88,1.88A1.88,1.88,0,0,1,1.388,1.88Z" transform="translate(0)" fill="#4d5772"/>
+        </g>
+        <g id="Group_13464-3" data-name="Group_13464" transform="translate(7.323 0)">
+          <path id="Union_111" data-name="Union 111" d="M6.713,8.074H.482A.572.572,0,0,1,0,7.447,3.68,3.68,0,0,1,3.652,4.534,3.648,3.648,0,0,1,7.3,7.41v.111a.574.574,0,0,1-.573.553ZM1.551,2.1a2.1,2.1,0,1,1,2.1,2.1A2.1,2.1,0,0,1,1.551,2.1Z" transform="translate(0)" fill="#4d5772"/>
+        </g>
+        <g id="Group_13464-4" data-name="Group_13464" transform="translate(15.413 6.567)">
+          <path id="Union_112" data-name="Union 112" d="M6.006,7.224H.431A.511.511,0,0,1,0,6.663,3.293,3.293,0,0,1,3.268,4.057,3.264,3.264,0,0,1,6.534,6.63v.1a.513.513,0,0,1-.513.495ZM1.388,1.88a1.88,1.88,0,1,1,1.88,1.88A1.88,1.88,0,0,1,1.388,1.88Z" transform="translate(0)" fill="#4d5772"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

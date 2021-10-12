@@ -116,14 +116,14 @@ class Api {
       Object.entries(params).forEach(([key, value]) => {
         if (key === 'start' || key === 'startTime' || key === 'startDate') {
           if (!startFromStartOfDay) {
-            params[key] = dayjs(value).format('YYYY/MM/DD HH:mm:ss');
+            params[key] = dayjs(value).format(this.Time(value));
           } else {
-            params[key] = dayjs(value).tz('Asia/Shanghai').startOf('day').format('YYYY/MM/DD HH:mm:ss');
+            params[key] = dayjs(value).tz('Asia/Shanghai').startOf('day').format(this.Time(value));
           }
         }
         if (key === 'end' || key === 'endTime' || key === 'endDate') {
           params[key] = dayjs(value).tz('Asia/Shanghai').endOf('day').add(1, 'second')
-            .format('YYYY/MM/DD HH:mm:ss');
+            .format(this.Time(value));
         }
       });
     }
@@ -191,6 +191,14 @@ class Api {
     } catch (error) {
       return error;
     }
+  }
+
+  static Time(time) {
+    const hasTime = time.includes(':');
+    const dash = time.includes('-');
+    const result = `YYYY${dash ? '-' : '/'}MM${dash ? '-' : '/'}DD${hasTime ? ' HH:mm:ss' : ''}`;
+
+    return result;
   }
 }
 
