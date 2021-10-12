@@ -568,7 +568,7 @@ export default {
         lineInputValue: undefined,
         zaloInputValue: undefined,
         birthdayInputValue: undefined,
-        genderInputValue: 2,
+        genderInputValue: undefined,
       },
     });
 
@@ -1031,7 +1031,7 @@ export default {
 
     const isGenderBool = computed(() => {
       if (registerGender.value) {
-        if (genderBool.value && state.formState.genderInputValue) {
+        if (genderBool.value && state.formState.genderInputValue >= 0) {
           return true;
         }
         return false;
