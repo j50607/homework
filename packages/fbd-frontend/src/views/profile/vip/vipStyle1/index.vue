@@ -142,6 +142,7 @@ export default {
       handlerCheckRecord,
       goBack,
       profitEnable,
+      getSelfRebate,
     };
   },
 };
