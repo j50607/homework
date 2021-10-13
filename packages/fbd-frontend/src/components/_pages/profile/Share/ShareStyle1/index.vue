@@ -197,7 +197,7 @@
             v-if="canEdit"
           >
             <div
-              class="btn"
+              class="btn is-btn"
               v-text="checkEditBtn ? $t('components_pages_profile_share_confirm') : $t('components_pages_profile_share_generateInvitationCode')"
               @click="handleAgent()"
             />
@@ -213,7 +213,7 @@
             v-else-if="!editMode && showEditBtn"
           >
             <div
-              class="btn"
+              class="btn is-btn"
               v-text="$t('components_pages_profile_share_resetTheScale')"
               @click="handleReSetting()"
             />
@@ -257,7 +257,7 @@
       </div>
       <div class="amount-box">
         <div
-          class="amount-btn is btn"
+          class="amount-btn is-btn"
           :class="[{'no-amount': state.amountCommission.totalAmount < 0.01}]"
           @click="receiveAmount()"
           v-text="$t('components_pages_profile_share_receive')"
