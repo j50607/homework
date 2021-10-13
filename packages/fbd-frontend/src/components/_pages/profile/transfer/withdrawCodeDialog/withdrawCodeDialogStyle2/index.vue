@@ -35,13 +35,20 @@
           </div>
         </div>
 
-        <div class="forget-withdraw-code mt-10 flex items-center justify-center mb-4">
-          <span class="mr-2 text-normal">{{ $t('components_withdrawCodeDialog_forgetPassword') }}</span>
-          <span
+        <div class="forget-withdraw-code mt-10 flex items-center justify-center mb-4 display-style">
+          <div
+            v-if="serviceUrl"
+            class="mr-2 text-normal margin-remove"
+          >
+            {{ $t('components_withdrawCodeDialog_forgetPassword') }}
+          </div>
+          <div
             v-if="serviceUrl"
             class="blue is-btn"
             @click="contactService()"
-          >{{ $t('components_withdrawCodeDialog_contactService') }}</span>
+          >
+            {{ $t('components_withdrawCodeDialog_contactService') }}
+          </div>
         </div>
       </template>
       <template #footer>
@@ -180,5 +187,14 @@ export default {
 
 .blue {
   color: #0e88f5;
+}
+
+.display-style {
+  display: block;
+  text-align: center;
+}
+
+.margin-remove {
+  margin-right: 0;
 }
 </style>
