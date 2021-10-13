@@ -27,7 +27,7 @@
       <div
         v-if="registerSetting.loginViaFB"
         class="quick-login-item is-btn"
-        @click="openThirdParty('facebook')"
+        @click="openThirdParty('fb')"
       >
         <div class="item-image">
           <img
@@ -84,9 +84,9 @@ import {
   ref, computed, onMounted, onUnmounted,
 } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import memberApi from '@/assets/js/api/memberApi';
+import MemberApi from '@/assets/js/api/memberApi';
 
 export default {
   props: {
@@ -95,14 +95,14 @@ export default {
       default: '',
     },
   },
-  emits: ['thirdPartyLogin'],
-  setup(props, { emit }) {
+  setup() {
     // ref
     const thirdPartyWindow = ref(undefined);
 
     // use
     const store = useStore();
     const route = useRoute();
+    const router = useRouter();
     const { t } = useI18n();
 
     // computed
@@ -127,7 +127,7 @@ export default {
         case 'google':
           id = googleLoginInfo?.webLoginId;
           break;
-        case 'facebook':
+        case 'fb':
           id = fbLoginInfo?.id;
           break;
         case 'line':
@@ -137,6 +137,7 @@ export default {
           id = qqLoginInfo?.id;
           break;
         default:
+          id = '';
           break;
       }
 
@@ -151,14 +152,51 @@ export default {
     };
 
     /**
+     * 用戶初始化資料
+     * @param { String } token - 令牌
+     */
+    const getUserInfoInit = async (token) => {
+      const { code, data, message } = await MemberApi.getUserInfoInit();
+
+      if (code === 200) {
+        const info = data;
+
+        if (info) {
+          store.commit('SET_LOGIN_INFO', {
+            id: info.id,
+            token,
+            agentId: info.agentId,
+            agentType: info.agentType,
+            superiorAccount: info.superiorAccount,
+            superior: info.superior,
+            account: info.account,
+            vipLevel: info.vipLevel,
+            nickName: info.nickName,
+            phone: info.phone,
+            balance: info.balance,
+            avatar: info.avatar,
+            name: info.name,
+            birthday: info.birthday,
+            gender: info.gender,
+            agentCode: info.agentCode,
+            lotteryBetAgentRate: info.lotteryBetAgentRate,
+            traceCount: info.traceCount,
+            accountGroup: info.accountGroup,
+            withdrawalCode: info.withdrawalCode,
+          });
+        }
+      } else {
+        window.$vue.$message.info(message);
+      }
+    };
+
+    /**
      * 第三方登陆
      */
     const thirdPartyLogin = async (token, type, lineRedirectUri) => {
       const { c } = route.query;
 
-      window.$vue.$message.info(t('components_quick_login_success'));
-
-      const { code, data, message } = await memberApi.thirdPartyLogin({
+      const { code, data, message } = await MemberApi.thirdPartyLogin({
         token,
         type,
         lineRedirectUri,
@@ -166,11 +204,12 @@ export default {
       });
       if (code === 200) {
         store.commit('SET_TOKEN', data);
-        emit('thirdPartyLogin');
+        await getUserInfoInit(data);
+        window.$vue.$message.info(t('components_quick_login_success'));
+        router.push('/');
       } else {
         window.$vue.$message.info(message);
       }
-      // toast.clear();
     };
 
     /**
