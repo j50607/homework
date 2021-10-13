@@ -593,7 +593,6 @@ const lang = {
   components_pages_profile_report_time_betAmount: '下单金额',
   components_pages_profile_report_time_betOrders: '下单数',
   components_pages_profile_report_time_time: '时间',
-
   components_pages_profile_team_agent_placeholder1: '输入会员账号搜寻',
   components_pages_profile_team_agent_teamInfo: '团队资讯',
   components_pages_profile_team_agent_teamMembers: '团队人数',
@@ -617,6 +616,8 @@ const lang = {
   components_pages_profile_team_agent_agentTable_theFirstChargeAmount: '首充金额',
   components_pages_profile_team_agent_agentTable_rechargeTime: '充值时间',
   components_pages_profile_team_agent_agentTable_addMembersToday: '今日新增成员',
+  components_pages_home_profitList_title: '获利榜',
+  components_pages_home_profitList_noItem: '暂无纪录',
 
   // Error
   error1: '请输入账户',

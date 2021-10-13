@@ -74,6 +74,7 @@
             :data="item"
             @click="goBet(item)"
           />
+          <profit-list />
           <promotion />
         </div>
       </div>
@@ -113,6 +114,7 @@ import SystemApi from '@/assets/js/api/systemApi';
 import InboundModal from '@/components/_pages/home/InboundModal';
 import { isValidUrl } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
+import ProfitList from '@/components/_pages/home/ProfitList';
 
 export default {
   components: {
@@ -121,6 +123,7 @@ export default {
     Promotion,
     Marquee,
     InboundModal,
+    ProfitList,
   },
   setup() {
     const store = useStore();

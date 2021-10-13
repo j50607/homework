@@ -585,7 +585,6 @@ const lang = {
   components_pages_profile_share_text1: 'Total proportion of you and your friends',
   components_pages_profile_share_text2: 'The higher the proportion of self-retention, the greater the amount of sharing prizes that can be obtained, but it will also cause a lower sharing proportion that can be set by friends, which is not good for diffusion and fission. Please set your sharing proportion carefully.',
   components_pages_components_vip_envelop_reveiced: 'Received',
-<<<<<<< HEAD
   components_pages_profile_report_summary_title: '获利总览',
   components_pages_profile_report_summary_title2: '累积获利金额',
   components_pages_profile_report_summary_profitArr_today: '本日',
@@ -595,8 +594,6 @@ const lang = {
   components_pages_profile_report_time_betAmount: '下单金额',
   components_pages_profile_report_time_betOrders: '下单数',
   components_pages_profile_report_time_time: '时间',
-=======
-
   components_pages_profile_team_agent_placeholder1: '输入会员账号搜寻',
   components_pages_profile_team_agent_teamInfo: '团队资讯',
   components_pages_profile_team_agent_teamMembers: '团队人数',
@@ -621,7 +618,6 @@ const lang = {
   components_pages_profile_team_agent_agentTable_rechargeTime: '充值时间',
   components_pages_profile_team_agent_agentTable_addMembersToday: '今日新增成员',
 
->>>>>>> feat(issue14761) 【反波膽 - 手機】【前端】製作代理報表 (#14761)
   // Error
   error1: 'Please enter your account number',
   error2: '6~12 characters of English and number',
