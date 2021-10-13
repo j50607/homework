@@ -502,7 +502,7 @@ const lang = {
   components_pages_components_vip_review_detailDailog: 'level  requirements',
   components_pages_components_vip_detailDailog_description: 'Place  <span class="text-color">{betSum}</span> orders within 30 days to stay at level <span class="text-color">VIP{level}</span>. Otherwise, your level will be moved down to  <span class="text-color">VIP{preLevel}</span>  ',
   components_pages_components_vip_detailDailog_description2: ' {deadLine} days left.  {alreadyBetSum} orders have been placed',
-  components_pages_components_vip_detailDailog_description3: 'Place <span class="text-color">{betSum}</span>  orders within 30 days to get Promoted to <span class="text-color">VIP{level}</span>.',
+  components_pages_components_vip_detailDailog_description3: 'Place <span class="text-color">{betSum}</span>  orders within 30 days to get promoted to <span class="text-color">VIP{level}</span>.',
   components_pages_components_vip_detailDailog_description4: '{deadLine} day(s) left. {alreadyBetSum} order(s) have been placed.',
   components_pages_components_vip_detailDailog_description5: 'Total deposit amount since you registered, <span class="text-color">{betSum}</span> left. You will be able to level up to <span class="text-color">VIP{level}</span>.',
   components_pages_components_vip_detailDailog_description6: 'Total order amount since you registered, <span class="text-color">{betSum}</span> left. You will be able to level up to <span class="text-color">VIP{level}</span>.',
