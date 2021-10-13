@@ -3,10 +3,19 @@
     class="match"
     v-slot="{locale}"
   >
-    <div class="label px-3 py-1">
-      {{ dayjs(data.matchTime).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnit})` }}
+    <div class="label-wrapper">
+      <div class="label px-3 py-1">
+        <span>{{ dayjs(data.matchTime).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnit})` }}</span>
+      </div>
+      <div>
+        <img :src="require('@/assets/img/icon/hot.png')">
+        <div>{{ getSportScore(data?.option).replace(/\s/g, '') }}</div>
+        <div>{{ fmtPayRate(data?.payRate ?? 0) }}</div>
+      </div>
     </div>
-    <div class="content flex-1 flex flex-col px-3 py-1">
+    <div
+      class="content flex-1 flex flex-col px-3 py-1"
+    >
       <div class="match-content flex items-center pt-2 pb-2">
         <div class="match-info flex flex-col">
           <div class="mb-2 text-primary text-sm">
@@ -78,6 +87,7 @@
 import dayjs from 'dayjs';
 import { inject, computed } from 'vue';
 import Locale from '@/components/Locale';
+import { getSportScore, fmtPayRate } from '@/assets/js/utils/utils';
 
 export default {
   components: {
@@ -117,6 +127,8 @@ export default {
       finish,
       isEnded,
       s3Base,
+      getSportScore,
+      fmtPayRate,
     };
   },
 };
@@ -129,8 +141,34 @@ export default {
   height: 200px;
   color: #4d5772;
 
-  .label {
-    background: url('~@/assets/img/home/bg-hot-match-label.svg') no-repeat;
+  .label-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .label {
+      background: url('~@/assets/img/home/bg-hot-match-label.svg') no-repeat;
+    }
+
+    :last-child {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 18px;
+      }
+
+      div {
+        margin-left: 5px;
+
+        &:first-of-type {
+          font-weight: bold;
+        }
+
+        &:last-of-type {
+          color: #7a5605;
+        }
+      }
+    }
   }
 
   .content {
