@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#d4d8e3"/>
+      <stop offset="1" stop-color="#bcc0cb"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_63024" data-name="Rectangle 63024" width="24" height="24" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_62969" data-name="Rectangle 62969" width="4" height="4" transform="translate(180 1181)" stroke="#707070" stroke-width="1" fill="url(#linear-gradient)"/>
+    </clipPath>
+    <clipPath id="clip-首页_中奖榜_分隔线_三颗星星">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="首页_中奖榜_分隔线_三颗星星" clip-path="url(#clip-首页_中奖榜_分隔线_三颗星星)">
+    <g id="Mask_Group_1060" data-name="Mask Group 1060" clip-path="url(#clip-path)">
+      <g id="Group_40257" data-name="Group 40257" transform="translate(-173 -1171)">
+        <g id="Mask_Group_1035" data-name="Mask Group 1035" transform="translate(3)" clip-path="url(#clip-path-2)">
+          <path id="Icon_awesome-star" data-name="Icon awesome-star" d="M3.078.121l-.448.907-1,.146a.219.219,0,0,0-.121.374l.724.706-.171,1a.219.219,0,0,0,.318.231l.9-.471.9.471a.219.219,0,0,0,.318-.231l-.171-1,.724-.706a.219.219,0,0,0-.121-.374l-1-.146L3.471.121A.22.22,0,0,0,3.078.121Z" transform="translate(178.725 1181.246)" fill="url(#linear-gradient)"/>
+        </g>
+        <g id="Mask_Group_1036" data-name="Mask Group 1036" transform="translate(-6)" clip-path="url(#clip-path-2)">
+          <path id="Icon_awesome-star-2" data-name="Icon awesome-star" d="M3.078.121l-.448.907-1,.146a.219.219,0,0,0-.121.374l.724.706-.171,1a.219.219,0,0,0,.318.231l.9-.471.9.471a.219.219,0,0,0,.318-.231l-.171-1,.724-.706a.219.219,0,0,0-.121-.374l-1-.146L3.471.121A.22.22,0,0,0,3.078.121Z" transform="translate(178.725 1181.246)" fill="url(#linear-gradient)"/>
+        </g>
+        <g id="Mask_Group_1037" data-name="Mask Group 1037" transform="translate(12)" clip-path="url(#clip-path-2)">
+          <path id="Icon_awesome-star-3" data-name="Icon awesome-star" d="M3.078.121l-.448.907-1,.146a.219.219,0,0,0-.121.374l.724.706-.171,1a.219.219,0,0,0,.318.231l.9-.471.9.471a.219.219,0,0,0,.318-.231l-.171-1,.724-.706a.219.219,0,0,0-.121-.374l-1-.146L3.471.121A.22.22,0,0,0,3.078.121Z" transform="translate(178.725 1181.246)" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
