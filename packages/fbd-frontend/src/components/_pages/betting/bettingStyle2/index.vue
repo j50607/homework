@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full">
     <d-header-row
       :title="state.currentGameData?.leagueName || ''"
       right-components="UserAvatar"
