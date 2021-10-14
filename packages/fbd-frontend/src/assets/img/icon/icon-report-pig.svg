@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62926" data-name="Rectangle 62926" width="24" height="24" transform="translate(12867 1090)" stroke="#707070" stroke-width="1" fill="url(#linear-gradient)"/>
+    </clipPath>
+    <clipPath id="clip-我的报表_摘要_累积获利金额">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="我的报表_摘要_累积获利金额" clip-path="url(#clip-我的报表_摘要_累积获利金额)">
+    <g id="Group_40147" data-name="Group 40147" transform="translate(-12867 -1090)" clip-path="url(#clip-path)">
+      <g id="noun_Piggy_Bank_2660436" data-name="noun_Piggy Bank_2660436" transform="translate(12867.998 1091.262)">
+        <g id="Group_40146" data-name="Group 40146" transform="translate(0 0)">
+          <path id="Union_114" data-name="Union 114" d="M15.762,21.475a.488.488,0,0,1-.482-.38l-.123-.548a14.625,14.625,0,0,1-3.613.442,14.766,14.766,0,0,1-3.633-.447l-.123.553a.493.493,0,0,1-.477.38H4.885a.488.488,0,0,1-.488-.487V19.049a7.634,7.634,0,0,1-2.705-2.837H.492A.5.5,0,0,1,0,15.719V11.968a.493.493,0,0,1,.492-.487H1.615a7.321,7.321,0,0,1,2.4-2.726c-.051-.573-.113-1.233-.158-1.817a.959.959,0,0,1,.6-.99.98.98,0,0,1,1.133.284l.965,1.188a14.36,14.36,0,0,1,4.988-.868,13.2,13.2,0,0,1,7.324,2.056A6.322,6.322,0,0,1,22,13.77a6.437,6.437,0,0,1-3.336,5.289v1.929a.487.487,0,0,1-.486.487ZM4.355,11.486a.693.693,0,1,0,.689-.69A.691.691,0,0,0,4.355,11.486ZM8.994,9.1a.732.732,0,0,0,.736.731h4.193a.733.733,0,0,0,0-1.467H9.73A.733.733,0,0,0,8.994,9.1Zm.045-6.309a2.8,2.8,0,1,1,2.8,2.8A2.795,2.795,0,0,1,9.039,2.792Z" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

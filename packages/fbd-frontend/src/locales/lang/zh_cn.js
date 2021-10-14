@@ -406,6 +406,11 @@ const lang = {
   views_profile_teamReport_bettingType2: '半场',
   views_profile_teamReport_action1: '展开详情',
   views_profile_teamReport_action2: '收回详情',
+  views_profile_report_title: '我的报表',
+  views_profile_report_tabs_tabList_summary: '摘要',
+  views_profile_report_tabs_tabList_day: '日',
+  views_profile_report_tabs_tabList_week: '周',
+  views_profile_report_tabs_tabList_month: '月',
 
   // Components
   components_common_dialog_confirm: '确认',
@@ -575,6 +580,15 @@ const lang = {
   components_pages_profile_share_text1: '自身+好友比例合计为',
   components_pages_profile_share_text2: '自身保留的比例越高，可获得的分享奖金额越多但也会造成 好友可设定的分享比例较低，不利扩散裂变，请谨慎设定您 的分享比例。',
   components_pages_components_vip_envelop_reveiced: '已領取',
+  components_pages_profile_report_summary_title: '获利总览',
+  components_pages_profile_report_summary_title2: '累积获利金额',
+  components_pages_profile_report_summary_profitArr_today: '本日',
+  components_pages_profile_report_summary_profitArr_week: '本周',
+  components_pages_profile_report_summary_profitArr_month: '本月',
+  components_pages_profile_report_time_profitAmount: '获利金额',
+  components_pages_profile_report_time_betAmount: '下单金额',
+  components_pages_profile_report_time_betOrders: '下单数',
+  components_pages_profile_report_time_time: '时间',
 
   // Error
   error1: '请输入账户',

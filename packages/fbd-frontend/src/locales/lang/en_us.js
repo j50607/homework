@@ -406,6 +406,11 @@ const lang = {
   views_profile_transaction_empty: 'no history',
   views_finance_balance: 'balance',
   views_profile_transaction_transactionDetail_orderDetail: 'order detail',
+  views_profile_report_title: '我的报表',
+  views_profile_report_tabs_tabList_summary: '摘要',
+  views_profile_report_tabs_tabList_day: '日',
+  views_profile_report_tabs_tabList_week: '周',
+  views_profile_report_tabs_tabList_month: '月',
 
   // Components
   components_common_dialog_confirm: 'Confirm',
@@ -576,6 +581,15 @@ const lang = {
   components_pages_profile_share_text1: 'Total proportion of you and your friends',
   components_pages_profile_share_text2: 'The higher the proportion of self-retention, the greater the amount of sharing prizes that can be obtained, but it will also cause a lower sharing proportion that can be set by friends, which is not good for diffusion and fission. Please set your sharing proportion carefully.',
   components_pages_components_vip_envelop_reveiced: 'Received',
+  components_pages_profile_report_summary_title: '获利总览',
+  components_pages_profile_report_summary_title2: '累积获利金额',
+  components_pages_profile_report_summary_profitArr_today: '本日',
+  components_pages_profile_report_summary_profitArr_week: '本周',
+  components_pages_profile_report_summary_profitArr_month: '本月',
+  components_pages_profile_report_time_profitAmount: '获利金额',
+  components_pages_profile_report_time_betAmount: '下单金额',
+  components_pages_profile_report_time_betOrders: '下单数',
+  components_pages_profile_report_time_time: '时间',
   // Error
   error1: 'Please enter your account number',
   error2: '6~12 characters of English and number',

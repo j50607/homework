@@ -289,6 +289,16 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/profile/report',
+    name: 'Report',
+    component: () => import(/* webpackChunkName: "Report" */ '@/views/profile/report'),
+    meta: {
+      title: 'Report',
+      layout: Layout,
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = createRouter({

@@ -150,6 +150,14 @@ class SportApi extends API {
     const result = await this.callAxios('POST', '/frontend/remedy/log/get', {}, null, true);
     return result;
   }
+
+  /**
+   * 前台下單報表查詢
+   */
+  static async getBetReport(params) {
+    const result = await this.callAxios('POST', '/frontend/sport-game/bet/report/get', params, null, true);
+    return result;
+  }
 }
 
 export default SportApi;
