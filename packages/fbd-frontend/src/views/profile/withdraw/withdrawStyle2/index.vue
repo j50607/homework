@@ -212,7 +212,7 @@ export default {
     const withdarwHandlingFee = computed(() => store.state.info.withdrawSettings.withdarwHandlingFee);
     // 强制提现手续费
     const forceCharge = computed(() => {
-      if (!state.info.chargeFees || freeWithdrawCount.value || state.isWaterEnough) return 0;
+      if (state.isWaterEnough) return 0;
 
       return Math.floor((NP.times(NP.divide(withdarwHandlingFee.value, 100), +state.form.amount)) * 100) / 100;
     });
