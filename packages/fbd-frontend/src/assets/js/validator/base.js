@@ -563,7 +563,7 @@ class Base {
    * @param {String} whatsApp - whatsApp
    * @param {Boolean} toast - 是否显示错误讯息
    */
-   validateWhatsApp(whatsApp, toast = false) {
+  validateWhatsApp(whatsApp, toast = false) {
     const emptyMessage = window.$vue.$t('common_errorEmptyWhatsApp');
     if (!this._validateEmpty(whatsApp, emptyMessage, toast)) {
       return this._getResult(false, emptyMessage);
@@ -613,6 +613,38 @@ class Base {
 
     const lengthMessage = window.$vue.$t('common_errorLength');
     if (wechat.length > 30) {
+      if (toast) {
+        this._showToast(lengthMessage);
+      }
+      return this._getResult(false, lengthMessage);
+    }
+
+    return this._getResult(true);
+  }
+
+    /**
+   * telegram验证
+   * @param {String} telegram - telegram
+   * @param {Boolean} toast - 是否显示错误讯息
+   */
+  validateTelegram(telegram, toast = false) {
+    const emptyMessage = window.$vue.$t('common_errorEmptyTelegram');
+    if (!this._validateEmpty(telegram, emptyMessage, toast)) {
+      return this._getResult(false, emptyMessage);
+    }
+
+    const fullWidthMessage = window.$vue.$t('common_errorNoFullWidthTelegram');
+    if (!this._validateFullWidth(telegram, fullWidthMessage, toast)) {
+      return this._getResult(false, fullWidthMessage);
+    }
+
+    const formatMessage = window.$vue.$t('common_errorFormat');
+    if (!this._validateChinese(telegram, formatMessage, toast)) {
+      return this._getResult(false, formatMessage);
+    }
+
+    const lengthMessage = window.$vue.$t('common_errorLength');
+    if (telegram.length > 30) {
       if (toast) {
         this._showToast(lengthMessage);
       }

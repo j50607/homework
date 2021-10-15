@@ -190,6 +190,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_line_placeholder: '請輸入Line',
   components_pages_loginAndRegister_loginRegister_register_zalo: 'Zalo',
   components_pages_loginAndRegister_loginRegister_register_zalo_placeholder: '請輸入Zalo',
+  components_pages_loginAndRegister_loginRegister_register_telegram: 'Telegram',
+  components_pages_loginAndRegister_loginRegister_register_telegram_placeholder: '请输入Telegram',
   components_pages_loginAndRegister_loginRegister_register_whatsApp: 'WhatsApp',
   components_pages_loginAndRegister_loginRegister_register_whatsApp_placeholder: '请输入WhatsApp号',
   components_pages_loginAndRegister_loginRegister_register_birthday: '生日',
@@ -357,6 +359,10 @@ const lang = {
   error50: '领取失败, 请联系客服',
   error51: '奖金不足, 无法领取奖金',
   error52: '真實姓名首尾不可包含空白或特殊字元',
+  error53: 'Telegram賬號不包含特殊字符或標點符號',
+  error54: 'Telegram賬號不可包含全形字元',
+  error55: 'Telegram字數過長',
+  error56: '請輸入Telegram帳號',
 };
 
 export default {

@@ -41,6 +41,8 @@ const lang = {
   common_errorNoFullWidthQq: 'QQ账号不可包含全形字元',
   common_errorEmptyWhatsApp: '请输入WhatsApp账号',
   common_errorNoFullWidthWhatsApp: 'WhatsApp账号不可包含全形字元',
+  common_errorEmptyTelegram: '请输入Telegram账号',
+  common_errorNoFullWidthTelegram: 'Telegram账号不可包含全形字元',
   common_errorEmptyEmail: '请输入Email',
   common_errorEmptyPhone: '请输入手机号码',
   common_errorEmptyRealName: '请输入真实姓名',
@@ -284,6 +286,7 @@ const lang = {
   views_profile_userinfo_line: 'LINE',
   views_profile_userinfo_zalo: 'Zalo',
   views_profile_userinfo_whatsapp: 'WhatsApp',
+  views_profile_userinfo_telegram: 'Telegram',
   views_profile_userinfo_setting: '设置',
   views_profile_userinfo_modifyLoginPassword: '修改登录密码',
   views_profile_userinfo_modifyWithdrawPassword: '修改提现密码',
@@ -438,6 +441,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_line_placeholder: '请输入Line',
   components_pages_loginAndRegister_loginRegister_register_zalo: 'Zalo',
   components_pages_loginAndRegister_loginRegister_register_zalo_placeholder: '请输入Zalo',
+  components_pages_loginAndRegister_loginRegister_register_telegram: 'Telegram',
+  components_pages_loginAndRegister_loginRegister_register_telegram_placeholder: '请输入Telegram',
   components_pages_loginAndRegister_loginRegister_register_whatsApp: 'WhatsApp',
   components_pages_loginAndRegister_loginRegister_register_whatsApp_placeholder: '请输入WhatsApp号',
   components_pages_loginAndRegister_loginRegister_register_birthday: '生日',
@@ -672,6 +677,10 @@ const lang = {
   error50: '领取失败, 请联系客服',
   error51: '奖金不足, 无法领取奖金',
   error52: '真实姓名首尾不可包含空白或特殊字元',
+  error53: 'Telegram账号不包含特殊字符或标点符号',
+  error54: 'Telegram账号不可包含全形字元',
+  error55: 'Telegram字数过长',
+  error56: '请输入Telegram账号',
 };
 
 export default {

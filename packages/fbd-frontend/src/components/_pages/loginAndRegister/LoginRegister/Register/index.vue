@@ -417,6 +417,31 @@
                   </a-input-group>
                 </a-form-item>
 
+                <a-form-item
+                  v-if="registerSetting.showTelegram"
+                  class="main-input"
+                  name="telegramInputValue"
+                  :label="$t('components_pages_loginAndRegister_loginRegister_register_telegram')"
+                >
+                  <a-input-group
+                    compact
+                    class="main-input"
+                    :class="[checkFocus('telegram')]"
+                  >
+                    <div class="input-icon">
+                      <img :src="$requireSafe(`icon/style${siteStyle}/telegram.svg`)">
+                    </div>
+
+                    <a-input
+                      v-model:value="state.formState.telegramInputValue"
+                      :type="'text'"
+                      :placeholder="$t('components_pages_loginAndRegister_loginRegister_register_telegram_placeholder')"
+                      @focus="focusTelegramInput"
+                      @blur="blurTelegramInput"
+                    />
+                  </a-input-group>
+                </a-form-item>
+
                 <a-form-item>
                   <d-button
                     type="primary"
@@ -499,6 +524,7 @@ export default {
     const emailBool = ref(false);
     const lineBool = ref(false);
     const zaloBool = ref(false);
+    const telegramBool = ref(false);
     const birthdayBool = ref(false);
     const genderBool = ref(false);
 
@@ -515,6 +541,7 @@ export default {
     const focusEmailBool = ref(false);
     const focusLineBool = ref(false);
     const focusZaloBool = ref(false);
+    const focusTelegramBool = ref(false);
     const focusBirthdayBool = ref(false);
     const focusGenderBool = ref(false);
 
@@ -567,6 +594,7 @@ export default {
         whatsappInputValue: undefined,
         lineInputValue: undefined,
         zaloInputValue: undefined,
+        telegramInputValue: undefined,
         birthdayInputValue: undefined,
         genderInputValue: undefined,
       },
@@ -658,7 +686,7 @@ export default {
         if ((regSymbol.test(value[0]) && !regIsWord.test(value[0]))
         || (regSymbol.test(value[value.length - 1]) && !regIsWord.test(value[value.length - 1]))) {
           realNameBool.value = false;
-          return Promise.reject(new Error(t('error52')));
+          return Promise.reject(new Error(t('error56')));
         }
         if (value.length > 50) {
           realNameBool.value = false;
@@ -673,7 +701,7 @@ export default {
           if ((regSymbol.test(value[0]) && !regIsWord.test(value[0]))
         || (regSymbol.test(value[value.length - 1]) && !regIsWord.test(value[value.length - 1]))) {
             realNameBool.value = false;
-            return Promise.reject(new Error(t('error52')));
+            return Promise.reject(new Error(t('error56')));
           }
           if (value.length > 50) {
             realNameBool.value = false;
@@ -878,6 +906,32 @@ export default {
       return Promise.resolve();
     };
 
+    const registerTelegram = computed(() => store.state.info.registerSetting.registerTelegram);
+    const telegramValidate = async (rule, value) => {
+      const regCantContainChinese = /[`~!@#$^&*()=|{}':;',[\]<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]/;
+
+      const regCantContainFull = /[\uFF00-\uFFFF]/g;
+
+      if (registerTelegram.value) {
+        if (!value || !value.trim()) {
+          telegramBool.value = false;
+          return Promise.reject(new Error(t('error56')));
+        } if (regCantContainChinese.test(value)) {
+          telegramBool.value = false;
+          return Promise.reject(new Error(t('error53')));
+        } if (regCantContainFull.test(value)) {
+          telegramBool.value = false;
+          return Promise.reject(new Error(t('error54')));
+        } if (value.length > 20) {
+          telegramBool.value = false;
+          return Promise.reject(new Error(t('error55')));
+        }
+      }
+
+      telegramBool.value = true;
+      return Promise.resolve();
+    };
+
     const registerBirthday = computed(() => store.state.info.registerSetting.registerBirthday);
     const birthdayValidate = async (rule, value) => {
       if (registerBirthday.value) {
@@ -941,6 +995,7 @@ export default {
       whatsappInputValue: [{ required: registerWhatsApp.value, validator: WhatsAppValidate, trigger: 'change' }],
       lineInputValue: [{ required: registerLine.value, validator: lineValidate, trigger: 'change' }],
       zaloInputValue: [{ required: registerZalo.value, validator: zaloValidate, trigger: 'change' }],
+      telegramInputValue: [{ required: registerTelegram.value, validator: telegramValidate, trigger: 'change' }],
       birthdayInputValue: [{ required: registerBirthday.value, validator: birthdayValidate, trigger: 'change' }],
       genderInputValue: [{ required: registerGender.value, validator: genderValidate, trigger: 'change' }],
     });
@@ -1097,8 +1152,18 @@ export default {
       return true;
     });
 
+    const isTelegramBool = computed(() => {
+      if (registerTelegram.value) {
+        if (telegramBool.value && state.formState.telegramInputValue) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
     const checkInputValue = computed(() => {
-      if (isAccountBool.value && isPasswordBool.value && isConfirmPasswordBool.value && isAgentCodeBool.value && isRealNameBool.value && isNicknameBool.value && isPhoneBool.value && isEmailBool.value && isBirthdayBool.value && isGenderBool.value && isQQBool.value && isWechatBool.value && isWhatsappBool.value && isLineBool.value && isZaloBool.value) {
+      if (isAccountBool.value && isPasswordBool.value && isConfirmPasswordBool.value && isAgentCodeBool.value && isRealNameBool.value && isNicknameBool.value && isPhoneBool.value && isEmailBool.value && isBirthdayBool.value && isGenderBool.value && isQQBool.value && isWechatBool.value && isWhatsappBool.value && isLineBool.value && isZaloBool.value && isTelegramBool.value) {
         return true;
       }
 
@@ -1339,6 +1404,18 @@ export default {
       }
     };
 
+    const focusTelegramInput = (val) => {
+      if (val && val.type === 'focus') {
+        focusTelegramBool.value = true;
+      }
+    };
+
+    const blurTelegramInput = (val) => {
+      if (val) {
+        focusTelegramBool.value = false;
+      }
+    };
+
     const focusBirthdayInput = (val) => {
       if (val && val.type === 'focus') {
         focusBirthdayBool.value = true;
@@ -1532,6 +1609,18 @@ export default {
             result = 'blur-input';
           }
           break;
+        case 'telegram':
+          if (focusTelegramBool.value && !telegramBool.value) {
+            result = 'has-error';
+          } else if (focusTelegramBool.value) {
+            result = 'focus-input';
+          } else if (!telegramBool.value) {
+            focusTelegramBool.value = false;
+            result = 'has-error';
+          } else {
+            result = 'blur-input';
+          }
+          break;
         case 'birthday':
           if (focusBirthdayBool.value && !birthdayBool.value) {
             result = 'has-error';
@@ -1577,6 +1666,7 @@ export default {
       focusEmailBool.value = false;
       focusLineBool.value = false;
       focusZaloBool.value = false;
+      focusTelegramBool.value = false;
       focusBirthdayBool.value = false;
       focusGenderBool.value = false;
 
@@ -1593,6 +1683,7 @@ export default {
       emailBool.value = true;
       lineBool.value = true;
       zaloBool.value = true;
+      telegramBool.value = true;
       birthdayBool.value = true;
       genderBool.value = true;
     };
@@ -1649,6 +1740,7 @@ export default {
       weixinBool,
       lineBool,
       zaloBool,
+      telegramBool,
       focusRealNameBool,
       focusNicknameBool,
       focusPhoneBool,
@@ -1676,6 +1768,8 @@ export default {
       blurLineInput,
       focusZaloInput,
       blurZaloInput,
+      focusTelegramInput,
+      blurTelegramInput,
       birthdayBool,
       focusBirthdayBool,
       genderBool,

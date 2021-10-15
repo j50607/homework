@@ -39,8 +39,10 @@ const lang = {
   common_errorNoFullWidthWechat: 'Wechat IDは全角文字を含まない',
   common_errorEmptyQq: 'QQ IDを入力して下さい',
   common_errorNoFullWidthQq: 'QQ ID全角文字を含まない',
-  common_errorEmptyWhatsApp: '请输入WhatsApp账号',
-  common_errorNoFullWidthWhatsApp: 'WhatsApp账号不可包含全形字元',
+  common_errorEmptyWhatsApp: '请WhatsAppIDを入力して下さい',
+  common_errorNoFullWidthWhatsApp: 'WhatsApp IDは全角文字を含まない',
+  common_errorEmptyTelegram: 'TelegramIDを入力して下さい',
+  common_errorNoFullWidthTelegram: 'Telegram IDは全角文字を含まない',
   common_errorEmptyEmail: 'メールアドレスを入力して下さい',
   common_errorEmptyPhone: '携帯番号を入力して下さい',
   common_errorEmptyRealName: '本名を入力して下さい',
@@ -191,6 +193,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_line_placeholder: '请输入Line',
   components_pages_loginAndRegister_loginRegister_register_zalo: 'Zalo',
   components_pages_loginAndRegister_loginRegister_register_zalo_placeholder: '请输入Zalo',
+  components_pages_loginAndRegister_loginRegister_register_telegram: 'Telegram',
+  components_pages_loginAndRegister_loginRegister_register_telegram_placeholder: '请输入Telegram',
   components_pages_loginAndRegister_loginRegister_register_whatsApp: 'WhatsApp',
   components_pages_loginAndRegister_loginRegister_register_whatsApp_placeholder: '请输入WhatsApp号',
   components_pages_loginAndRegister_loginRegister_register_birthday: '生日',
@@ -358,6 +362,10 @@ const lang = {
   error50: '受け取り失敗、お問い合わにご連絡ください',
   error51: 'ボーナスが不足しています、ボーナスを取得できません',
   error52: '真实姓名首尾不可包含空白或特殊字元',
+  error53: 'Telegramアカウントに特殊文字または句読点が含まれていません',
+  error54: 'Telegramアカウントに全幅文字を含めることはできません',
+  error55: 'Telegramの単語数が長すぎます',
+  error56: 'Telegramアカウント番号を入力してください',
 };
 
 export default {

@@ -270,6 +270,7 @@ export default {
         line: formState.lineInputValue,
         whatsApp: formState.whatsappInputValue,
         zalo: formState.zaloInputValue,
+        telegram: formState.telegramInputValue,
         registerType: registerType.value,
         authCodeKey: validateNumber,
         agentCode: formState.recommendedPersonInputValue,

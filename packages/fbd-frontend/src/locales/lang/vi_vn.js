@@ -41,6 +41,8 @@ const lang = {
   common_errorNoFullWidthQq: 'Tài khoản QQ không thể chứ bao gồm các ký tự có độ rộng toàn phần',
   common_errorEmptyWhatsApp: '请输入WhatsApp账号',
   common_errorNoFullWidthWhatsApp: 'WhatsApp账号不可包含全形字元',
+  common_errorEmptyTelegram: '请输入Telegram账号',
+  common_errorNoFullWidthTelegram: 'Telegram账号不可包含全形字元',
   common_errorEmptyEmail: 'Vui lòng nhập Email vào ',
   common_errorEmptyPhone: 'Vui lòng nhập vào số điện thoại vào ',
   common_errorEmptyRealName: 'Vui lòng nhập họ và tên thật vào ',
@@ -283,6 +285,7 @@ const lang = {
   views_profile_userinfo_line: 'LINE',
   views_profile_userinfo_zalo: 'Zalo',
   views_profile_userinfo_whatsapp: 'WhatsApp',
+  views_profile_userinfo_telegram: 'Telegram',
   views_profile_userinfo_setting: 'Cài đặt',
   views_profile_userinfo_modifyLoginPassword: 'Sửa đổi mật khẩu đăng nhập',
   views_profile_userinfo_modifyWithdrawPassword: 'Sửa đổi mật khẩu rút tiền',
@@ -430,6 +433,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_line_placeholder: 'Vui lòng nhập line',
   components_pages_loginAndRegister_loginRegister_register_zalo: 'Zalo',
   components_pages_loginAndRegister_loginRegister_register_zalo_placeholder: 'Vui lòng nhập zalo vào',
+  components_pages_loginAndRegister_loginRegister_register_telegram: 'Telegram',
+  components_pages_loginAndRegister_loginRegister_register_telegram_placeholder: '请输入Telegram',
   components_pages_loginAndRegister_loginRegister_register_whatsApp: 'WhatsApp',
   components_pages_loginAndRegister_loginRegister_register_whatsApp_placeholder: '请输入WhatsApp号',
   components_pages_loginAndRegister_loginRegister_register_birthday: 'Ngày sinh',
@@ -653,6 +658,10 @@ const lang = {
   error50: 'Nhận thất bại, vui lòng liên hệ CSKH',
   error51: 'Tiền thưởng không đủ, không thể nhận tiền thưởng',
   error52: '真实姓名首尾不可包含空白或特殊字元',
+  error53: 'Telegram账号不包含特殊字符或标点符号',
+  error54: 'Telegram账号不可包含全形字元',
+  error55: 'Telegram字数过长',
+  error56: '请输入Telegram账号',
 };
 
 export default {

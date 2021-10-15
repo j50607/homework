@@ -171,6 +171,7 @@ const mutations = {
         registerWechat,
         registerZalo,
         registerWhatsApp,
+        registerTelegram,
         showAgentCode,
         showBirthday,
         showEmail,
@@ -183,6 +184,7 @@ const mutations = {
         showWechat,
         showZalo,
         showWhatsApp,
+        showTelegram,
       } = registerSetting;
 
       registerObj = {
@@ -205,6 +207,7 @@ const mutations = {
         registerWechat,
         registerZalo,
         registerWhatsApp,
+        registerTelegram,
         showAgentCode,
         showBirthday,
         showEmail,
@@ -217,6 +220,7 @@ const mutations = {
         showWechat,
         showZalo,
         showWhatsApp,
+        showTelegram,
       };
       state.registerSetting = registerObj;
     }

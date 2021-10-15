@@ -41,6 +41,8 @@ const lang = {
   common_errorNoFullWidthQq: 'บัญชี QQ ไม่สามารถมีอักขระแบบเต็ม',
   common_errorEmptyWhatsApp: '请输入WhatsApp账号',
   common_errorNoFullWidthWhatsApp: 'WhatsApp账号不可包含全形字元',
+  common_errorEmptyTelegram: '请输入Telegram账号',
+  common_errorNoFullWidthTelegram: 'Telegram账号不可包含全形字元',
   common_errorEmptyEmail: 'กรุณากรอกอีเมล์',
   common_errorEmptyPhone: 'กรุณากรอกหมายเลขโทรศัพท์',
   common_errorEmptyRealName: 'กรุณากรอกชื่อจริงของท่าน',
@@ -191,6 +193,8 @@ const lang = {
   components_pages_loginAndRegister_loginRegister_register_line_placeholder: '请输入Line',
   components_pages_loginAndRegister_loginRegister_register_zalo: 'Zalo',
   components_pages_loginAndRegister_loginRegister_register_zalo_placeholder: '请输入Zalo',
+  components_pages_loginAndRegister_loginRegister_register_telegram: 'Telegram',
+  components_pages_loginAndRegister_loginRegister_register_telegram_placeholder: '请输入Telegram',
   components_pages_loginAndRegister_loginRegister_register_whatsApp: 'WhatsApp',
   components_pages_loginAndRegister_loginRegister_register_whatsApp_placeholder: '请输入WhatsApp号',
   components_pages_loginAndRegister_loginRegister_register_birthday: '生日',
@@ -359,6 +363,10 @@ const lang = {
   error50: 'ทำรายการไม่สำเร็จ ติดต่อฝ่ายบริการ',
   error51: 'ยังไม่สามารถรับรางวัลได้',
   error52: '真实姓名首尾不可包含空白或特殊字元',
+  error53: 'บัญชี Telegram ไม่มีอักขระพิเศษหรือเครื่องหมายวรรคตอน',
+  error54: 'บัญชี Telegram ไม่สามารถมีอักขระแบบเต็มความกว้าง',
+  error55: 'Telegram จำนวนคำยาวเกินไป',
+  error56: 'โปรดป้อนหมายเลขบัญชี Telegram',
 };
 
 export default {
