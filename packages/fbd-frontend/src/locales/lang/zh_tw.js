@@ -299,7 +299,7 @@ const lang = {
   components_pages_profile_team_betOption: '下單選項',
   components_pages_profile_team_gameTime: '開賽時間',
   components_pages_profile_team_gameDetail: '賽事詳情',
-  components_pages_profile_team__gameResult: '賽事結果',
+  components_pages_profile_team_gameResult: '賽事結果',
   components_pages_profile_team_bettingType1: '全場',
   components_pages_profile_team_bettingType2: '半場',
   components_pages_profile_team_action1: '展開詳情',

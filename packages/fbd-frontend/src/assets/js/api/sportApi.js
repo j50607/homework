@@ -79,6 +79,14 @@ class SportApi extends API {
   }
 
   /*
+  * 賽事注單（包刮下級帳號）
+  */
+  static async getSubBetOrderStatistic(params) {
+    const result = await this.callAxios('POST', '/frontend/sport-game/game-record/bet-record/get', params, null, true);
+    return result;
+  }
+
+  /*
    * 取得首頁賽事相關資料
    * @returns
    */

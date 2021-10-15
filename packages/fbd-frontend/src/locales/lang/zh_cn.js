@@ -610,7 +610,7 @@ const lang = {
   components_pages_profile_team_betOption: '下单选项',
   components_pages_profile_team_gameTime: '开赛时间',
   components_pages_profile_team_gameDetail: '赛事详情',
-  components_pages_profile_team__gameResult: '赛事结果',
+  components_pages_profile_team_gameResult: '赛事结果',
   components_pages_profile_team_bettingType1: '全场',
   components_pages_profile_team_bettingType2: '半场',
   components_pages_profile_team_action1: '展开详情',

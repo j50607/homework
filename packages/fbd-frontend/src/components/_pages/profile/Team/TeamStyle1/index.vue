@@ -1,8 +1,6 @@
 <template>
   <div class="team">
-    <d-header-row
-      :title="$t('views_profile_team')"
-    />
+    <d-header-row :title="$t('views_profile_team')" />
 
     <div class="team-area">
       <div class="range flex justify-between">
@@ -35,15 +33,24 @@
         @search="search"
         @enterEvent="search"
       />
-      <component
-        :is="state.tabList[state.currentKey].value"
-        :agent-obj="state.agentObj"
-        :record-list="state.recordList"
-        :search-keyword="state.searchKeyword"
-        :start-date="start"
-        :end-date="end"
-        :is-search="state.isSearch"
-      />
+      <keep-alive>
+        <component
+          :is="state.tabList[state.currentKey].value"
+          :ref="refsTitle"
+          :agent-obj="state.agentObj"
+          :record-list="state.recordList"
+          :bet-list="state.betList"
+          :detail-type="state.detailType"
+          :search-keyword="state.searchKeyword"
+          :start-date="start"
+          :end-date="end"
+          :is-search="state.isSearch"
+          :scroll="state.scrollPullDone"
+          :scroll-finish="state.scrollFinished"
+          @detail-pull="detailPullScrollHandle"
+          @detail-load-more="detailLoadMoreHandle"
+        />
+      </keep-alive>
     </div>
 
     <d-popup
@@ -54,7 +61,7 @@
       class="popup"
     >
       <div class="popup-label">
-        {{ $t('components_pages_profile_team_filterPopup_type') }}
+        {{ $t("components_pages_profile_team_filterPopup_type") }}
       </div>
       <div class="popup-list">
         <a-radio-group v-model:value="state.statusList[state.pageValue]">
@@ -74,7 +81,7 @@
           :block="true"
           @click="changeStatus"
         >
-          {{ $t('components_pages_profile_team_confirm') }}
+          {{ $t("components_pages_profile_team_confirm") }}
         </d-button>
       </div>
     </d-popup>
@@ -87,7 +94,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import {
   ref, reactive, computed, onMounted,
 } from 'vue';
@@ -100,42 +107,7 @@ import Detail from '@/components/_pages/profile/Team/Detail/index.vue';
 import DatePickerPopup from '@/components/_pages/DatePickerPopup/index.vue';
 import systemApi from '@/assets/js/api/systemApi';
 import FinanceApi from '@/assets/js/api/financeApi';
-
-interface isInfo {
-  userId: number
-  startDate: string
-  endDate: string
-  account: string
-}
-
-interface recordInfo{
-  type: Array<any>
-  start: string
-  end: string
-  showSub: boolean
-}
-
-interface isTabList {
-  label: string
-  value: string
-  index: number
-}
-
-interface initObj {
-  agentObj: object
-  tabIndex: number
-  tabList: Array<isTabList>
-  recordList: Array<any>
-  recordType: Array<any>
-  filterList: object
-  currentKey: number
-  searchKeyword: string
-  showDateModalBool: boolean
-  showFilterModalBool: boolean
-  statusList:object
-  isSearch:boolean
-  pageValue: string
-}
+import SportApi from '@/assets/js/api/sportApi';
 
 export default {
   components: {
@@ -145,15 +117,23 @@ export default {
     DatePickerPopup,
   },
   setup() {
-    const start = ref(`${dayjs().startOf('days').format('YYYY/MM/DD')} 00:00:00`);
-    const end = ref(`${dayjs().startOf('days').format('YYYY/MM/DD')} 23:59:59`);
+    const start = ref(
+      `${dayjs()
+        .startOf('days')
+        .format('YYYY/MM/DD')} 00:00:00`,
+    );
+    const end = ref(
+      `${dayjs()
+        .startOf('days')
+        .format('YYYY/MM/DD')} 23:59:59`,
+    );
 
     const { t } = useI18n();
     const store = useStore();
 
     const userId = computed(() => store.state.user.id);
 
-    const state = reactive<initObj>({
+    const state = reactive({
       agentObj: {},
 
       tabList: [
@@ -175,13 +155,31 @@ export default {
           { label: t('components_pages_profile_team_filterPopup_status3'), value: 5 },
         ],
       },
-      recordList: [],
+
+      detailPageData: {
+        pageIndex: 1,
+        isLastPage: false,
+        isFirstPage: true,
+      },
+
+      recordPageData: {
+        pageIndex: 1,
+        isLastPage: false,
+        isFirstPage: true,
+      },
+
+      scrollPullDone: false,
+      scrollFinished: false,
+      scrollLoading: false,
+      recordList: undefined,
       recordType: [],
+      detailType: [],
       pageValue: '',
       statusList: {
         record: 'all',
         detail: 'all',
       },
+      betList: undefined,
       tabIndex: 0,
       currentKey: 0,
       searchKeyword: '',
@@ -190,11 +188,26 @@ export default {
       isSearch: false,
     });
 
+    const recordRef = ref(null);
+    const detailRef = ref(null);
+    const agentRef = ref(null);
+
+    const refsTitle = computed(() => {
+      switch (state.currentKey) {
+        case 1:
+          return 'recordRef';
+        case 2:
+          return 'detailRef';
+        default:
+          return 'agentRef';
+      }
+    });
+
     /**
      * 代理报表
      */
     const getAgentReport = async () => {
-      const info: isInfo = {
+      const info = {
         userId: userId.value,
         startDate: dayjs(start.value).format('YYYY/MM/DD'),
         endDate: dayjs(end.value).format('YYYY/MM/DD'),
@@ -236,7 +249,7 @@ export default {
      * 充提記錄
      */
     const getTellerLog = async () => {
-      const params: recordInfo = {
+      const params = {
         type: state.recordType,
         start: dayjs(start.value).format('YYYY/MM/DD HH:mm:ss'),
         end: dayjs(end.value).format('YYYY/MM/DD HH:mm:ss'),
@@ -244,7 +257,7 @@ export default {
       };
       const { code, data } = await FinanceApi.getTellerLog(params);
       if (code === 200) {
-        state.recordList = data.page.content.sort((a:Number, b:Number) => b.logAt - a.logAt);
+        state.recordList = data.page.content;
         if (state.searchKeyword) {
           state.recordList = state.recordList.filter((e) => e.users.account === state.searchKeyword);
         }
@@ -252,22 +265,80 @@ export default {
     };
 
     /**
+     * 下單明細
+     */
+
+    const getSubBetOrderStatistic = async () => {
+      const params = {
+        start: dayjs(start.value).format('YYYY/MM/DD HH:mm:ss'),
+        end: dayjs(end.value).format('YYYY/MM/DD HH:mm:ss'),
+        account: '',
+        status: state.detailType,
+        pageIndex: state.detailPageData.pageIndex,
+      };
+      const { code, data } = await SportApi.getSubBetOrderStatistic(params);
+      if (code === 200) {
+        const { first, last } = data;
+        const newData = data?.content?.map((item) => ({ ...item, isShowDetails: false }));
+        data.content = state.searchKeyword
+          ? newData.filter((e) => e.account === state.searchKeyword)
+          : newData;
+        state.betList = first ? data.content : [...state.betList, ...data.content];
+        state.detailPageData.isFirstPage = first;
+        state.detailPageData.isLastPage = last;
+        console.log(first);
+      }
+
+      state.scrollFinished = false;
+      if (state.detailPageData.isLastPage) {
+        state.scrollFinished = true;
+        console.log('test');
+      }
+    };
+
+    const detailPullScrollHandle = async () => {
+      state.scrollPullDone = true;
+      await getSubBetOrderStatistic();
+      state.scrollPullDone = false;
+      state.scrollFinished = false;
+      if (state.detailPageData.isLastPage) {
+        state.scrollFinished = true;
+      }
+    };
+
+    const detailLoadMoreHandle = async () => {
+      state.scrollFinished = false;
+      console.log('hiaaa');
+      if (state.detailPageData.isLastPage) {
+        state.scrollFinished = true;
+        state.scrollLoading = false;
+        console.log('here');
+      } else {
+        state.detailPageData.pageIndex += 1;
+        await getSubBetOrderStatistic();
+      }
+    };
+
+    /**
      * 初始化
      */
     const checkInit = async () => {
-      const page: string = state.tabList[state.currentKey].value;
-
+      const page = state.tabList[state.currentKey].value;
       switch (page) {
         case 'agent':
           await getAgentReport();
           break;
         case 'record':
-          if (state.isSearch) {
+          if (state.isSearch || !state.recordList) {
             await getTellerLog();
             state.isSearch = false;
           }
           break;
         case 'detail':
+          if (state.isSearch || !state.betList) {
+            await getSubBetOrderStatistic();
+            state.isSearch = false;
+          }
           break;
         default:
           break;
@@ -278,7 +349,7 @@ export default {
      * 搜寻
      * @param { String } keyword - 关键字
      */
-    const search = (keyword: string) => {
+    const search = (keyword) => {
       state.searchKeyword = keyword;
       state.isSearch = true;
       checkInit();
@@ -288,7 +359,7 @@ export default {
      * Tab切换
      * @param { Number } index - 阵列位置
      */
-    const changeTab = (index:number) => {
+    const changeTab = (index) => {
       state.currentKey = index;
       state.pageValue = state.tabList[index].value;
       checkInit();
@@ -298,11 +369,11 @@ export default {
      * 篩選彈窗
      * @param { Boolean } bool - 弹窗布林
      */
-    const toggleFilterPopup = (bool: boolean) => {
+    const toggleFilterPopup = (bool) => {
       state.showFilterModalBool = bool;
     };
 
-    const filterList = (key: Number) => {
+    const filterList = (key) => {
       switch (key) {
         case 1:
           return state.filterList.record;
@@ -328,16 +399,38 @@ export default {
           default:
             break;
         }
-        toggleFilterPopup(false);
         await getTellerLog();
+      } else if (state.currentKey === 2) {
+        switch (state.statusList.detail) {
+          case 'all':
+            state.detailType = [];
+            break;
+          case 1:
+            state.detailType = [1, 6];
+            break;
+          case 2:
+            state.detailType = [2];
+            break;
+          case 5:
+            state.detailType = [5];
+            break;
+          default:
+            break;
+        }
+        state.detailPageData.pageIndex = 1;
+        state.detailPageData.isFirstPage = true;
+        state.detailPageData.isLastPage = false;
+        await getSubBetOrderStatistic();
       }
+
+      toggleFilterPopup(false);
     };
 
     /**
      * 日期弹窗
      * @param { Boolean } bool - 弹窗布林
      */
-    const toggleDatePopup = (bool: boolean) => {
+    const toggleDatePopup = (bool) => {
       state.showDateModalBool = bool;
     };
 
@@ -346,17 +439,16 @@ export default {
      * @param { String } startDate - 开始日期
      * @param { String } endDate - 结束日期
      */
-    const datePickerConfirm = ({
-      startDate,
-      endDate,
-    }:{
-      startDate:string,
-      endDate:string
-    }) => {
+    const datePickerConfirm = async ({ startDate, endDate }) => {
       start.value = startDate;
       end.value = endDate;
       if (state.currentKey === 1) {
-        getTellerLog();
+        await getTellerLog();
+      } else if (state.currentKey === 2) {
+        state.detailPageData.pageIndex = 1;
+        state.detailPageData.isFirstPage = true;
+        state.detailPageData.isLastPage = false;
+        await getSubBetOrderStatistic();
       }
     };
 
@@ -375,6 +467,12 @@ export default {
       datePickerConfirm,
       filterList,
       changeStatus,
+      detailPullScrollHandle,
+      detailLoadMoreHandle,
+      recordRef,
+      detailRef,
+      agentRef,
+      refsTitle,
     };
   },
 };
@@ -389,7 +487,8 @@ export default {
   .team-area {
     height: 100%;
     padding-top: 48px;
-    overflow-y: auto;
+
+    /* overflow-y: auto; */
   }
 }
 

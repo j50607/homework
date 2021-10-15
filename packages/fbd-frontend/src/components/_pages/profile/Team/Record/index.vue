@@ -64,13 +64,11 @@ export default {
     const { t } = useI18n();
 
     const state = reactive({
-      initRecordList: props.recordList,
       currentRecordList: props.recordList,
 
     });
 
     watch(() => props.recordList, () => {
-      state.initRecordList = props.recordList;
       state.currentRecordList = props.recordList;
     });
 
