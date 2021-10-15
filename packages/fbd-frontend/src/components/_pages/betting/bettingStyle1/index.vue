@@ -1,9 +1,23 @@
 <template>
   <div class="h-full">
     <d-header-row
-      :title="state.currentGameData?.leagueName || ''"
       right-components="service"
-    />
+    >
+      <template #middle>
+        <div
+          class="title-container"
+          @click="openLeagueDetail"
+        >
+          <span class="title-text">{{ state.currentGameData?.leagueName || '' }}</span>
+          <div class="title-icon">
+            <img
+              class="arrow"
+              :src="$requireSafe(`icon/triangle-bottom-white.svg`)"
+            >
+          </div>
+        </div>
+      </template>
+    </d-header-row>
 
     <div class="betting">
       <d-loading :loading="state.isLoading" />
@@ -445,13 +459,91 @@
       </div>
     </d-popup>
 
+    <!-- 所属联赛赛事弹窗 -->
+    <d-popup
+      v-model:value="state.isLeaguePopupShow"
+      position="bottom"
+      :round="true"
+      :title="state.currentGameData?.leagueName || ''"
+      class="popup league-detail"
+      style="max-height: 90%;"
+      custom-content-padding="0"
+    >
+      <d-loading
+        :loading="isleagueLoading"
+      />
+      <div class="all-match">
+        <van-pull-refresh
+          v-if="!isListEmpty"
+          v-model="state.isListRefreshing"
+          :use-custom-class="true"
+          refresh-duration="500"
+          :loading-text="$t('components_scroll_pullDownLoading')"
+          :pulling-text="$t('components_scroll_pullDownRefresh')"
+          :loosing-text="$t('components_scroll_pullDownRefresh')"
+          @refresh="pullingDown"
+        >
+          <van-list
+            v-model:loading="state.isListLoading"
+            :finished="state.isListFinished"
+            :loading-text="$t('components_scroll_pullUpLoading')"
+            :finished-text="$t('components_scroll_allLoaded')"
+            :offset="300"
+            @load="loadMoreGameSummary"
+          >
+            <div
+              class="league-list mx-3  my-2 p-3  rounded flex justify-between content-center is-btn"
+              v-for="(item, index) in state.gameSummaryList"
+              :key="index"
+              @click="clickHandler(item)"
+            >
+              <div class="content-left">
+                <div class="game-compet text-xs text-normal flex items-center">
+                  <div class="team1 flex items-center column">
+                    <img
+                      :src="item.homeTeamLogo? `${s3Base}/${item.homeTeamLogo}`: $requireSafe('icon/default-team.svg')"
+                      class="logo mb-2"
+                    >
+                    {{ item.homeTeamName }}
+                  </div>
+                  <div class="vs mb-1">
+                    vs
+                  </div>
+                  <div class="team2 flex items-center column">
+                    <img
+                      :src="item.awayTeamLogo? `${s3Base}/${item.awayTeamLogo}`: $requireSafe('icon/default-team.svg')"
+                      class="logo mb-2"
+                    >
+                    {{ item.awayTeamName }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </van-list>
+        </van-pull-refresh>
+
+        <div
+          class="no-data text-center my-10"
+          v-else
+        >
+          <img
+            :src="$requireSafe('icon/no-data.svg')"
+            class="m-auto"
+          >
+          <p class="text-sm text-normal">
+            {{ $t('components_pages_match_noData') }}
+          </p>
+        </div>
+      </div>
+    </d-popup>
+
     <d-footer-row />
   </div>
 </template>
 
 <script>
 import {
-  reactive, computed, watch, onBeforeMount,
+  ref, reactive, computed, watch, onBeforeMount,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -465,10 +557,16 @@ import {
 } from '@/assets/js/utils/utils';
 import SportApi from '@/assets/js/api/sportApi';
 import MemberApi from '@/assets/js/api/memberApi';
+import VanList from '@/components/vantLib/list';
+import VanPullRefresh from '@/components/vantLib/pull-refresh';
 
 dayjs.extend(duration);
 
 export default {
+  components: {
+    VanList,
+    VanPullRefresh,
+  },
   setup() {
     // use
     const store = useStore();
@@ -476,6 +574,8 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
+    // ref
+    const isleagueLoading = ref(false);
     // reactive
     const state = reactive({
       issueNo: '',
@@ -494,6 +594,7 @@ export default {
       currentBetItem: {}, // 當前投注項目(betting popup 開啟的項目)
       isSumPopupShow: false,
       isBettingPopupShow: false,
+      isLeaguePopupShow: false,
       betAmount: 1, // 投注金额 input
       amountList: [ // 快選金額，先寫死
         {
@@ -543,6 +644,15 @@ export default {
       startNotify: false,
       isBetItemSkeletonShow: false, // 是否顯示投注項目 Skeleton
       popupDuration: 0.5,
+      gameSummaryList: [],
+      pageData: {
+        pageIndex: 1,
+        isLastPage: false,
+        isFirstPage: true,
+      },
+      isListLoading: false,
+      isListRefreshing: false,
+      isListFinished: false,
     });
 
     // computed
@@ -550,6 +660,7 @@ export default {
     const timeZone = computed(() => timeZoneUnit2());
     const language = computed(() => store.state.info.language);
     const isChinese = computed(() => language.value === 'zh_cn' || language.value === 'zh_tw');
+    const isListEmpty = computed(() => !state.gameSummaryList?.length && !state.isListLoading && !isleagueLoading.value);
     // 用户余额
     const balance = computed(() => store.state.user.balance || 0);
     const isLogin = computed(() => Cookie.get('_tianyin_token') && store.state.user?.isLogin);
@@ -604,6 +715,69 @@ export default {
       });
     };
 
+    const refreshLeagueData = () => {
+      state.pageData.pageIndex = 1;
+      state.pageData.isLastPage = false;
+      state.pageData.isFirstPage = true;
+      state.gameSummaryList = [];
+    };
+
+    const getGameSummary = async (params, isStartFromStartOfDay = true) => {
+      isleagueLoading.value = true;
+      const res = await SportApi.getGameSummary(params, isStartFromStartOfDay);
+      if (res.code === 200) {
+        if (isArray(res.data.content)) {
+          if (res.data.first) {
+            state.gameSummaryList = res.data.content;
+          } else {
+            state.gameSummaryList = [...state.gameSummaryList, ...res.data.content];
+          }
+
+          state.pageData.isLastPage = res.data.last;
+          state.pageData.isFirstPage = res.data.first;
+        }
+      }
+      setTimeout(() => {
+        isleagueLoading.value = false;
+      }, 500);
+    };
+
+    const loadMoreGameSummary = async (isLoadMore = true) => {
+      if (isLoadMore) {
+        state.pageData.pageIndex += 1;
+      }
+
+      if (state.isListRefreshing) {
+        state.gameSummaryList = [];
+        state.isListRefreshing = false;
+      }
+      await getGameSummary({
+        timeType: 'matchTime',
+        gameStatus: [0, -5],
+        leagueId: [Number(state.currentGameData.leagueId)],
+        pageIndex: state.pageData.pageIndex,
+        startTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+        endTime: dayjs().add(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
+        direction: 1,
+      }, false);
+      state.isListLoading = false;
+
+      if (state.pageData.isLastPage) {
+        state.isListFinished = true;
+      }
+    };
+
+    const pullingDown = async () => {
+      refreshLeagueData();
+      // 清空列表数据
+      state.isListFinished = false;
+      // 重新加载数据
+      // 将 loading 设置为 true，表示处于加载状态
+      state.isListLoading = true;
+
+      await loadMoreGameSummary(false);
+    };
+
     // 遊客轉導至登入頁
     const handleLoginFirst = () => {
       window.$vue.$message.info(window.$vue.$t('common_loginFirst'));
@@ -612,6 +786,19 @@ export default {
 
     const toggleSumPopup = (isShow = true) => {
       state.isSumPopupShow = isShow;
+    };
+    // 开启
+    const openLeagueDetail = async () => {
+      state.isLeaguePopupShow = true;
+      await getGameSummary({
+        timeType: 'matchTime',
+        gameStatus: [0, -5],
+        leagueId: [Number(state.currentGameData.leagueId)],
+        pageIndex: 1,
+        startTime: dayjs().format('YYYY/MM/DD HH:mm:ss'),
+        endTime: dayjs().add(6, 'day').format('YYYY/MM/DD HH:mm:ss'),
+        direction: 1,
+      }, false);
     };
 
     const getBalance = async () => {
@@ -863,6 +1050,12 @@ export default {
       state.isHandlePolling = true;
     };
 
+    const clickHandler = async (selectedItem) => {
+      state.issueNo = selectedItem.issueNo;
+      await getData();
+      state.isLeaguePopupShow = false;
+    };
+
     const handleProgressEnded = async () => {
       state.isHandlePolling = false;
       if (!state.isBettingPopupShow) {
@@ -929,6 +1122,11 @@ export default {
     return {
       dayjs,
       state,
+      isListEmpty,
+      pullingDown,
+      loadMoreGameSummary,
+      clickHandler,
+      isleagueLoading,
       siteStyle,
       timeZone,
       isChinese,
@@ -948,6 +1146,7 @@ export default {
       fmtPayRate,
       toggleSumPopup,
       toggleBettingPopup,
+      openLeagueDetail,
       changePlayTypeS,
       renderDate,
       renderTime,
@@ -971,6 +1170,29 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
+
+.title {
+  &-container {
+    display: flex;
+    align-items: center;
+  }
+
+  &-text {
+    font-size: 14px;
+  }
+
+  &-icon {
+    width: 12px;
+    height: 12px;
+    margin-left: 0.2rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
 .betting {
   @apply flex flex-col h-full text-xs overflow-y-scroll;
 
@@ -1348,6 +1570,70 @@ export default {
 ::v-deep(.header) {
   .middle {
     flex: 3 0 0;
+  }
+}
+
+.league-list {
+  border: 0.3px solid #fffbf2;
+  background-image: url('~@/assets/img/betting/style1/league-bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 2px 4px #4d57721a;
+}
+
+.column {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+}
+
+.vs {
+  font-size: 14px;
+}
+
+.team1,.team2 {
+  width: 45%;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.content-left {
+  width: 100%;
+}
+
+.game-compet {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+::v-deep(.d-popup-header) {
+  .title {
+    width: 70%;
+    text-align: center;
+  }
+}
+
+.all-match {
+  top: 90px;
+  right: 0;
+  bottom: 60px;
+  left: 0;
+
+  ::v-deep(.scroll-content) {
+    transform: translateX(0) translateY(-10px) translateZ(1px);
+  }
+}
+
+.no-data {
+  img {
+    width: 50px;
+    height: 50px;
   }
 }
 </style>
