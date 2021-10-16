@@ -7,6 +7,7 @@ import useI18n from '@/plugins/i18n';
 import useMitt from '@/plugins/mitt';
 import useCookie from '@/plugins/cookie';
 import useRequireSafe from '@/plugins/requireSafe';
+import analytics from '@/plugins/analytics';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -26,3 +27,5 @@ const app = pipe(
 
 // @ts-ignore
 window.$vue = app.use(store).use(router).mount('#app');
+
+analytics();
