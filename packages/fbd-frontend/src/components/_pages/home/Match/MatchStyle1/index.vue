@@ -7,7 +7,7 @@
       <div class="label px-3 py-1">
         <span>{{ dayjs(data.matchTime).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnit})` }}</span>
       </div>
-      <div>
+      <div v-if="data?.option !== null">
         <img :src="require('@/assets/img/icon/hot.png')">
         <div>{{ getSportScore(data?.option).replace(/\s/g, '') }}</div>
         <div>{{ fmtPayRate(data?.payRate ?? 0) }}</div>
