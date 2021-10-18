@@ -132,6 +132,7 @@ const lang = {
   views_betting_statistic_popup_others: 'Others',
   views_betting_statistic_popup_all: 'All',
   views_betting_score: 'score',
+  views_betting_issueNo: 'ID',
   views_betRecord_item_title: 'Betting Records',
   views_betRecord_item_pending: 'Not Settled',
   views_betRecord_item_label1: 'Betting Amount',

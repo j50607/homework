@@ -12,6 +12,9 @@
         <div class="betting-info-bg" />
 
         <div class="betting-info-container">
+          <div class="betting-issue text-center">
+            {{ $t('views_betting_issueNo') }}: {{ state.currentGameData?.issueNo }}
+          </div>
           <!-- logo -->
           <div class="betting-team-row mb-0.5">
             <!-- H -->
@@ -83,7 +86,7 @@
           </div>
         </div>
 
-        <div class="betting-time">
+        <div class="betting-time mt-3">
           <div class="betting-time-item betting-info-text text-date">
             {{ renderDate(state.currentGameData?.matchTIme) }}
           </div>
@@ -953,6 +956,11 @@ export default {
 
   padding: var(--header-height) 0 var(--footer-height);
 
+  &-issue {
+    color: #fff4d9;
+    white-space: nowrap;
+  }
+
   &-info {
     @apply relative;
 
@@ -971,7 +979,7 @@ export default {
   }
 
   &-info-container {
-    @apply absolute top-0 w-full pt-4;
+    @apply absolute top-0 w-full mt-3;
   }
 
   &-info-text {

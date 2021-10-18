@@ -133,6 +133,7 @@ const lang = {
   views_betting_statistic_popup_others: '其他',
   views_betting_statistic_popup_all: '全部',
   views_betting_score: '比分',
+  views_betting_issueNo: '赛事编号',
   views_betRecord_item_title: '下单记录',
   views_betRecord_item_pending: '未结算',
   views_betRecord_item_label1: '下单金额',

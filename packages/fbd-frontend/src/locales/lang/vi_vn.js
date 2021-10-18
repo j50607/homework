@@ -132,6 +132,7 @@ const lang = {
   views_betting_statistic_popup_sum: 'tổng lượng giao thành công',
   views_betting_statistic_popup_others: 'Khác ',
   views_betting_statistic_popup_all: 'Toàn bộ',
+  views_betting_issueNo: 'ID',
   views_betRecord_item_title: 'Lịch sử đơn cược',
   views_betRecord_item_pending: 'Chưa kết toán',
   views_betRecord_item_label1: 'Số tiền đặt cược',

@@ -44,6 +44,9 @@
                 >
               </div>
             </div>
+            <div class="betting-issue text-center">
+              {{ $t('views_betting_issueNo') }}: {{ state.currentGameData?.issueNo }}
+            </div>
             <!-- A -->
             <div class="betting-team-container px-betting-team-container">
               <div class="betting-team-logo betting-info-text">
@@ -1197,6 +1200,10 @@ export default {
   @apply flex flex-col h-full text-xs overflow-y-scroll;
 
   padding: var(--header-height) 0 var(--footer-height);
+
+  &-issue {
+    white-space: nowrap;
+  }
 
   &-info {
     @apply relative;
