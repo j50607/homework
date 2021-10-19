@@ -4,7 +4,7 @@
       :src="require('@/assets/img/profile/team/no-data.svg')"
       alt=""
     >
-    <div>查无相关记录</div>
+    <div>{{ $t('components_pages_profile_team_emptyMessage') }}</div>
   </div>
 </template>
 
