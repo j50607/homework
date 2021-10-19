@@ -356,6 +356,7 @@ const lang = {
   error49: '领取成功',
   error50: '领取失败, 请联系客服',
   error51: '奖金不足, 无法领取奖金',
+  error52: '真實姓名首尾不可包含空白或特殊字元',
 };
 
 export default {

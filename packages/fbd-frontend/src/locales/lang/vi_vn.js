@@ -652,6 +652,7 @@ const lang = {
   error49: 'Nhận thành công',
   error50: 'Nhận thất bại, vui lòng liên hệ CSKH',
   error51: 'Tiền thưởng không đủ, không thể nhận tiền thưởng',
+  error52: '真实姓名首尾不可包含空白或特殊字元',
 };
 
 export default {

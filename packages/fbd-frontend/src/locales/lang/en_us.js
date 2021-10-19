@@ -707,6 +707,7 @@ const lang = {
   error49: 'Cash out successful',
   error50: 'Cash out declined, please contact customer service',
   error51: 'Insufficient bonus, bonus can not be withdrawn',
+  error52: '真实姓名首尾不可包含空白或特殊字元',
 };
 
 export default {

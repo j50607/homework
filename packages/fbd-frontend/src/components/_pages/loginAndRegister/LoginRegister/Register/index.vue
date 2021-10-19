@@ -647,15 +647,19 @@ export default {
     const realNameValidate = async (rule, value) => {
       // const regCantFull = /[\uFF00-\uFFFF]/g;
 
+      const regIsWord = /[\u4E00-\u9FFF\uFF41-\uFF5A\uFF21-\uFF3A]/; // 匹配中文、全形英文
+      const regSymbol = /[`~!@#$^&%*()=|{}':;',[\].<>/?~！@#￥……&*（）——_|{}【】‘；：”“'。，、？/+/\W]/;
+
       if (registerRealName.value) {
         if (!value || !value.trim()) {
           realNameBool.value = false;
           return Promise.reject(new Error(t('error8')));
         }
-        // if (regCantFull.test(value)) {
-        //   realNameBool.value = false;
-        //   return Promise.reject(new Error(t('error10')));
-        // }
+        if ((regSymbol.test(value[0]) && !regIsWord.test(value[0]))
+        || (regSymbol.test(value[value.length - 1]) && !regIsWord.test(value[value.length - 1]))) {
+          realNameBool.value = false;
+          return Promise.reject(new Error(t('error52')));
+        }
         if (value.length > 50) {
           realNameBool.value = false;
           return Promise.reject(new Error(t('error11')));
@@ -666,7 +670,11 @@ export default {
             realNameBool.value = false;
             return Promise.reject(new Error(t('error8')));
           }
-
+          if ((regSymbol.test(value[0]) && !regIsWord.test(value[0]))
+        || (regSymbol.test(value[value.length - 1]) && !regIsWord.test(value[value.length - 1]))) {
+            realNameBool.value = false;
+            return Promise.reject(new Error(t('error52')));
+          }
           if (value.length > 50) {
             realNameBool.value = false;
             return Promise.reject(new Error(t('error11')));
