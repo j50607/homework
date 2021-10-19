@@ -462,6 +462,7 @@ import SportApi from '@/assets/js/api/sportApi';
 import MemberApi from '@/assets/js/api/memberApi';
 
 dayjs.extend(duration);
+NP.enableBoundaryChecking(false);
 
 export default {
   setup() {
@@ -766,7 +767,7 @@ export default {
       toggleBettingPopup(false);
     };
 
-    const handleBetItemIsFulled = () => {
+    const handleBetOptionList = () => {
       if (!state.betOptionData?.length) return;
       const betOptionList = state.betOptionData?.find((item) => item.playTypeS === state.currentPlayTypeS)?.betOptionList;
       if (!betOptionList?.length) return;
@@ -784,30 +785,49 @@ export default {
           betItem.isFulled = false;
         }
 
-        betItem.amount = currentItem?.amount || 0;
-        betItem.leftAmount = betItem.limitAmount - (currentItem?.amount || 0);
+        const realAmount = currentItem?.amount || 0;
+        const virtualBet = betItem.virtualBet || 0;
+        const ratiao = NP.divide(dayjs().valueOf(), (state.currentGameData?.matchTIme || 1));
+        const additionAmount = virtualBet > realAmount ? NP.times(virtualBet, NP.minus(1, ratiao)) : 0;
+        const leftAmount = NP.plus(NP.minus(betItem.limitAmount, realAmount), additionAmount);
+        betItem.amount = realAmount;
+        betItem.leftAmount = Math.floor(leftAmount);
       });
     };
 
     const handleGameSum = () => {
       const total = isArray(state.caculateLogData) ? state.caculateLogData.reduce((acc, item) => acc + (item?.amount || 0), 0) : 0;
-      state.gameSum.sum = total ?? 0;
+      const virtualTotal = isArray(state.currentGameData.betOptionList) ? state.currentGameData.betOptionList.reduce((acc, item) => acc + (item?.virtualBet || 0), 0) : 0;
+      state.gameSum.sum = NP.plus(total, virtualTotal) ?? 0;
       state.gameSum.optionList = JSON.parse(JSON.stringify(state.caculateLogData));
+      const virtualAmoutBetOptionArr = state.currentGameData.betOptionList.filter((item) => item.virtualBet);
 
-      if (!isArray(state.gameSum.optionList)) return;
+      if (!state.gameSum.optionList.length) {
+        state.gameSum.optionList = JSON.parse(JSON.stringify(virtualAmoutBetOptionArr));
+      } else {
+        state.gameSum.optionList.forEach((item, index, arr) => {
+          virtualAmoutBetOptionArr.forEach((virtualItem) => {
+            if (item.option === virtualItem.option) {
+              item.virtualBet = virtualItem.virtualBet;
+            } else if (!arr.find((items) => items.option === virtualItem.option)) {
+              arr.push(virtualItem);
+            }
+          });
+        });
+      }
+
       state.gameSum.optionList.forEach((item) => {
-        item.percentage = item.limitAmount ? NP.times(NP.divide((item.amount || 0), item.limitAmount), 100) : 0;
+        // 總投注量 = 實際投注量+虛擬投注量
+        const totalBetAmount = NP.plus(item.amount || 0, item.virtualBet || 0);
+        // 總可投注量 = 可交易量 + 虛擬投注量
+        const totalLimitAmount = NP.plus(item.limitAmount || 0, item.virtualBet || 0);
+        item.percentage = item.limitAmount ? NP.times(NP.divide(totalBetAmount, totalLimitAmount), 100) : 0;
+        item.totalBetAmount = totalBetAmount;
       });
-
-      // 若 api 不慎回傳重複 option 的資料，則濾除重複的 option 僅保留第一筆
-      state.gameSum.optionList = state.gameSum.optionList.reduce((acc, item) => {
-        const notRepeat = acc.findIndex((row) => row.option === item.option) === -1;
-        return notRepeat ? [...acc, item] : acc;
-      }, []);
     };
 
     const handleDataMapping = () => {
-      handleBetItemIsFulled();
+      handleBetOptionList();
       handleGameSum();
     };
 
@@ -828,8 +848,8 @@ export default {
       state.betOptionData = await getBetOption();
       [state.caculateLogData, state.bettingConfig] = await Promise.all([getCaculateLog(), getBettingConfig()]);
 
-      handleDataMapping();
       asyncGameData();
+      handleDataMapping();
       state.isLoading = false;
     };
 
@@ -1293,7 +1313,7 @@ export default {
   }
 
   &-subtitle {
-    @apply w-full px-3 bg-secondary-content;
+    @apply w-full px-3;
 
     padding-top: 7px;
     padding-bottom: 6px;
@@ -1321,19 +1341,20 @@ export default {
     @apply relative flex items-center justify-end flex-1 ml-2 rounded-8;
 
     height: 16px;
-    background: #e5e5e5;
+    background: #142340;
   }
 
   &-progress {
     @apply absolute top-0 left-0 max-w-full h-full rounded-8;
 
-    background: linear-gradient(270deg, #f3ac0a 0%, #b58007 100%);
+    background: #ffb83d;
   }
 
   &-digit {
     @apply text-right origin-right;
 
     margin-right: 9px;
+    color: #6c82ac;
     transform: scale(0.625);
   }
 

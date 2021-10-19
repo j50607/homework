@@ -564,6 +564,7 @@ import VanList from '@/components/vantLib/list';
 import VanPullRefresh from '@/components/vantLib/pull-refresh';
 
 dayjs.extend(duration);
+NP.enableBoundaryChecking(false);
 
 export default {
   components: {
@@ -961,7 +962,7 @@ export default {
       toggleBettingPopup(false);
     };
 
-    const handleBetItemIsFulled = () => {
+    const handleBetOptionList = () => {
       if (!state.betOptionData?.length) return;
       const betOptionList = state.betOptionData?.find((item) => item.playTypeS === state.currentPlayTypeS)?.betOptionList;
       if (!betOptionList?.length) return;
@@ -979,8 +980,13 @@ export default {
           betItem.isFulled = false;
         }
 
-        betItem.amount = currentItem?.amount || 0;
-        betItem.leftAmount = betItem.limitAmount - (currentItem?.amount || 0);
+        const realAmount = currentItem?.amount || 0;
+        const virtualBet = betItem.virtualBet || 0;
+        const ratiao = NP.divide(dayjs().valueOf(), (state.currentGameData?.matchTIme || 1));
+        const additionAmount = virtualBet > realAmount ? NP.times(virtualBet, NP.minus(1, ratiao)) : 0;
+        const leftAmount = NP.plus(NP.minus(betItem.limitAmount, realAmount), additionAmount);
+        betItem.amount = realAmount;
+        betItem.leftAmount = Math.floor(leftAmount);
       });
     };
 
@@ -990,13 +996,13 @@ export default {
 
       state.gameSum.sum = (total + virtualTotal) ?? 0;
       state.gameSum.optionList = JSON.parse(JSON.stringify(state.caculateLogData));
-      const hasVirtualAmoutBetOption = state.currentGameData.betOptionList.filter((item) => item.virtualBet);
+      const virtualAmoutBetOptionArr = state.currentGameData.betOptionList.filter((item) => item.virtualBet);
 
       if (!state.gameSum.optionList.length) {
-        state.gameSum.optionList = hasVirtualAmoutBetOption;
+        state.gameSum.optionList = virtualAmoutBetOptionArr;
       } else {
         state.gameSum.optionList.forEach((item, index, arr) => {
-          hasVirtualAmoutBetOption.forEach((virtualItem) => {
+          virtualAmoutBetOptionArr.forEach((virtualItem) => {
             if (item.option === virtualItem.option) {
               item.virtualBet = virtualItem.virtualBet;
             } else if (!arr.find((items) => items.option === virtualItem.option)) {
@@ -1017,7 +1023,9 @@ export default {
     };
 
     const handleDataMapping = () => {
-      handleBetItemIsFulled();
+      // 設置投注項目裡的資料
+      handleBetOptionList();
+      // 設置交易量明細 popup 的資料
       handleGameSum();
     };
 
@@ -1547,6 +1555,10 @@ export default {
 
     margin-right: 9px;
     transform: scale(0.625);
+  }
+
+  &-input {
+    @apply px-2;
   }
 
   &-input-error {
