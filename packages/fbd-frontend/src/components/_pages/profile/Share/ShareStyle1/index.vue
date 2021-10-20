@@ -701,6 +701,8 @@ export default {
       &.no-amount {
         color: var(--check-share-text-color8);
         background: linear-gradient(180deg, #e5e5e5 0%, #bdbdbd 100%);
+        cursor: default;
+        opacity: 1;
       }
     }
 
@@ -714,6 +716,16 @@ export default {
         &.no-amount {
           color: #e5e5e5;
         }
+      }
+    }
+  }
+}
+
+.style2 {
+  .share-amount-area {
+    .amount-box {
+      .amount-btn {
+        color: var(--check-share-text-color8);
       }
     }
   }
