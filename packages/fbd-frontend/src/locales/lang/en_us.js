@@ -712,7 +712,7 @@ const lang = {
   error49: 'Cash out successful',
   error50: 'Cash out declined, please contact customer service',
   error51: 'Insufficient bonus, bonus can not be withdrawn',
-  error52: '真实姓名首尾不可包含空白或特殊字元',
+  error52: 'The beginning and end of the input content cannot contain blanks or symbols',
   error53: 'Telegram account cannot contain special characters or punctuationZ',
   error54: 'Telegram account cannot contain full-width characters',
   error55: 'Telegram is too long',

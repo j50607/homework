@@ -686,7 +686,7 @@ export default {
         if ((regSymbol.test(value[0]) && !regIsWord.test(value[0]))
         || (regSymbol.test(value[value.length - 1]) && !regIsWord.test(value[value.length - 1]))) {
           realNameBool.value = false;
-          return Promise.reject(new Error(t('error56')));
+          return Promise.reject(new Error(t('error52')));
         }
         if (value.length > 50) {
           realNameBool.value = false;
@@ -701,7 +701,7 @@ export default {
           if ((regSymbol.test(value[0]) && !regIsWord.test(value[0]))
         || (regSymbol.test(value[value.length - 1]) && !regIsWord.test(value[value.length - 1]))) {
             realNameBool.value = false;
-            return Promise.reject(new Error(t('error56')));
+            return Promise.reject(new Error(t('error52')));
           }
           if (value.length > 50) {
             realNameBool.value = false;
