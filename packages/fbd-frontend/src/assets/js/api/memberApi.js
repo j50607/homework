@@ -374,8 +374,12 @@ class MemberApi extends API {
   /**
   * 電話綁定驗證
   */
-  static async verifySms({ phone, verifyCode, password }) {
-    const params = { phone, verifyCode, password };
+  static async verifySms({
+    phone, verifyCode, password, phoneLocale,
+  }) {
+    const params = {
+      phone, verifyCode, password, phoneLocale,
+    };
 
     const result = await this.callAxios('POST', '/member/bind-phone/verify', params, null, true);
     return result;

@@ -196,6 +196,7 @@ export default {
         phone: state.form.phone,
         verifyCode: state.form.verifyCode,
         password: state.form.password,
+        phoneLocale: window._jsvar.siteLocale,
       };
       const res = await MemberApi.verifySms(params);
       loading.value = false;
