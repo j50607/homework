@@ -20,6 +20,7 @@ import DFooterRow from '@/components/DFooterRow';
 import DSelect from '@/components/DSelect';
 import DDatePicker from '@/components/DDatePicker';
 import DSearch from '@/components/DSearch';
+import DSteps from '@/components/DSteps';
 
 const useDyUI = (app) => {
   const curApp = app;
@@ -46,6 +47,7 @@ const useDyUI = (app) => {
     Vue.component('DSelect', DSelect);
     Vue.component('DDatePicker', DDatePicker);
     Vue.component('DSearch', DSearch);
+    Vue.component('DSteps', DSteps);
   };
   curApp.use(plugins);
   return curApp;
