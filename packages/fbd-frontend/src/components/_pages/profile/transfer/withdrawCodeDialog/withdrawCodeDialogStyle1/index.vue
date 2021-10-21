@@ -79,10 +79,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    // transferInfo: {
-    //   type: Object,
-    //   default: () => {},
-    // },
   },
   emits: ['update:value', 'cancel', 'transferSuccess'],
   setup(props, context) {

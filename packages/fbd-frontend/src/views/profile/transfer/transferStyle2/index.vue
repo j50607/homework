@@ -290,7 +290,8 @@ export default {
     };
 
     const openWithdrawCode = (info) => {
-      state.transferInfo = info;
+      // state.transferInfo = info;
+      store.commit('SET_TRANSFER_INFO', info);
       state.showTransferDialog = false;
       showWithdrawCodeDialog.value = true;
     };
