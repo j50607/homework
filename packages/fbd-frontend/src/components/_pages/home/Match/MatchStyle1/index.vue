@@ -5,7 +5,7 @@
   >
     <div class="label-wrapper">
       <div class="label px-3 py-1">
-        <span>{{ dayjs(data.matchTime).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnit})` }}</span>
+        <span>{{ dayjs(data.matchTime).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnitTxt})` }}</span>
       </div>
       <div v-if="data?.option !== null">
         <img :src="require('@/assets/img/icon/hot.png')">
@@ -87,7 +87,7 @@
 import dayjs from 'dayjs';
 import { inject, computed } from 'vue';
 import Locale from '@/components/Locale';
-import { getSportScore, fmtPayRate } from '@/assets/js/utils/utils';
+import { getSportScore, fmtPayRate, timeZoneUnit2 } from '@/assets/js/utils/utils';
 
 export default {
   components: {
@@ -103,7 +103,7 @@ export default {
     // inject
     const validator = inject('$validator');
     // computed
-    const timeZoneUnit = computed(() => validator.value?.timeZoneUnit);
+    const timeZoneUnitTxt = computed(() => timeZoneUnit2());
     const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
     // 下注是否截止
     const isEnded = computed(() => dayjs().valueOf() > props.data.matchTime);
@@ -123,7 +123,7 @@ export default {
       dayjs,
       validator,
       amoutnFormat,
-      timeZoneUnit,
+      timeZoneUnitTxt,
       finish,
       isEnded,
       s3Base,

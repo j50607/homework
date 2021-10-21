@@ -5,7 +5,7 @@
         {{ data.leagueName }}
       </div>
       <div class="date">
-        {{ dayjs(data.matchTime).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnit})` }}
+        {{ dayjs(data.matchTime).format('YYYY-MM-DD HH:mm') }}{{ `(${timeZoneUnitTxt})` }}
       </div>
       <div class="card-row">
         <div class="sale">
@@ -66,6 +66,7 @@
 import dayjs from 'dayjs';
 import { inject, computed } from 'vue';
 import Locale from '@/components/Locale';
+import { timeZoneUnit2 } from '@/assets/js/utils/utils';
 
 export default {
   components: {
@@ -81,7 +82,7 @@ export default {
     // inject
     const validator = inject('$validator');
     // computed
-    const timeZoneUnit = computed(() => validator.value?.timeZoneUnit);
+    const timeZoneUnitTxt = computed(() => timeZoneUnit2());
     const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
     // 下注是否截止
     const isEnded = computed(() => dayjs().valueOf() > props.data.matchTime);
@@ -101,7 +102,7 @@ export default {
       dayjs,
       validator,
       amoutnFormat,
-      timeZoneUnit,
+      timeZoneUnitTxt,
       finish,
       isEnded,
       s3Base,
