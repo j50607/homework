@@ -66,7 +66,7 @@
 
 <script>
 import {
-  computed, nextTick, reactive, toRefs,
+  computed, nextTick, reactive, toRefs, watch,
 } from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
@@ -131,21 +131,20 @@ export default {
       startDate: dayjs().format(format),
       endDate: dayjs().format(format),
       dateType: 'start',
+      tempStartDate: '',
+      tempEndDate: '',
     });
 
     const state = reactive(initialState());
 
     const resetState = () => {
-      Object.assign(state, initialState());
+      setTimeout(() => {
+        Object.assign(state, initialState());
+      }, 400);
     };
 
     const show = computed({
-      get: () => {
-        if (!props.visible) {
-          resetState();
-        }
-        return props.visible;
-      },
+      get: () => props.visible,
       set: (val) => emit('update:visible', val),
     });
 
@@ -220,6 +219,8 @@ export default {
     const confirm = () => {
       if (validateDate()) return;
 
+      state.tempStartDate = state.startDate;
+      state.tempEndDate = state.endDate;
       const time = dayjs().format('HH:mm:ss');
       emit('confirm', {
         startDate: dayjs(`${dayjs(state.startDate).format(`YYYY${props.format}MM${props.format}DD`)} ${time}`).format(format),
@@ -232,6 +233,18 @@ export default {
     const close = () => {
       show.value = false;
     };
+
+    watch(() => props.visible, (val) => {
+      if (!val && !state.tempStartDate) {
+        resetState();
+      }
+
+      if (val && state.tempStartDate) {
+        state.startDate = state.tempStartDate;
+        state.endDate = state.tempEndDate;
+        selectDate('start');
+      }
+    });
 
     return {
       changeDate,
