@@ -105,6 +105,7 @@ export default {
       openFreeWithdrawals: false,
       withdrawCode: '',
       loading: false,
+      isWaterEnough: false,
     });
 
     const applyWithdrawal = async () => {
@@ -116,7 +117,7 @@ export default {
         accountName: state.accountName,
         bankcardId: state.bankcardId,
         accountId: state.accountId,
-        force: true,
+        force: !state.isWaterEnough,
         withdrawalCode: state.withdrawCode,
       });
 
@@ -143,7 +144,7 @@ export default {
     const initData = () => {
       Object.entries(route.query).forEach(([key, value]) => {
         state[key] = value;
-        if (key === 'openFreeWithdrawals') state.openFreeWithdrawals = value === 'true';
+        if (value === 'true' || value === 'false') state[key] = value === 'true';
       });
     };
 

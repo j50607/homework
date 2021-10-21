@@ -294,6 +294,7 @@ export default {
             withdrawCode: state.withdrawCode,
             withdrawFreeCount: `${freeWithdrawCount.value} ${t('common_count')} / ${intervalMap[withdrawSettings.value.withdrawCaculateInterval]}`,
             openFreeWithdrawals: withdrawSettings.value.openFreeWithdrawals,
+            isWaterEnough: state.isWaterEnough,
           },
         });
       }
