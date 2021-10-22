@@ -14,6 +14,13 @@
 //   return '';
 // }
 
+const setMetadata = (prefix) => {
+  const link = document.createElement('link');
+  link.rel = 'icon';
+  link.href = `./${prefix}-favicon.ico`;
+  document.head.append(link);
+};
+
 const langMap = {
   'zh-TW': {
     text1: '访问禁止',
@@ -162,7 +169,7 @@ const xhr1 = new XMLHttpRequest();
 const siteHost = `${window.location.origin}/mainten/info/get`;
 // const siteHost = 'https://3-dev.dingyi.io//mainten/info/get';
 // const siteHost = 'https://169-dev.dingyi.io//mainten/info/get';
-// const siteHost = 'https://401-prod.168-system.com/mainten/info/get';
+// const siteHost = 'https://802-prod.168-system.com/mainten/info/get';
 
 xhr1.open('GET', siteHost, true);
 xhr1.onload = () => {
@@ -171,6 +178,7 @@ xhr1.onload = () => {
       const res = JSON.parse(xhr1.response);
       siteName = siteMap[res.siteId];
       locale = localeMap[res.locale];
+      setMetadata(siteName);
     } else {
       console.error(xhr1.statusText);
     }

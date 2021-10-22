@@ -14,6 +14,13 @@ function getCookie(cname) {
   return '';
 }
 
+const setMetadata = (prefix) => {
+  const link = document.createElement('link');
+  link.rel = 'icon';
+  link.href = `./${prefix}-favicon.ico`;
+  document.head.append(link);
+};
+
 const langMap = {
   'zh-TW': {
     text1: '由于目前系统停机升级中，请待更新后再进行登录',
@@ -134,7 +141,7 @@ function setContentLang() {
 }
 
 const siteHost = `${window.location.origin}/mainten/info/get`;
-// const siteHost = 'https://169-stage.dingyi.io//mainten/info/get';
+// const siteHost = 'https://801-prod.168-system.com/mainten/info/get';
 
 const xhr = new XMLHttpRequest();
 
@@ -148,7 +155,7 @@ xhr.onload = () => {
       siteName = siteMap[res.siteId];
       locale = res.locale;
       time = `${`${res.startYear}/${res.startDate} ${res.startTime}`} - ${`${res.startYear}/${res.endDate} ${res.endTime}`}`;
-      // year = res.startYear;
+      setMetadata(siteName);
     } else {
       console.error(xhr.statusText);
     }
