@@ -121,6 +121,10 @@ const lang = {
   views_profile_transfer_transfer_disable: '功能未开启',
   views_profile_memberTransfer: '会员互转',
 
+  views_profile_deposit_clickUpload: '点击上传入款凭证',
+  views_profile_deposit_upload: '上传入款凭证',
+  views_profile_deposit_hint_six: '入款凭证接受实拍相片、画面截图，容量限制 3MB 以内',
+
   views_profile_title: '我的',
   views_profile_balance: '余额',
   views_profile_lockWallet: '锁定钱包',
@@ -367,6 +371,8 @@ const lang = {
   error54: 'บัญชี Telegram ไม่สามารถมีอักขระแบบเต็มความกว้าง',
   error55: 'Telegram จำนวนคำยาวเกินไป',
   error56: 'โปรดป้อนหมายเลขบัญชี Telegram',
+  error57: '请上传正确格式图片',
+  error58: '请上传 3MB 以內的图片',
 };
 
 export default {

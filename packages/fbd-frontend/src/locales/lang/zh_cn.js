@@ -238,6 +238,8 @@ const lang = {
   views_profile_deposit_alreadyCompleteTransfer: '已完成汇款',
   views_profile_deposit_generateDepositAddress: '产生充值地址',
   views_profile_deposit_depositAmount: '充值金额',
+  views_profile_deposit_clickUpload: '点击上传入款凭证',
+  views_profile_deposit_upload: '上传入款凭证',
   views_profile_deposit_hint: '提示',
   views_profile_deposit_discount: '优惠',
   views_profile_deposit_fee: '手续费',
@@ -247,6 +249,7 @@ const lang = {
   views_profile_deposit_hint_three: '手续费{number}%',
   views_profile_deposit_hint_four: '实际到账金额为',
   views_profile_deposit_hint_five: '限额须为 {min} - {max}',
+  views_profile_deposit_hint_six: '入款凭证接受实拍相片、画面截图，容量限制 3MB 以内',
   views_profile_deposit_limitAmount: '限额 {min} - {max}',
   views_profile_deposit_limitAmountWarning: '金额需介于{min} - {max}，如有问题请联系客服',
   views_profile_transfer_title: '会员互转',
@@ -680,7 +683,8 @@ const lang = {
   error53: 'Telegram账号不包含特殊字符或标点符号',
   error54: 'Telegram账号不可包含全形字元',
   error55: 'Telegram字数过长',
-  error56: '请输入Telegram账号',
+  error57: '请上传正确格式图片',
+  error58: '请上传 3MB 以內的图片',
 };
 
 export default {

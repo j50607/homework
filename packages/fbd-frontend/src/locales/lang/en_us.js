@@ -286,6 +286,8 @@ const lang = {
   views_profile_deposit_alreadyCompleteTransfer: 'Transfer completed',
   views_profile_deposit_generateDepositAddress: 'Generating a recharge address',
   views_profile_deposit_depositAmount: 'deposit amount',
+  views_profile_deposit_clickUpload: '点击上传入款凭证',
+  views_profile_deposit_upload: '上传入款凭证',
   views_profile_deposit_hint: 'Tips',
   views_profile_deposit_discount: 'Promotion',
   views_profile_deposit_fee: 'Fees',
@@ -295,6 +297,7 @@ const lang = {
   views_profile_deposit_hint_three: 'Handling fee {number}% ',
   views_profile_deposit_hint_four: 'amount that you actually receive is',
   views_profile_deposit_hint_five: 'amount limit should be {min} - {max} ',
+  views_profile_deposit_hint_six: '入款凭证接受实拍相片、画面截图，容量限制 3MB 以内',
   views_profile_deposit_limitAmount: 'amount limit {min} - {max} ',
   views_profile_deposit_limitAmountWarning: 'The amount should be between {min} – {max}. Contact us for further assistance.',
   views_profile_transfer_title: 'Transfer among members',
@@ -717,6 +720,8 @@ const lang = {
   error54: 'Telegram account cannot contain full-width characters',
   error55: 'Telegram is too long',
   error56: 'Please enter your Telegram account',
+  error57: '请上传正确格式图片',
+  error58: '请上传 3MB 以內的图片',
 };
 
 export default {

@@ -117,6 +117,10 @@ const lang = {
   views_profile_transfer_noWithdrawCode: '尚未綁定錢包\n 頁面將跳轉至綁定錢包',
   views_profile_transfer_transfer_disable: '功能未開啟',
 
+  views_profile_deposit_clickUpload: '点击上传入款凭证',
+  views_profile_deposit_upload: '上传入款凭证',
+  views_profile_deposit_hint_six: '入款凭证接受实拍相片、画面截图，容量限制 3MB 以内',
+
   views_profile_title: '我的',
   views_profile_balance: '餘額',
   views_profile_lockWallet: '鎖定錢包',
@@ -363,6 +367,8 @@ const lang = {
   error54: 'Telegram賬號不可包含全形字元',
   error55: 'Telegram字數過長',
   error56: '請輸入Telegram帳號',
+  error57: '請上傳正確格式圖片',
+  error58: '請上傳 3MB 以內的圖片',
 };
 
 export default {

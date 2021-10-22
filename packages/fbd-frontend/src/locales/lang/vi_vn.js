@@ -239,6 +239,8 @@ const lang = {
   views_profile_deposit_alreadyCompleteTransfer: 'Đã hoàn thành chuyển tiền',
   views_profile_deposit_generateDepositAddress: 'tạo ra địa chỉ nạp tiền',
   views_profile_deposit_depositAmount: 'Số tiền nạp',
+  views_profile_deposit_clickUpload: 'Nhấp đăng tải chứng nhận',
+  views_profile_deposit_upload: 'Đăng tải chứng nhận',
   views_profile_deposit_hint: 'Gửi giao dịch',
   views_profile_deposit_discount: 'Khuyến mại',
   views_profile_deposit_fee: 'Tiền phí gửi',
@@ -248,6 +250,7 @@ const lang = {
   views_profile_deposit_hint_three: 'Tiền phí gửi {number}%',
   views_profile_deposit_hint_four: 'Tiền thật sẽ đến tài khoản',
   views_profile_deposit_hint_five: 'Giới hạn phải từ  {min} - {max}',
+  views_profile_deposit_hint_six: '入款凭证接受实拍相片、画面截图，容量限制 3MB 以内',
   views_profile_deposit_limitAmount: 'Hạn mức {min} - {max}',
   views_profile_deposit_limitAmountWarning: 'Số tiền cần phải từ {min} - {max} , xảy ra sự cố vui lòng liên hệ cskh',
   views_profile_transfer_title: 'Hội viên chuyển tiền',
@@ -662,6 +665,8 @@ const lang = {
   error54: 'Telegram账号不可包含全形字元',
   error55: 'Telegram字数过长',
   error56: '请输入Telegram账号',
+  error57: '请上传正确格式图片',
+  error58: '请上传 3MB 以內的图片',
 };
 
 export default {

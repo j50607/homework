@@ -159,6 +159,42 @@
             />
           </a-form-item>
         </div>
+        <div
+          class="upload"
+          v-if="showUploadCertificate"
+        >
+          <div class="text-label">
+            {{ $t('views_profile_deposit_upload') }}
+          </div>
+          <a-form-item
+            name="uploadCertificate"
+          >
+            <a-upload
+              class="upload-img"
+              name="file"
+              list-type="picture-card"
+              :before-upload="beforeUpload"
+              :show-upload-list="false"
+              accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
+              @change="handleChange"
+            >
+              <img
+                v-if="imageUrl"
+                :src="imageUrl"
+                alt="avatar"
+              >
+              <div v-else>
+                <img
+                  class="upload-icon"
+                  :src="require('@/assets/img/icon/style1/upload.svg')"
+                >
+                <div class="ant-upload-text">
+                  {{ $t('views_profile_deposit_clickUpload') }}
+                </div>
+              </div>
+            </a-upload>
+          </a-form-item>
+        </div>
         <div class="mt-3">
           <div class="text-label">
             {{ $t('views_profile_deposit_hint') }}
@@ -189,13 +225,19 @@
             <li class="hint-item">
               3. {{ $t('views_profile_deposit_hint_five', { min: selectedItem?.minAmount, max: selectedItem?.maxAmount }) }}
             </li>
+            <li
+              class="hint-item"
+              v-if="showUploadCertificate"
+            >
+              4. {{ $t('views_profile_deposit_hint_six') }}
+            </li>
           </ul>
         </div>
         <d-button
           class="mt-4 btn"
           type="primary"
           block
-          :disabled="!form.amount || (requireUsdtExtendName && !form.extendContent)"
+          :disabled="!form.amount || (requireUsdtExtendName && !form.extendContent) || (requireUploadCertificate && !form.uploadCertificate)"
           @click="applyDeposit"
         >
           {{ $t('common_confirm') }}
@@ -217,6 +259,12 @@ import NP from 'number-precision';
 import FinanceApi from '@/assets/js/api/financeApi';
 import { copyByText } from '@/assets/js/utils/utils';
 
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
 export default {
   setup() {
     // use
@@ -235,15 +283,20 @@ export default {
       form: {
         amount: '',
         extendContent: '',
+        uploadCertificate: '',
       },
       channelList: [],
       selectedItem: {},
+      imageUrl: undefined,
+      file: undefined,
     });
 
     // computed
     const s3Base = computed(() => process.env.VUE_APP_BASE_CDN_URL);
     const showUsdtExtendName = computed(() => store.state.info.depositAccountExtends.showUsdtExtendName);
     const requireUsdtExtendName = computed(() => store.state.info.depositAccountExtends.requireUsdtExtendName);
+    const showUploadCertificate = computed(() => store.state.info.depositAccountExtends.showUploadCertificate);
+    const requireUploadCertificate = computed(() => store.state.info.depositAccountExtends.requireUploadCertificate);
     const usdtExtendName = computed(() => store.state.info.depositAccountExtends.usdtExtendName);
     const getActualAmount = computed(() => {
       if (promotionEnable.value && state.form.amount) {
@@ -277,12 +330,22 @@ export default {
       return Promise.resolve();
     };
 
+    const uploadCertificateValidate = async () => {
+      if (requireUploadCertificate.value && !state.file) {
+        return Promise.reject(new Error(t('common_errorNoEmpty')));
+      }
+      return Promise.resolve();
+    };
+
     const rules = {
       amount: [
         { validator: amountValidate, trigger: ['change', 'blur'] },
       ],
       extendContent: [
         { validator: extendContentValidate, trigger: ['change', 'blur'] },
+      ],
+      uploadCertificate: [
+        { validator: uploadCertificateValidate, trigger: ['change', 'blur'] },
       ],
     };
 
@@ -319,6 +382,7 @@ export default {
         amount: state.form.amount,
         applyPromotion: promotionEnable.value,
         extendContent: state.form.extendContent || undefined,
+        certificate: state.form.uploadCertificate || undefined,
       };
       const { code, data, message } = await FinanceApi.applyDeposit(params);
 
@@ -338,6 +402,33 @@ export default {
       } else {
         window.$vue.$message.error(message);
       }
+    };
+
+    const handleChange = (info) => {
+      if (info.file) {
+        getBase64(info.file, (imageUrl) => {
+          state.imageUrl = imageUrl;
+        });
+
+        state.file = info.file;
+        state.form.uploadCertificate = info.file;
+      }
+    };
+
+    const beforeUpload = (file) => {
+      const imageMap = ['image/jpg', 'image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/JPG', 'image/JPEG', 'image/GIF', 'image/BMP'];
+      if (!imageMap.includes(file.type)) {
+        return new Promise(() => {
+          window.$vue.$message.error(t('error57'));
+        });
+      }
+      const isLt3M = file.size / 1024 / 1024 < 3;
+      if (!isLt3M) {
+        return new Promise(() => {
+          window.$vue.$message.error(t('error58'));
+        });
+      }
+      return false;
     };
 
     // watch
@@ -371,8 +462,12 @@ export default {
       getActualAmount,
       showUsdtExtendName,
       requireUsdtExtendName,
+      showUploadCertificate,
+      requireUploadCertificate,
       usdtExtendName,
       applyDeposit,
+      handleChange,
+      beforeUpload,
     };
   },
 };
@@ -383,7 +478,7 @@ export default {
   @apply flex justify-between mt-4 mb-2 text-sm;
 }
 
-.ant-input {
+.ant-input, .ant-upload {
   height: 32px;
   border-color: #f2f2f2 !important;
   background-color: #fff !important;
@@ -459,5 +554,35 @@ export default {
 .warning {
   color: #f00;
   font-size: 14px;
+}
+
+.upload {
+  .upload-text {
+    display: flex;
+    width: 10rem;
+  }
+
+  .upload-img {
+    /deep/ .ant-upload-select-picture-card {
+      width: 100%;
+      height: 120px;
+      border: 1px solid #f2f2f2;
+      background-color: #fff;
+
+      .ant-upload-text {
+        color: #bdbdbd;
+        font-size: 12px;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .upload-icon {
+      width: 36px !important;
+      margin: auto;
+    }
+  }
 }
 </style>
