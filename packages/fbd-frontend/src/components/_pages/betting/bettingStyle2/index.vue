@@ -297,7 +297,7 @@
                 :style="`width: ${renderProgress(item?.percentage || 0)}%`"
               />
               <div class="popup-digit">
-                {{ numWithCommas(item?.amount || 0) }}
+                {{ numWithCommas(item?.totalBetAmount || 0) }}
               </div>
             </div>
           </div>
