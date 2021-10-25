@@ -363,6 +363,7 @@ export default {
   width: 100%;
   height: 100%;
   background: var(--check-share-bg);
+  overflow: auto;
 
   &.style1 {
     background-image: url('~@/assets/img/profile/share/style1/bg.png');
