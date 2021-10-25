@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_62946" data-name="Rectangle 62946" width="24" height="24" transform="translate(587 1376)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f3ac0a"/>
+      <stop offset="1" stop-color="#7a5605"/>
+    </linearGradient>
+    <clipPath id="clip-首页_获利榜">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="首页_获利榜" clip-path="url(#clip-首页_获利榜)">
+    <g id="Mask_Group_1024" data-name="Mask Group 1024" transform="translate(-587 -1376)" clip-path="url(#clip-path)">
+      <g id="noun_lucky_918962" transform="translate(588.303 1377)">
+        <path id="Path_52094" data-name="Path 52094" d="M20.425,18.384c0-.027,0-.053,0-.08s0-.054,0-.08c2.843-.049,7.823-.61,8.741-3.87.934-3.319-3.177-3.734-3.177-3.734s-.415-4.111-3.734-3.177c-3.26.917-3.821,5.9-3.87,8.741-.027,0-.053,0-.08,0s-.054,0-.08,0c-.049-2.843-.61-7.823-3.87-8.741-3.319-.934-3.734,3.177-3.734,3.177s-4.111.415-3.177,3.734c.917,3.26,5.9,3.821,8.741,3.87,0,.027,0,.053,0,.08s0,.054,0,.08c-2.843.049-7.823.61-8.741,3.87-.934,3.319,3.177,3.734,3.177,3.734s.415,4.111,3.734,3.177c3.26-.917,3.821-5.9,3.87-8.741.027,0,.053,0,.08,0s.054,0,.08,0c.049,2.843.61,7.823,3.87,8.741,3.319.934,3.734-3.177,3.734-3.177s4.111-.415,3.177-3.734C28.248,18.994,23.268,18.433,20.425,18.384Z" transform="translate(-7.303 -7.303)" fill="url(#linear-gradient)"/>
+      </g>
+    </g>
+  </g>
+</svg>

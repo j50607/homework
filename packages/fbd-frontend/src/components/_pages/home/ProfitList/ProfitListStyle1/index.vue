@@ -1,6 +1,6 @@
 <template>
   <div class="title">
-    <img :src="require('@/assets/img/home/icon-promotion.svg')">
+    <img :src="require('@/assets/img/home/icon-profitList.svg')">
     <div>{{ $t('components_pages_home_profitList_title') }}</div>
   </div>
 
