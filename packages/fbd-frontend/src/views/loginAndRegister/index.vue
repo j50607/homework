@@ -62,10 +62,15 @@ export default {
       state.isLanguageModalShow = val;
     };
 
+    const goService = () => {
+      window.location = serviceUrl.value;
+    };
+
     return {
       state,
       loginandregister,
       serviceUrl,
+      goService,
       storeLanguage,
       toggleLanguageModal,
       siteStyle,
