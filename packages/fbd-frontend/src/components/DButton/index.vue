@@ -88,8 +88,9 @@ export default {
   setup(props, { emit }) {
     const store = useStore();
     const siteStyle = computed(() => store.getters.siteStyle);
-    const click = () => {
+    const click = (event) => {
       if (props.disabled || props.loading) {
+        event.preventDefault();
         return;
       }
       emit('click');
