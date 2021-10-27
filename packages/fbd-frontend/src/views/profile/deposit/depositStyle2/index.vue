@@ -180,6 +180,7 @@
                 v-if="imageUrl"
                 :src="imageUrl"
                 alt="avatar"
+                class="certificate"
               >
               <div v-else>
                 <img
@@ -586,8 +587,9 @@ export default {
         font-size: 12px;
       }
 
-      img {
-        width: 100%;
+      .certificate {
+        height:120px;
+        margin:auto;
       }
     }
 
