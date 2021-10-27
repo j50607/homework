@@ -135,6 +135,12 @@
                   <span class="betrecord-item-option-em">
                     {{ `@${fmtPayRate(item?.payRate)}` }}
                   </span>
+                  <span
+                    v-if="isGuaranteed(item)"
+                    class="betrecord-item-icon"
+                  >
+                    <img :src="$requireSafe('icon/icon-guaranteed.svg')">
+                  </span>
                 </div>
               </div>
 
@@ -470,6 +476,8 @@ export default {
       }
     };
 
+    const isGuaranteed = (item) => item?.remark?.isGuaranteed;
+
     const renderChargeFee = (fee) => {
       if (!isNumber(fee)) return '0%';
       return `${NP.times(fee, 100)}%`;
@@ -679,6 +687,7 @@ export default {
       renderIsWinningStyle,
       renderStatus,
       renderChargeFee,
+      isGuaranteed,
       toggleSumPanel,
       toggleFilterPopup,
       refreshData,
@@ -726,6 +735,17 @@ export default {
 
     & + & {
       @apply mt-3;
+    }
+  }
+
+  &-item-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 5px !important;
+
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 

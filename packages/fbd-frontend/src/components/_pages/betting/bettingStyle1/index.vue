@@ -362,6 +362,16 @@
         <div class="popup-text popup-row">
           {{ state.currentGameData?.playTypeMName }} {{ state.currentGameData?.playTypeSName }} {{ getSportScore(state.currentBetItem?.option) }}
         </div>
+        <!--保本提示-->
+        <div
+          v-if="state.currentBetItem?.guaranteed"
+          class="popup-guarantee-info"
+        >
+          <div class="popup-icon-container">
+            <img :src="$requireSafe('icon/icon-guaranteed.svg')">
+          </div>
+          <span class="popup-guarantee-text">{{ $t('views_betting_main_popup_info') }}</span>
+        </div>
       </div>
 
       <div class="popup-piece">
@@ -1377,6 +1387,7 @@ export default {
   }
 
   &-digit {
+    position: relative;
     background: linear-gradient(180deg, #ecf2f8, #fff);
   }
 
@@ -1567,6 +1578,27 @@ export default {
 
   &-input-notify {
     @apply block mt-1 text-negative text-xs;
+  }
+
+  &-guarantee-info {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  &-icon-container {
+    width: 1rem;
+    height: 1rem;
+    img {
+      width: 100%;
+      height:100%;
+    }
+  }
+
+  &-guarantee-text {
+    font-size: 12px;
+    color: #1ecba8;
+    margin-left: 5px;
   }
 }
 

@@ -120,6 +120,7 @@ const lang = {
   views_betting_main_popup_title: 'Chi tiết đơn cược',
   views_betting_main_popup_option: 'Tùy chọn đặt cược',
   views_betting_main_popup_betAmount: 'Số tiền đặt cược',
+  views_betting_main_popup_info: '此为保本投注项',
   views_betting_main_popup_betAmountPlaceholder: 'Vui lòng nhập số tiền đặt cược vào',
   views_betting_main_popup_balance: 'Số dư',
   views_betting_main_popup_profit: 'Lợi nhuận',

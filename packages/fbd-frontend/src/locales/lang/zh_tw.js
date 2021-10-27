@@ -143,6 +143,7 @@ const lang = {
   views_profile_team_agent: '代理報表',
   views_profile_team_record: '充提記錄',
   views_profile_team_detail: '下單明細',
+  views_betting_main_popup_info: '此为保本投注项',
   // Components
   components_common_dialog_confirm: '確認',
   components_common_dialog_cancel: '取消',

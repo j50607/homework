@@ -119,6 +119,7 @@ const lang = {
   views_betting_main_popup_title: 'Betting Details',
   views_betting_main_popup_option: 'Betting Options',
   views_betting_main_popup_betAmount: 'Betting Amount',
+  views_betting_main_popup_info: '此为保本投注项',
   views_betting_main_popup_betAmountPlaceholder: 'Please enter your betting amount',
   views_betting_main_popup_balance: 'Balance',
   views_betting_main_popup_profit: 'Profit',

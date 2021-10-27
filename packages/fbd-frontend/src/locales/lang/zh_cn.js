@@ -120,6 +120,7 @@ const lang = {
   views_betting_main_popup_title: '下单详情',
   views_betting_main_popup_option: '下单选项',
   views_betting_main_popup_betAmount: '投注金额',
+  views_betting_main_popup_info: '此为保本投注项',
   views_betting_main_popup_betAmountPlaceholder: '请输入投注金额',
   views_betting_main_popup_balance: '余额',
   views_betting_main_popup_profit: '获利',
