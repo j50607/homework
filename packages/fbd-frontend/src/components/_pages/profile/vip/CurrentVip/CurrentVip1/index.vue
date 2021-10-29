@@ -585,7 +585,7 @@ export default {
       return realNextLevelBetSumPercentage;
     });
 
-    const deadLineTime = computed(() => dayjs(dayjs(levelStatus.value.deadlineAt).diff(dayjs(), 'ms')).format('DD'));
+    const deadLineTime = computed(() => dayjs(levelStatus.value.deadlineAt).diff(dayjs(), 'd'));
 
     // 距離VIP 總進度條裡面的各個小條
     const progress1 = computed(() => {

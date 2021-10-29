@@ -561,7 +561,7 @@ export default {
       return realNextLevelBetSumPercentage;
     });
 
-    const deadLineTime = computed(() => dayjs(dayjs(levelStatus.value.deadlineAt).diff(dayjs(), 'ms')).format('DD'));
+    const deadLineTime = computed(() => dayjs(levelStatus.value.deadlineAt).diff(dayjs(), 'd'));
 
     // methods
     const handlerShowDialog = (type) => {
