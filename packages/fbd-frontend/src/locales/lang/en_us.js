@@ -536,7 +536,7 @@ const lang = {
   components_pages_components_vip_checkRecord: 'history',
   components_pages_components_vip_distance: 'Distance to the next level',
   components_pages_components_vip_nextLevel_holdLevel_betAmount: 'Order amount to next level',
-  components_pages_components_vip_nextLevel_holdLevel_deadLine: 'date',
+  components_pages_components_vip_nextLevel_holdLevel_deadLine: 'day left',
   components_pages_components_vip_total_deposit: 'Total deposit amount',
   components_pages_components_vip_total_betAmount: 'Total order amount',
   components_pages_components_vip_privilege: 'privilege overview',
