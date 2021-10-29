@@ -100,7 +100,7 @@ const langImgMap = {
 };
 
 const siteMap = {
-  14: 'mtz',
+  14: 'sw',
   801: 'mtz',
   802: 'rowz',
 };
@@ -167,7 +167,7 @@ xhr.send(null);
 const xhr1 = new XMLHttpRequest();
 
 const siteHost = `${window.location.origin}/mainten/info/get`;
-// const siteHost = 'https://3-dev.dingyi.io//mainten/info/get';
+// const siteHost = 'https://14-prod-1.168-system.com/mainten/info/get';
 // const siteHost = 'https://169-dev.dingyi.io//mainten/info/get';
 // const siteHost = 'https://802-prod.168-system.com/mainten/info/get';
 
