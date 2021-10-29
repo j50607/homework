@@ -18,6 +18,15 @@ import SystemApi from '@/assets/js/api/systemApi';
 import Stylesheet from '@/assets/js/stylesheet';
 import clientModeEnum from '@/assets/enum/clientModeEnum';
 
+// 禁止放大缩小画面
+window.onload = () => {
+  document.addEventListener('touchstart', (event) => {
+    if (event.touches.length > 1) {
+      event.preventDefault();
+    }
+  }, { passive: false });
+};
+
 export default {
   setup() {
     // use
