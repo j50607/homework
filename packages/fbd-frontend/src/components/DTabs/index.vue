@@ -323,10 +323,6 @@ export default {
       &.right {
         justify-content: flex-end;
       }
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
     }
 
     .d-tabs-mobile-title {
