@@ -146,16 +146,21 @@ const siteHost = `${window.location.origin}/mainten/info/get`;
 
 const xhr = new XMLHttpRequest();
 
+function timeFormat(timestamp) {
+  return `${timestamp.getFullYear()}/${timestamp.getMonth() + 1}/${timestamp.getDate()} ${timestamp.getHours()}:${timestamp.getMinutes()}`;
+}
+
 xhr.open('POST', siteHost, true);
 
 xhr.onload = () => {
   if (xhr.readyState === 4) {
     if (xhr.status === 200) {
       const res = JSON.parse(xhr.response);
-
+      const startTime = new Date(parseInt(res.startTime, 10));
+      const endTime = new Date(parseInt(res.endTime, 10));
       siteName = siteMap[res.siteId];
       locale = res.locale;
-      time = `${`${res.startYear}/${res.startDate} ${res.startTime}`} - ${`${res.startYear}/${res.endDate} ${res.endTime}`}`;
+      time = `${timeFormat(startTime)} - ${timeFormat(endTime)}`;
       setMetadata(siteName);
     } else {
       console.error(xhr.statusText);
