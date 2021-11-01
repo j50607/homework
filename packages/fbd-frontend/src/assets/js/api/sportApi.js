@@ -50,7 +50,7 @@ class SportApi extends API {
   * 賽事注單分頁查詢
   */
   static async getBetOrderPage({
-    start, end, status, pageIndex,
+    start, end, status, pageIndex, isRobot = false,
   }) {
     const params = {
       start,
@@ -58,6 +58,7 @@ class SportApi extends API {
       status,
       pageIndex,
       filterTest: false,
+      isRobot,
     };
     const result = await this.callAxios('POST', '/frontend/sport-game/view/bet/order/page', params, null, true);
     return result;
