@@ -2,6 +2,8 @@
   <div
     class="d-tabs"
     :class="`style${siteStyle}`"
+    @touchstart.enter="getFirstTouch"
+    @touchend.enter="getSecondTouch"
   >
     <div
       class="d-tabs-mobile"
@@ -10,6 +12,19 @@
         class="d-tabs-mobile-area"
         ref="tabsItemRef"
       >
+        <!--左滑提示-->
+        <div
+          v-if="state.slideHint"
+          class="slide-hint"
+        >
+          <div class="hint-text">
+            <div class="slide-left">
+              <img
+                :src="$requireSafe('icon/detail-open.svg')"
+              >
+            </div>
+          </div>
+        </div>
         <div
           ref="boxRef"
           class="d-tabs-mobile-box"
@@ -64,7 +79,7 @@
 
 <script>
 import {
-  computed, ref, onMounted,
+  computed, ref, onMounted, reactive, nextTick,
 } from 'vue';
 import { useStore } from 'vuex';
 
@@ -133,6 +148,14 @@ export default {
     const current = ref(0);
     const touchLock = ref(false);
 
+    // reactive
+    const state = reactive({
+      // 左滑提示
+      slideHint: false,
+      firstTouch: 0,
+      totalTabLength: 0,
+    });
+
     // computed
     const currentKey = computed({
       get: () => props.activeKey || tabIndex.value,
@@ -186,6 +209,11 @@ export default {
         current.value = to - boxRef.value.scrollLeft;
 
         boxRef.value.scrollLeft += current.value;
+        if (boxRef.value.scrollLeft === 0) {
+          state.slideHint = false;
+        } else {
+          state.slideHint = true;
+        }
       }
     };
 
@@ -242,8 +270,37 @@ export default {
       return result;
     };
 
+    // 左滑提示隐藏
+    const getFirstTouch = () => {
+      const tab = document.querySelector('.d-tabs-mobile-box');
+      state.firstTouch = tab.scrollLeft;
+    };
+    const getSecondTouch = () => {
+      const tab = document.querySelector('.d-tabs-mobile-box');
+      const secondTouch = tab.scrollLeft;
+      // const scroll = secondTouch - state.firstTouch;
+      if (secondTouch >= (state.totalTabLength - lookWidth.value)) {
+        state.slideHint = false;
+      } else {
+        state.slideHint = true;
+      }
+    };
+
     onMounted(() => {
       checkDefaultKey();
+      nextTick(() => {
+        let totalTabLength = 0; // tab总长度
+        for (let i = 0; i < props.tabList.length; i++) {
+          totalTabLength += document.getElementsByClassName('d-tabs-mobile-title')[i].offsetWidth;
+        }
+        state.totalTabLength = totalTabLength;
+        if (totalTabLength <= lookWidth.value) {
+          state.slideHint = false;
+        }
+        if (totalTabLength > lookWidth.value) {
+          state.slideHint = true;
+        }
+      });
     });
 
     return {
@@ -268,6 +325,9 @@ export default {
       boxRef,
       tabsItemOffsetLeft,
       siteStyle,
+      getFirstTouch,
+      getSecondTouch,
+      state,
     };
   },
 };
@@ -299,6 +359,7 @@ export default {
   color: #4d5772;
 
   .d-tabs-mobile-area {
+    position: relative;
     display: flex;
     align-items: center;
     width: 100%;
@@ -408,6 +469,35 @@ export default {
           }
         }
       }
+    }
+  }
+}
+
+.slide-hint {
+  position: absolute;
+  background: transparent linear-gradient(90deg, #f9fcff00 0%, #d7dcec 100%) 0% 0% no-repeat padding-box;
+  width: 80px;
+  height: 100%;
+  margin: auto;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+  top: 0;
+  right: 0;
+  z-index: 9;
+
+  .hint-text {
+    position: relative;
+  }
+
+  .slide-left {
+    width: 10px;
+    height: 10px;
+    transform: rotate(-90deg);
+
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }

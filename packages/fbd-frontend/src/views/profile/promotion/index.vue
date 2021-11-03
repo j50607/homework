@@ -24,7 +24,7 @@
       :class="locale"
       @change="changeTab"
       class="game-tab text-white"
-      v-if="!state.showActivityDetail"
+      v-if="!state.showActivityDetail && state.tabList.length > 0"
     />
     <div
       class="activity-list-container mt-4"
@@ -121,7 +121,7 @@ export default {
     const state = reactive({
       currentKey: 0,
       tabIndex: 0,
-      tabList: [{ label: t('views_profile_promotion_allActivity') }],
+      tabList: [],
       activityList: [],
       typeId: undefined,
       showActivityDetail: false,
@@ -144,7 +144,7 @@ export default {
           item.label = item.typeName;
           return item;
         });
-        state.tabList = [...state.tabList, ...tabList, { label: t('views_profile_promotion_passedActivity') }];
+        state.tabList = [{ label: t('views_profile_promotion_allActivity') }, ...tabList, { label: t('views_profile_promotion_passedActivity') }];
       }
     };
 
@@ -290,4 +290,13 @@ export default {
     cursor: default;
     filter: grayscale(70%);
   }
+.game-tab {
+  ::v-deep(.d-tabs-mobile-box) {
+    .d-tabs-mobile-title {
+      &.default {
+        margin-right: 0;
+      }
+    }
+  }
+}
 </style>
