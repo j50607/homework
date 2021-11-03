@@ -412,7 +412,7 @@
           =
         </div>
         <div class="popup-text popup-text-expect popup-preview-item">
-          {{ numWithCommas(renderExpectProfit(state.currentBetItem?.payRate)) }}{{ $t('views_betting_main_popup_dollars') }}
+          {{ numWithCommas(renderExpectProfit(state.currentBetItem?.payRate)) }}
         </div>
       </div>
 
