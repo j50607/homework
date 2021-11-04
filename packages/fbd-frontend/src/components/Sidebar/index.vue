@@ -14,7 +14,7 @@
           >
           <div>
             <div class="font-bold mb-1">
-              {{ userInfo.name }}
+              {{ userInfo.nickName }}
             </div>
             <div
               class="logout"
