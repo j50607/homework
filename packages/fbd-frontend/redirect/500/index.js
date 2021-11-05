@@ -141,13 +141,13 @@ function setContentLang() {
 }
 
 const siteHost = `${window.location.origin}/mainten/info/get`;
-// const siteHost = 'https://801-prod.168-system.com/mainten/info/get';
+// const siteHost = 'https://972005.com/mainten/info/get';
 // const siteHost = 'https://14-prod-1.168-system.com/mainten/info/get';
 
 const xhr = new XMLHttpRequest();
 
 function timeFormat(timestamp) {
-  return `${timestamp.getFullYear()}/${timestamp.getMonth() + 1}/${timestamp.getDate()} ${timestamp.getHours()}:${timestamp.getMinutes()}`;
+  return `${timestamp.getFullYear()}/${timestamp.getMonth() + 1}/${timestamp.getDate()} ${timestamp.getHours()}:${timestamp.getMinutes().toString().padStart(2, '0')}`;
 }
 
 xhr.open('POST', siteHost, true);
@@ -156,8 +156,8 @@ xhr.onload = () => {
   if (xhr.readyState === 4) {
     if (xhr.status === 200) {
       const res = JSON.parse(xhr.response);
-      const startTime = new Date(parseInt(res.startTime, 10));
-      const endTime = new Date(parseInt(res.endTime, 10));
+      const startTime = new Date(parseInt(res.startTime * 1000, 10));
+      const endTime = new Date(parseInt(res.endTime * 1000, 10));
       siteName = siteMap[res.siteId];
       locale = res.locale;
       time = `${timeFormat(startTime)} - ${timeFormat(endTime)}`;
