@@ -182,7 +182,7 @@ export default {
     const getHomePageData = async () => {
       const { code, data } = await SportApi.getHomePageData();
       if (code === 200) {
-        state.matchList = data;
+        state.matchList = data.filter((e) => dayjs().valueOf() <= e.matchTime);
       }
     };
 
