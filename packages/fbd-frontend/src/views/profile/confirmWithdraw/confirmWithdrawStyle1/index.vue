@@ -27,6 +27,7 @@
           <div
             v-if="item.value !== 'withdrawFreeCount' || (item.value === 'withdrawFreeCount' && state.openFreeWithdrawals)"
             class="flex-1 break-all text-right"
+            :class="{'whitespace-nowrap':!isCryptocurrency}"
           >
             {{ state[item.value] }}
           </div>

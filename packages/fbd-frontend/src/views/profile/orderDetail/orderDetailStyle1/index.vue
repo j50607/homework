@@ -62,6 +62,7 @@
             </div>
             <div
               class="flex-1 break-all text-right"
+              :class="{'whitespace-nowrap':!isCryptocurrency}"
             >
               {{ state.withdraw[item.value] }}
             </div>
@@ -176,6 +177,7 @@ export default {
       withdrawList,
       state,
       serviceUrl,
+      isCryptocurrency,
     };
   },
 };
