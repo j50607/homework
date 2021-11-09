@@ -146,8 +146,12 @@ const siteHost = `${window.location.origin}/mainten/info/get`;
 
 const xhr = new XMLHttpRequest();
 
+function numFormat(num) {
+  return num < 10 ? `0${num}` : num;
+}
+
 function timeFormat(timestamp) {
-  return `${timestamp.getFullYear()}/${timestamp.getMonth() + 1}/${timestamp.getDate()} ${timestamp.getHours()}:${timestamp.getMinutes().toString().padStart(2, '0')}`;
+  return `${timestamp.getFullYear()}/${numFormat(timestamp.getMonth() + 1)}/${numFormat(timestamp.getDate())} ${numFormat(timestamp.getHours())}:${numFormat(timestamp.getMinutes())}`;
 }
 
 xhr.open('POST', siteHost, true);
