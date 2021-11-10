@@ -24,7 +24,7 @@
         <!-- LOGO -->
         <img
           class="h-full"
-          :class="sitePrefix"
+          :class="`site-${sitePrefix}`"
           :src="$requireSafe(`site/${sitePrefix}/style1/logo.svg`)"
           alt=""
         >
@@ -256,7 +256,7 @@ export default {
   border: 1px solid #f3ac0a;
 }
 
-.rowz {
+.site-rowz, .site-188c {
   height: 32px;
   margin-top: -4px;
 }
