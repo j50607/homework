@@ -360,6 +360,9 @@ export default {
     });
 
     router.beforeEach((to, from) => {
+      if (!Cookie.get('isGuideTourDone')) {
+        Cookie.set('isGuideTourDone', true);
+      }
       if (from) {
         store.commit('SET_PREV_PAGE', from.name);
       } else {
