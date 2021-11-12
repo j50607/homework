@@ -60,7 +60,7 @@
           </div>
 
           <div
-            class="label absolute -left-1 text-xs text-white flex justify-center"
+            class="label absolute -left-1 text-xs text-white "
             :class="`style${siteStyle}`"
           >
             <span>
@@ -257,13 +257,15 @@ export default {
 
   .label {
     top: 8px;
-    width: 70px;
     height: 22px;
     padding: 2px 3px 0 0;
-    background-image: url('~@/assets/img/profile/promotion/label-bg-blue.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    background: transparent linear-gradient(91deg, #3E98F0 0%, #94CDFF 100%) 0% 0% no-repeat padding-box;
+    border-radius: 0px 3px 3px 0px;
+    > span {
+      display: inline-block;
+      margin: 0.1rem 0.7rem;
+      margin-left:0.5rem;
+    }
 
     &.style2 {
       color: var(--primary-btn-color);
