@@ -209,9 +209,7 @@ export default {
         current.value = to - boxRef.value.scrollLeft;
 
         boxRef.value.scrollLeft += current.value;
-        if (boxRef.value.scrollLeft === 0) {
-          state.slideHint = false;
-        } else {
+        if (boxRef.value.scrollLeft !== 0) {
           state.slideHint = true;
         }
       }
