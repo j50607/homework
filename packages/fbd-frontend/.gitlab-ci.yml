@@ -38,7 +38,6 @@ stages:
   npm config set '//git.dingyi.io/api/v4/packages/npm/:_authToken' ${CI_JOB_TOKEN}
   npm install
   npm run build:prod
-  npm run redirect
 
 .deploy_script: &deploy_script |
   (for SERVER in $TARGET_SERVERS;
