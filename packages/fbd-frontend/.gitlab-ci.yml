@@ -40,22 +40,6 @@ stages:
   npm run build:prod
   npm run redirect
 
-.build_redirect_script: &build_redirect_script |
-  cd redirect/ && npm install
-  mkdir -p ./output/403/
-  mkdir -p ./output/500/
-  cp ./403/* ./output/403/
-  cp ./500/* ./output/500/
-  sed -i "s/\.\//\/403\//g" ./output/403/index.html
-  sed -i "s/\.\//\/403\//g" ./output/403/index.js
-  sed -i "s/\.\//\/500\//g" ./output/500/index.html
-  sed -i "s/\.\//\/500\//g" ./output/500/index.js
-  npx babel ./output/403/index.js --out-file ./output/403/index.js
-  npx uglifyjs ./output/403/index.js --output ./output/403/index.js
-  npx babel ./output/500/index.js --out-file ./output/500/index.js
-  npx uglifyjs ./output/500/index.js --output ./output/500/index.js
-  cd ..
-
 .deploy_script: &deploy_script |
   (for SERVER in $TARGET_SERVERS;
   do
@@ -102,7 +86,6 @@ deploy_dev:
     - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$DEV_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
-    - *build_redirect_script
     - *build_script
     - *deploy_script
   artifacts:
@@ -159,7 +142,6 @@ deploy_test:
     - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$TEST_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
-    - *build_redirect_script
     - *build_script
     - *deploy_script
   artifacts:
@@ -215,7 +197,6 @@ deploy_stage:
     - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$STAGE_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
-    - *build_redirect_script
     - *build_script
     - *deploy_script
   environment:
@@ -238,7 +219,6 @@ deploy_prod:
     - echo VUE_APP_SOCKET_BASE = /api/notify/ws/socket.io >> $TARGET_ENV_FILE
     - echo VUE_APP_BASE_CDN_URL = https://$PROD_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.sahudfi8y74933ujk.com/ >> $TARGET_ENV_FILE
-    - *build_redirect_script
     - *build_script
     - *deploy_script
   environment:
