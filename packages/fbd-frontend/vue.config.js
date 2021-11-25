@@ -116,6 +116,7 @@ const vueConfig = {
     },
   },
   productionSourceMap: false,
+  publicPath: '/m/',
 };
 
 module.exports = vueConfig;
