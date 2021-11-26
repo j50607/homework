@@ -1227,9 +1227,9 @@ export default {
         store.commit('SET_AGENT_CODE', data);
       }
 
-      const c = agentCode.value || route?.query?.c;
+      const c = route?.query?.c || agentCode.value;
 
-      if (!register.agentCodeReadonly && c && String(c).trim() && c !== 'null' && c !== 'undefined') {
+      if (!agentCodeReadonly.value && c && String(c).trim() && c !== 'null' && c !== 'undefined') {
         state.formState.recommendedPersonInputValue = c;
         agentCodeReadonly.value = true;
         store.commit('SET_AGENT_CODE', c);
