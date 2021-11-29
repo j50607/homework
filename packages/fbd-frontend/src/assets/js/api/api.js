@@ -116,7 +116,7 @@ class Api {
       Object.entries(params).forEach(([key, value]) => {
         if (key === 'start' || key === 'startTime' || key === 'startDate') {
           if (!startFromStartOfDay) {
-            params[key] = dayjs(value).format(this.Time(value));
+            params[key] = dayjs(value).tz('Asia/Shanghai').format(this.Time(value));
           } else {
             params[key] = dayjs(value).tz('Asia/Shanghai').startOf('day').format(this.Time(value));
           }
