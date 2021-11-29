@@ -276,7 +276,6 @@ const routes = [
     meta: {
       title: 'Promotion',
       layout: Layout,
-      requiresAuth: true,
     },
   },
   {
