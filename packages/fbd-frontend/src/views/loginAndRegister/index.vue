@@ -9,17 +9,29 @@
       :bg-color="'transparent'"
     >
       <template #right>
-        <div class="service">
-          <img
-            v-if="serviceUrl"
-            class="is-btn"
-            @click="goService"
-            :src="$requireSafe(`header/style${siteStyle}/icon-service.svg`)"
-          >
+        <div class="right-container">
+          <div>
+            <d-locale-image
+              v-if="displayLanguageSwitch"
+              @click="state.showLangModal = true"
+            />
+          </div>
+          <div class="service">
+            <img
+              v-if="serviceUrl"
+              class="service-img"
+              @click="goService"
+              :src="$requireSafe(`header/style${siteStyle}/icon-service.svg`)"
+            >
+          </div>
         </div>
       </template>
     </d-header-row>
     <login-register />
+    <d-language-modal
+      v-model:isShow="state.showLangModal"
+      @cancel="state.showLangModal = false"
+    />
   </div>
 </template>
 
@@ -50,12 +62,14 @@ export default {
         ja_jp: 'locale/ja_jp.svg',
         en_us: 'locale/en_us.svg',
       },
+      showLangModal: false,
     });
 
     // computed
     const siteStyle = computed(() => store.getters.siteStyle);
     const serviceUrl = computed(() => store.state.info.serviceUrl);
     const storeLanguage = computed(() => store.state.info.language);
+    const displayLanguageSwitch = computed(() => store.state.info.switchSetting.displayLanguageSwitch);
 
     // methods
     const toggleLanguageModal = (val) => {
@@ -74,6 +88,7 @@ export default {
       storeLanguage,
       toggleLanguageModal,
       siteStyle,
+      displayLanguageSwitch,
     };
   },
 };
@@ -95,19 +110,27 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    width: 100%;
+    margin-left: 15px;
 
     .service-img {
-      width: 24px;
-
-      img {
-        width: 100%;
-      }
+      width: 20px;
     }
   }
 }
 
 .ant-modal-body {
   padding: 0 26px 20px;
+}
+
+.right-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+::v-deep(.header) {
+  .middle {
+    display: none;
+  }
 }
 </style>

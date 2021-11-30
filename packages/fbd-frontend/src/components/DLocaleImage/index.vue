@@ -1,7 +1,13 @@
 <template>
-  <img
-    :src="$requireSafe(`${path}`)"
+  <div
+    class="locale-container"
   >
+    <img
+      :src="$requireSafe(`${path}`)"
+      class="locale-img"
+    >
+    <span class="locale-text">{{ $t('common_language') }}</span>
+  </div>
 </template>
 
 <script>
@@ -49,3 +55,31 @@ export default {
   },
 };
 </script>
+<style lang="postcss" scoped>
+.locale {
+  &-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    height: 21px;
+    padding: 5px;
+    border-radius: 10px;
+    background: #f2f2f2;
+  }
+
+  &-img {
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+  }
+
+  &-text {
+    overflow: hidden;
+    color: #4d5772;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+</style>
