@@ -280,11 +280,12 @@ class MemberApi extends API {
 
   */
   static async sendRealDataAdvence({
-    idNoPic, idNoPic2,
+    idNoPic, idNoPic2, portrait,
   }) {
     const formData = new FormData();
     formData.append('idNoPic', idNoPic);
     formData.append('idNoPic2', idNoPic2);
+    formData.append('portrait', portrait);
     const result = await this.callAxios('POST', '/frontend/verify/real-data/advence/apply', formData, undefined, true);
     return result;
   }
