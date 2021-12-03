@@ -172,12 +172,10 @@ export default {
     };
 
     const showDetail = (item) => {
-      if (state.tabIndex !== state.tabList.length - 1) {
-        state.showActivityDetail = true;
-        state.contentImgUrl = item.mobileActivityContentImg;
-        state.activityImgUrl = item.mobileActivityImg;
-        state.activityUrl = item.activityUrl;
-      }
+      state.showActivityDetail = true;
+      state.contentImgUrl = item.mobileActivityContentImg;
+      state.activityImgUrl = item.mobileActivityImg;
+      state.activityUrl = item.activityUrl;
     };
 
     const typeName = (item) => {
