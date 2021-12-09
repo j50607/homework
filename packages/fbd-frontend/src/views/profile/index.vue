@@ -109,6 +109,11 @@
           <p>{{ nowVipLevelRule.singleGameBetLimit }} / {{ nowVipLevelRule.singleDayBetLimit }}</p>
         </div>
 
+        <div class="bet-limit">
+          <p>{{ $t('components_pages_components_vip_bet_match_perDay') }}</p>
+          <p>{{ nowVipLevelRule.singleDayBetCountLimit > 0 ? nowVipLevelRule.singleDayBetCountLimit : $t('components_pages_components_vip_bet_match_nolimit') }}</p>
+        </div>
+
         <div class="return-profit">
           <p>{{ $t('components_pages_components_vip_bet_return_profit') }}</p>
           <p>{{ nowVipLevelRule.rebateRate }}%</p>
