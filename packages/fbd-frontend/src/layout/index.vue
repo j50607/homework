@@ -62,6 +62,6 @@ export default {
 
 <style lang="postcss" scoped>
 .main {
-  @apply flex flex-col w-full h-full min-h-full relative bg-layout duration-500;
+  @apply flex flex-col w-full h-full min-h-full relative bg-layout duration-500 overflow-auto;
 }
 </style>
