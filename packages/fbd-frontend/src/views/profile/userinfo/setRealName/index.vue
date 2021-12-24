@@ -93,6 +93,10 @@ export default {
         loading.value = false;
         return Promise.reject(new Error(t('error11')));
       }
+      if (/[`~!@#$^&%*()=|{}':;',[\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？/+/-\d]/.test(value)) {
+        loading.value = false;
+        return Promise.reject(new Error(t('error9')));
+      }
       return Promise.resolve();
     };
 
