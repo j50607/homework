@@ -332,6 +332,7 @@ export default {
 
     onBeforeMount(() => {
       getAgentCode();
+      getUserSystemTime();
     });
 
     // hooks
