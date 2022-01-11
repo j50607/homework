@@ -1,4 +1,5 @@
 variables:
+  INTERNAL_PATH: /home/www/comprehensive
   DEPLOY_PATH: /home/www
   DIR_PROJECT_TYPE: anti
   DIR_MOBILE_PATH: m
@@ -46,6 +47,13 @@ stages:
     rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/frontend/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
   done);
 
+.deploy_internal_script: &deploy_internal_script |
+  (for SERVER in $TARGET_SERVERS;
+  do
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${INTERNAL_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${INTERNAL_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+  done);
+
 .build_image_script: &build_image_script |
   docker login -u $DOCKER_SWARM_DEPLOYER_UESRNAME -p $DOCKER_SWARM_DEPLOYER_TOKEN $CI_REGISTRY
   docker build -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$TARGET_ENV:$CI_COMMIT_SHORT_SHA .
@@ -86,7 +94,7 @@ deploy_dev:
     - echo VUE_APP_BASE_CDN_URL = https://$DEV_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_script
-    - *deploy_script
+    - *deploy_internal_script
   artifacts:
     name: "package"
     paths:
@@ -197,7 +205,7 @@ deploy_stage:
     - echo VUE_APP_BASE_CDN_URL = https://$STAGE_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_script
-    - *deploy_script
+    - *deploy_internal_script
   environment:
     name: $TARGET_ENV
   only:
