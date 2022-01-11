@@ -1,5 +1,5 @@
 variables:
-  DEPLOY_PATH: /home/www/comprehensive
+  DEPLOY_PATH: /home/www
   DIR_PROJECT_TYPE: anti
   DIR_MOBILE_PATH: m
   DEPLOY_APP_VERSION: v0.1.0
@@ -42,8 +42,8 @@ stages:
 .deploy_script: &deploy_script |
   (for SERVER in $TARGET_SERVERS;
   do
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
-    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/frontend/${DIR_MOBILE_PATH};
+    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/frontend/${DIR_MOBILE_PATH};
   done);
 
 .build_image_script: &build_image_script |
