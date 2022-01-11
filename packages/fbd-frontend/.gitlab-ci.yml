@@ -100,30 +100,30 @@ deploy_dev:
 
 # DEV BUILD IMAGE JOBS
 # ================================================================================
-dev_build_image:
-  image: registry.dingyi.io/docker-public/docker:19.03.12
-  stage: build_image
-  script:
-    - source build.env
-    - *build_image_script
-  dependencies:
-    - deploy_dev
-  environment:
-    name: $TARGET_ENV
-  only:
-    - develop
+# dev_build_image:
+#   image: registry.dingyi.io/docker-public/docker:19.03.12
+#   stage: build_image
+#   script:
+#     - source build.env
+#     - *build_image_script
+#   dependencies:
+#     - deploy_dev
+#   environment:
+#     name: $TARGET_ENV
+#   only:
+#     - develop
 
 # DEV UPDATE HELM CHART IMAGE TAG
 # ================================================================================
-dev_update_image_tag:
-  image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
-  stage: update_image_tag
-  script:
-    - *update_image_tag
-  environment:
-    name: $CI_COMMIT_REF_NAME
-  only:
-    - develop
+# dev_update_image_tag:
+#   image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
+#   stage: update_image_tag
+#   script:
+#     - *update_image_tag
+#   environment:
+#     name: $CI_COMMIT_REF_NAME
+#   only:
+#     - develop
 
 deploy_test:
   image: registry.dingyi.io/docker-public/nodejs/rsync-ssh:latest
