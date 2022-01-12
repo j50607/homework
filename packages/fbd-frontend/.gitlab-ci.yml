@@ -1,7 +1,8 @@
 variables:
-  INTERNAL_PATH: /home/www/comprehensive
+  OLD_DEPLOY_PATH: /home/www/comprehensive
   DEPLOY_PATH: /home/www
   DIR_PROJECT_TYPE: anti
+  END_TYPE: frontend
   DIR_MOBILE_PATH: m
   DEPLOY_APP_VERSION: v0.1.0
 
@@ -43,16 +44,18 @@ stages:
 .deploy_script: &deploy_script |
   (for SERVER in $TARGET_SERVERS;
   do
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${DEPLOY_PATH}/${TARGET_ENV}/frontend/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
-    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/frontend/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${DEPLOY_PATH}/${TARGET_ENV}/${END_TYPE}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${DEPLOY_PATH}/${TARGET_ENV}/${END_TYPE}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${OLD_DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${OLD_DEPLOY_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
   done);
 
-.deploy_internal_script: &deploy_internal_script |
-  (for SERVER in $TARGET_SERVERS;
-  do
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${INTERNAL_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
-    rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${INTERNAL_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
-  done);
+# .deploy_internal_script: &deploy_internal_script |
+#   (for SERVER in $TARGET_SERVERS;
+#   do
+#     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null www-data@${SERVER} mkdir -p ${INTERNAL_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+#     rsync -av --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./dist/* www-data@${SERVER}:${INTERNAL_PATH}/${TARGET_ENV}/${DIR_PROJECT_TYPE}/${DIR_MOBILE_PATH};
+#   done);
 
 .build_image_script: &build_image_script |
   docker login -u $DOCKER_SWARM_DEPLOYER_UESRNAME -p $DOCKER_SWARM_DEPLOYER_TOKEN $CI_REGISTRY
@@ -94,7 +97,7 @@ deploy_dev:
     - echo VUE_APP_BASE_CDN_URL = https://$DEV_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_script
-    - *deploy_internal_script
+    - *deploy_script
   artifacts:
     name: "package"
     paths:
@@ -205,7 +208,7 @@ deploy_stage:
     - echo VUE_APP_BASE_CDN_URL = https://$STAGE_CDN_DOMAIN >> $TARGET_ENV_FILE
     - echo VUE_APP_THIRD_PARTY_LOGIN_URL = https://sso.dingyi.io/ >> $TARGET_ENV_FILE
     - *build_script
-    - *deploy_internal_script
+    - *deploy_script
   environment:
     name: $TARGET_ENV
   only:
