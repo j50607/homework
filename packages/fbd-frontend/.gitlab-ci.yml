@@ -105,7 +105,7 @@ deploy_dev:
       - build.env
     expire_in: 3min
   environment:
-    name: $TARGET_ENV
+    name: $CI_COMMIT_REF_NAME
   only:
     - develop
 
@@ -161,7 +161,7 @@ deploy_test:
       - build.env
     expire_in: 3min
   environment:
-    name: $TARGET_ENV
+    name: $CI_COMMIT_REF_NAME
   only:
     - test
 
@@ -176,7 +176,7 @@ test_build_image:
   dependencies:
     - deploy_test
   environment:
-    name: $TARGET_ENV
+    name: $CI_COMMIT_REF_NAME
   only:
     - test
 
@@ -210,7 +210,7 @@ deploy_stage:
     - *build_script
     - *deploy_script
   environment:
-    name: $TARGET_ENV
+    name: $CI_COMMIT_REF_NAME
   only:
     - master
 
@@ -232,6 +232,6 @@ deploy_prod:
     - *build_script
     - *deploy_script
   environment:
-    name: $TARGET_ENV
+    name: $CI_COMMIT_REF_NAME
   only:
     - production
