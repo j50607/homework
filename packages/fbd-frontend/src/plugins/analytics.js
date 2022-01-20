@@ -8,6 +8,10 @@ export default () => {
     user: store.state.user,
   };
 
-  Analytics.init();
-  Analytics.bind(options);
+  const isProd = process.env.NODE_ENV === 'production';
+
+  if (isProd) {
+    Analytics.init();
+    Analytics.bind(options);
+  }
 };
