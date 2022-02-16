@@ -164,7 +164,7 @@ export default ({
       justify-content: center;
 
       .accoutn-user {
-        width: 60px;
+        width: 75px;
         text-align: right;
       }
 
