@@ -1,0 +1,18 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.9.0",
+    "eslint-plugin-vue": "^8.5.0",
+    "lerna": "^4.0.0"
+  },
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "admin": "cd ./packages/admin && npm run serve",
+    "admin:build": "cd ./packages/admin&& npm run build",
+    "admin:test": "cd ./packages/admin&& npm run test",
+    "test": "lerna exec -- npm run test",
+    "lint": "lerna exec -- npm run lint"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["./modules/shared/src/*"],
+      "@admin/*": ["./modules/admin/src/*"]
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
