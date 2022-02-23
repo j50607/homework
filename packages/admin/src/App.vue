@@ -1,15 +1,18 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <hello-world msg="Welcome to Your Vue.js "/>
+  <shared-hello msg="shared contentss"></shared-hello>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import SharedHello from '@shared/components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    SharedHello
   }
 }
 </script>
