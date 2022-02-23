@@ -1,15 +1,14 @@
 {
   "name": "admin",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --host localhost",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "core-js": "^3.8.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

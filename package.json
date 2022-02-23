@@ -14,5 +14,11 @@
     "admin:test": "cd ./packages/admin && npm run test",
     "test": "lerna exec -- npm run test",
     "lint": "lerna exec -- npm run lint"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "dependencies": {
+    "vue": "^3.2.13"
   }
 }

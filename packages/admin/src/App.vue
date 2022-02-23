@@ -6,7 +6,7 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import SharedHello from '@shared/components/HelloWorld.vue'
+import SharedHello from '@shared/components/Hello.vue'
 
 export default {
   name: 'App',
