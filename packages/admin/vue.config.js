@@ -13,5 +13,6 @@ module.exports = {
         '@admin': adminSrc
       }
     }
-  }
+  },
+  publicPath: process.env.NODE_ENV === 'production' ? '/homework/' : '/'
 }
