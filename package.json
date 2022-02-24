@@ -12,6 +12,9 @@
     "admin": "cd ./packages/admin && npm run serve",
     "admin:build": "cd ./packages/admin && npm run build",
     "admin:test": "cd ./packages/admin && npm run test",
+    "shared": "cd ./packages/shared && npm run serve",
+    "shared:build": "cd ./packages/shared && npm run build",
+    "shared:test": "cd ./packages/shared && npm run test",
     "test": "lerna exec -- npm run test",
     "lint": "lerna exec -- npm run lint"
   },
