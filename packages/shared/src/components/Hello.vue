@@ -7,7 +7,7 @@
       <!-- <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>. -->
     </p>
     <p>
-      123
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis distinctio repellat accusantium nobis unde quia ut alias esse numquam dicta.
     </p>
     
   </div>
