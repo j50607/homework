@@ -1,9 +1,0 @@
-const _jsvar = {};
-_jsvar.siteId = 801;
-_jsvar.siteStyle = 1;
-_jsvar.siteType = '8';
-_jsvar.sitePrefix = 'fbd';
-_jsvar.siteLocale = 'en_us';
-_jsvar.siteAnalyticsUrl = 'https://analytics.dingyi.io';
-_jsvar.siteAnalyticsId = 37;
-window._jsvar = _jsvar;
