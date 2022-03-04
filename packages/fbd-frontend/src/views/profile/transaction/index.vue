@@ -417,12 +417,12 @@ export default {
       handleFilterDialog(false);
     };
 
-    const confirmFilter = async () => {
-      params.pageIndex = 1;
+    // const confirmFilter = async () => {
+    //   params.pageIndex = 1;
 
-      await getTellerLog();
-      handleFilterDialog(false);
-    };
+    //   await getTellerLog();
+    //   handleFilterDialog(false);
+    // };
 
     // watch
     // watch(() => route, (val) => {
